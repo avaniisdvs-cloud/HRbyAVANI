@@ -26,7 +26,6 @@ const STRINGS = {
     signIn:           'Sign In',
     signingIn:        'Signing in…',
     footer:           '© 2026 Avaniis',
-    tagline:          'AVANIIS',
     appName:          'AVANIIS HR',
     dark:             'Dark',
     light:            'Light',
@@ -41,7 +40,6 @@ const STRINGS = {
     signIn:           'تسجيل الدخول',
     signingIn:        'جارٍ تسجيل الدخول…',
     footer:           '© 2026 أفانيس',
-    tagline:          'أفانيس',
     appName:          'أفانيس HR',
     dark:             'داكن',
     light:            'فاتح',
@@ -119,6 +117,7 @@ export default function LoginClient({
   const [lang, setLang]           = useState<'en' | 'ar'>('en')
   const [isDark, setIsDark]       = useState(false)
   const [activeSlide, setSlide]   = useState(0)
+  const [carouselPaused, setCarouselPaused] = useState(false)
   const [email, setEmail]         = useState('')
   const [password, setPassword]   = useState('')
   const [showPw, setShowPw]       = useState(false)
@@ -142,7 +141,7 @@ export default function LoginClient({
 
   const logoSrc = personalization.logoUrl && personalization.logoUrl.trim() !== ''
     ? personalization.logoUrl
-    : '/avaniis-logo.jpg'
+    : '/avaniis-logo.png'
 
   useEffect(() => {
     try {
@@ -157,6 +156,13 @@ export default function LoginClient({
 
   const advance = useCallback(() => setSlide(s => (s + 1) % carouselUrls.length), [carouselUrls.length])
 
+  useEffect(() => {
+    if (carouselPaused || carouselUrls.length < 2) return
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (motion.matches) return
+    const timer = window.setInterval(advance, 6500)
+    return () => window.clearInterval(timer)
+  }, [advance, carouselPaused, carouselUrls.length])
 
   async function handleSubmit(emailVal: string, passwordVal: string) {
     setLoading(true)
@@ -218,9 +224,21 @@ export default function LoginClient({
       {/* LEFT — full-height carousel */}
       <div className="login-carousel" style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
 
+        {/* Brand area stays outside the photographs, including during transitions. */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 156,
+          display: 'flex', alignItems: 'center', gap: 24, padding: '12px 32px',
+          background: 'var(--surface)', color: 'var(--ink-1)', zIndex: 10 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logoSrc} alt="AVANIIS" style={{ height: 128, width: 136, objectFit: 'contain', flexShrink: 0 }} />
+          {personalization.topBannerVisible && personalization.topBannerText && (
+            <p style={{ margin: 0, fontFamily: 'var(--font-serif)', fontStyle: 'italic',
+              fontSize: 19, lineHeight: 1.4 }}>{personalization.topBannerText}</p>
+          )}
+        </div>
+
         {carouselUrls.map((src, i) => (
           <div key={i} style={{
-            position: 'absolute', inset: 0,
+            position: 'absolute', top: 156, bottom: 0, left: 0, right: 0,
             opacity: i === activeSlide ? 1 : 0,
             transition: 'opacity 2s cubic-bezier(0.4,0,0.2,1)',
           }}>
@@ -234,37 +252,10 @@ export default function LoginClient({
         ))}
 
         <div style={{
-          position: 'absolute', inset: 0,
+          position: 'absolute', top: 156, bottom: 0, left: 0, right: 0,
           background: 'linear-gradient(to top, rgba(6,12,20,0.88) 0%, rgba(6,12,20,0.15) 50%, rgba(6,12,20,0.28) 100%)',
           pointerEvents: 'none',
         }} />
-
-        {/* Top banner */}
-        {personalization.topBannerVisible && personalization.topBannerText && (
-          <div style={{
-            position: 'absolute', top: 0, left: 0, right: 0,
-            background: 'rgba(0,0,0,0.55)', color: '#fff',
-            padding: '10px 30px', fontFamily: 'var(--font-serif)',
-            fontStyle: 'italic', fontSize: 19, textAlign: 'center',
-            zIndex: 20, lineHeight: 1.4,
-          }}>
-            {personalization.topBannerText}
-          </div>
-        )}
-
-        {/* Logo */}
-        <div style={{
-          position: 'absolute',
-          top: personalization.topBannerVisible ? 44 : 36,
-          [isRtl ? 'right' : 'left']: 44,
-          zIndex: 10,
-        }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logoSrc} alt="Avaniis"
-            style={{ height: 140, width: 'auto', maxWidth: 160, objectFit: 'contain' }}
-          />
-        </div>
 
         {/* Branding */}
         <div style={{
@@ -272,7 +263,6 @@ export default function LoginClient({
           [isRtl ? 'right' : 'left']: 44,
           color: 'white', zIndex: 10,
         }}>
-          <p style={{ fontSize: 'var(--text-caption)', textTransform: 'uppercase', letterSpacing: 4, opacity: 0.5, margin: 0 }}>{t.tagline}</p>
           <p style={{ fontSize: 38, fontFamily: 'var(--font-serif, serif)', letterSpacing: '-0.9px', margin: '4px 0 0', fontWeight: 400, lineHeight: 1.1 }}>{t.appName}</p>
         </div>
 
@@ -283,7 +273,7 @@ export default function LoginClient({
           display: 'flex', gap: 6, width: 200, zIndex: 10,
         }}>
           {carouselUrls.map((_, i) => (
-            <button key={i} onClick={() => setSlide(i)} aria-label={isRtl ? `شريحة ${i + 1}` : `Slide ${i + 1}`}
+            <button key={i} onClick={() => { setCarouselPaused(true); setSlide(i) }} aria-current={i === activeSlide ? 'true' : undefined} aria-label={isRtl ? `شريحة ${i + 1}` : `Slide ${i + 1}`}
               style={{
                 flex: i === activeSlide ? 3 : 1, height: 3, borderRadius: 99,
                 background: 'white',
@@ -293,6 +283,11 @@ export default function LoginClient({
               }}
             />
           ))}
+          <button onClick={() => setCarouselPaused(p => !p)}
+            aria-label={isRtl ? (carouselPaused ? 'تشغيل عرض الصور' : 'إيقاف عرض الصور مؤقتاً') : (carouselPaused ? 'Play slideshow' : 'Pause slideshow')}
+            style={{ color: 'white', background: 'transparent', border: 'none', cursor: 'pointer', padding: '0 4px', alignSelf: 'center', fontSize: 14, lineHeight: 1 }}>
+            {carouselPaused ? '▶' : 'Ⅱ'}
+          </button>
         </div>
 
         {/* Ticker */}

@@ -475,7 +475,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={form.logoUrl ?? '/avaniis-logo.jpg'}
+              src={form.logoUrl ?? '/avaniis-logo.png'}
               alt={locale === 'ar' ? 'الشعار الحالي' : 'Current logo'}
               style={{ maxWidth: '100%', maxHeight: 56, objectFit: 'contain' }}
             />

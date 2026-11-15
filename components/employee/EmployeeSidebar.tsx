@@ -76,7 +76,7 @@ export function EmployeeSidebar({ userName, userRole, initials, locale = 'en', p
           />
         ) : (
           <Image
-            src="/avaniis-logo.jpg"
+            src="/avaniis-logo.png"
             height={40}
             width={40}
             alt="AVANIIS HR"

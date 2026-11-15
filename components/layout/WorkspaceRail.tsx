@@ -319,7 +319,7 @@ export function WorkspaceRail({
           />
         ) : (
           <Image
-            src="/avaniis-logo.jpg"
+            src="/avaniis-logo.png"
             height={isCompact ? 32 : 40}
             width={isCompact ? 32 : 40}
             alt="AVANIIS HR"

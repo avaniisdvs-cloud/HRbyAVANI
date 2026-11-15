@@ -210,7 +210,7 @@ export function AppearanceSettingsClient({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex-shrink-0 rounded-lg border border-border bg-surface p-4">
             <Image
-              src="/avaniis-logo.jpg"
+              src="/avaniis-logo.png"
               height={48}
               width={160}
               alt={ar ? 'أفانيس للموارد البشرية' : 'AVANIIS HR'}
@@ -224,7 +224,7 @@ export function AppearanceSettingsClient({
               <>
                 To update the logo, replace{' '}
                 <code className="rounded bg-surface px-1 py-0.5 font-mono text-accent">
-                  public/avaniis-logo.jpg
+                  public/avaniis-logo.png
                 </code>{' '}
                 and redeploy.
               </>

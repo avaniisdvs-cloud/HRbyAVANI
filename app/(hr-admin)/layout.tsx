@@ -114,7 +114,7 @@ export default async function HrAdminLayout({
         <WorkspaceSecondaryNav role={role} locale={locale} />
 
         <div className="flex min-w-0 flex-1 flex-col" style={{ overflow: 'hidden' }}>
-          <div className="mobile-brand-header"><Image src="/avaniis-logo.jpg" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+          <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
           <AdminTopbar
             userName={name}
             role={role}
@@ -180,7 +180,7 @@ export default async function HrAdminLayout({
         />
 
         <div className="flex min-w-0 flex-1 flex-col" style={{ overflow: 'hidden' }}>
-          <div className="mobile-brand-header"><Image src="/avaniis-logo.jpg" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+          <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
           <AdminTopbar
             userName={name}
             role={role}
@@ -243,7 +243,7 @@ export default async function HrAdminLayout({
       />
 
       <div className="flex min-w-0 flex-1 flex-col" style={{ overflow: 'hidden' }}>
-        <div className="mobile-brand-header"><Image src="/avaniis-logo.jpg" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+        <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
           <EmployeeTopbar
           userName={name}
           userRole={role}

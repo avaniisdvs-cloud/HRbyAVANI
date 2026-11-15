@@ -496,7 +496,7 @@ export function AdminSidebar({ role, locale = 'en', userName = '', initials = ''
             />
           ) : (
             <Image
-              src="/avaniis-logo.jpg"
+              src="/avaniis-logo.png"
               height={32}
               width={32}
               alt="AVANIIS HR"
@@ -516,7 +516,7 @@ export function AdminSidebar({ role, locale = 'en', userName = '', initials = ''
             />
           ) : (
             <Image
-              src="/avaniis-logo.jpg"
+              src="/avaniis-logo.png"
               height={40}
               width={40}
               alt="AVANIIS HR"

@@ -71,7 +71,7 @@ export default async function EmployeeLayout({
         brandingLogoUrl={brandingLogoUrl}
       />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <div className="mobile-brand-header"><Image src="/avaniis-logo.jpg" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+        <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
           <EmployeeTopbar
           userName={name}
           userRole={session.user.role}

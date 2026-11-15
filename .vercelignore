@@ -6,3 +6,16 @@ scripts
 tests
 docs
 drizzle/migrations/meta
+
+# Local-only secrets, runtime state, evidence and uploaded HR documents.
+.env
+.env.*
+.git
+.vercel
+.claire
+.claude
+evidence
+public/uploads
+avaniis_training
+DOC
+11_TESTING_AND_QA

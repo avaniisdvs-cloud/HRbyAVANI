@@ -1,0 +1,272 @@
+{
+  "version": "6",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1777362463512,
+      "tag": "0000_outgoing_tusk",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1777375192688,
+      "tag": "0001_sprint2_events_extra_data",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1777376633512,
+      "tag": "0002_sprint2_form_configurations",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1777378000000,
+      "tag": "0003_qa_audit_check_constraints",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1777378100000,
+      "tag": "0004_qa_audit_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1777378200000,
+      "tag": "0005_qa_audit_audit_immutable",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1777464300000,
+      "tag": "0006_sprint5_check_and_unique",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1777457617476,
+      "tag": "0007_mighty_silver_fox",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1777475208810,
+      "tag": "0008_lean_orphan",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1777477672593,
+      "tag": "0009_closed_agent_zero",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1777478130413,
+      "tag": "0010_numerous_marauders",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1746057600000,
+      "tag": "0011_page_personalization",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1777655254094,
+      "tag": "0012_broad_patriot",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "6",
+      "when": 1746057600001,
+      "tag": "0013_password_hash",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "6",
+      "when": 1746144000000,
+      "tag": "0014_emp_number_config",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "6",
+      "when": 1746748800000,
+      "tag": "0015_user_preferences",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "6",
+      "when": 1778155507488,
+      "tag": "0016_hot_christian_walker",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "6",
+      "when": 1778232503407,
+      "tag": "0017_adorable_freak",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1778241203286,
+      "tag": "0018_daffy_power_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1778244826124,
+      "tag": "0019_parched_susan_delgado",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "6",
+      "when": 1778668512892,
+      "tag": "0020_graceful_phantom_reporter",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "6",
+      "when": 1747180800000,
+      "tag": "0023_employee_letters_v2",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1778687226939,
+      "tag": "0024_superb_senator_kelly",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "6",
+      "when": 1778746780064,
+      "tag": "0025_employee_letters_fields_v2",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "6",
+      "when": 1778929133481,
+      "tag": "0026_insurance_currency_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "6",
+      "when": 1779014400000,
+      "tag": "0027_insurance_uniqueness_constraints",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "6",
+      "when": 1779100800000,
+      "tag": "0028_notification_log_reference_path",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "6",
+      "when": 1779187200000,
+      "tag": "0029_aria_login_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "6",
+      "when": 1779273600000,
+      "tag": "0030_currency_constraints",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "6",
+      "when": 1779360000000,
+      "tag": "0031_action_mode_effective_sequence",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "6",
+      "when": 1779446400000,
+      "tag": "0032_priority_b_partial_effective_dating",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "6",
+      "when": 1779532800000,
+      "tag": "0033_priority_c_master_data_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "6",
+      "when": 1779619200000,
+      "tag": "0034_fix_missing_versioning_columns",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "6",
+      "when": 1779705600000,
+      "tag": "0035_priority_d_enrollment_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "6",
+      "when": 1779792000000,
+      "tag": "0036_phase2_insurance_contracts",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "6",
+      "when": 1779878400000,
+      "tag": "0037_phase3_mdm_history_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "6",
+      "when": 1779964800000,
+      "tag": "0038_projects_mdm",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "6",
+      "when": 1780051200000,
+      "tag": "0039_probation_workflow",
+      "breakpoints": true
+    }
+  ]
+}

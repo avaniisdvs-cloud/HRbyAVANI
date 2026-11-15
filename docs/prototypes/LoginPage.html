@@ -1,0 +1,3087 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>AVANIIS HR System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Fraunces', 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --accent-050: #EFF5F6;
+  --accent-100: #D9E7E9;
+  --accent-200: #B5CED2;
+  --accent-500: #3E7582;
+  --accent: #2E6170;
+  --accent-700: #1F4A57;
+  --accent-900: #0F2E38;
+  --ink-1: #151A22;
+  --ink-2: #3E4855;
+  --ink-3: #6E7885;
+  --ink-4: #A2A9B3;
+  --card: #FFFFFF;
+  --surface: #F5F6F8;
+  --bg: #F0F2F5;
+  --border: #E5E8EC;
+  --nav-bg: #0F2E38;
+  --nav-fg: #A8BFC6;
+  --nav-fg-dim: #6D8990;
+  --nav-fg-strong: #FFFFFF;
+  --nav-border: rgba(255,255,255,0.06);
+  --nav-active-bg: rgba(255,255,255,0.08);
+  --nav-active-fg: #FFFFFF;
+  --density: 1;
+}
+[data-density="compact"] { --density: 0.85; }
+[data-accent="plum"] {
+  --accent-050: #F6F1F5; --accent-100: #EADDE7; --accent-200: #D5BBCE;
+  --accent-500: #85466F; --accent: #6B3458; --accent-700: #4C2440; --accent-900: #2E1527;
+}
+[data-accent="amber"] {
+  --accent-050: #FAF3EA; --accent-100: #F2E3C9; --accent-200: #E5C896;
+  --accent-500: #B07A28; --accent: #8E5E18; --accent-700: #6B4510; --accent-900: #3E2707;
+}
+[data-accent="forest"] {
+  --accent-050: #EEF4EE; --accent-100: #D5E5D7; --accent-200: #AFCBB2;
+  --accent-500: #3F7A45; --accent: #2F5D36; --accent-700: #1F4425; --accent-900: #0F2816;
+}
+* { box-sizing: border-box; }
+body, html { margin: 0; padding: 0; height: 100%; font-family: var(--font-sans); background: var(--bg); color: var(--ink-1); -webkit-font-smoothing: antialiased; }
+input, select, textarea, button { font-family: inherit; }
+input::placeholder, textarea::placeholder { color: var(--ink-4); }
+input[type=date] { font-family: var(--font-sans); color: var(--ink-1); }
+table { font-family: var(--font-sans); }
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+@keyframes modalIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+.page-in { animation: slideInRight .22s ease; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 6px; border: 2px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: #9CA3AF; background-clip: content-box; border: 2px solid transparent; }
+.browser-wrap { width: 100vw; height: 100vh; padding: 22px; background: #1B2028; display: flex; align-items: stretch; justify-content: center; }
+
+/* ── Dark mode ── */
+[data-dark="true"] {
+  --card: #1C2333; --surface: #151D2B; --bg: #0F1623;
+  --border: #2A3548; --ink-1: #EEF2F7; --ink-2: #C0CAD8;
+  --ink-3: #7A8CA0; --ink-4: #3D4E60;
+  --nav-bg: #080E1A; --nav-border: rgba(255,255,255,0.07);
+}
+/* ── Additional themes ── */
+[data-accent="midnight"] {
+  --accent-050: #EEF1FA; --accent-100: #D5DDEF; --accent-200: #AABAE0;
+  --accent-500: #3D5EAA; --accent: #2B4890; --accent-700: #1C3270; --accent-900: #0E1E48;
+}
+[data-accent="rose"] {
+  --accent-050: #FDF0F4; --accent-100: #F8D8E4; --accent-200: #F0B0C8;
+  --accent-500: #C05080; --accent: #A03868; --accent-700: #742650; --accent-900: #481430;
+}
+[data-accent="slate"] {
+  --accent-050: #EFF2F6; --accent-100: #D8E0EB; --accent-200: #B0C2D8;
+  --accent-500: #4A6E90; --accent: #365578; --accent-700: #243D58; --accent-900: #12253A;
+}
+
+/* ── Login page ── */
+@keyframes sceneFade { 0%,100%{opacity:1} 45%{opacity:1} 55%{opacity:0} }
+@keyframes slideUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+@keyframes pulse { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:1;transform:scale(1.08)} }
+.login-field {
+  width:100%; padding:11px 14px; border-radius:8px; font-size:14px;
+  outline:none; transition:border-color .15s, box-shadow .15s;
+  font-family:var(--font-sans);
+}
+.login-field:focus { box-shadow:0 0 0 3px var(--accent-100); border-color:var(--accent) !important; }
+[data-dark="true"] .login-field:focus { box-shadow:0 0 0 3px rgba(100,160,200,0.2); }
+/* ── Ken Burns pan/zoom for landing slideshow ── */
+@keyframes kenBurns0 { from { transform:scale(1) translate(0,0); } to { transform:scale(1.09) translate(-1.5%,-1%); } }
+@keyframes kenBurns1 { from { transform:scale(1.06) translate(1.5%,0.5%); } to { transform:scale(1) translate(0,1%); } }
+@keyframes kenBurns2 { from { transform:scale(1) translate(-1%,1.5%); } to { transform:scale(1.07) translate(1%,-0.5%); } }
+@keyframes spin { to { transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel">
+
+// Chrome.jsx — Simplified Chrome browser window (dark theme, macOS)
+// No dependencies, no image assets. All inline styles + inline SVG.
+
+const CHROME_C = {
+  barBg: '#202124',
+  tabBg: '#35363a',
+  text: '#e8eaed',
+  dim: '#9aa0a6',
+  urlBg: '#282a2d',
+};
+
+function ChromeTrafficLights() {
+  return (
+    <div style={{ display: 'flex', gap: 8, padding: '0 14px' }}>
+      <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ff5f57' }} />
+      <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#febc2e' }} />
+      <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#28c840' }} />
+    </div>
+  );
+}
+
+// Single tab (active has curved scoops)
+function ChromeTab({ title = 'New Tab', active = false }) {
+  const curve = (flip) => (
+    <svg width="8" height="10" viewBox="0 0 8 10"
+      style={{ position: 'absolute', bottom: 0, [flip ? 'right' : 'left']: -8, transform: flip ? 'scaleX(-1)' : 'none' }}>
+      <path d="M0 10C2 9 6 8 8 0V10H0Z" fill={CHROME_C.tabBg}/>
+    </svg>
+  );
+  return (
+    <div style={{
+      position: 'relative', height: 34, alignSelf: 'flex-end',
+      padding: '0 12px', display: 'flex', alignItems: 'center', gap: 8,
+      background: active ? CHROME_C.tabBg : 'transparent',
+      borderRadius: '8px 8px 0 0', minWidth: 120, maxWidth: 220,
+      fontFamily: 'system-ui, sans-serif', fontSize: 12,
+      color: active ? CHROME_C.text : CHROME_C.dim,
+    }}>
+      {active && curve(false)}
+      {active && curve(true)}
+      <div style={{ width: 14, height: 14, borderRadius: '50%', background: '#5f6368', flexShrink: 0 }} />
+      <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</span>
+    </div>
+  );
+}
+
+function ChromeTabBar({ tabs = [{ title: 'New Tab' }], activeIndex = 0 }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', height: 44,
+      background: CHROME_C.barBg, paddingRight: 8,
+    }}>
+      <ChromeTrafficLights />
+      <div style={{ display: 'flex', alignItems: 'flex-end', height: '100%', paddingLeft: 4, flex: 1 }}>
+        {tabs.map((t, i) => <ChromeTab key={i} title={t.title} active={i === activeIndex} />)}
+      </div>
+    </div>
+  );
+}
+
+function ChromeToolbar({ url = 'example.com' }) {
+  const iconDot = (
+    <div style={{
+      width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <div style={{ width: 16, height: 16, borderRadius: '50%', background: CHROME_C.dim, opacity: 0.4 }} />
+    </div>
+  );
+  return (
+    <div style={{
+      height: 40, background: CHROME_C.tabBg,
+      display: 'flex', alignItems: 'center', gap: 4, padding: '0 8px',
+    }}>
+      {iconDot}
+      {/* url bar */}
+      <div style={{
+        flex: 1, height: 30, borderRadius: 15, background: CHROME_C.urlBg,
+        display: 'flex', alignItems: 'center', gap: 8, padding: '0 14px',
+        margin: '0 6px',
+      }}>
+        <div style={{ width: 12, height: 12, borderRadius: '50%', background: CHROME_C.dim, opacity: 0.4 }} />
+        <span style={{
+          flex: 1, color: CHROME_C.text, fontSize: 13,
+          fontFamily: 'system-ui, sans-serif',
+        }}>{url}</span>
+      </div>
+      {iconDot}
+    </div>
+  );
+}
+
+function ChromeWindow({
+  tabs = [{ title: 'New Tab' }], activeIndex = 0, url = 'example.com',
+  width = 900, height = 600, children,
+}) {
+  return (
+    <div style={{
+      width, height, borderRadius: 10, overflow: 'hidden',
+      boxShadow: '0 24px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,0,0,0.1)',
+      display: 'flex', flexDirection: 'column', background: CHROME_C.tabBg,
+    }}>
+      <ChromeTabBar tabs={tabs} activeIndex={activeIndex} />
+      <ChromeToolbar url={url} />
+      <div style={{ flex: 1, background: '#fff', overflow: 'auto' }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+Object.assign(window, {
+  ChromeWindow, ChromeTabBar, ChromeToolbar, ChromeTab, ChromeTrafficLights,
+});
+
+// icons.jsx — Inline SVG icon set for HRMS. All 1.5px stroke, currentColor.
+const Icon = ({ name, size = 18, style = {}, strokeWidth = 1.75 }) => {
+  const p = {
+    width: size, height: size, viewBox: '0 0 24 24', fill: 'none',
+    stroke: 'currentColor', strokeWidth, strokeLinecap: 'round', strokeLinejoin: 'round',
+    style,
+  };
+  switch (name) {
+    case 'home': return <svg {...p}><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-7h-6v7H5a2 2 0 01-2-2V11z"/></svg>;
+    case 'users': return <svg {...p}><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3.5-5.5 6.5-5.5s6 2 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2 0 4 1.4 4.5 4"/></svg>;
+    case 'user': return <svg {...p}><circle cx="12" cy="8.5" r="4"/><path d="M4 20c1-4.4 4.6-7 8-7s7 2.6 8 7"/></svg>;
+    case 'calendar': return <svg {...p}><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>;
+    case 'clock': return <svg {...p}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>;
+    case 'org': return <svg {...p}><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="2" y="16" width="6" height="5" rx="1"/><rect x="9" y="16" width="6" height="5" rx="1"/><rect x="16" y="16" width="6" height="5" rx="1"/><path d="M12 8v3M5 16v-2h14v2M12 11v5"/></svg>;
+    case 'chart': return <svg {...p}><path d="M3 21V5M3 21h18M7 17V10M12 17V7M17 17v-5"/></svg>;
+    case 'settings': return <svg {...p}><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg>;
+    case 'search': return <svg {...p}><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>;
+    case 'bell': return <svg {...p}><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 004 0"/></svg>;
+    case 'plus': return <svg {...p}><path d="M12 5v14M5 12h14"/></svg>;
+    case 'check': return <svg {...p}><path d="M5 13l4 4 10-10"/></svg>;
+    case 'x': return <svg {...p}><path d="M6 6l12 12M6 18L18 6"/></svg>;
+    case 'chevron-right': return <svg {...p}><path d="M9 6l6 6-6 6"/></svg>;
+    case 'chevron-down': return <svg {...p}><path d="M6 9l6 6 6-6"/></svg>;
+    case 'chevron-left': return <svg {...p}><path d="M15 6l-6 6 6 6"/></svg>;
+    case 'arrow-right': return <svg {...p}><path d="M5 12h14M13 6l6 6-6 6"/></svg>;
+    case 'arrow-up-right': return <svg {...p}><path d="M7 17L17 7M9 7h8v8"/></svg>;
+    case 'megaphone': return <svg {...p}><path d="M3 11v2a2 2 0 002 2h1l3 5 2-1-2-4 8-3V6L9 9H5a2 2 0 00-2 2z"/></svg>;
+    case 'gift': return <svg {...p}><rect x="3" y="8" width="18" height="5" rx="1"/><path d="M4 13v8h16v-8M12 8v13M8 8a2 2 0 110-4c2 0 4 4 4 4s2-4 4-4a2 2 0 110 4"/></svg>;
+    case 'file': return <svg {...p}><path d="M14 3H6a2 2 0 00-2 2v14a2 2 0 002 2h12a2 2 0 002-2V9l-6-6z"/><path d="M14 3v6h6M9 14h6M9 18h4"/></svg>;
+    case 'download': return <svg {...p}><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>;
+    case 'upload': return <svg {...p}><path d="M12 20V8m0 0l-5 5m5-5l5 5M4 4h16"/></svg>;
+    case 'image': return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>;
+    case 'filter': return <svg {...p}><path d="M3 5h18l-7 8v6l-4 2v-8L3 5z"/></svg>;
+    case 'logout': return <svg {...p}><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>;
+    case 'mail': return <svg {...p}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg>;
+    case 'phone': return <svg {...p}><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8 9.7a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg>;
+    case 'building': return <svg {...p}><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M10 21v-3h4v3"/></svg>;
+    case 'briefcase': return <svg {...p}><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M2 13h20"/></svg>;
+    case 'dot-menu': return <svg {...p}><circle cx="5" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="19" cy="12" r="1.2" fill="currentColor"/></svg>;
+    case 'sparkle': return <svg {...p}><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6z"/></svg>;
+    case 'tweaks': return <svg {...p}><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h14M18 18h2"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="18" r="2"/></svg>;
+    case 'shield': return <svg {...p}><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/></svg>;
+    case 'activity': return <svg {...p}><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>;
+    default: return null;
+  }
+};
+Object.assign(window, { Icon });
+
+// data.jsx — HRMS seed data for Avaniis Property Development
+
+const MAG_ENTITIES = ['Avaniis Property', 'Avaniis Lifestyle', 'Avaniis Developments', 'Avaniis Capital'];
+const DEPARTMENTS = [
+  { id: 'd1', name: 'Sales & Leasing', entity: 'Avaniis Property', head: 'Rania Al-Saud' },
+  { id: 'd2', name: 'Architecture & Design', entity: 'Avaniis Developments', head: 'Omar Haddad' },
+  { id: 'd3', name: 'Facilities Management', entity: 'Avaniis Lifestyle', head: 'Priya Nair' },
+  { id: 'd4', name: 'Finance', entity: 'Avaniis Capital', head: 'Samir Qureshi' },
+  { id: 'd5', name: 'Marketing', entity: 'Avaniis Property', head: 'Lina Park' },
+  { id: 'd6', name: 'Human Resources', entity: 'Avaniis Property', head: 'Noura Al-Hashimi' },
+  { id: 'd7', name: 'Information Technology', entity: 'Avaniis Property', head: 'Yusuf Rahman' },
+  { id: 'd8', name: 'Construction', entity: 'Avaniis Developments', head: 'Chen Wei' },
+];
+
+const EMPLOYEES = [
+  // Me (default Employee role)
+  { id: 'e01', initials: 'AK', first: 'Aisha', last: 'Khalidi', email: 'aisha.khalidi@avaniis.example', phone: '+971 50 123 4567', dept: 'd2', pos: 'Senior Architect', hired: '2022-03-14', status: 'ACTIVE', managerId: 'e10', color: '#2F5D8A' },
+  // Manager (default Manager role)
+  { id: 'e10', initials: 'OH', first: 'Omar', last: 'Haddad', email: 'omar.haddad@avaniis.example', phone: '+971 50 234 5678', dept: 'd2', pos: 'Head of Architecture', hired: '2019-06-01', status: 'ACTIVE', managerId: 'e20', color: '#0F4C5C' },
+  // Admin
+  { id: 'e20', initials: 'NA', first: 'Noura', last: 'Al-Hashimi', email: 'noura.alhashimi@avaniis.example', phone: '+971 50 345 6789', dept: 'd6', pos: 'Director of People Ops', hired: '2017-01-10', status: 'ACTIVE', managerId: null, color: '#7A2E2E' },
+  // Omar's team (for manager view)
+  { id: 'e02', initials: 'DS', first: 'Devika', last: 'Subramanian', email: 'devika.s@avaniis.example', phone: '+971 50 456 7890', dept: 'd2', pos: 'Architect II', hired: '2023-09-01', status: 'ACTIVE', managerId: 'e10', color: '#6B5B95' },
+  { id: 'e03', initials: 'JT', first: 'Jorge', last: 'Teixeira', email: 'jorge.t@avaniis.example', phone: '+971 50 567 8901', dept: 'd2', pos: 'Architect I', hired: '2024-02-20', status: 'ACTIVE', managerId: 'e10', color: '#B56B45' },
+  { id: 'e04', initials: 'FM', first: 'Fatima', last: 'Merchant', email: 'fatima.m@avaniis.example', phone: '+971 50 678 9012', dept: 'd2', pos: 'BIM Specialist', hired: '2023-05-12', status: 'ACTIVE', managerId: 'e10', color: '#3E7C4F' },
+  { id: 'e05', initials: 'KT', first: 'Kenji', last: 'Tanaka', email: 'kenji.t@avaniis.example', phone: '+971 50 789 0123', dept: 'd2', pos: 'Design Lead', hired: '2021-11-03', status: 'ACTIVE', managerId: 'e10', color: '#2F5D8A' },
+  { id: 'e06', initials: 'LA', first: 'Layla', last: 'Abdelrahman', email: 'layla.a@avaniis.example', phone: '+971 50 890 1234', dept: 'd2', pos: 'Interior Designer', hired: '2024-07-15', status: 'ACTIVE', managerId: 'e10', color: '#8A5A2F' },
+  // Other departments (for directory)
+  { id: 'e30', initials: 'RS', first: 'Rania', last: 'Al-Saud', email: 'rania.s@avaniis.example', phone: '+971 50 111 2222', dept: 'd1', pos: 'Head of Sales & Leasing', hired: '2018-04-10', status: 'ACTIVE', managerId: 'e20', color: '#7A2E2E' },
+  { id: 'e31', initials: 'MG', first: 'Miguel', last: 'Garcia', email: 'miguel.g@avaniis.example', phone: '+971 50 222 3333', dept: 'd1', pos: 'Senior Leasing Consultant', hired: '2022-08-22', status: 'ACTIVE', managerId: 'e30', color: '#0F4C5C' },
+  { id: 'e32', initials: 'AW', first: 'Amara', last: 'Williams', email: 'amara.w@avaniis.example', phone: '+971 50 333 4444', dept: 'd1', pos: 'Sales Associate', hired: '2024-01-15', status: 'ACTIVE', managerId: 'e30', color: '#6B5B95' },
+  { id: 'e40', initials: 'PN', first: 'Priya', last: 'Nair', email: 'priya.n@avaniis.example', phone: '+971 50 444 5555', dept: 'd3', pos: 'Head of Facilities', hired: '2019-09-01', status: 'ACTIVE', managerId: 'e20', color: '#3E7C4F' },
+  { id: 'e41', initials: 'HI', first: 'Hassan', last: 'Ibrahim', email: 'hassan.i@avaniis.example', phone: '+971 50 555 6666', dept: 'd3', pos: 'Facilities Engineer', hired: '2023-03-18', status: 'ACTIVE', managerId: 'e40', color: '#B56B45' },
+  { id: 'e50', initials: 'SQ', first: 'Samir', last: 'Qureshi', email: 'samir.q@avaniis.example', phone: '+971 50 666 7777', dept: 'd4', pos: 'CFO', hired: '2016-05-20', status: 'ACTIVE', managerId: 'e20', color: '#2F5D8A' },
+  { id: 'e51', initials: 'EC', first: 'Elena', last: 'Costa', email: 'elena.c@avaniis.example', phone: '+971 50 777 8888', dept: 'd4', pos: 'Senior Accountant', hired: '2022-02-14', status: 'ACTIVE', managerId: 'e50', color: '#8A5A2F' },
+  { id: 'e60', initials: 'LP', first: 'Lina', last: 'Park', email: 'lina.p@avaniis.example', phone: '+971 50 888 9999', dept: 'd5', pos: 'Head of Marketing', hired: '2020-11-09', status: 'ACTIVE', managerId: 'e20', color: '#7A2E2E' },
+  { id: 'e70', initials: 'YR', first: 'Yusuf', last: 'Rahman', email: 'yusuf.r@avaniis.example', phone: '+971 50 999 0000', dept: 'd7', pos: 'Director of IT', hired: '2018-01-22', status: 'ACTIVE', managerId: 'e20', color: '#0F4C5C' },
+  { id: 'e80', initials: 'CW', first: 'Chen', last: 'Wei', email: 'chen.w@avaniis.example', phone: '+971 50 101 0101', dept: 'd8', pos: 'Head of Construction', hired: '2017-08-11', status: 'ACTIVE', managerId: 'e20', color: '#3E7C4F' },
+  { id: 'e81', initials: 'AO', first: 'Adewale', last: 'Okonkwo', email: 'adewale.o@avaniis.example', phone: '+971 50 202 0202', dept: 'd8', pos: 'Site Manager', hired: '2021-06-30', status: 'ACTIVE', managerId: 'e80', color: '#6B5B95' },
+];
+
+// Leave data
+const LEAVE_TYPES = {
+  ANNUAL: { label: 'Annual', days: 22, color: '#0F4C5C' },
+  SICK: { label: 'Sick', days: 15, color: '#B56B45' },
+  UNPAID: { label: 'Unpaid', days: 999, color: '#6B6B6B' },
+  EMERGENCY: { label: 'Emergency', days: 3, color: '#7A2E2E' },
+};
+
+const LEAVES_SEED = [
+  // Aisha's own
+  { id: 'l01', employeeId: 'e01', type: 'ANNUAL', startDate: '2026-05-04', endDate: '2026-05-08', days: 5, status: 'PENDING', reason: 'Family trip to Lisbon', reviewNote: '', submitted: '2026-04-18' },
+  { id: 'l02', employeeId: 'e01', type: 'SICK', startDate: '2026-03-11', endDate: '2026-03-12', days: 2, status: 'APPROVED', reason: 'Flu', reviewNote: 'Get well soon.', submitted: '2026-03-11' },
+  { id: 'l03', employeeId: 'e01', type: 'ANNUAL', startDate: '2025-12-22', endDate: '2025-12-31', days: 8, status: 'APPROVED', reason: 'Year-end break', reviewNote: '', submitted: '2025-11-20' },
+  // Team pending (Omar's queue)
+  { id: 'l04', employeeId: 'e02', type: 'ANNUAL', startDate: '2026-05-18', endDate: '2026-05-22', days: 5, status: 'PENDING', reason: 'Wedding', reviewNote: '', submitted: '2026-04-15' },
+  { id: 'l05', employeeId: 'e03', type: 'EMERGENCY', startDate: '2026-04-22', endDate: '2026-04-22', days: 1, status: 'PENDING', reason: 'Family matter', reviewNote: '', submitted: '2026-04-20' },
+  { id: 'l06', employeeId: 'e04', type: 'SICK', startDate: '2026-04-20', endDate: '2026-04-21', days: 2, status: 'APPROVED', reason: 'Migraine', reviewNote: '', submitted: '2026-04-19' },
+  { id: 'l07', employeeId: 'e05', type: 'ANNUAL', startDate: '2026-06-01', endDate: '2026-06-12', days: 10, status: 'PENDING', reason: 'Japan visit', reviewNote: '', submitted: '2026-04-10' },
+  { id: 'l08', employeeId: 'e06', type: 'ANNUAL', startDate: '2026-04-28', endDate: '2026-04-30', days: 3, status: 'REJECTED', reason: 'Short break', reviewNote: 'Project deadline on the 29th — please re-plan for May.', submitted: '2026-04-12' },
+];
+
+// Leave balances (current year)
+const LEAVE_BALANCES = {
+  e01: { ANNUAL: { total: 22, used: 8 }, SICK: { total: 15, used: 2 }, EMERGENCY: { total: 3, used: 0 } },
+  e02: { ANNUAL: { total: 22, used: 4 }, SICK: { total: 15, used: 1 }, EMERGENCY: { total: 3, used: 0 } },
+  e03: { ANNUAL: { total: 22, used: 2 }, SICK: { total: 15, used: 3 }, EMERGENCY: { total: 3, used: 1 } },
+  e04: { ANNUAL: { total: 22, used: 6 }, SICK: { total: 15, used: 2 }, EMERGENCY: { total: 3, used: 0 } },
+  e05: { ANNUAL: { total: 22, used: 10 }, SICK: { total: 15, used: 0 }, EMERGENCY: { total: 3, used: 0 } },
+  e06: { ANNUAL: { total: 22, used: 0 }, SICK: { total: 15, used: 1 }, EMERGENCY: { total: 3, used: 0 } },
+  e10: { ANNUAL: { total: 22, used: 12 }, SICK: { total: 15, used: 2 }, EMERGENCY: { total: 3, used: 0 } },
+  e20: { ANNUAL: { total: 22, used: 5 }, SICK: { total: 15, used: 0 }, EMERGENCY: { total: 3, used: 0 } },
+};
+
+// Timesheet — current week is week of 2026-04-20 (Mon)
+function mondayOf(dateStr) {
+  const d = new Date(dateStr);
+  const day = d.getDay(); // 0=Sun
+  const diff = (day === 0 ? -6 : 1 - day);
+  d.setDate(d.getDate() + diff);
+  return d.toISOString().slice(0, 10);
+}
+function addDays(dateStr, n) {
+  const d = new Date(dateStr);
+  d.setDate(d.getDate() + n);
+  return d.toISOString().slice(0, 10);
+}
+
+const CURRENT_WEEK = '2026-04-20';
+const LAST_WEEK = '2026-04-13';
+const TWO_WEEKS_AGO = '2026-04-06';
+
+const TIMESHEETS_SEED = [
+  // Aisha's current week — DRAFT, partially filled
+  { id: 't01', employeeId: 'e01', weekStart: CURRENT_WEEK, hours: [8, 8, 7.5, 0, 0, 0, 0], status: 'DRAFT', reviewNote: '' },
+  { id: 't02', employeeId: 'e01', weekStart: LAST_WEEK, hours: [8, 9, 8, 8.5, 7, 0, 0], status: 'APPROVED', reviewNote: '' },
+  { id: 't03', employeeId: 'e01', weekStart: TWO_WEEKS_AGO, hours: [8, 8, 8, 8, 8, 0, 0], status: 'APPROVED', reviewNote: '' },
+  // Team — Omar's queue
+  { id: 't10', employeeId: 'e02', weekStart: LAST_WEEK, hours: [8, 8, 8, 8, 8, 0, 0], status: 'SUBMITTED', reviewNote: '' },
+  { id: 't11', employeeId: 'e03', weekStart: LAST_WEEK, hours: [9, 9, 9, 9, 9, 4, 0], status: 'SUBMITTED', reviewNote: '' }, // overtime (49h)
+  { id: 't12', employeeId: 'e04', weekStart: LAST_WEEK, hours: [8, 8, 0, 0, 8, 0, 0], status: 'SUBMITTED', reviewNote: '' },
+  { id: 't13', employeeId: 'e05', weekStart: LAST_WEEK, hours: [8, 8, 8, 8, 8, 0, 0], status: 'APPROVED', reviewNote: '' },
+  { id: 't14', employeeId: 'e06', weekStart: LAST_WEEK, hours: [8, 8, 8, 8, 8, 0, 0], status: 'SUBMITTED', reviewNote: '' },
+];
+
+// Holidays & team calendar markers
+const HOLIDAYS = [
+  { date: '2026-05-01', name: 'Labour Day' },
+  { date: '2026-06-16', name: 'Eid al-Adha' },
+  { date: '2026-12-02', name: 'UAE National Day' },
+];
+
+// Announcements for dashboard
+const ANNOUNCEMENTS = [
+  { id: 'a1', icon: 'megaphone', title: 'Q2 townhall — May 7', body: 'Leadership update, 2pm in the Atrium. Remote link in calendar.', time: '2h ago', pinned: true },
+  { id: 'a2', icon: 'gift', title: 'Wellness stipend refreshed', body: 'AED 1,500 available for 2026. Submit claims via Finance portal.', time: '1d ago' },
+  { id: 'a3', icon: 'users', title: 'New hire — Layla Abdelrahman', body: 'Interior Designer, joining Architecture team.', time: '3d ago' },
+];
+
+Object.assign(window, {
+  MAG_ENTITIES, DEPARTMENTS, EMPLOYEES, LEAVE_TYPES, LEAVES_SEED, LEAVE_BALANCES,
+  TIMESHEETS_SEED, HOLIDAYS, ANNOUNCEMENTS, CURRENT_WEEK, LAST_WEEK, TWO_WEEKS_AGO,
+  addDays, mondayOf,
+});
+
+// shell.jsx — HRMS app shell: sidebar + topbar + role context
+
+const { useState, useEffect, useMemo, useContext, createContext, useRef } = React;
+
+// --- App state context ------------------------------------------------------
+const AppCtx = createContext(null);
+
+function AppProvider({ children, initialRole = 'employee', landingImages, setLandingImages }) {
+  const [role, setRole] = useState(initialRole);
+  const [route, setRoute] = useState({ page: 'dashboard', params: {} });
+  const [leaves, setLeaves] = useState(LEAVES_SEED);
+  const [timesheets, setTimesheets] = useState(TIMESHEETS_SEED);
+  const [balances, setBalances] = useState(LEAVE_BALANCES);
+  const [toast, setToast] = useState(null);
+
+  // Current user based on role
+  const currentUser = useMemo(() => {
+    if (role === 'admin') return EMPLOYEES.find(e => e.id === 'e20');
+    if (role === 'manager') return EMPLOYEES.find(e => e.id === 'e10');
+    return EMPLOYEES.find(e => e.id === 'e01');
+  }, [role]);
+
+  function navigate(page, params = {}) { setRoute({ page, params }); }
+
+  function showToast(msg, tone = 'info') {
+    setToast({ msg, tone, id: Date.now() });
+    setTimeout(() => setToast(t => (t && t.msg === msg ? null : t)), 3200);
+  }
+
+  function submitLeave(payload) {
+    const id = 'l' + Math.random().toString(36).slice(2, 6);
+    const days = daysBetween(payload.startDate, payload.endDate);
+    const leave = {
+      id, employeeId: currentUser.id, status: 'PENDING',
+      submitted: new Date().toISOString().slice(0, 10),
+      reviewNote: '', days, ...payload,
+    };
+    setLeaves(ls => [leave, ...ls]);
+    showToast('Leave request submitted for approval', 'success');
+  }
+
+  function reviewLeave(id, status, reviewNote = '') {
+    setLeaves(ls => ls.map(l => {
+      if (l.id !== id) return l;
+      if (status === 'APPROVED') {
+        setBalances(b => {
+          const eb = { ...(b[l.employeeId] || {}) };
+          const t = eb[l.type];
+          if (t) eb[l.type] = { ...t, used: t.used + l.days };
+          return { ...b, [l.employeeId]: eb };
+        });
+      }
+      return { ...l, status, reviewNote };
+    }));
+    showToast(status === 'APPROVED' ? 'Leave approved' : 'Leave rejected',
+      status === 'APPROVED' ? 'success' : 'warn');
+  }
+
+  function updateTimesheet(id, patch) {
+    setTimesheets(ts => ts.map(t => t.id === id ? { ...t, ...patch } : t));
+  }
+  function reviewTimesheet(id, status, reviewNote = '') {
+    updateTimesheet(id, { status, reviewNote });
+    showToast(status === 'APPROVED' ? 'Timesheet approved' : 'Timesheet rejected',
+      status === 'APPROVED' ? 'success' : 'warn');
+  }
+
+  const value = {
+    role, setRole, currentUser,
+    route, navigate,
+    leaves, submitLeave, reviewLeave,
+    timesheets, updateTimesheet, reviewTimesheet,
+    balances,
+    toast, showToast,
+    landingImages: landingImages || DEFAULT_LANDING_IMAGES,
+    setLandingImages: setLandingImages || (() => {}),
+  };
+  return <AppCtx.Provider value={value}>{children}</AppCtx.Provider>;
+}
+
+const useApp = () => useContext(AppCtx);
+
+// --- Utils ------------------------------------------------------------------
+function daysBetween(a, b) {
+  const d1 = new Date(a), d2 = new Date(b);
+  let count = 0;
+  for (let d = new Date(d1); d <= d2; d.setDate(d.getDate() + 1)) {
+    const dow = d.getDay();
+    if (dow !== 5 && dow !== 6) count++; // Fri/Sat weekend UAE
+  }
+  return count || 1;
+}
+function fmtDate(s) {
+  if (!s) return '—';
+  const d = new Date(s);
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+function fmtDateShort(s) {
+  const d = new Date(s);
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+}
+function employeeById(id) { return EMPLOYEES.find(e => e.id === id); }
+function deptById(id) { return DEPARTMENTS.find(d => d.id === id); }
+
+// --- Avatar -----------------------------------------------------------------
+function Avatar({ emp, size = 36, ring = false }) {
+  if (!emp) return null;
+  const fs = Math.round(size * 0.38);
+  return (
+    <div style={{
+      width: size, height: size, borderRadius: '50%', background: emp.color,
+      color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: fs, fontWeight: 600, flexShrink: 0, letterSpacing: 0.2,
+      boxShadow: ring ? '0 0 0 3px #fff, 0 0 0 4px ' + emp.color + '40' : 'none',
+      fontFamily: 'var(--font-sans)',
+    }}>{emp.initials}</div>
+  );
+}
+
+// --- Status pill ------------------------------------------------------------
+const PILL_TONES = {
+  pending:  { bg: '#FEF6E4', fg: '#8A5A0B', dot: '#D98A00' },
+  approved: { bg: '#E8F3ED', fg: '#1E5B38', dot: '#2E8B57' },
+  rejected: { bg: '#FBEAEA', fg: '#7A2E2E', dot: '#B33A3A' },
+  draft:    { bg: '#F1F2F4', fg: '#4B5563', dot: '#8A8F98' },
+  submitted:{ bg: '#EAF1F8', fg: '#1E3A5F', dot: '#2F5D8A' },
+  info:     { bg: '#EAF1F8', fg: '#1E3A5F', dot: '#2F5D8A' },
+  warn:     { bg: '#FEF6E4', fg: '#8A5A0B', dot: '#D98A00' },
+  accent:   { bg: 'var(--accent-100)', fg: 'var(--accent-700)', dot: 'var(--accent)' },
+};
+function Pill({ children, tone = 'info', dot = true, style = {} }) {
+  const t = PILL_TONES[tone] || PILL_TONES.info;
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6,
+      background: t.bg, color: t.fg, padding: '3px 10px', borderRadius: 999,
+      fontSize: 11.5, fontWeight: 600, letterSpacing: 0.2, textTransform: 'uppercase',
+      ...style,
+    }}>
+      {dot && <span style={{ width: 6, height: 6, borderRadius: '50%', background: t.dot }}/>}
+      {children}
+    </span>
+  );
+}
+
+// --- Sidebar ---------------------------------------------------------------
+function Sidebar({ collapsed }) {
+  const { role, route, navigate, currentUser } = useApp();
+
+  const NAV = {
+    employee: [
+      { id: 'dashboard', label: 'Home', icon: 'home' },
+      { id: 'leave', label: 'My Leave', icon: 'calendar' },
+      { id: 'timesheet', label: 'Timesheet', icon: 'clock' },
+      { id: 'directory', label: 'Directory', icon: 'users' },
+      { id: 'profile', label: 'My Profile', icon: 'user' },
+    ],
+    manager: [
+      { id: 'dashboard', label: 'Team Overview', icon: 'home' },
+      { id: 'approvals', label: 'Approvals', icon: 'check', badge: true },
+      { id: 'team', label: 'My Team', icon: 'users' },
+      { id: 'leave', label: 'My Leave', icon: 'calendar' },
+      { id: 'timesheet', label: 'Timesheet', icon: 'clock' },
+      { id: 'directory', label: 'Directory', icon: 'briefcase' },
+    ],
+    admin: [
+      { id: 'dashboard', label: 'Overview', icon: 'home' },
+      { id: 'users', label: 'Users & Roles', icon: 'shield' },
+      { id: 'employees', label: 'Employees', icon: 'users' },
+      { id: 'assignments', label: 'Assignments', icon: 'org' },
+      { id: 'leave-admin', label: 'Leave', icon: 'calendar' },
+      { id: 'timesheet-admin', label: 'Timesheets', icon: 'clock' },
+      { id: 'reports', label: 'Reports', icon: 'chart' },
+      { id: 'landing-images', label: 'Landing Visuals', icon: 'image' },
+      { id: 'settings', label: 'Settings', icon: 'settings' },
+    ],
+  };
+  const items = NAV[role];
+  const { leaves, timesheets } = useApp();
+  const pendingCount = role === 'manager'
+    ? leaves.filter(l => l.status === 'PENDING' && employeeById(l.employeeId)?.managerId === currentUser.id).length
+      + timesheets.filter(t => t.status === 'SUBMITTED' && employeeById(t.employeeId)?.managerId === currentUser.id).length
+    : 0;
+
+  return (
+    <aside style={{
+      width: collapsed ? 72 : 240, flexShrink: 0, height: '100%',
+      background: 'var(--nav-bg)', color: 'var(--nav-fg)', borderRight: '1px solid var(--border)',
+      display: 'flex', flexDirection: 'column', transition: 'width .2s ease',
+    }}>
+      {/* Logo */}
+      <div style={{
+        height: 64, padding: collapsed ? '0 20px' : '0 20px',
+        display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid var(--nav-border)',
+      }}>
+        <div style={{
+          width: 32, height: 32, borderRadius: 8, background: 'var(--accent)',
+          display: 'grid', placeItems: 'center', color: '#fff', fontWeight: 800, fontSize: 14,
+          letterSpacing: 0.5, fontFamily: 'var(--font-serif)',
+        }}>M</div>
+        {!collapsed && (
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--nav-fg-strong)', letterSpacing: 0.2 }}>AVANIIS People</div>
+            <div style={{ fontSize: 11, color: 'var(--nav-fg-dim)', marginTop: 1 }}>Avaniis</div>
+          </div>
+        )}
+      </div>
+
+      {/* Nav */}
+      <nav style={{ flex: 1, padding: '14px 10px', display: 'flex', flexDirection: 'column', gap: 2, overflow: 'auto' }}>
+        {items.map(it => {
+          const active = route.page === it.id;
+          return (
+            <button key={it.id} onClick={() => navigate(it.id)} style={{
+              display: 'flex', alignItems: 'center', gap: 12, padding: collapsed ? '10px' : '9px 12px',
+              justifyContent: collapsed ? 'center' : 'flex-start',
+              background: active ? 'var(--nav-active-bg)' : 'transparent',
+              color: active ? 'var(--nav-active-fg)' : 'var(--nav-fg)',
+              border: 0, borderRadius: 8, cursor: 'pointer', fontSize: 13.5, fontWeight: 500,
+              textAlign: 'left', position: 'relative', fontFamily: 'var(--font-sans)',
+            }}>
+              <Icon name={it.icon} size={18}/>
+              {!collapsed && <span style={{ flex: 1 }}>{it.label}</span>}
+              {!collapsed && it.badge && pendingCount > 0 && (
+                <span style={{
+                  background: 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 700,
+                  padding: '1px 7px', borderRadius: 999, minWidth: 20, textAlign: 'center',
+                }}>{pendingCount}</span>
+              )}
+              {collapsed && it.badge && pendingCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: 6, right: 8, width: 8, height: 8,
+                  borderRadius: '50%', background: 'var(--accent)', border: '2px solid var(--nav-bg)',
+                }}/>
+              )}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Footer user */}
+      <div style={{
+        padding: 14, borderTop: '1px solid var(--nav-border)',
+        display: 'flex', alignItems: 'center', gap: 10,
+      }}>
+        <Avatar emp={currentUser} size={32}/>
+        {!collapsed && (
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--nav-fg-strong)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {currentUser.first} {currentUser.last}
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--nav-fg-dim)', textTransform: 'capitalize' }}>{role}</div>
+          </div>
+        )}
+        {!collapsed && <Icon name="logout" size={16} style={{ color: 'var(--nav-fg-dim)', cursor: 'pointer' }}/>}
+      </div>
+    </aside>
+  );
+}
+
+// --- Topbar ----------------------------------------------------------------
+function Topbar({ onToggleSidebar, onToggleTweaks }) {
+  const { currentUser, role, navigate, route } = useApp();
+  const crumbs = useMemo(() => {
+    const map = {
+      dashboard: role === 'admin' ? 'Overview' : role === 'manager' ? 'Team Overview' : 'Home',
+      leave: 'My Leave', timesheet: 'Timesheet', directory: 'Directory', profile: 'My Profile',
+      approvals: 'Approvals', team: 'My Team',
+      users: 'Users & Roles', employees: 'Employees', assignments: 'Assignments',
+      'leave-admin': 'Leave', 'timesheet-admin': 'Timesheets', reports: 'Reports', 'landing-images': 'Landing Visuals', settings: 'Settings',
+      'employee-detail': 'Employee',
+    };
+    return [map[route.page] || route.page];
+  }, [route, role]);
+
+  return (
+    <header style={{
+      height: 64, background: 'var(--card)', borderBottom: '1px solid var(--border)',
+      display: 'flex', alignItems: 'center', padding: '0 24px', gap: 16, flexShrink: 0,
+    }}>
+      <button onClick={onToggleSidebar} title="Toggle sidebar" style={{
+        width: 32, height: 32, border: 0, background: 'transparent', color: 'var(--ink-2)',
+        borderRadius: 6, cursor: 'pointer', display: 'grid', placeItems: 'center',
+      }}><Icon name="org" size={18}/></button>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {crumbs.map((c, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <Icon name="chevron-right" size={14} style={{ color: 'var(--ink-3)' }}/>}
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.1 }}>{c}</span>
+          </React.Fragment>
+        ))}
+      </div>
+
+      <div style={{ flex: 1 }}/>
+
+      {/* Search */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8,
+        background: 'var(--surface)', border: '1px solid var(--border)',
+        borderRadius: 8, padding: '7px 12px', width: 280, color: 'var(--ink-3)',
+      }}>
+        <Icon name="search" size={15}/>
+        <input placeholder="Search people, leaves, timesheets…" style={{
+          border: 0, background: 'transparent', outline: 'none', flex: 1,
+          fontSize: 13, color: 'var(--ink-1)', fontFamily: 'var(--font-sans)',
+        }}/>
+        <kbd style={{
+          fontSize: 10, color: 'var(--ink-3)', background: 'var(--card)',
+          padding: '2px 5px', borderRadius: 4, border: '1px solid var(--border)',
+        }}>⌘K</kbd>
+      </div>
+
+      <button style={iconBtn} title="Notifications">
+        <Icon name="bell" size={17}/>
+        <span style={{
+          position: 'absolute', top: 6, right: 7, width: 7, height: 7,
+          borderRadius: '50%', background: 'var(--accent)', border: '2px solid var(--card)',
+        }}/>
+      </button>
+
+      <div style={{ width: 1, height: 28, background: 'var(--border)' }}/>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+        <Avatar emp={currentUser} size={32}/>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>
+            {currentUser.first} {currentUser.last}
+          </span>
+          <span style={{ fontSize: 11, color: 'var(--ink-3)', textTransform: 'capitalize', letterSpacing: 0.3 }}>{role}</span>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+const iconBtn = {
+  width: 36, height: 36, borderRadius: 8, border: '1px solid var(--border)',
+  background: 'var(--card)', cursor: 'pointer', display: 'grid', placeItems: 'center',
+  color: 'var(--ink-2)', position: 'relative',
+};
+
+// --- Toast -----------------------------------------------------------------
+function Toast() {
+  const { toast } = useApp();
+  if (!toast) return null;
+  const colors = {
+    success: { bg: '#1E5B38', fg: '#fff', icon: 'check' },
+    warn:    { bg: '#8A5A0B', fg: '#fff', icon: 'bell' },
+    info:    { bg: '#1E3A5F', fg: '#fff', icon: 'activity' },
+  };
+  const c = colors[toast.tone] || colors.info;
+  return (
+    <div key={toast.id} style={{
+      position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
+      background: c.bg, color: c.fg, padding: '12px 18px', borderRadius: 10,
+      display: 'flex', alignItems: 'center', gap: 10, fontSize: 13.5, fontWeight: 500,
+      boxShadow: '0 12px 32px rgba(0,0,0,0.28)', zIndex: 100,
+      animation: 'toastIn .25s ease',
+    }}>
+      <Icon name={c.icon} size={16}/>
+      {toast.msg}
+    </div>
+  );
+}
+
+Object.assign(window, {
+  AppProvider, AppCtx, useApp, Sidebar, Topbar, Toast,
+  Avatar, Pill, Icon,
+  daysBetween, fmtDate, fmtDateShort, employeeById, deptById, iconBtn,
+});
+
+// pages-employee.jsx — Employee views: Dashboard, Leave, Timesheet, Directory, Profile
+
+const { useState: uState1, useMemo: uMemo1, useEffect: uEffect1 } = React;
+
+// --- Shared layout helpers ---
+function PageHeader({ title, subtitle, actions }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20, marginBottom: 24 }}>
+      <div style={{ flex: 1 }}>
+        <h1 style={{
+          fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 600, letterSpacing: -0.6,
+          color: 'var(--ink-1)', margin: 0, lineHeight: 1.15,
+        }}>{title}</h1>
+        {subtitle && <p style={{ color: 'var(--ink-3)', fontSize: 14, margin: '6px 0 0' }}>{subtitle}</p>}
+      </div>
+      {actions && <div style={{ display: 'flex', gap: 8 }}>{actions}</div>}
+    </div>
+  );
+}
+
+function Card({ children, style = {}, pad = 20, title, action }) {
+  return (
+    <div style={{
+      background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12,
+      overflow: 'hidden', ...style,
+    }}>
+      {title && (
+        <div style={{
+          padding: '14px 20px', borderBottom: '1px solid var(--border)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>{title}</h3>
+          {action}
+        </div>
+      )}
+      <div style={{ padding: pad }}>{children}</div>
+    </div>
+  );
+}
+
+function Btn({ children, variant = 'primary', size = 'md', icon, ...props }) {
+  const styles = {
+    primary: { background: 'var(--accent)', color: '#fff', border: '1px solid var(--accent)' },
+    secondary: { background: 'var(--card)', color: 'var(--ink-1)', border: '1px solid var(--border)' },
+    ghost: { background: 'transparent', color: 'var(--ink-2)', border: '1px solid transparent' },
+    danger: { background: '#fff', color: '#7A2E2E', border: '1px solid #E9C5C5' },
+    success: { background: '#fff', color: '#1E5B38', border: '1px solid #C5E0D0' },
+  };
+  const sizes = { sm: { padding: '5px 10px', fontSize: 12 }, md: { padding: '8px 14px', fontSize: 13 }, lg: { padding: '10px 18px', fontSize: 14 } };
+  return (
+    <button {...props} style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 7, cursor: 'pointer',
+      fontWeight: 600, fontFamily: 'var(--font-sans)', letterSpacing: 0.1,
+      ...styles[variant], ...sizes[size], ...(props.style || {}),
+    }}>
+      {icon && <Icon name={icon} size={14}/>}
+      {children}
+    </button>
+  );
+}
+
+// =========================================================================
+// EMPLOYEE DASHBOARD
+// =========================================================================
+function EmployeeDashboard() {
+  const { currentUser, balances, leaves, timesheets, navigate } = useApp();
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const myBal = balances[currentUser.id] || {};
+  const myLeaves = leaves.filter(l => l.employeeId === currentUser.id);
+  const upcoming = myLeaves.filter(l => l.status === 'APPROVED' && new Date(l.startDate) >= new Date('2026-04-21'));
+  const pending = myLeaves.filter(l => l.status === 'PENDING');
+  const currentTs = timesheets.find(t => t.employeeId === currentUser.id && t.weekStart === CURRENT_WEEK);
+  const tsTotal = currentTs ? currentTs.hours.reduce((a, b) => a + b, 0) : 0;
+
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      {/* Hero */}
+      <div style={{
+        background: 'linear-gradient(135deg, var(--accent-900) 0%, var(--accent-700) 100%)',
+        borderRadius: 16, padding: '28px 32px', color: '#fff', marginBottom: 24,
+        position: 'relative', overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute', right: -40, top: -40, width: 200, height: 200,
+          borderRadius: '50%', background: 'rgba(255,255,255,0.06)',
+        }}/>
+        <div style={{
+          position: 'absolute', right: 60, bottom: -80, width: 240, height: 240,
+          borderRadius: '50%', background: 'rgba(255,255,255,0.04)',
+        }}/>
+        <div style={{ position: 'relative' }}>
+          <div style={{ fontSize: 13, opacity: 0.75, fontWeight: 500, letterSpacing: 0.4, textTransform: 'uppercase' }}>
+            Tuesday, 21 April 2026
+          </div>
+          <h1 style={{
+            fontFamily: 'var(--font-serif)', fontSize: 34, fontWeight: 500, margin: '6px 0 4px',
+            letterSpacing: -0.8,
+          }}>{greeting}, {currentUser.first}.</h1>
+          <p style={{ opacity: 0.82, fontSize: 15, margin: 0, maxWidth: 520 }}>
+            {pending.length > 0
+              ? `Your leave request is pending review from ${employeeById(currentUser.managerId)?.first}.`
+              : 'Nothing needs your attention. Have a productive day.'}
+          </p>
+          <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
+            <Btn variant="secondary" icon="plus" onClick={() => navigate('leave', { compose: true })}
+              style={{ background: '#fff', color: 'var(--accent-900)', border: 0 }}>
+              Request Leave
+            </Btn>
+            <Btn variant="ghost" icon="clock" onClick={() => navigate('timesheet')}
+              style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', border: '1px solid rgba(255,255,255,0.22)' }}>
+              Log hours ({tsTotal}h this week)
+            </Btn>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {/* Leave balance */}
+          <Card title="Leave balance — 2026" action={
+            <button onClick={() => navigate('leave')} style={linkBtn}>View all <Icon name="chevron-right" size={12}/></button>
+          } pad={0}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+              {['ANNUAL', 'SICK', 'EMERGENCY'].map((k, i) => {
+                const b = myBal[k] || { total: 0, used: 0 };
+                const remain = b.total - b.used;
+                const pct = Math.round((b.used / b.total) * 100);
+                return (
+                  <div key={k} style={{
+                    padding: '22px 24px',
+                    borderRight: i < 2 ? '1px solid var(--border)' : 'none',
+                  }}>
+                    <div style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.5, textTransform: 'uppercase', marginBottom: 10 }}>
+                      {LEAVE_TYPES[k].label} Leave
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 10 }}>
+                      <span style={{ fontSize: 32, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -1 }}>
+                        {remain}
+                      </span>
+                      <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>/ {b.total} days</span>
+                    </div>
+                    <div style={{ height: 6, borderRadius: 4, background: 'var(--surface)', overflow: 'hidden' }}>
+                      <div style={{
+                        height: '100%', width: pct + '%', background: LEAVE_TYPES[k].color,
+                        borderRadius: 4, transition: 'width .4s',
+                      }}/>
+                    </div>
+                    <div style={{ fontSize: 11.5, color: 'var(--ink-3)', marginTop: 6 }}>
+                      {b.used} days used
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+
+          {/* Recent activity */}
+          <Card title="My recent activity" pad={0}>
+            <div>
+              {myLeaves.slice(0, 4).map((l, i) => {
+                const t = LEAVE_TYPES[l.type];
+                const toneMap = { PENDING: 'pending', APPROVED: 'approved', REJECTED: 'rejected' };
+                return (
+                  <div key={l.id} style={{
+                    display: 'flex', alignItems: 'center', gap: 14, padding: '14px 20px',
+                    borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+                  }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: 10, background: t.color + '15',
+                      color: t.color, display: 'grid', placeItems: 'center', flexShrink: 0,
+                    }}><Icon name="calendar" size={18}/></div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-1)' }}>
+                        {t.label} leave · {l.days} {l.days === 1 ? 'day' : 'days'}
+                      </div>
+                      <div style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 2 }}>
+                        {fmtDateShort(l.startDate)} → {fmtDateShort(l.endDate)} · Submitted {fmtDate(l.submitted)}
+                      </div>
+                    </div>
+                    <Pill tone={toneMap[l.status]}>{l.status}</Pill>
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+        </div>
+
+        {/* Right rail */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {/* Upcoming time off */}
+          <Card title="Upcoming time off" pad={0}>
+            {upcoming.length === 0 ? (
+              <div style={{ padding: 20, fontSize: 13, color: 'var(--ink-3)' }}>No approved leave coming up.</div>
+            ) : upcoming.map((l, i) => (
+              <div key={l.id} style={{
+                padding: '14px 20px', borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+                display: 'flex', alignItems: 'center', gap: 12,
+              }}>
+                <div style={{
+                  width: 44, textAlign: 'center', padding: '4px 0', borderRadius: 8,
+                  background: 'var(--accent-100)', color: 'var(--accent-700)',
+                }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.5 }}>
+                    {new Date(l.startDate).toLocaleDateString('en', { month: 'short' }).toUpperCase()}
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 700, fontFamily: 'var(--font-serif)' }}>
+                    {new Date(l.startDate).getDate()}
+                  </div>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{LEAVE_TYPES[l.type].label} leave</div>
+                  <div style={{ fontSize: 11.5, color: 'var(--ink-3)', marginTop: 2 }}>{l.days} days · {l.reason}</div>
+                </div>
+              </div>
+            ))}
+          </Card>
+
+          {/* Team out */}
+          <Card title="Who's out this week" pad={0}>
+            {leaves.filter(l => l.status === 'APPROVED' && l.startDate.startsWith('2026-04')).slice(0, 3).map((l, i) => {
+              const emp = employeeById(l.employeeId);
+              if (!emp) return null;
+              return (
+                <div key={l.id} style={{
+                  padding: '12px 20px', borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+                  display: 'flex', alignItems: 'center', gap: 10,
+                }}>
+                  <Avatar emp={emp} size={32}/>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{emp.first} {emp.last}</div>
+                    <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>{LEAVE_TYPES[l.type].label} · {fmtDateShort(l.startDate)}–{fmtDateShort(l.endDate)}</div>
+                  </div>
+                </div>
+              );
+            })}
+            {leaves.filter(l => l.status === 'APPROVED' && l.startDate.startsWith('2026-04')).length === 0 && (
+              <div style={{ padding: 20, fontSize: 13, color: 'var(--ink-3)' }}>Full team in this week.</div>
+            )}
+          </Card>
+
+          {/* Announcements */}
+          <Card title="Company updates" pad={0}>
+            {ANNOUNCEMENTS.map((a, i) => (
+              <div key={a.id} style={{
+                padding: '14px 20px', borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+                display: 'flex', gap: 12, alignItems: 'flex-start',
+              }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: 8, background: 'var(--accent-100)',
+                  color: 'var(--accent-700)', display: 'grid', placeItems: 'center', flexShrink: 0,
+                }}><Icon name={a.icon} size={15}/></div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {a.title}
+                    {a.pinned && <span style={{ fontSize: 9, fontWeight: 700, color: 'var(--accent)', letterSpacing: 0.5 }}>● PINNED</span>}
+                  </div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 3, lineHeight: 1.5 }}>{a.body}</div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-4)', marginTop: 4 }}>{a.time}</div>
+                </div>
+              </div>
+            ))}
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const linkBtn = {
+  display: 'inline-flex', alignItems: 'center', gap: 3,
+  background: 'transparent', border: 0, color: 'var(--accent-700)',
+  fontSize: 12, fontWeight: 600, cursor: 'pointer',
+};
+
+Object.assign(window, { EmployeeDashboard, PageHeader, Card, Btn, linkBtn });
+
+// pages-leave.jsx — Leave management views
+
+function LeavePage() {
+  const { currentUser, leaves, balances, submitLeave, navigate, route, role } = useApp();
+  const [composeOpen, setComposeOpen] = uState1(route.params?.compose || false);
+  const [tab, setTab] = uState1('all');
+
+  const myLeaves = leaves.filter(l => l.employeeId === currentUser.id);
+  const filtered = tab === 'all' ? myLeaves : myLeaves.filter(l => l.status === tab.toUpperCase());
+  const myBal = balances[currentUser.id] || {};
+
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <PageHeader
+        title="My Leave"
+        subtitle="Request time off, track approvals, and monitor your balance."
+        actions={<Btn icon="plus" onClick={() => setComposeOpen(true)}>New request</Btn>}
+      />
+
+      {/* Balance strip */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+        {['ANNUAL', 'SICK', 'EMERGENCY', 'UNPAID'].map(k => {
+          const b = myBal[k] || { total: k === 'UNPAID' ? '∞' : 0, used: 0 };
+          const remain = k === 'UNPAID' ? '∞' : b.total - b.used;
+          return (
+            <div key={k} style={{
+              background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 18,
+              borderTop: '3px solid ' + LEAVE_TYPES[k].color,
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.4, textTransform: 'uppercase' }}>
+                {LEAVE_TYPES[k].label}
+              </div>
+              <div style={{ marginTop: 6, display: 'flex', alignItems: 'baseline', gap: 6 }}>
+                <span style={{ fontSize: 26, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.8 }}>{remain}</span>
+                <span style={{ fontSize: 12, color: 'var(--ink-3)' }}>days left</span>
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--ink-4)', marginTop: 2 }}>
+                {k !== 'UNPAID' ? `${b.used} used of ${b.total}` : 'Unlimited, unpaid'}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Tabs */}
+      <div style={{ display: 'flex', gap: 4, marginBottom: 16, borderBottom: '1px solid var(--border)' }}>
+        {[['all', 'All requests'], ['pending', 'Pending'], ['approved', 'Approved'], ['rejected', 'Rejected']].map(([k, l]) => {
+          const count = k === 'all' ? myLeaves.length : myLeaves.filter(x => x.status === k.toUpperCase()).length;
+          return (
+            <button key={k} onClick={() => setTab(k)} style={{
+              padding: '10px 14px', background: 'transparent', border: 0, cursor: 'pointer',
+              fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-sans)',
+              color: tab === k ? 'var(--ink-1)' : 'var(--ink-3)',
+              borderBottom: tab === k ? '2px solid var(--accent)' : '2px solid transparent',
+              marginBottom: -1,
+            }}>{l} <span style={{ color: 'var(--ink-4)', fontWeight: 500, marginLeft: 4 }}>{count}</span></button>
+          );
+        })}
+      </div>
+
+      {/* Requests list */}
+      <Card pad={0}>
+        <table style={tableStyle}>
+          <thead>
+            <tr>
+              <th style={thStyle}>Type</th>
+              <th style={thStyle}>Dates</th>
+              <th style={thStyle}>Days</th>
+              <th style={thStyle}>Reason</th>
+              <th style={thStyle}>Submitted</th>
+              <th style={thStyle}>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map(l => {
+              const t = LEAVE_TYPES[l.type];
+              const toneMap = { PENDING: 'pending', APPROVED: 'approved', REJECTED: 'rejected' };
+              return (
+                <tr key={l.id} style={{ borderTop: '1px solid var(--border)' }}>
+                  <td style={tdStyle}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ width: 8, height: 8, borderRadius: 2, background: t.color }}/>
+                      <span style={{ fontWeight: 600, color: 'var(--ink-1)' }}>{t.label}</span>
+                    </span>
+                  </td>
+                  <td style={tdStyle}>{fmtDate(l.startDate)} → {fmtDate(l.endDate)}</td>
+                  <td style={tdStyle}><strong>{l.days}</strong></td>
+                  <td style={{ ...tdStyle, color: 'var(--ink-2)', maxWidth: 280, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{l.reason}</td>
+                  <td style={{ ...tdStyle, color: 'var(--ink-3)' }}>{fmtDate(l.submitted)}</td>
+                  <td style={tdStyle}><Pill tone={toneMap[l.status]}>{l.status}</Pill></td>
+                </tr>
+              );
+            })}
+            {filtered.length === 0 && (
+              <tr><td colSpan="6" style={{ padding: 40, textAlign: 'center', color: 'var(--ink-3)' }}>No requests in this view.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </Card>
+
+      {composeOpen && <LeaveComposer onClose={() => setComposeOpen(false)} onSubmit={(p) => { submitLeave(p); setComposeOpen(false); }}/>}
+    </div>
+  );
+}
+
+const tableStyle = { width: '100%', borderCollapse: 'collapse', fontSize: 13 };
+const thStyle = { padding: '12px 20px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.4, textTransform: 'uppercase', background: 'var(--surface)' };
+const tdStyle = { padding: '14px 20px', color: 'var(--ink-2)', verticalAlign: 'middle' };
+
+// --- Leave composer modal ---
+function LeaveComposer({ onClose, onSubmit }) {
+  const { currentUser, balances } = useApp();
+  const [type, setType] = uState1('ANNUAL');
+  const [start, setStart] = uState1('2026-05-11');
+  const [end, setEnd] = uState1('2026-05-13');
+  const [reason, setReason] = uState1('');
+  const days = daysBetween(start, end);
+  const b = balances[currentUser.id]?.[type];
+  const insufficient = b && type !== 'UNPAID' && (b.total - b.used) < days;
+
+  return (
+    <Modal onClose={onClose} title="Request time off" width={520}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <Field label="Leave type">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8 }}>
+            {Object.entries(LEAVE_TYPES).map(([k, v]) => (
+              <button key={k} onClick={() => setType(k)} style={{
+                padding: '12px 14px', borderRadius: 8, cursor: 'pointer', textAlign: 'left',
+                background: type === k ? 'var(--accent-100)' : 'var(--card)',
+                border: '1px solid ' + (type === k ? 'var(--accent)' : 'var(--border)'),
+                display: 'flex', alignItems: 'center', gap: 10,
+              }}>
+                <span style={{ width: 10, height: 10, borderRadius: 2, background: v.color }}/>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{v.label}</div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>
+                    {balances[currentUser.id]?.[k]
+                      ? `${balances[currentUser.id][k].total - balances[currentUser.id][k].used} days left`
+                      : k === 'UNPAID' ? 'No balance' : '—'}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </Field>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <Field label="Start date">
+            <input type="date" value={start} onChange={e => setStart(e.target.value)} style={inputStyle}/>
+          </Field>
+          <Field label="End date">
+            <input type="date" value={end} min={start} onChange={e => setEnd(e.target.value)} style={inputStyle}/>
+          </Field>
+        </div>
+
+        <div style={{
+          padding: '12px 14px', background: 'var(--surface)', borderRadius: 8,
+          display: 'flex', alignItems: 'center', gap: 10, fontSize: 13,
+        }}>
+          <Icon name="calendar" size={16} style={{ color: 'var(--ink-3)' }}/>
+          <span style={{ color: 'var(--ink-2)' }}>
+            <strong style={{ color: 'var(--ink-1)' }}>{days}</strong> working {days === 1 ? 'day' : 'days'} requested
+            {insufficient && <span style={{ color: '#B33A3A', marginLeft: 8 }}> · Exceeds balance</span>}
+          </span>
+        </div>
+
+        <Field label="Reason (optional)">
+          <textarea value={reason} onChange={e => setReason(e.target.value)} rows="3" style={{ ...inputStyle, resize: 'vertical', fontFamily: 'var(--font-sans)' }} placeholder="Give your manager a quick note…"/>
+        </Field>
+
+        <Field label="Approver">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'var(--surface)', borderRadius: 8 }}>
+            <Avatar emp={employeeById(currentUser.managerId)} size={28}/>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>
+                {employeeById(currentUser.managerId)?.first} {employeeById(currentUser.managerId)?.last}
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>{employeeById(currentUser.managerId)?.pos}</div>
+            </div>
+          </div>
+        </Field>
+
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 4 }}>
+          <Btn variant="secondary" onClick={onClose}>Cancel</Btn>
+          <Btn disabled={insufficient} onClick={() => !insufficient && onSubmit({ type, startDate: start, endDate: end, reason: reason || '—' })}
+            style={insufficient ? { opacity: 0.5, cursor: 'not-allowed' } : {}}>
+            Submit for approval
+          </Btn>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
+function Modal({ children, onClose, title, width = 480 }) {
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, background: 'rgba(18,24,36,0.45)', zIndex: 50,
+      display: 'grid', placeItems: 'center', padding: 24,
+      animation: 'fadeIn .15s ease',
+    }} onClick={onClose}>
+      <div onClick={e => e.stopPropagation()} style={{
+        width: '100%', maxWidth: width, background: 'var(--card)', borderRadius: 14,
+        boxShadow: '0 30px 60px rgba(0,0,0,0.25)', overflow: 'hidden',
+        animation: 'modalIn .2s ease',
+      }}>
+        <div style={{
+          padding: '18px 22px', borderBottom: '1px solid var(--border)',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <h2 style={{ margin: 0, fontSize: 17, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.3 }}>{title}</h2>
+          <button onClick={onClose} style={{ ...iconBtn, width: 30, height: 30, border: 0 }}><Icon name="x" size={16}/></button>
+        </div>
+        <div style={{ padding: 22 }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, children }) {
+  return (
+    <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.3, textTransform: 'uppercase' }}>{label}</span>
+      {children}
+    </label>
+  );
+}
+
+const inputStyle = {
+  padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 7,
+  fontSize: 13.5, color: 'var(--ink-1)', background: 'var(--card)',
+  outline: 'none', fontFamily: 'var(--font-sans)',
+};
+
+Object.assign(window, { LeavePage, LeaveComposer, Modal, Field, inputStyle, tableStyle, thStyle, tdStyle });
+
+// pages-timesheet.jsx — weekly grid + approvals
+
+function TimesheetPage() {
+  const { currentUser, timesheets, updateTimesheet, showToast } = useApp();
+  const [weekStart, setWeekStart] = uState1(CURRENT_WEEK);
+  const ts = timesheets.find(t => t.employeeId === currentUser.id && t.weekStart === weekStart);
+  const [hours, setHours] = uState1(ts?.hours || [0,0,0,0,0,0,0]);
+  uEffect1(() => { setHours(ts?.hours || [0,0,0,0,0,0,0]); }, [ts?.id]);
+
+  const total = hours.reduce((a,b) => a+b, 0);
+  const overtime = total > 45;
+  const editable = !ts || ts.status === 'DRAFT' || ts.status === 'REJECTED';
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  function shiftWeek(n) {
+    const d = new Date(weekStart); d.setDate(d.getDate() + n*7);
+    setWeekStart(d.toISOString().slice(0,10));
+  }
+  function saveDraft() {
+    if (ts) updateTimesheet(ts.id, { hours, status: 'DRAFT' });
+    showToast('Draft saved', 'info');
+  }
+  function submit() {
+    if (ts) updateTimesheet(ts.id, { hours, status: 'SUBMITTED' });
+    showToast('Timesheet submitted for manager review', 'success');
+  }
+
+  return (
+    <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <PageHeader title="Timesheet" subtitle="Log your working hours. Submit weekly for manager approval." />
+
+      <Card pad={0}>
+        {/* Week selector */}
+        <div style={{
+          padding: '16px 20px', borderBottom: '1px solid var(--border)',
+          display: 'flex', alignItems: 'center', gap: 14,
+        }}>
+          <button onClick={() => shiftWeek(-1)} style={{ ...iconBtn, width: 32, height: 32 }}><Icon name="chevron-left" size={16}/></button>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.2 }}>
+              Week of {fmtDate(weekStart)}
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-3)' }}>{fmtDate(weekStart)} → {fmtDate(addDays(weekStart, 6))}</div>
+          </div>
+          <button onClick={() => shiftWeek(1)} style={{ ...iconBtn, width: 32, height: 32 }}><Icon name="chevron-right" size={16}/></button>
+          <div style={{ width: 1, height: 28, background: 'var(--border)', margin: '0 8px' }}/>
+          <Pill tone={ts?.status === 'APPROVED' ? 'approved' : ts?.status === 'SUBMITTED' ? 'submitted' : ts?.status === 'REJECTED' ? 'rejected' : 'draft'}>
+            {ts?.status || 'NOT STARTED'}
+          </Pill>
+        </div>
+
+        {/* Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)' }}>
+          {days.map((d, i) => {
+            const isWeekend = i === 4 || i === 5; // Fri/Sat in UAE
+            const date = addDays(weekStart, i);
+            const val = hours[i];
+            return (
+              <div key={i} style={{
+                padding: '18px 14px', borderRight: i < 6 ? '1px solid var(--border)' : 'none',
+                background: isWeekend ? 'var(--surface)' : 'transparent',
+                textAlign: 'center',
+              }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-3)', letterSpacing: 0.5, textTransform: 'uppercase' }}>{d}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-4)', marginTop: 2 }}>{new Date(date).getDate()}</div>
+                <input
+                  type="number"
+                  min="0" max="24" step="0.5"
+                  disabled={!editable}
+                  value={val}
+                  onChange={e => {
+                    const v = parseFloat(e.target.value) || 0;
+                    const nh = [...hours]; nh[i] = v; setHours(nh);
+                  }}
+                  style={{
+                    marginTop: 12, width: '100%', textAlign: 'center', border: '1px solid var(--border)',
+                    borderRadius: 8, padding: '14px 4px', fontSize: 22, fontWeight: 600,
+                    color: val > 0 ? 'var(--ink-1)' : 'var(--ink-4)', fontFamily: 'var(--font-serif)',
+                    background: editable ? 'var(--card)' : 'var(--surface)',
+                    outline: 'none',
+                  }}
+                />
+                <div style={{ fontSize: 10, color: 'var(--ink-4)', marginTop: 4, letterSpacing: 0.3 }}>HOURS</div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Totals + actions */}
+        <div style={{
+          padding: '18px 20px', borderTop: '1px solid var(--border)',
+          display: 'flex', alignItems: 'center', gap: 20, background: 'var(--surface)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.4, textTransform: 'uppercase' }}>Total</span>
+            <span style={{ fontSize: 24, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.5 }}>{total}</span>
+            <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>hours</span>
+          </div>
+          {overtime && <Pill tone="warn">Overtime · +{(total-45).toFixed(1)}h</Pill>}
+          <div style={{ flex: 1 }}/>
+          {editable && (
+            <>
+              <Btn variant="secondary" onClick={saveDraft}>Save draft</Btn>
+              <Btn icon="check" onClick={submit}>Submit for approval</Btn>
+            </>
+          )}
+          {!editable && ts?.status === 'SUBMITTED' && (
+            <span style={{ fontSize: 13, color: 'var(--ink-3)' }}>Awaiting manager review</span>
+          )}
+        </div>
+
+        {ts?.reviewNote && (
+          <div style={{
+            padding: '14px 20px', borderTop: '1px solid var(--border)',
+            background: '#FEF6E4', fontSize: 13, color: '#6B4300',
+          }}>
+            <strong>Manager note:</strong> {ts.reviewNote}
+          </div>
+        )}
+      </Card>
+
+      {/* History */}
+      <div style={{ marginTop: 28 }}>
+        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', marginBottom: 10, letterSpacing: -0.1 }}>Recent weeks</h3>
+        <Card pad={0}>
+          <table style={tableStyle}>
+            <thead><tr>
+              <th style={thStyle}>Week</th><th style={thStyle}>Total hours</th><th style={thStyle}>Status</th><th style={thStyle}/>
+            </tr></thead>
+            <tbody>
+              {timesheets.filter(t => t.employeeId === currentUser.id).map(t => {
+                const tot = t.hours.reduce((a,b)=>a+b,0);
+                return (
+                  <tr key={t.id} style={{ borderTop: '1px solid var(--border)' }}>
+                    <td style={tdStyle}><strong>{fmtDate(t.weekStart)}</strong></td>
+                    <td style={tdStyle}>{tot}h {tot > 45 && <span style={{ color: '#8A5A0B', marginLeft: 6 }}>· OT</span>}</td>
+                    <td style={tdStyle}>
+                      <Pill tone={t.status === 'APPROVED' ? 'approved' : t.status === 'SUBMITTED' ? 'submitted' : t.status === 'REJECTED' ? 'rejected' : 'draft'}>
+                        {t.status}
+                      </Pill>
+                    </td>
+                    <td style={{ ...tdStyle, textAlign: 'right' }}>
+                      <button onClick={() => setWeekStart(t.weekStart)} style={linkBtn}>Open <Icon name="chevron-right" size={12}/></button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+// =========================================================================
+// DIRECTORY
+// =========================================================================
+function DirectoryPage() {
+  const [search, setSearch] = uState1('');
+  const [deptFilter, setDeptFilter] = uState1('');
+  const { navigate } = useApp();
+
+  const filtered = EMPLOYEES.filter(e => {
+    if (deptFilter && e.dept !== deptFilter) return false;
+    if (search && !(`${e.first} ${e.last} ${e.pos}`.toLowerCase().includes(search.toLowerCase()))) return false;
+    return true;
+  });
+
+  const byDept = {};
+  filtered.forEach(e => { (byDept[e.dept] ??= []).push(e); });
+
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <PageHeader title="People Directory" subtitle={`${EMPLOYEES.length} people across ${DEPARTMENTS.length} departments`}/>
+
+      <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+        <div style={{ flex: 1, position: 'relative' }}>
+          <Icon name="search" size={16} style={{ position: 'absolute', left: 12, top: 10, color: 'var(--ink-3)' }}/>
+          <input placeholder="Search by name or role…" value={search} onChange={e => setSearch(e.target.value)}
+            style={{ ...inputStyle, width: '100%', padding: '9px 12px 9px 36px' }}/>
+        </div>
+        <select value={deptFilter} onChange={e => setDeptFilter(e.target.value)} style={{ ...inputStyle, minWidth: 200 }}>
+          <option value="">All departments</option>
+          {DEPARTMENTS.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+        </select>
+      </div>
+
+      {Object.entries(byDept).map(([did, emps]) => {
+        const d = deptById(did);
+        return (
+          <div key={did} style={{ marginBottom: 28 }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10,
+              paddingBottom: 8, borderBottom: '1px solid var(--border)',
+            }}>
+              <Icon name="briefcase" size={14} style={{ color: 'var(--accent)' }}/>
+              <h3 style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>{d?.name}</h3>
+              <span style={{ fontSize: 11, color: 'var(--ink-4)' }}>· {d?.entity}</span>
+              <span style={{ flex: 1 }}/>
+              <span style={{ fontSize: 11, color: 'var(--ink-3)', fontWeight: 500 }}>{emps.length} people</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 12 }}>
+              {emps.map(e => (
+                <div key={e.id} onClick={() => navigate('employee-detail', { id: e.id })} style={{
+                  background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10, padding: 14,
+                  display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer',
+                  transition: 'all .15s',
+                }}
+                onMouseEnter={e2 => { e2.currentTarget.style.borderColor = 'var(--accent)'; e2.currentTarget.style.background = 'var(--accent-050)'; }}
+                onMouseLeave={e2 => { e2.currentTarget.style.borderColor = 'var(--border)'; e2.currentTarget.style.background = 'var(--card)'; }}
+                >
+                  <Avatar emp={e} size={40}/>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-1)' }}>{e.first} {e.last}</div>
+                    <div style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.pos}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// =========================================================================
+// EMPLOYEE DETAIL / PROFILE
+// =========================================================================
+function EmployeeDetailPage({ id }) {
+  const { currentUser, navigate, balances, leaves } = useApp();
+  const emp = employeeById(id) || currentUser;
+  const d = deptById(emp.dept);
+  const mgr = employeeById(emp.managerId);
+  const reports = EMPLOYEES.filter(e => e.managerId === emp.id);
+  const empBal = balances[emp.id] || {};
+  const empLeaves = leaves.filter(l => l.employeeId === emp.id).slice(0, 5);
+
+  return (
+    <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <button onClick={() => navigate('directory')} style={{ ...linkBtn, marginBottom: 14 }}>
+        <Icon name="chevron-left" size={12}/> Back to directory
+      </button>
+
+      {/* Header card — banner on top, content below (avatar overlaps bottom edge) */}
+      <div style={{
+        background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 14,
+        marginBottom: 20, position: 'relative', overflow: 'hidden',
+      }}>
+        <div style={{
+          height: 110,
+          background: `linear-gradient(135deg, ${emp.color}, ${emp.color}CC)`,
+        }}/>
+        <div style={{ padding: '0 28px 24px', display: 'flex', alignItems: 'flex-start', gap: 22 }}>
+          <div style={{ marginTop: -44, flexShrink: 0 }}>
+            <Avatar emp={emp} size={96} ring/>
+          </div>
+          <div style={{ flex: 1, minWidth: 0, paddingTop: 16 }}>
+            <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 600, margin: 0, letterSpacing: -0.6, color: 'var(--ink-1)', lineHeight: 1.15 }}>
+              {emp.first} {emp.last}
+            </h1>
+            <div style={{ fontSize: 14, color: 'var(--ink-2)', marginTop: 4 }}>{emp.pos}</div>
+            <div style={{ display: 'flex', gap: 18, marginTop: 14, flexWrap: 'wrap', rowGap: 8 }}>
+              <span style={metaItem}><Icon name="briefcase" size={13}/>{d?.name}</span>
+              <span style={metaItem}><Icon name="building" size={13}/>{d?.entity}</span>
+              <span style={metaItem}><Icon name="mail" size={13}/>{emp.email}</span>
+              <span style={metaItem}><Icon name="phone" size={13}/>{emp.phone}</span>
+            </div>
+          </div>
+          <div style={{ paddingTop: 16, flexShrink: 0 }}>
+            <Pill tone="accent">{emp.status}</Pill>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+        <Card title="Employment">
+          <Row label="Hired" value={fmtDate(emp.hired)}/>
+          <Row label="Tenure" value={Math.floor((new Date() - new Date(emp.hired)) / (365*24*3600*1000)) + ' years'}/>
+          <Row label="Employee ID" value={emp.id.toUpperCase()}/>
+          <Row label="Reports to" value={
+            mgr ? <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Avatar emp={mgr} size={20}/> {mgr.first} {mgr.last}</span> : '—'
+          }/>
+          <Row label="Direct reports" value={reports.length} last/>
+        </Card>
+
+        <Card title="Leave balance 2026" pad={0}>
+          {['ANNUAL','SICK','EMERGENCY'].map((k, i) => {
+            const b = empBal[k] || { total: 0, used: 0 };
+            const remain = b.total - b.used;
+            return (
+              <div key={k} style={{
+                padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 12,
+                borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+              }}>
+                <span style={{ width: 4, height: 28, borderRadius: 2, background: LEAVE_TYPES[k].color }}/>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{LEAVE_TYPES[k].label}</div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>{b.used} of {b.total} used</div>
+                </div>
+                <div style={{ fontSize: 18, fontWeight: 600, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>{remain}d</div>
+              </div>
+            );
+          })}
+        </Card>
+
+        {reports.length > 0 && (
+          <Card title={`Direct reports (${reports.length})`} pad={0} style={{ gridColumn: 'span 2' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', padding: 14, gap: 8 }}>
+              {reports.map(r => (
+                <div key={r.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: 8, borderRadius: 8 }}>
+                  <Avatar emp={r} size={32}/>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink-1)' }}>{r.first} {r.last}</div>
+                    <div style={{ fontSize: 11, color: 'var(--ink-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.pos}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
+
+        <Card title="Recent leave" pad={0} style={{ gridColumn: reports.length > 0 ? 'span 2' : 'span 2' }}>
+          {empLeaves.length === 0 ? <div style={{ padding: 20, color: 'var(--ink-3)', fontSize: 13 }}>No records.</div> :
+          <table style={tableStyle}>
+            <thead><tr><th style={thStyle}>Type</th><th style={thStyle}>Dates</th><th style={thStyle}>Days</th><th style={thStyle}>Status</th></tr></thead>
+            <tbody>
+              {empLeaves.map(l => (
+                <tr key={l.id} style={{ borderTop: '1px solid var(--border)' }}>
+                  <td style={tdStyle}><span style={{ display:'inline-flex', alignItems:'center', gap: 8 }}><span style={{ width: 8, height: 8, borderRadius: 2, background: LEAVE_TYPES[l.type].color }}/>{LEAVE_TYPES[l.type].label}</span></td>
+                  <td style={tdStyle}>{fmtDate(l.startDate)} → {fmtDate(l.endDate)}</td>
+                  <td style={tdStyle}>{l.days}</td>
+                  <td style={tdStyle}><Pill tone={l.status === 'PENDING' ? 'pending' : l.status === 'APPROVED' ? 'approved' : 'rejected'}>{l.status}</Pill></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>}
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+const metaItem = {
+  display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, color: 'var(--ink-2)',
+};
+
+function Row({ label, value, last }) {
+  return (
+    <div style={{
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      padding: '10px 0', borderBottom: last ? 0 : '1px solid var(--border)',
+    }}>
+      <span style={{ fontSize: 12.5, color: 'var(--ink-3)' }}>{label}</span>
+      <span style={{ fontSize: 13, color: 'var(--ink-1)', fontWeight: 500 }}>{value}</span>
+    </div>
+  );
+}
+
+Object.assign(window, { TimesheetPage, DirectoryPage, EmployeeDetailPage, Row, metaItem });
+
+// pages-manager.jsx — Manager views: Team Overview, Approvals, My Team
+
+function ManagerDashboard() {
+  const { currentUser, leaves, timesheets, navigate } = useApp();
+  const team = EMPLOYEES.filter(e => e.managerId === currentUser.id);
+  const pendingLeaves = leaves.filter(l => l.status === 'PENDING' && team.some(t => t.id === l.employeeId));
+  const pendingTs = timesheets.filter(t => t.status === 'SUBMITTED' && team.some(m => m.id === t.employeeId));
+  const outThisMonth = leaves.filter(l => l.status === 'APPROVED' && team.some(t => t.id === l.employeeId) && l.startDate.startsWith('2026-04'));
+
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <PageHeader
+        title={`Good morning, ${currentUser.first}.`}
+        subtitle={`You lead ${team.length} people across ${deptById(currentUser.dept)?.name}.`}
+      />
+
+      {/* KPIs */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+        <Kpi icon="check" label="Pending approvals" value={pendingLeaves.length + pendingTs.length} sub={`${pendingLeaves.length} leave · ${pendingTs.length} timesheet`} tone="accent" onClick={() => navigate('approvals')}/>
+        <Kpi icon="users" label="Team size" value={team.length} sub="All active"/>
+        <Kpi icon="calendar" label="On leave this month" value={outThisMonth.length} sub="Approved requests"/>
+        <Kpi icon="clock" label="Avg hours / week" value="41.2" sub="Team last week"/>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 20 }}>
+        {/* Pending queue */}
+        <Card title="Needs your review" action={<button style={linkBtn} onClick={() => navigate('approvals')}>Open queue <Icon name="chevron-right" size={12}/></button>} pad={0}>
+          {[...pendingLeaves.map(l => ({ kind: 'leave', item: l })), ...pendingTs.map(t => ({ kind: 'ts', item: t }))].slice(0, 5).map((r, i) => {
+            const emp = employeeById(r.item.employeeId);
+            return (
+              <div key={r.item.id} style={{
+                padding: '14px 20px', borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+                display: 'flex', alignItems: 'center', gap: 12,
+              }}>
+                <Avatar emp={emp} size={36}/>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{emp?.first} {emp?.last}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 1 }}>
+                    {r.kind === 'leave' ? (
+                      <>{LEAVE_TYPES[r.item.type].label} leave · {r.item.days}d · {fmtDateShort(r.item.startDate)}–{fmtDateShort(r.item.endDate)}</>
+                    ) : (
+                      <>Timesheet · {r.item.hours.reduce((a,b)=>a+b,0)}h · week of {fmtDateShort(r.item.weekStart)}</>
+                    )}
+                  </div>
+                </div>
+                <Pill tone={r.kind === 'leave' ? 'pending' : 'submitted'}>{r.kind === 'leave' ? 'LEAVE' : 'TIMESHEET'}</Pill>
+                <Btn size="sm" variant="secondary" onClick={() => navigate('approvals')}>Review</Btn>
+              </div>
+            );
+          })}
+          {pendingLeaves.length + pendingTs.length === 0 && (
+            <div style={{ padding: 40, textAlign: 'center', color: 'var(--ink-3)' }}>
+              <Icon name="check" size={28} style={{ color: 'var(--accent)', marginBottom: 8 }}/>
+              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>Queue is clear</div>
+              <div style={{ fontSize: 12, marginTop: 4 }}>Nothing waiting for your review.</div>
+            </div>
+          )}
+        </Card>
+
+        {/* Team at a glance */}
+        <Card title="Team at a glance" pad={0}>
+          {team.map((e, i) => {
+            const isOut = leaves.some(l => l.status === 'APPROVED' && l.employeeId === e.id && l.startDate <= '2026-04-21' && l.endDate >= '2026-04-21');
+            return (
+              <div key={e.id} style={{
+                padding: '12px 20px', borderTop: i > 0 ? '1px solid var(--border)' : 'none',
+                display: 'flex', alignItems: 'center', gap: 10,
+              }}>
+                <Avatar emp={e} size={32}/>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{e.first} {e.last}</div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>{e.pos}</div>
+                </div>
+                {isOut ? <Pill tone="warn">On leave</Pill> : <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#2E8B57' }}/>}
+              </div>
+            );
+          })}
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function Kpi({ icon, label, value, sub, tone, onClick }) {
+  const isAccent = tone === 'accent';
+  return (
+    <div onClick={onClick} style={{
+      background: isAccent ? 'var(--accent-050)' : 'var(--card)',
+      border: '1px solid ' + (isAccent ? 'var(--accent-200)' : 'var(--border)'),
+      borderRadius: 12, padding: 18, cursor: onClick ? 'pointer' : 'default',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: isAccent ? 'var(--accent-700)' : 'var(--ink-3)' }}>
+        <Icon name={icon} size={15}/>
+        <span style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>{label}</span>
+      </div>
+      <div style={{ marginTop: 10, fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.8, lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: 11.5, color: 'var(--ink-3)', marginTop: 4 }}>{sub}</div>
+    </div>
+  );
+}
+
+// --- Approvals queue ---
+function ApprovalsPage() {
+  const { currentUser, leaves, timesheets, reviewLeave, reviewTimesheet } = useApp();
+  const team = EMPLOYEES.filter(e => e.managerId === currentUser.id);
+  const [tab, setTab] = uState1('leave');
+  const [rejecting, setRejecting] = uState1(null);
+
+  const pendingLeaves = leaves.filter(l => l.status === 'PENDING' && team.some(t => t.id === l.employeeId));
+  const pendingTs = timesheets.filter(t => t.status === 'SUBMITTED' && team.some(m => m.id === t.employeeId));
+
+  return (
+    <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <PageHeader title="Approvals" subtitle={`${pendingLeaves.length + pendingTs.length} items awaiting your review`}/>
+
+      <div style={{ display: 'flex', gap: 4, marginBottom: 16, borderBottom: '1px solid var(--border)' }}>
+        {[['leave', 'Leave requests', pendingLeaves.length], ['ts', 'Timesheets', pendingTs.length]].map(([k, l, c]) => (
+          <button key={k} onClick={() => setTab(k)} style={{
+            padding: '10px 14px', background: 'transparent', border: 0, cursor: 'pointer',
+            fontSize: 13, fontWeight: 600, color: tab === k ? 'var(--ink-1)' : 'var(--ink-3)',
+            borderBottom: tab === k ? '2px solid var(--accent)' : '2px solid transparent', marginBottom: -1,
+          }}>{l} <span style={{ background: c > 0 ? 'var(--accent)' : 'var(--border)', color: c > 0 ? '#fff' : 'var(--ink-3)', fontSize: 11, padding: '1px 8px', borderRadius: 999, marginLeft: 6 }}>{c}</span></button>
+        ))}
+      </div>
+
+      {tab === 'leave' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {pendingLeaves.length === 0 && <EmptyState icon="check" title="No leave requests" body="You're all caught up on leave approvals."/>}
+          {pendingLeaves.map(l => {
+            const emp = employeeById(l.employeeId);
+            const bal = balancesRemaining(emp.id, l.type);
+            return (
+              <div key={l.id} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+                  <Avatar emp={emp} size={44}/>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)' }}>{emp.first} {emp.last}</span>
+                      <span style={{ fontSize: 12, color: 'var(--ink-3)' }}>· {emp.pos}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 24, marginTop: 12, flexWrap: 'wrap' }}>
+                      <LeaveStat label="Type" value={<span style={{ display:'inline-flex',alignItems:'center',gap:6 }}><span style={{ width:8, height:8, borderRadius:2, background: LEAVE_TYPES[l.type].color }}/>{LEAVE_TYPES[l.type].label}</span>}/>
+                      <LeaveStat label="Dates" value={`${fmtDate(l.startDate)} → ${fmtDate(l.endDate)}`}/>
+                      <LeaveStat label="Days" value={<strong>{l.days}</strong>}/>
+                      <LeaveStat label="Balance after" value={bal !== null ? `${bal - l.days} / ${bal}` : '—'}/>
+                      <LeaveStat label="Submitted" value={fmtDate(l.submitted)}/>
+                    </div>
+                    <div style={{
+                      marginTop: 14, padding: '10px 14px', background: 'var(--surface)', borderRadius: 8,
+                      fontSize: 13, color: 'var(--ink-2)', borderLeft: '3px solid var(--accent)',
+                    }}>
+                      <span style={{ fontWeight: 600, color: 'var(--ink-3)', marginRight: 6 }}>Reason:</span>
+                      {l.reason}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, minWidth: 140 }}>
+                    <Btn variant="success" icon="check" onClick={() => reviewLeave(l.id, 'APPROVED')}>Approve</Btn>
+                    <Btn variant="danger" icon="x" onClick={() => setRejecting(l)}>Reject</Btn>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {tab === 'ts' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {pendingTs.length === 0 && <EmptyState icon="check" title="No timesheets pending" body="Your team has no timesheets awaiting review."/>}
+          {pendingTs.map(t => {
+            const emp = employeeById(t.employeeId);
+            const tot = t.hours.reduce((a,b)=>a+b,0);
+            return (
+              <div key={t.id} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <Avatar emp={emp} size={40}/>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{emp.first} {emp.last}</div>
+                    <div style={{ fontSize: 12, color: 'var(--ink-3)' }}>Week of {fmtDate(t.weekStart)} · <strong>{tot}h</strong> {tot > 45 && <span style={{ color: '#8A5A0B' }}>· Overtime</span>}</div>
+                  </div>
+                  <Btn variant="success" icon="check" size="sm" onClick={() => reviewTimesheet(t.id, 'APPROVED')}>Approve</Btn>
+                  <Btn variant="danger" icon="x" size="sm" onClick={() => reviewTimesheet(t.id, 'REJECTED', 'Please adjust and resubmit.')}>Reject</Btn>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 6, marginTop: 14 }}>
+                  {['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d, i) => (
+                    <div key={i} style={{
+                      padding: 10, textAlign: 'center', background: 'var(--surface)', borderRadius: 6,
+                      opacity: (i === 4 || i === 5) ? 0.6 : 1,
+                    }}>
+                      <div style={{ fontSize: 10, color: 'var(--ink-3)', fontWeight: 600, letterSpacing: 0.3 }}>{d.toUpperCase()}</div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: t.hours[i] > 0 ? 'var(--ink-1)' : 'var(--ink-4)', fontFamily: 'var(--font-serif)', marginTop: 2 }}>{t.hours[i]}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {rejecting && <RejectModal leave={rejecting} onClose={() => setRejecting(null)} onConfirm={(note) => { reviewLeave(rejecting.id, 'REJECTED', note); setRejecting(null); }}/>}
+    </div>
+  );
+}
+
+function balancesRemaining(empId, type) {
+  const b = window.LEAVE_BALANCES[empId]?.[type];
+  return b ? b.total - b.used : null;
+}
+
+function LeaveStat({ label, value }) {
+  return (
+    <div>
+      <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.5, textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ fontSize: 13, color: 'var(--ink-1)', marginTop: 3 }}>{value}</div>
+    </div>
+  );
+}
+
+function EmptyState({ icon, title, body }) {
+  return (
+    <div style={{ padding: 60, textAlign: 'center', background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12 }}>
+      <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--accent-100)', color: 'var(--accent-700)', display: 'grid', placeItems: 'center', margin: '0 auto 14px' }}>
+        <Icon name={icon} size={20}/>
+      </div>
+      <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.2 }}>{title}</div>
+      <div style={{ fontSize: 13, color: 'var(--ink-3)', marginTop: 6 }}>{body}</div>
+    </div>
+  );
+}
+
+function RejectModal({ leave, onClose, onConfirm }) {
+  const [note, setNote] = uState1('');
+  return (
+    <Modal title="Reject leave request" onClose={onClose}>
+      <div style={{ fontSize: 13.5, color: 'var(--ink-2)', marginBottom: 14 }}>
+        Rejecting <strong>{employeeById(leave.employeeId)?.first}'s</strong> {LEAVE_TYPES[leave.type].label.toLowerCase()} leave request ({leave.days} days). A reason is required.
+      </div>
+      <Field label="Reason for rejection">
+        <textarea value={note} onChange={e => setNote(e.target.value)} rows="3" style={{ ...inputStyle, resize: 'vertical', fontFamily: 'var(--font-sans)' }} placeholder="Explain so they can plan next steps…"/>
+      </Field>
+      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 16 }}>
+        <Btn variant="secondary" onClick={onClose}>Cancel</Btn>
+        <Btn variant="danger" disabled={!note.trim()} onClick={() => note.trim() && onConfirm(note)} style={!note.trim() ? { opacity: 0.5 } : {}}>Reject request</Btn>
+      </div>
+    </Modal>
+  );
+}
+
+// --- Team page ---
+function TeamPage() {
+  const { currentUser, leaves, timesheets, navigate } = useApp();
+  const team = EMPLOYEES.filter(e => e.managerId === currentUser.id);
+
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <PageHeader title="My Team" subtitle={`${team.length} direct reports in ${deptById(currentUser.dept)?.name}`}/>
+
+      <Card pad={0}>
+        <table style={tableStyle}>
+          <thead><tr>
+            <th style={thStyle}>Name</th>
+            <th style={thStyle}>Position</th>
+            <th style={thStyle}>Annual left</th>
+            <th style={thStyle}>Last week hours</th>
+            <th style={thStyle}>Status</th>
+            <th style={thStyle}/>
+          </tr></thead>
+          <tbody>
+            {team.map(e => {
+              const bal = balancesRemaining(e.id, 'ANNUAL') ?? '—';
+              const lastTs = timesheets.find(t => t.employeeId === e.id && t.weekStart === LAST_WEEK);
+              const lastH = lastTs ? lastTs.hours.reduce((a,b)=>a+b,0) : '—';
+              const isOut = leaves.some(l => l.status === 'APPROVED' && l.employeeId === e.id && l.startDate <= '2026-04-21' && l.endDate >= '2026-04-21');
+              return (
+                <tr key={e.id} style={{ borderTop: '1px solid var(--border)', cursor: 'pointer' }} onClick={() => navigate('employee-detail', { id: e.id })}>
+                  <td style={tdStyle}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <Avatar emp={e} size={32}/>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{e.first} {e.last}</div>
+                        <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>{e.email}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style={tdStyle}>{e.pos}</td>
+                  <td style={tdStyle}>{bal} days</td>
+                  <td style={tdStyle}>{lastH}{typeof lastH === 'number' && lastH > 45 && <span style={{ color: '#8A5A0B', marginLeft: 6, fontSize: 11 }}>· OT</span>}</td>
+                  <td style={tdStyle}>{isOut ? <Pill tone="warn">On leave</Pill> : <Pill tone="approved">Active</Pill>}</td>
+                  <td style={{ ...tdStyle, textAlign: 'right' }}><Icon name="chevron-right" size={14} style={{ color: 'var(--ink-3)' }}/></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Card>
+    </div>
+  );
+}
+
+Object.assign(window, { ManagerDashboard, ApprovalsPage, TeamPage, Kpi, EmptyState, LeaveStat });
+
+// pages-admin.jsx — Admin: Users&Roles, Employees, Assignments, Reports, Settings
+
+function AdminDashboard() {
+  const { leaves, timesheets, navigate } = useApp();
+  const activeEmps = EMPLOYEES.filter(e => e.status === 'ACTIVE').length;
+  const onLeave = leaves.filter(l => l.status === 'APPROVED' && l.startDate <= '2026-04-21' && l.endDate >= '2026-04-21').length;
+  const pendingTotal = leaves.filter(l => l.status === 'PENDING').length + timesheets.filter(t => t.status === 'SUBMITTED').length;
+  const overtime = timesheets.filter(t => t.hours.reduce((a,b)=>a+b,0) > 45).length;
+
+  const byDept = {};
+  EMPLOYEES.forEach(e => { byDept[e.dept] = (byDept[e.dept] || 0) + 1; });
+
+  return (
+    <div style={{ maxWidth: 1300, margin: '0 auto' }}>
+      <PageHeader title="Avaniis People — Overview" subtitle="Org-wide HR metrics across all Avaniis entities"
+        actions={<><Btn variant="secondary" icon="download">Export</Btn><Btn icon="plus" onClick={() => navigate('employees')}>Add employee</Btn></>}/>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 24 }}>
+        <Kpi icon="users" label="Active headcount" value={activeEmps} sub={`${DEPARTMENTS.length} departments · 4 entities`}/>
+        <Kpi icon="calendar" label="On leave today" value={onLeave} sub="Approved absences"/>
+        <Kpi icon="check" label="Pending approvals" value={pendingTotal} sub="Manager queue" tone="accent"/>
+        <Kpi icon="clock" label="Overtime alerts" value={overtime} sub=">45h this week"/>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 20 }}>
+        {/* Headcount by department */}
+        <Card title="Headcount by department" pad={20}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {DEPARTMENTS.map(d => {
+              const c = byDept[d.id] || 0;
+              const max = Math.max(...Object.values(byDept));
+              const pct = (c / max) * 100;
+              return (
+                <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 170, fontSize: 12.5, color: 'var(--ink-1)', fontWeight: 500 }}>{d.name}</div>
+                  <div style={{ flex: 1, height: 22, background: 'var(--surface)', borderRadius: 4, overflow: 'hidden', position: 'relative' }}>
+                    <div style={{ height: '100%', width: pct + '%', background: 'linear-gradient(90deg, var(--accent-700), var(--accent))', borderRadius: 4 }}/>
+                  </div>
+                  <div style={{ width: 40, fontSize: 13, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', textAlign: 'right' }}>{c}</div>
+                  <div style={{ width: 110, fontSize: 11, color: 'var(--ink-3)' }}>{d.entity}</div>
+                </div>
+              );
+            })}
+          </div>
+        </Card>
+
+        {/* Leave usage */}
+        <Card title="Leave utilization (YTD)" pad={20}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {['ANNUAL', 'SICK', 'EMERGENCY'].map(k => {
+              const total = Object.values(LEAVE_BALANCES).reduce((s, b) => s + (b[k]?.total || 0), 0);
+              const used = Object.values(LEAVE_BALANCES).reduce((s, b) => s + (b[k]?.used || 0), 0);
+              const pct = total > 0 ? Math.round((used/total)*100) : 0;
+              return (
+                <div key={k}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, marginBottom: 6 }}>
+                    <span style={{ color: 'var(--ink-1)', fontWeight: 500 }}>{LEAVE_TYPES[k].label}</span>
+                    <span style={{ color: 'var(--ink-3)' }}>{used} / {total} days · <strong style={{ color: 'var(--ink-1)' }}>{pct}%</strong></span>
+                  </div>
+                  <div style={{ height: 8, background: 'var(--surface)', borderRadius: 4, overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: pct + '%', background: LEAVE_TYPES[k].color, borderRadius: 4 }}/>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.4, textTransform: 'uppercase', marginBottom: 10 }}>Upcoming holidays</div>
+            {HOLIDAYS.map(h => (
+              <div key={h.date} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', fontSize: 12.5 }}>
+                <span style={{ color: 'var(--ink-2)' }}>{h.name}</span>
+                <span style={{ color: 'var(--ink-3)' }}>{fmtDate(h.date)}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {/* Recent activity */}
+        <Card title="Recent activity" style={{ gridColumn: 'span 2' }} pad={0}>
+          {leaves.slice(0, 6).map((l, i) => {
+            const emp = employeeById(l.employeeId);
+            const toneMap = { PENDING: 'pending', APPROVED: 'approved', REJECTED: 'rejected' };
+            return (
+              <div key={l.id} style={{ padding: '12px 20px', borderTop: i > 0 ? '1px solid var(--border)' : 'none', display: 'flex', alignItems: 'center', gap: 12 }}>
+                <Avatar emp={emp} size={32}/>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, color: 'var(--ink-1)' }}>
+                    <strong>{emp?.first} {emp?.last}</strong> {l.status === 'PENDING' ? 'submitted' : l.status.toLowerCase()} a {LEAVE_TYPES[l.type].label.toLowerCase()} leave request
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>{fmtDate(l.submitted)} · {l.days} days</div>
+                </div>
+                <Pill tone={toneMap[l.status]}>{l.status}</Pill>
+              </div>
+            );
+          })}
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+// --- Users & Roles ---
+function UsersPage() {
+  const [search, setSearch] = uState1('');
+  const filtered = EMPLOYEES.filter(e => !search || `${e.first} ${e.last} ${e.email}`.toLowerCase().includes(search.toLowerCase()));
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <PageHeader title="Users & Roles" subtitle="Manage system access and role assignments"
+        actions={<Btn icon="plus">Invite user</Btn>}/>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+        <div style={{ flex: 1, position: 'relative' }}>
+          <Icon name="search" size={16} style={{ position: 'absolute', left: 12, top: 10, color: 'var(--ink-3)' }}/>
+          <input placeholder="Search users…" value={search} onChange={e => setSearch(e.target.value)}
+            style={{ ...inputStyle, width: '100%', padding: '9px 12px 9px 36px' }}/>
+        </div>
+      </div>
+      <Card pad={0}>
+        <table style={tableStyle}>
+          <thead><tr>
+            <th style={thStyle}>User</th><th style={thStyle}>Email</th><th style={thStyle}>Role</th>
+            <th style={thStyle}>Department</th><th style={thStyle}>Status</th><th style={thStyle}/>
+          </tr></thead>
+          <tbody>
+            {filtered.slice(0, 15).map(e => {
+              const role = e.id === 'e20' ? 'ADMIN' : (EMPLOYEES.some(x => x.managerId === e.id) ? 'MANAGER' : 'EMPLOYEE');
+              const roleTone = role === 'ADMIN' ? 'rejected' : role === 'MANAGER' ? 'accent' : 'info';
+              return (
+                <tr key={e.id} style={{ borderTop: '1px solid var(--border)' }}>
+                  <td style={tdStyle}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <Avatar emp={e} size={30}/>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{e.first} {e.last}</span>
+                    </div>
+                  </td>
+                  <td style={{ ...tdStyle, fontFamily: 'var(--font-mono)', fontSize: 12 }}>{e.email}</td>
+                  <td style={tdStyle}><Pill tone={roleTone}>{role}</Pill></td>
+                  <td style={tdStyle}>{deptById(e.dept)?.name}</td>
+                  <td style={tdStyle}><Pill tone="approved">{e.status}</Pill></td>
+                  <td style={{ ...tdStyle, textAlign: 'right' }}><Icon name="dot-menu" size={16} style={{ color: 'var(--ink-3)', cursor: 'pointer' }}/></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Card>
+    </div>
+  );
+}
+
+// --- Employees admin ---
+function EmployeesAdminPage() {
+  const { navigate } = useApp();
+  return (
+    <div style={{ maxWidth: 1300, margin: '0 auto' }}>
+      <PageHeader title="Employees" subtitle={`${EMPLOYEES.length} employees across Avaniis`}
+        actions={<><Btn variant="secondary" icon="upload">Import CSV</Btn><Btn icon="plus">Add employee</Btn></>}/>
+      <Card pad={0}>
+        <table style={tableStyle}>
+          <thead><tr>
+            <th style={thStyle}>Employee</th><th style={thStyle}>Position</th><th style={thStyle}>Department</th>
+            <th style={thStyle}>Manager</th><th style={thStyle}>Hired</th><th style={thStyle}>Status</th>
+          </tr></thead>
+          <tbody>
+            {EMPLOYEES.map(e => {
+              const mgr = employeeById(e.managerId);
+              return (
+                <tr key={e.id} style={{ borderTop: '1px solid var(--border)', cursor: 'pointer' }} onClick={() => navigate('employee-detail', { id: e.id })}>
+                  <td style={tdStyle}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <Avatar emp={e} size={30}/>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>{e.first} {e.last}</div>
+                        <div style={{ fontSize: 11, color: 'var(--ink-3)' }}>{e.id.toUpperCase()}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td style={tdStyle}>{e.pos}</td>
+                  <td style={tdStyle}>{deptById(e.dept)?.name}</td>
+                  <td style={tdStyle}>{mgr ? `${mgr.first} ${mgr.last}` : <span style={{ color: 'var(--ink-4)' }}>—</span>}</td>
+                  <td style={tdStyle}>{fmtDate(e.hired)}</td>
+                  <td style={tdStyle}><Pill tone="approved">{e.status}</Pill></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Card>
+    </div>
+  );
+}
+
+// --- Assignments / Org structure ---
+function AssignmentsPage() {
+  return (
+    <div style={{ maxWidth: 1300, margin: '0 auto' }}>
+      <PageHeader title="Assignments & Org Chart" subtitle="Department and reporting structure across Avaniis"
+        actions={<Btn icon="plus">New assignment</Btn>}/>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 24 }}>
+        {MAG_ENTITIES.map(en => {
+          const depts = DEPARTMENTS.filter(d => d.entity === en);
+          const count = EMPLOYEES.filter(e => depts.some(d => d.id === e.dept)).length;
+          return (
+            <div key={en} style={{
+              background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 16,
+              borderLeft: '3px solid var(--accent)',
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.3, textTransform: 'uppercase' }}>Entity</div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', marginTop: 4, letterSpacing: -0.2 }}>{en}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-3)', marginTop: 8 }}>{depts.length} departments · {count} people</div>
+            </div>
+          );
+        })}
+      </div>
+
+      {DEPARTMENTS.map(d => {
+        const head = EMPLOYEES.find(e => e.dept === d.id && e.managerId === 'e20');
+        const members = EMPLOYEES.filter(e => e.dept === d.id && e.id !== head?.id);
+        return (
+          <div key={d.id} style={{
+            background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12,
+            padding: 20, marginBottom: 14,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: members.length > 0 ? 16 : 0 }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--accent-100)', color: 'var(--accent-700)', display: 'grid', placeItems: 'center' }}>
+                <Icon name="briefcase" size={18}/>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>{d.name}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-3)' }}>{d.entity} · {members.length + (head ? 1 : 0)} people</div>
+              </div>
+              {head && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>Head:</span>
+                  <Avatar emp={head} size={28}/>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--ink-1)' }}>{head.first} {head.last}</span>
+                </div>
+              )}
+            </div>
+            {members.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, paddingLeft: 54 }}>
+                {members.map(m => (
+                  <div key={m.id} style={{
+                    display: 'flex', alignItems: 'center', gap: 6, padding: '4px 8px 4px 4px',
+                    background: 'var(--surface)', borderRadius: 20, fontSize: 12,
+                  }}>
+                    <Avatar emp={m} size={22}/>
+                    <span style={{ color: 'var(--ink-1)' }}>{m.first} {m.last}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ReportsPage() {
+  return (
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+      <PageHeader title="Reports" subtitle="Generate and export HR reports"
+        actions={<Btn variant="secondary" icon="download">Schedule report</Btn>}/>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        {[
+          { icon: 'users', title: 'Headcount report', desc: 'Active employees by department and entity', format: 'CSV, PDF' },
+          { icon: 'calendar', title: 'Leave utilization', desc: 'YTD leave usage with balance details', format: 'CSV, PDF' },
+          { icon: 'clock', title: 'Timesheet summary', desc: 'Weekly hours by employee, with overtime', format: 'CSV' },
+          { icon: 'chart', title: 'Attendance overview', desc: 'Working days vs. absences per month', format: 'PDF' },
+          { icon: 'briefcase', title: 'Turnover report', desc: 'Hires and exits by quarter', format: 'CSV, PDF' },
+          { icon: 'shield', title: 'Access audit log', desc: 'Role changes and admin actions', format: 'CSV' },
+        ].map(r => (
+          <div key={r.title} style={{
+            background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 20,
+          }}>
+            <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--accent-100)', color: 'var(--accent-700)', display: 'grid', placeItems: 'center', marginBottom: 12 }}>
+              <Icon name={r.icon} size={18}/>
+            </div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>{r.title}</div>
+            <div style={{ fontSize: 12.5, color: 'var(--ink-3)', marginTop: 4, lineHeight: 1.5 }}>{r.desc}</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14 }}>
+              <span style={{ fontSize: 10.5, color: 'var(--ink-4)', letterSpacing: 0.4, textTransform: 'uppercase' }}>{r.format}</span>
+              <Btn size="sm" variant="secondary" icon="download">Export</Btn>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Landing Visuals admin page ────────────────────────────────────────────────
+function LandingImagesPage() {
+  const { landingImages, setLandingImages } = useApp();
+  const [dragging, setDragging] = React.useState(false);
+  const [uploading, setUploading] = React.useState(false);
+  const inputRef = React.useRef();
+
+  function readFiles(files) {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    const readers = Array.from(files).filter(f => f.type.startsWith('image/')).map(file =>
+      new Promise(resolve => {
+        const r = new FileReader();
+        r.onload = e => resolve({
+          src: e.target.result,
+          alt: file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+          id: 'up-' + Date.now() + '-' + Math.random().toString(36).slice(2,6),
+        });
+        r.readAsDataURL(file);
+      })
+    );
+    Promise.all(readers).then(newImgs => {
+      setLandingImages([...landingImages, ...newImgs]);
+      setUploading(false);
+    });
+  }
+
+  function removeImage(id) {
+    const next = landingImages.filter(i => i.id !== id);
+    setLandingImages(next.length > 0 ? next : DEFAULT_LANDING_IMAGES);
+  }
+
+  function moveImage(id, dir) {
+    const idx = landingImages.findIndex(i => i.id === id);
+    if (idx < 0) return;
+    const next = [...landingImages];
+    const swap = idx + dir;
+    if (swap < 0 || swap >= next.length) return;
+    [next[idx], next[swap]] = [next[swap], next[idx]];
+    setLandingImages(next);
+  }
+
+  function resetDefaults() {
+    setLandingImages(DEFAULT_LANDING_IMAGES);
+  }
+
+  function onDrop(e) {
+    e.preventDefault(); setDragging(false);
+    readFiles(e.dataTransfer.files);
+  }
+
+  return (
+    <div style={{ maxWidth: 900, margin: '0 auto' }}>
+      <PageHeader
+        title="Landing Visuals"
+        subtitle="Manage the background images shown on the sign-in page. Supports any image format."
+        actions={
+          <div style={{ display:'flex', gap:8 }}>
+            <Btn variant="secondary" onClick={resetDefaults}>Reset to defaults</Btn>
+            <Btn icon="upload" onClick={() => inputRef.current?.click()} disabled={uploading}>
+              {uploading ? 'Uploading…' : 'Upload images'}
+            </Btn>
+            <input ref={inputRef} type="file" accept="image/*" multiple style={{ display:'none' }}
+              onChange={e => readFiles(e.target.files)}/>
+          </div>
+        }
+      />
+
+      {/* Drop zone */}
+      <div
+        onDragOver={e => { e.preventDefault(); setDragging(true); }}
+        onDragLeave={() => setDragging(false)}
+        onDrop={onDrop}
+        onClick={() => inputRef.current?.click()}
+        style={{
+          border: `2px dashed ${dragging ? 'var(--accent)' : 'var(--border)'}`,
+          borderRadius: 12, padding: '28px 24px', textAlign: 'center', cursor: 'pointer',
+          background: dragging ? 'var(--accent-050)' : 'var(--surface)',
+          transition: 'all .15s', marginBottom: 24,
+        }}
+      >
+        <Icon name="upload" size={28} style={{ color: dragging ? 'var(--accent)' : 'var(--ink-4)', marginBottom: 10 }}/>
+        <div style={{ fontSize: 14, fontWeight: 600, color: dragging ? 'var(--accent)' : 'var(--ink-2)' }}>
+          {dragging ? 'Drop to upload' : 'Drag & drop images here, or click to browse'}
+        </div>
+        <div style={{ fontSize: 12, color: 'var(--ink-4)', marginTop: 4 }}>
+          JPG, PNG, WebP · Max 10MB each · Multiple files accepted
+        </div>
+      </div>
+
+      {/* Image grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16, marginBottom: 24 }}>
+        {landingImages.map((img, idx) => (
+          <div key={img.id} style={{
+            border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden',
+            background: 'var(--card)', position: 'relative',
+          }}>
+            {/* Preview */}
+            <div style={{ position: 'relative', height: 160 }}>
+              <img src={img.src} alt={img.alt}
+                style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'center', display:'block' }}/>
+              {/* Slide number badge */}
+              <div style={{
+                position:'absolute', top:10, left:10, background:'rgba(0,0,0,0.6)',
+                color:'#fff', fontSize:11, fontWeight:700, borderRadius:20,
+                padding:'2px 9px', backdropFilter:'blur(4px)',
+              }}>#{idx + 1}</div>
+              {/* Delete */}
+              <button onClick={() => removeImage(img.id)} style={{
+                position:'absolute', top:8, right:8, width:28, height:28,
+                borderRadius:'50%', background:'rgba(0,0,0,0.55)', border:0, cursor:'pointer',
+                color:'#fff', display:'grid', placeItems:'center', backdropFilter:'blur(4px)',
+              }}>
+                <Icon name="x" size={14}/>
+              </button>
+            </div>
+
+            {/* Caption + order controls */}
+            <div style={{ padding:'10px 14px', display:'flex', alignItems:'center', gap:8 }}>
+              <div style={{ flex:1, fontSize:12.5, color:'var(--ink-2)', fontWeight:500, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                {img.alt}
+              </div>
+              <button onClick={() => moveImage(img.id, -1)} disabled={idx === 0} style={{
+                padding:'4px 8px', border:'1px solid var(--border)', borderRadius:6,
+                background:'var(--card)', cursor: idx === 0 ? 'not-allowed' : 'pointer',
+                opacity: idx === 0 ? 0.4 : 1, color:'var(--ink-3)',
+              }}><Icon name="chevron-left" size={12}/></button>
+              <button onClick={() => moveImage(img.id, 1)} disabled={idx === landingImages.length - 1} style={{
+                padding:'4px 8px', border:'1px solid var(--border)', borderRadius:6,
+                background:'var(--card)', cursor: idx === landingImages.length - 1 ? 'not-allowed' : 'pointer',
+                opacity: idx === landingImages.length - 1 ? 0.4 : 1, color:'var(--ink-3)',
+              }}><Icon name="chevron-right" size={12}/></button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Info notice */}
+      <div style={{ padding:'14px 18px', background:'var(--accent-050)', borderRadius:10, border:'1px solid var(--accent-100)', display:'flex', gap:12, alignItems:'flex-start' }}>
+        <Icon name="info" size={16} style={{ color:'var(--accent-700)', flexShrink:0, marginTop:1 }}/>
+        <div style={{ fontSize:12.5, color:'var(--accent-700)', lineHeight:1.6 }}>
+          <strong>How it works:</strong> Uploaded images are stored in your browser and used immediately on the sign-in page.
+          Images auto-transition every 7 seconds with a cinematic Ken Burns zoom effect. Reorder with the arrows to control the sequence.
+          Changes persist across sessions in this browser.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SettingsPage() {
+  return (
+    <div style={{ maxWidth: 900, margin: '0 auto' }}>
+      <PageHeader title="System Settings" subtitle="Configure leave policies, workflow rules, and integrations"/>
+      <Card title="Leave policies" pad={0}>
+        {Object.entries(LEAVE_TYPES).slice(0, 4).map(([k, v], i) => (
+          <div key={k} style={{ padding: '16px 20px', borderTop: i > 0 ? '1px solid var(--border)' : 'none', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <span style={{ width: 10, height: 10, borderRadius: 3, background: v.color }}/>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-1)' }}>{v.label} leave</div>
+              <div style={{ fontSize: 11.5, color: 'var(--ink-3)', marginTop: 2 }}>{k === 'UNPAID' ? 'Unlimited, unpaid — approval required' : `${v.days} days / year, paid`}</div>
+            </div>
+            <Btn size="sm" variant="secondary">Edit</Btn>
+          </div>
+        ))}
+      </Card>
+      <div style={{ height: 16 }}/>
+      <Card title="Approval workflows" pad={20}>
+        <div style={{ fontSize: 13, color: 'var(--ink-2)', lineHeight: 1.7 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Pill tone="accent">1</Pill> <span>Employee submits request</span>
+          </div>
+          <div style={{ marginLeft: 14, marginTop: 4, marginBottom: 4, color: 'var(--ink-4)', borderLeft: '2px dashed var(--border)', paddingLeft: 14, height: 20 }}/>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Pill tone="accent">2</Pill> <span>Direct manager reviews within 2 business days</span>
+          </div>
+          <div style={{ marginLeft: 14, marginTop: 4, marginBottom: 4, color: 'var(--ink-4)', borderLeft: '2px dashed var(--border)', paddingLeft: 14, height: 20 }}/>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Pill tone="approved">3</Pill> <span>Balance auto-deducts on approval · notification sent</span>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+Object.assign(window, {
+  AdminDashboard, UsersPage, EmployeesAdminPage, AssignmentsPage, ReportsPage, SettingsPage, LandingImagesPage,
+});
+
+// ─── Router + App shell ──────────────────────────────────────────────────────
+
+const TWEAK_DEFAULTS = {
+  "role": "employee",
+  "accent": "teal",
+  "density": "comfortable",
+  "sidebarCollapsed": false
+};
+
+// ─── Login / Hero page ───────────────────────────────────────────────────────
+
+// Theme definitions
+const THEMES = [
+  { id: 'teal',     label: 'Teal',     color: '#2E6170' },
+  { id: 'forest',   label: 'Forest',   color: '#2F5D36' },
+  { id: 'midnight', label: 'Midnight', color: '#2B4890' },
+  { id: 'plum',     label: 'Plum',     color: '#6B3458' },
+  { id: 'amber',    label: 'Amber',    color: '#8E5E18' },
+  { id: 'rose',     label: 'Rose',     color: '#A03868' },
+  { id: 'slate',    label: 'Slate',    color: '#365578' },
+];
+
+const LANG = {
+  en: {
+    dir: 'ltr',
+    appName: 'AVANIIS HR System',
+    tagline: 'Human Capital Management',
+    welcome: 'Welcome back',
+    subtitle: 'Sign in to your account to continue',
+    emailLabel: 'Email address',
+    emailPh: 'you@avaniis.example',
+    passLabel: 'Password',
+    passPh: 'Enter your password',
+    signIn: 'Sign In',
+    signing: 'Signing in…',
+    forgot: 'Forgot password?',
+    demoTitle: 'Demo accounts',
+    demoHint: 'Click any account to auto-fill — any password works',
+    colorTheme: 'Color theme',
+    appearance: 'Appearance',
+    language: 'Language',
+    light: 'Light',
+    dark: 'Dark',
+    errorInvalid: 'Email not found. Use a @avaniis.example address from the demo list.',
+    footer: 'AVANIIS HR · Confidential · Avaniis © 2026',
+    scene0: 'Ultra-Prime Villas · Avaniis Developments, Dubai Canal',
+    scene1: 'Waterfront Residences · Avaniis Lifestyle, Palm Jumeirah',
+    scene2: 'Executive Offices · AVANIIS Tower, Dubai',
+  },
+  ar: {
+    dir: 'rtl',
+    appName: 'نظام أفانيس للموارد البشرية',
+    tagline: 'إدارة رأس المال البشري',
+    welcome: 'مرحباً بعودتك',
+    subtitle: 'سجّل دخولك للمتابعة',
+    emailLabel: 'البريد الإلكتروني',
+    emailPh: 'you@avaniis.example',
+    passLabel: 'كلمة المرور',
+    passPh: 'أدخل كلمة المرور',
+    signIn: 'تسجيل الدخول',
+    signing: 'جارٍ تسجيل الدخول…',
+    forgot: 'نسيت كلمة المرور؟',
+    demoTitle: 'حسابات تجريبية',
+    demoHint: 'انقر على أي حساب للملء التلقائي — أي كلمة مرور تعمل',
+    colorTheme: 'لون المظهر',
+    appearance: 'المظهر',
+    language: 'اللغة',
+    light: 'فاتح',
+    dark: 'داكن',
+    errorInvalid: 'البريد غير موجود. استخدم بريداً @avaniis.example من القائمة التجريبية.',
+    footer: 'أفانيس للموارد البشرية · سري · أفانيس © 2026',
+    scene0: 'فلل فاخرة · تطوير ماج، قناة دبي المائية',
+    scene1: 'مساكن واجهة بحرية · أفانيس لايف ستايل، نخلة جميرا',
+    scene2: 'مكاتب تنفيذية · برج أفانيس، دبي',
+  },
+};
+
+// Determine role from employee record
+function roleFor(emp) {
+  if (!emp) return null;
+  if (emp.id === 'e20') return 'admin';
+  if (EMPLOYEES.some(e => e.managerId === emp.id)) return 'manager';
+  return 'employee';
+}
+
+// ── Landing slideshow (crossfade + Ken Burns) ─────────────────────────────────
+
+const DEFAULT_LANDING_IMAGES = [
+  { src: 'avaniis_img3_villa.jpg',  alt: 'AVANIIS Ultra-Prime Villas · Dubai Canal',  id: 'def-0' },
+  { src: 'avaniis_img2_pool.jpg',   alt: 'Waterfront Residences · Palm Jumeirah',     id: 'def-1' },
+  { src: 'avaniis_img1_office.jpg', alt: 'Executive Offices · AVANIIS Tower, Dubai',  id: 'def-2' },
+];
+
+function Scene({ img, slotIndex, active }) {
+  const kb = ['kenBurns0','kenBurns1','kenBurns2'][slotIndex % 3];
+  return (
+    <div style={{
+      position: 'absolute', inset: 0, overflow: 'hidden',
+      opacity: active ? 1 : 0,
+      transition: 'opacity 2s cubic-bezier(0.4,0,0.2,1)',
+      willChange: 'opacity',
+    }}>
+      <img
+        key={img.id + (active ? '-on' : '-off')}
+        src={img.src} alt={img.alt}
+        style={{
+          width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center',
+          display: 'block', transformOrigin: 'center',
+          animation: active ? `${kb} 10s ease-in-out forwards` : 'none',
+        }}
+      />
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(to top, rgba(6,12,20,0.9) 0%, rgba(6,12,20,0.48) 38%, rgba(6,12,20,0.18) 72%, rgba(6,12,20,0.32) 100%)',
+      }}/>
+    </div>
+  );
+}
+
+// ── Avaniis × AVANIIS Logo ─────────────────────────────────────────────────────
+
+function MagAvaniisLogo({ compact = false }) {
+  return (
+    <img
+      src="avaniis_logo.svg"
+      alt="Avaniis × AVANIIS"
+      style={{
+        height: compact ? 48 : 68,
+        width: 'auto',
+        display: 'block',
+        filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.4))',
+        borderRadius: 4,
+      }}
+    />
+  );
+}
+
+// ── Login Page ─────────────────────────────────────────────────────────────
+
+function LoginPage({ onLogin, accent, setAccent, darkMode, setDarkMode, lang, setLang, landingImages = DEFAULT_LANDING_IMAGES }) {
+  const t = LANG[lang];
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [showPass, setShowPass] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const [signing, setSigning] = React.useState(false);
+  const [scene, setScene] = React.useState(0);
+  const [showDemoHint, setShowDemoHint] = React.useState(false);
+
+  // Auto-rotate background scenes
+  React.useEffect(() => {
+    const timer = setInterval(() => setScene(s => (s + 1) % Math.max(1, landingImages.length)), 7000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const demoAccounts = [
+    { email: 'aisha.khalidi@avaniis.example', name: 'Aisha Khalidi', role: 'Employee' },
+    { email: 'omar.haddad@avaniis.example',   name: 'Omar Haddad',   role: 'Manager' },
+    { email: 'noura.alhashimi@avaniis.example', name: 'Noura Al-Hashimi', role: 'Admin' },
+  ];
+
+  const cardBg   = darkMode ? 'rgba(15,22,35,0.97)' : 'rgba(255,255,255,0.98)';
+  const ink1     = darkMode ? '#EEF2F7' : '#151A22';
+  const ink2     = darkMode ? '#8A9AB0' : '#6E7885';
+  const inputBg  = darkMode ? 'rgba(255,255,255,0.05)' : '#FAFBFC';
+  const inputBdr = darkMode ? '#2A3548' : '#D8DDE5';
+  const divClr   = darkMode ? '#2A3548' : '#E8ECF0';
+
+  function handleSignIn(e) {
+    e.preventDefault();
+    setError('');
+    const emp = EMPLOYEES.find(em => em.email.toLowerCase() === email.toLowerCase().trim());
+    if (!emp) { setError(t.errorInvalid); return; }
+    setSigning(true);
+    setTimeout(() => onLogin(roleFor(emp)), 800);
+  }
+
+  return (
+    <div style={{ width:'100vw', height:'100vh', display:'flex', position:'relative', overflow:'hidden', direction: t.dir, fontFamily:'var(--font-sans)' }}>
+
+      {/* ── LEFT: Rotating hero imagery ── */}
+      <div style={{ flex: 1, position:'relative', overflow:'hidden', display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
+        {landingImages.map((img, i) => <Scene key={img.id} img={img} slotIndex={i} active={scene === i}/>)}
+
+        {/* ── Brand overlay: top-left logo + bottom caption + thumbnail strip ── */}
+
+        {/* Logo top-left */}
+        <div style={{ position:'absolute', top:36, left:44, zIndex:20 }}>
+          <MagAvaniisLogo/>
+        </div>
+
+        {/* Bottom panel */}
+        <div style={{ position:'absolute', bottom:0, left:0, right:0, zIndex:20, padding:'0 44px 36px' }}>
+          {/* Tagline + title */}
+          <div style={{ color:'#fff', marginBottom:22 }}>
+            <div style={{ fontSize:11.5, letterSpacing:4, textTransform:'uppercase', opacity:0.5, marginBottom:8, fontWeight:600 }}>
+              {t.tagline}
+            </div>
+            <div style={{ fontSize:38, fontWeight:500, fontFamily:'var(--font-serif)', letterSpacing:-0.9, lineHeight:1.15, maxWidth:440 }}>
+              {t.appName}
+            </div>
+          </div>
+
+          {/* Minimal progress bar — no thumbs, pure transition style */}
+          <div style={{ display:'flex', gap:6, marginTop:20 }}>
+            {landingImages.map((_, i) => (
+              <div key={i} style={{
+                height: 3, borderRadius: 99,
+                background: 'rgba(255,255,255,0.9)',
+                flex: i === scene ? 3 : 1,
+                opacity: i === scene ? 1 : 0.3,
+                transition: 'all 0.5s ease',
+                cursor: 'pointer',
+              }} onClick={() => setScene(i)}/>
+            ))}
+          </div>
+        </div>
+
+        {/* Cinematic vignette — covers the image but sits below UI */}
+        <div style={{ position:'absolute', inset:0, pointerEvents:'none', zIndex:10,
+          background:'linear-gradient(to top, rgba(6,12,20,0.88) 0%, rgba(6,12,20,0.2) 45%, rgba(6,12,20,0.28) 100%)',
+        }}/>
+      </div>
+
+      {/* ── RIGHT: Login panel ── */}
+      <div style={{ width:440, flexShrink:0, background:cardBg, display:'flex', flexDirection:'column', justifyContent:'space-between', boxShadow:'-8px 0 60px rgba(0,0,0,0.35)', position:'relative', zIndex:20, overflowY:'auto' }}>
+
+        {/* Top bar with controls */}
+        <div style={{ padding:'24px 36px 0', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+          {/* Language toggle */}
+          <div style={{ display:'flex', alignItems:'center', gap:0, background: darkMode ? 'rgba(255,255,255,0.06)' : '#F0F2F5', borderRadius:7, overflow:'hidden' }}>
+            {['en','ar'].map(l => (
+              <button key={l} onClick={() => setLang(l)} style={{
+                padding:'6px 12px', fontSize:12, fontWeight:600, border:0, cursor:'pointer',
+                background: lang===l ? 'var(--accent)' : 'transparent',
+                color: lang===l ? '#fff' : ink2,
+                transition:'all .15s',
+              }}>{l==='en' ? 'EN' : 'عربي'}</button>
+            ))}
+          </div>
+
+          {/* Dark/light toggle */}
+          <button onClick={() => setDarkMode(!darkMode)} style={{
+            display:'flex', alignItems:'center', gap:6, padding:'6px 12px',
+            background: darkMode ? 'rgba(255,255,255,0.07)' : '#F0F2F5',
+            border:'none', borderRadius:7, cursor:'pointer', fontSize:12, fontWeight:600, color:ink2,
+          }}>
+            {darkMode ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            )}
+            {darkMode ? t.light : t.dark}
+          </button>
+        </div>
+
+        {/* Login form */}
+        <div style={{ padding:'0 36px', flex:1, display:'flex', flexDirection:'column', justifyContent:'center', gap:0 }}>
+          <div style={{ marginBottom:32 }}>
+            <div style={{ fontSize:26, fontWeight:600, color:ink1, fontFamily:'var(--font-serif)', letterSpacing:-0.5, marginBottom:6 }}>{t.welcome}</div>
+            <div style={{ fontSize:13.5, color:ink2 }}>{t.subtitle}</div>
+          </div>
+
+          <form onSubmit={handleSignIn} style={{ display:'flex', flexDirection:'column', gap:18 }}>
+            {/* Email */}
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              <label style={{ fontSize:11.5, fontWeight:600, color:ink2, letterSpacing:0.4, textTransform:'uppercase' }}>{t.emailLabel}</label>
+              <input
+                className="login-field"
+                type="email" required
+                placeholder={t.emailPh}
+                value={email}
+                onChange={e => { setEmail(e.target.value); setError(''); }}
+                style={{ background:inputBg, border:`1.5px solid ${inputBdr}`, color:ink1 }}
+              />
+            </div>
+
+            {/* Password */}
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                <label style={{ fontSize:11.5, fontWeight:600, color:ink2, letterSpacing:0.4, textTransform:'uppercase' }}>{t.passLabel}</label>
+                <button type="button" style={{ fontSize:12, color:'var(--accent)', background:'none', border:0, cursor:'pointer', fontWeight:500 }}>{t.forgot}</button>
+              </div>
+              <div style={{ position:'relative' }}>
+                <input
+                  className="login-field"
+                  type={showPass ? 'text' : 'password'} required
+                  placeholder={t.passPh}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  style={{ background:inputBg, border:`1.5px solid ${inputBdr}`, color:ink1, paddingRight:42 }}
+                />
+                <button type="button" onClick={() => setShowPass(!showPass)} style={{
+                  position:'absolute', right:12, top:'50%', transform:'translateY(-50%)',
+                  background:'none', border:0, cursor:'pointer', color:ink2, display:'grid', placeItems:'center',
+                }}>
+                  {showPass
+                    ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/></svg>
+                    : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            {/* Error */}
+            {error && (
+              <div style={{ padding:'10px 14px', background:'rgba(180,50,50,0.1)', border:'1px solid rgba(180,50,50,0.3)', borderRadius:8, fontSize:12.5, color:'#C03030', lineHeight:1.5 }}>
+                {error}
+              </div>
+            )}
+
+            {/* Sign In button */}
+            <button type="submit" disabled={signing} style={{
+              padding:'12px', fontSize:14, fontWeight:700, letterSpacing:0.3,
+              background:'var(--accent)', color:'#fff', border:'none', borderRadius:9,
+              cursor:signing ? 'not-allowed' : 'pointer', opacity:signing ? 0.75 : 1,
+              boxShadow:'0 6px 24px rgba(0,0,0,0.25)', transition:'all .15s',
+              display:'flex', alignItems:'center', justifyContent:'center', gap:8,
+            }}>
+              {signing && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" style={{ animation:'spin 0.8s linear infinite' }}><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>}
+              {signing ? t.signing : t.signIn}
+            </button>
+          </form>
+
+          {/* Divider + Demo accounts */}
+          <div style={{ marginTop:28 }}>
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
+              <div style={{ flex:1, height:1, background:divClr }}/>
+              <button onClick={() => setShowDemoHint(!showDemoHint)} style={{
+                fontSize:11.5, color:ink2, background:'none', border:`1px solid ${divClr}`,
+                borderRadius:99, padding:'3px 12px', cursor:'pointer', fontWeight:500,
+              }}>{t.demoTitle}</button>
+              <div style={{ flex:1, height:1, background:divClr }}/>
+            </div>
+
+            {showDemoHint && (
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                <div style={{ fontSize:11, color:ink2, marginBottom:4 }}>{t.demoHint}</div>
+                {demoAccounts.map(d => (
+                  <button key={d.email} onClick={() => { setEmail(d.email); setPassword('demo1234'); setShowDemoHint(false); }} style={{
+                    display:'flex', alignItems:'center', gap:10, padding:'9px 12px',
+                    background: darkMode ? 'rgba(255,255,255,0.05)' : '#F6F8FA',
+                    border:`1px solid ${divClr}`, borderRadius:8, cursor:'pointer', textAlign:t.dir==='rtl'?'right':'left',
+                  }}>
+                    <div style={{ width:28, height:28, borderRadius:'50%', background:'var(--accent)', color:'#fff', display:'grid', placeItems:'center', fontSize:10, fontWeight:700, flexShrink:0 }}>
+                      {d.name.split(' ').map(n=>n[0]).join('').slice(0,2)}
+                    </div>
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <div style={{ fontSize:12.5, fontWeight:600, color:ink1 }}>{d.name}</div>
+                      <div style={{ fontSize:11, color:ink2, fontFamily:'var(--font-mono)' }}>{d.email}</div>
+                    </div>
+                    <div style={{ fontSize:10, fontWeight:600, color:'var(--accent)', letterSpacing:0.5, textTransform:'uppercase',
+                      background:'var(--accent-100)', padding:'2px 8px', borderRadius:99 }}>{d.role}</div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Theme picker */}
+          <div style={{ marginTop:28 }}>
+            <div style={{ fontSize:11, fontWeight:600, color:ink2, letterSpacing:0.5, textTransform:'uppercase', marginBottom:10 }}>{t.colorTheme}</div>
+            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
+              {THEMES.map(th => (
+                <button key={th.id} onClick={() => setAccent(th.id)} title={th.label} style={{
+                  width:28, height:28, borderRadius:7, background:th.color, border:0, cursor:'pointer',
+                  outline: accent===th.id ? `2.5px solid ${th.color}` : '2px solid transparent',
+                  outlineOffset:2.5, transition:'all .15s',
+                  boxShadow: accent===th.id ? `0 0 0 4px ${th.color}30` : 'none',
+                }}/>
+              ))}
+            </div>
+            <div style={{ fontSize:11, color:ink2, marginTop:6, opacity:0.6 }}>
+              {THEMES.find(t=>t.id===accent)?.label}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div style={{ padding:'20px 36px', borderTop:`1px solid ${divClr}` }}>
+          <div style={{ fontSize:11, color:ink2, opacity:0.6, textAlign:'center' }}>{t.footer}</div>
+        </div>
+      </div>
+
+      {/* Spin animation */}
+      <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
+    </div>
+  );
+}
+
+
+function Router() {
+  const { role, route } = useApp();
+  let page;
+  if (route.page === 'employee-detail') page = <EmployeeDetailPage id={route.params?.id}/>;
+  else if (role === 'employee') {
+    if (route.page === 'dashboard') page = <EmployeeDashboard/>;
+    else if (route.page === 'leave') page = <LeavePage/>;
+    else if (route.page === 'timesheet') page = <TimesheetPage/>;
+    else if (route.page === 'directory') page = <DirectoryPage/>;
+    else if (route.page === 'profile') page = <EmployeeDetailPage id={null}/>;
+    else page = <EmployeeDashboard/>;
+  } else if (role === 'manager') {
+    if (route.page === 'dashboard') page = <ManagerDashboard/>;
+    else if (route.page === 'approvals') page = <ApprovalsPage/>;
+    else if (route.page === 'team') page = <TeamPage/>;
+    else if (route.page === 'leave') page = <LeavePage/>;
+    else if (route.page === 'timesheet') page = <TimesheetPage/>;
+    else if (route.page === 'directory') page = <DirectoryPage/>;
+    else page = <ManagerDashboard/>;
+  } else {
+    if (route.page === 'dashboard') page = <AdminDashboard/>;
+    else if (route.page === 'users') page = <UsersPage/>;
+    else if (route.page === 'employees') page = <EmployeesAdminPage/>;
+    else if (route.page === 'assignments') page = <AssignmentsPage/>;
+    else if (route.page === 'leave-admin') page = <LeavePage/>;
+    else if (route.page === 'timesheet-admin') page = <TimesheetPage/>;
+    else if (route.page === 'reports') page = <ReportsPage/>;
+    else if (route.page === 'landing-images') page = <LandingImagesPage/>;
+    else if (route.page === 'settings') page = <SettingsPage/>;
+    else page = <AdminDashboard/>;
+  }
+  return <div key={role + '/' + route.page} className="page-in" style={{ padding: 'calc(28px * var(--density))' }}>{page}</div>;
+}
+
+function TweaksPanel({ onClose, accent, setAccent, density, setDensity, sidebarCollapsed, setSidebarCollapsed }) {
+  const { role, setRole } = useApp();
+  const tLabel = { fontSize: 10.5, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: 0.4, textTransform: 'uppercase' };
+  return (
+    <div style={{
+      position: 'fixed', top: 80, right: 20, width: 280, background: 'var(--card)',
+      border: '1px solid var(--border)', borderRadius: 14, zIndex: 60,
+      boxShadow: '0 24px 60px rgba(0,0,0,0.18)', overflow: 'hidden',
+    }}>
+      <div style={{ padding: '14px 18px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
+        <Icon name="tweaks" size={15} style={{ color: 'var(--accent)' }}/>
+        <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-1)', flex: 1, fontFamily: 'var(--font-serif)', letterSpacing: -0.1 }}>Tweaks</span>
+        <button onClick={onClose} style={{ ...iconBtn, width: 28, height: 28, border: 0 }}><Icon name="x" size={14}/></button>
+      </div>
+      <div style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div>
+          <div style={tLabel}>Role</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginTop: 8 }}>
+            {['employee', 'manager', 'admin'].map(r => (
+              <button key={r} onClick={() => setRole(r)} style={{
+                padding: '8px 6px', fontSize: 11.5, fontWeight: 600, textTransform: 'capitalize',
+                borderRadius: 7, cursor: 'pointer',
+                border: '1px solid ' + (role === r ? 'var(--accent)' : 'var(--border)'),
+                background: role === r ? 'var(--accent-100)' : 'var(--card)',
+                color: role === r ? 'var(--accent-700)' : 'var(--ink-2)',
+              }}>{r}</button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div style={tLabel}>Accent color</div>
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            {[['teal', '#2E6170'], ['plum', '#6B3458'], ['amber', '#8E5E18'], ['forest', '#2F5D36']].map(([k, c]) => (
+              <button key={k} onClick={() => setAccent(k)} title={k} style={{
+                width: 34, height: 34, borderRadius: 10, background: c, border: 0, cursor: 'pointer',
+                outline: accent === k ? '2px solid ' + c : 'none', outlineOffset: 2,
+              }}/>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div style={tLabel}>Density</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginTop: 8 }}>
+            {['comfortable', 'compact'].map(d => (
+              <button key={d} onClick={() => setDensity(d)} style={{
+                padding: '8px 10px', fontSize: 12, fontWeight: 600, textTransform: 'capitalize',
+                borderRadius: 7, cursor: 'pointer',
+                border: '1px solid ' + (density === d ? 'var(--accent)' : 'var(--border)'),
+                background: density === d ? 'var(--accent-100)' : 'var(--card)',
+                color: density === d ? 'var(--accent-700)' : 'var(--ink-2)',
+              }}>{d}</button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div style={tLabel}>Sidebar</div>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 10, fontSize: 13, color: 'var(--ink-2)' }}>
+            <input type="checkbox" checked={sidebarCollapsed} onChange={e => setSidebarCollapsed(e.target.checked)}/>
+            Collapsed
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loginRole, setLoginRole] = React.useState(TWEAK_DEFAULTS.role);
+  const [accent, setAccentState] = React.useState(TWEAK_DEFAULTS.accent);
+  const [density, setDensityState] = React.useState(TWEAK_DEFAULTS.density);
+  const [sidebarCollapsed, setSidebarCollapsedState] = React.useState(TWEAK_DEFAULTS.sidebarCollapsed);
+  const [tweaksOpen, setTweaksOpen] = React.useState(false);
+  const [darkMode, setDarkMode] = React.useState(false);
+  const [lang, setLang] = React.useState('en');
+  const [landingImages, setLandingImagesState] = React.useState(() => {
+    try {
+      const s = localStorage.getItem('avaniis_landing_images');
+      return s ? JSON.parse(s) : DEFAULT_LANDING_IMAGES;
+    } catch { return DEFAULT_LANDING_IMAGES; }
+  });
+  function setLandingImages(imgs) {
+    setLandingImagesState(imgs);
+    try { localStorage.setItem('avaniis_landing_images', JSON.stringify(imgs)); } catch {}
+  }
+
+  React.useEffect(() => { document.body.setAttribute('data-accent', accent); }, [accent]);
+  React.useEffect(() => { document.body.setAttribute('data-density', density); }, [density]);
+  React.useEffect(() => { document.body.setAttribute('data-dark', darkMode); }, [darkMode]);
+  React.useEffect(() => { document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr'); }, [lang]);
+
+  const setAccent = (v) => setAccentState(v);
+  const setDensity = (v) => setDensityState(v);
+  const setSidebarCollapsed = (v) => setSidebarCollapsedState(v);
+
+  if (!loggedIn) {
+    return (
+      <LoginPage
+        onLogin={(role) => { setLoginRole(role); setLoggedIn(true); }}
+        accent={accent} setAccent={setAccent}
+        darkMode={darkMode} setDarkMode={setDarkMode}
+        lang={lang} setLang={setLang}
+        landingImages={landingImages}
+      />
+    );
+  }
+
+  return (
+    <AppProvider initialRole={loginRole} landingImages={landingImages} setLandingImages={setLandingImages}>
+      <div className="browser-wrap">
+        <ChromeWindow
+          tabs={[{ title: 'AVANIIS HR System' }, { title: 'Calendar' }, { title: 'Docs' }]}
+          activeIndex={0}
+          url="people.avaniis.ae/dashboard"
+          width="100%"
+          height="100%"
+        >
+          <div style={{ display: 'flex', height: '100%', background: 'var(--bg)' }}>
+            <Sidebar collapsed={sidebarCollapsed}/>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+              <TopbarWithTweaks
+                onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+                onToggleTweaks={() => setTweaksOpen(o => !o)}
+                onSignOut={() => setLoggedIn(false)}
+              />
+              <main style={{ flex: 1, overflow: 'auto' }}>
+                <Router/>
+              </main>
+            </div>
+          </div>
+        </ChromeWindow>
+        {tweaksOpen && (
+          <TweaksPanel
+            onClose={() => setTweaksOpen(false)}
+            accent={accent} setAccent={setAccent}
+            density={density} setDensity={setDensity}
+            sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed}
+          />
+        )}
+        <Toast/>
+      </div>
+    </AppProvider>
+  );
+}
+
+function TopbarWithTweaks({ onToggleSidebar, onToggleTweaks, onSignOut }) {
+  const { currentUser, role, navigate, route } = useApp();
+  const crumbs = React.useMemo(() => {
+    const map = {
+      dashboard: role === 'admin' ? 'Overview' : role === 'manager' ? 'Team Overview' : 'Home',
+      leave: 'My Leave', timesheet: 'Timesheet', directory: 'Directory', profile: 'My Profile',
+      approvals: 'Approvals', team: 'My Team',
+      users: 'Users & Roles', employees: 'Employees', assignments: 'Assignments',
+      'leave-admin': 'Leave', 'timesheet-admin': 'Timesheets', reports: 'Reports', 'landing-images': 'Landing Visuals', settings: 'Settings',
+      'employee-detail': 'Employee',
+    };
+    return [map[route.page] || route.page];
+  }, [route, role]);
+
+  return (
+    <header style={{
+      height: 64, background: 'var(--card)', borderBottom: '1px solid var(--border)',
+      display: 'flex', alignItems: 'center', padding: '0 24px', gap: 16, flexShrink: 0,
+    }}>
+      <button onClick={onToggleSidebar} title="Toggle sidebar" style={{
+        width: 32, height: 32, border: 0, background: 'transparent', color: 'var(--ink-2)',
+        borderRadius: 6, cursor: 'pointer', display: 'grid', placeItems: 'center',
+      }}><Icon name="org" size={18}/></button>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {crumbs.map((c, i) => (
+          <React.Fragment key={i}>
+            {i > 0 && <Icon name="chevron-right" size={14} style={{ color: 'var(--ink-3)' }}/>}
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', letterSpacing: -0.1 }}>{c}</span>
+          </React.Fragment>
+        ))}
+      </div>
+
+      <div style={{ flex: 1 }}/>
+
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8,
+        background: 'var(--surface)', border: '1px solid var(--border)',
+        borderRadius: 8, padding: '7px 12px', width: 280, color: 'var(--ink-3)',
+      }}>
+        <Icon name="search" size={15}/>
+        <input placeholder="Search people, leaves, timesheets…" style={{
+          border: 0, background: 'transparent', outline: 'none', flex: 1,
+          fontSize: 13, color: 'var(--ink-1)', fontFamily: 'var(--font-sans)',
+        }}/>
+        <kbd style={{
+          fontSize: 10, color: 'var(--ink-3)', background: 'var(--card)',
+          padding: '2px 5px', borderRadius: 4, border: '1px solid var(--border)',
+        }}>⌘K</kbd>
+      </div>
+
+      <button style={iconBtn} title="Notifications">
+        <Icon name="bell" size={17}/>
+        <span style={{
+          position: 'absolute', top: 6, right: 7, width: 7, height: 7,
+          borderRadius: '50%', background: 'var(--accent)', border: '2px solid var(--card)',
+        }}/>
+      </button>
+
+      <button onClick={onToggleTweaks} style={{ ...iconBtn }} title="Tweaks">
+        <Icon name="tweaks" size={17}/>
+      </button>
+
+      <div style={{ width: 1, height: 28, background: 'var(--border)' }}/>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <Avatar emp={currentUser} size={32}/>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-1)' }}>
+            {currentUser.first} {currentUser.last}
+          </span>
+          <span style={{ fontSize: 11, color: 'var(--ink-3)', textTransform: 'capitalize', letterSpacing: 0.3 }}>{role}</span>
+        </div>
+      </div>
+
+      <button onClick={onSignOut} title="Sign out" style={{ ...iconBtn, marginLeft: 4 }}>
+        <Icon name="logout" size={16}/>
+      </button>
+    </header>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

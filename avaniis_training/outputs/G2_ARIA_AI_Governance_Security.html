@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>G2 — ARIA AI Governance & Security | AVANIIS HR</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+    --lane-mgr:#7B68EE;
+    --lane-hd:#7B2FBE;
+    --lane-fi:#E87040;
+    --aria-bg1:#0A2E35;
+    --aria-bg2:#0A2228;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Header ── */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* ── Sticky Nav ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* ── Role Filter ── */
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+
+/* ── Content ── */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+
+/* ── Preconditions ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+
+/* ── Blocking conditions ── */
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:140px}
+.block-reason{color:var(--rd)}
+
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+
+/* ── State Machines ── */
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+
+/* ── Mockups ── */
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+
+/* ── Inbox mockup ── */
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+
+/* ── Org chart node pair ── */
+.node-pair{display:flex;gap:24px;flex-wrap:wrap}
+.oc-node{width:220px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:12px 14px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:10px}
+.oc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12.5px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:10px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:7px 14px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 14px 9px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--mu)}
+.acting-bar{background:var(--am);padding:5px 14px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.oc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+
+/* ── ARIA ── */
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* ── SLA timers ── */
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+
+/* ── Callouts ── */
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+
+/* ── Footer ── */
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+
+/* ── Print ── */
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+
+/* ── Mockup shell ── */
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr;min-height:340px}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.mf-main{background:var(--off);padding:16px;position:relative}
+/* ── ARIA dark cards ── */
+.aria-wrap{background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+/* ── SM ── */
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+/* ── pre-items ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-chk{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-rt{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-lbl{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:#7A1A1A}
+/* ── Print + mobile ── */
+@media print{.nav-wrap,.rf-bar{display:none!important}.sec{page-break-inside:avoid}body{background:#fff}.card,.swimlane,.sm-wrap,.sc-card,.ts-card{box-shadow:none!important;border:1px solid #ccc!important}}
+@media(max-width:640px){.ph{padding:20px 18px}.content{padding:20px 14px}.nav-inner{padding:0 16px}.rf-bar{padding:8px 16px}.mf-body{grid-template-columns:1fr}.mf-sidebar{display:none}.sc-grid,.ts-grid,.type-grid,.pre-grid{grid-template-columns:1fr}.aria-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Manual · G2 — ARIA AI Governance & Security</div>
+  <div class="ph-title">ARIA AI Governance &amp; Security</div>
+  <div class="ph-sub">حوكمة الذكاء الاصطناعي · Authority Levels · Role Scopes · PII Masking · Audit Logging · UAE Data Protection</div>
+  <div class="ph-pills"><span class="pill  g">SUPER_ADMIN</span><span class="pill  g">HR_ADMIN</span><span class="pill">HR_DIRECTOR</span><span class="pill">MANAGER</span><span class="pill">/settings/aria · All /aria routes</span><span class="pill">v1.0 · May 2026</span></div>
+</div>
+<div class="nav-wrap"><div class="nav-inner"><a href="#s1" class="ni" data-section="s1">Overview</a><a href="#s2" class="ni" data-section="s2">Dependency Map</a><a href="#s3" class="ni" data-section="s3">Authority Levels</a><a href="#s4" class="ni" data-section="s4">Data Governance</a><a href="#s5" class="ni" data-section="s5">Query Lifecycle</a><a href="#s6" class="ni" data-section="s6">Screen Mockups</a><a href="#s7" class="ni" data-section="s7">Configuration Guide</a><a href="#s8" class="ni" data-section="s8">Scenarios</a><a href="#s9" class="ni" data-section="s9">Troubleshooting</a><a href="#s10" class="ni" data-section="s10">ARIA Query Reference</a></div></div>
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+</div>
+<main class="content">
+
+<div class="sec" id="s1">
+<div class="sec-lbl">Section 1</div>
+<div class="sec-title">ARIA Overview &amp; Governance Philosophy</div>
+<div class="sec-desc">ARIA (Adaptive Resource Intelligence Agent) is the AI assistant embedded in AVANIIS HR. It answers HR questions, guides workflows, and surfaces insights — but always within strict role-scoped data boundaries. ARIA never stores data between sessions and never takes autonomous actions unless explicitly configured.</div>
+<div class="card" style="margin-bottom:16px">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">Core Governance Principles</div>
+<div class="pre-grid">
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Role-scoped data access — always</div><div class="pre-where">ARIA only surfaces data the requesting role is permitted to see</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">No autonomous write operations</div><div class="pre-where">ARIA guides — it never writes to DB without explicit HR user action</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Every ARIA response is audit-logged</div><div class="pre-where">Query + user + timestamp + data accessed → BR-AUDIT-001</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">PII is masked in ARIA responses</div><div class="pre-where">Emirates ID, IBAN, passport shown as *** unless decryption explicitly granted</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Authority levels control what ARIA can suggest</div><div class="pre-where">Advisory · Guided · Autonomous — set per tenant in /settings/aria</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Hallucination guardrails active</div><div class="pre-where">ARIA only answers from live DB data — never fabricates HR facts</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">UAE Data Protection compliant</div><div class="pre-where">No personal data retained in AI model memory between sessions</div></div></div>
+</div>
+</div>
+<div class="block-panel">
+<div class="block-title">🚫 ARIA Will Always Refuse These Requests</div>
+<div class="block-row"><span class="block-lbl">Cross-role data leakage</span><span class="block-reason">Employee asking about another employee's salary — blocked at governance layer regardless of question phrasing.</span></div>
+<div class="block-row"><span class="block-lbl">Salary changes</span><span class="block-reason">ARIA cannot suggest or apply salary changes, even at Autonomous level — HR Director must approve all compensation actions.</span></div>
+<div class="block-row"><span class="block-lbl">Termination actions</span><span class="block-reason">ARIA can explain termination process but cannot initiate or execute it — HR Admin must take the action.</span></div>
+<div class="block-row"><span class="block-lbl">Personal identification data</span><span class="block-reason">Emirates ID, passport, IBAN are never returned in ARIA responses without explicit SUPER_ADMIN decryption grant.</span></div>
+</div>
+</div>
+
+<div class="sec" id="s2">
+<div class="sec-lbl">Section 2</div>
+<div class="sec-title">Dependency Map</div>
+<div class="sec-desc">Three chains: ARIA activation prerequisites, the query processing flow, and the governance enforcement chain.</div>
+<div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ARIA Governance Dependency Map</title>
+<desc>Chain A: activation prerequisites. Chain B: query processing flow. Chain C: governance enforcement.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+<rect x="14" y="14" width="250" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — ARIA ACTIVATION PREREQUISITES</text>
+<rect x="14" y="44" width="118" height="56" rx="7" fill="#0A1628"/>
+<text x="73" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Active Toggle</text>
+<text x="73" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">ON</text>
+<text x="73" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">/settings/aria</text>
+<line x1="132" y1="72" x2="152" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Role Scopes</text>
+<text x="213" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Configured</text>
+<text x="213" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">per-role data sources</text>
+<line x1="272" y1="72" x2="292" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Authority Level</text>
+<text x="353" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Set</text>
+<text x="353" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">Advisory/Guided/Auto</text>
+<line x1="412" y1="72" x2="432" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="434" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="493" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">PII Masking</text>
+<text x="493" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Configured</text>
+<text x="493" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">Emirates ID · IBAN</text>
+<line x1="552" y1="72" x2="572" y2="72" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="574" y="44" width="138" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="643" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">ARIA Active</text>
+<text x="643" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Serving Queries</text>
+<text x="643" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">all /aria endpoints</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="124" width="240" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — QUERY PROCESSING FLOW</text>
+<rect x="14" y="158" width="118" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="73" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">User Query</text>
+<text x="73" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">text or voice</text>
+<line x1="132" y1="186" x2="152" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="154" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Role Check</text>
+<text x="213" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">scope enforced</text>
+<line x1="272" y1="186" x2="292" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="294" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">DB Query</text>
+<text x="353" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">live data only</text>
+<line x1="412" y1="186" x2="432" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="434" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="493" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">PII Masking</text>
+<text x="493" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">applied before response</text>
+<line x1="552" y1="186" x2="572" y2="186" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="574" y="158" width="138" height="56" rx="7" fill="#1A6B3C"/>
+<text x="643" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Response +</text>
+<text x="643" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">Audit Log Written</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="238" width="260" height="22" rx="4" fill="#B01B1B"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — GOVERNANCE ENFORCEMENT CHAIN</text>
+<rect x="14" y="270" width="128" height="56" rx="7" fill="#0A1628"/>
+<text x="78" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Query</text>
+<text x="78" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Arrives</text>
+<line x1="142" y1="298" x2="162" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="164" y="270" width="128" height="56" rx="7" fill="#B01B1B"/>
+<text x="228" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Access</text>
+<text x="228" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Policy Check</text>
+<text x="228" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.7)">DENY or ALLOW</text>
+<line x1="292" y1="298" x2="312" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="314" y="270" width="128" height="56" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="378" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Authority</text>
+<text x="378" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Level Check</text>
+<text x="378" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">Advisory/Guided/Auto</text>
+<line x1="442" y1="298" x2="462" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="464" y="270" width="128" height="56" rx="7" fill="#0E7C6A"/>
+<text x="528" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Response</text>
+<text x="528" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Generated</text>
+<text x="528" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">PII masked</text>
+<line x1="592" y1="298" x2="612" y2="298" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="614" y="270" width="128" height="56" rx="7" fill="#1A6B3C"/>
+<text x="678" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Audit Log</text>
+<text x="678" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Written</text>
+<text x="678" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">immutable · BR-AUDIT-001</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="352" width="400" height="110" rx="8" fill="#fff" stroke="#D4D8E2"/>
+<text x="26" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96">LEGEND</text>
+<rect x="26" y="378" width="13" height="13" rx="3" fill="#0A1628"/><text x="45" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Configuration / trigger</text>
+<rect x="200" y="378" width="13" height="13" rx="3" fill="#0E7C6A"/><text x="219" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">ARIA processing step</text>
+<rect x="26" y="400" width="13" height="13" rx="3" fill="#B01B1B"/><text x="45" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Governance enforcement (hard block)</text>
+<rect x="200" y="400" width="13" height="13" rx="3" fill="#1A6B3C"/><text x="219" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Preservation / audit</text>
+<rect x="414" y="352" width="462" height="110" rx="8" fill="#FDEAEA" stroke="#F4A0A0"/>
+<text x="426" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">ARIA ALWAYS REFUSES</text>
+<text x="426" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Cross-role PII queries</text><text x="560" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — employee asking about another employee</text>
+<text x="426" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Salary change requests</text><text x="562" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — compensation changes require HR Director</text>
+<text x="426" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Termination execution</text><text x="560" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — ARIA explains process, never initiates</text>
+<text x="426" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Raw PII data</text><text x="498" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — Emirates ID/IBAN always masked unless SA grant</text>
+</svg>
+</div>
+</div>
+
+<div class="sec" id="s3">
+<div class="sec-lbl">Section 3</div>
+<div class="sec-title">Three Authority Levels</div>
+<div class="sec-desc">The authority level controls how much ARIA can do vs just suggest. Set at: Settings → AI &amp; Access → AI Agent (ARIA) → Identity tab → Authority Level.</div>
+<div class="type-grid">
+<div class="type-card" style="border-color:var(--bl-bd)"><div style="background:var(--bl-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--bl);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">💡</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Advisory</div><div style="font-size:10px;color:var(--mu)">Default for new tenants</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">ARIA provides</span><span class="tv">Information + Guidance</span></div><div class="tr"><span class="tk">Takes actions</span><span class="tv-r">Never ✗</span></div><div class="tr"><span class="tk">Suggests workflows</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Example</span><span class="tv" style="font-size:10px">"Go to /org-chart → [···] → Promote"</span></div><div class="mistake">⚠ Advisory is the safest level. ARIA guides — the human always takes the action. Recommended for all tenants.</div></div></div>
+<div class="type-card" style="border-color:var(--am-bd)"><div style="background:var(--am-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--am);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🧭</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Guided</div><div style="font-size:10px;color:var(--mu)">Requires SUPER_ADMIN enable</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">ARIA provides</span><span class="tv">Guidance + Pre-fills forms</span></div><div class="tr"><span class="tk">Takes actions</span><span class="tv-a">With confirmation ⚠</span></div><div class="tr"><span class="tk">HR confirms each step</span><span class="tv-g">Yes — mandatory ✓</span></div><div class="tr"><span class="tk">Example</span><span class="tv" style="font-size:10px">Pre-fills transfer form, HR clicks submit</span></div><div class="mistake">⚠ Guided level pre-fills workflow forms but never auto-submits. HR Admin must confirm every action. A confirmation dialog is mandatory.</div></div></div>
+<div class="type-card" style="border-color:var(--gr-bd)"><div style="background:var(--gr-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--gr);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">⚡</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Autonomous</div><div style="font-size:10px;color:var(--mu)">Explicit tenant opt-in required</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">ARIA can</span><span class="tv">Execute approved workflows</span></div><div class="tr"><span class="tk">Salary changes</span><span class="tv-r">Blocked always ✗</span></div><div class="tr"><span class="tk">Terminations</span><span class="tv-r">Blocked always ✗</span></div><div class="tr"><span class="tk">Scope</span><span class="tv" style="font-size:10px">Admin-approved action list only</span></div><div class="mistake">⚠ Autonomous level has a fixed blocklist: salary changes, terminations, and grade demotions always require human action regardless of level setting.</div></div></div>
+<div class="type-card" style="border-color:var(--te-bd)"><div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🔒</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Role Scope Enforcement</div><div style="font-size:10px;color:var(--mu)">Applies at all authority levels</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">EMPLOYEE scope</span><span class="tv" style="font-size:10px">Own data only · no salary · no others</span></div><div class="tr"><span class="tk">MANAGER scope</span><span class="tv" style="font-size:10px">Direct reports only · no salary</span></div><div class="tr"><span class="tk">HR_ADMIN scope</span><span class="tv" style="font-size:10px">All employees · no PII raw values</span></div><div class="tr"><span class="tk">SUPER_ADMIN scope</span><span class="tv" style="font-size:10px">Full access · can grant PII decrypt</span></div><div class="mistake">⚠ Role scope is enforced at the database query layer — ARIA cannot bypass it even if prompted to do so.</div></div></div>
+<div class="type-card" style="border-color:var(--rd-bd)"><div style="background:var(--rd-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--rd);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🚫</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Permanent Blocklist</div><div style="font-size:10px;color:var(--mu)">Cannot be overridden by any setting</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Salary changes</span><span class="tv-r">Always blocked ✗</span></div><div class="tr"><span class="tk">Termination execution</span><span class="tv-r">Always blocked ✗</span></div><div class="tr"><span class="tk">Raw PII disclosure</span><span class="tv-r">Always blocked ✗</span></div><div class="tr"><span class="tk">Cross-role data sharing</span><span class="tv-r">Always blocked ✗</span></div><div class="mistake">⚠ The blocklist applies regardless of authority level, role, or admin configuration. These are hardcoded safety guardrails.</div></div></div>
+<div class="type-card" style="border-color:#C4ADEE"><div style="background:var(--pu-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--pu);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📋</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Audit Coverage</div><div style="font-size:10px;color:var(--mu)">Every query is logged</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">What is logged</span><span class="tv" style="font-size:10px">User · query · data accessed · response</span></div><div class="tr"><span class="tk">Retention</span><span class="tv">7 years (UAE requirement)</span></div><div class="tr"><span class="tk">Log tamper-proof</span><span class="tv-g">INSERT-only ✓</span></div><div class="tr"><span class="tk">View at</span><span class="tv" style="font-size:10px">/settings/aria → Audit Logs tab</span></div><div class="mistake">⚠ ARIA audit logs are INSERT-only. No HR Admin can delete or modify them — they are append-only by database design (BR-AUDIT-001).</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s4">
+<div class="sec-lbl">Section 4</div>
+<div class="sec-title">Data Governance — What ARIA Can &amp; Cannot Access</div>
+<div class="sec-desc">Per-role data access map. Every query first passes through the role scope enforcer before any data is retrieved from the database.</div>
+<div class="sm-wrap" style="margin-bottom:16px"><div class="sm-hdr">⬤ ARIA Data Access Matrix by Role</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ARIA Data Access Matrix</title>
+<desc>Shows what each role can access through ARIA — employee, manager, HR admin, and super admin.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="260" fill="#F5F6F8"/>
+<rect x="14" y="14" width="145" height="234" rx="7" fill="#EAF0FD" stroke="#90AADE"/>
+<text x="86" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A4FBA">EMPLOYEE</text>
+<text x="86" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Own leave balance</text>
+<text x="86" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Own payslips</text>
+<text x="86" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Own profile</text>
+<text x="86" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Own letters</text>
+<text x="86" y="118" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Others' data</text>
+<text x="86" y="134" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Salary data</text>
+<text x="86" y="150" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Team analytics</text>
+<text x="86" y="167" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Emirates ID raw</text>
+<text x="86" y="236" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A4FBA">Scope: /me/* only</text>
+<rect x="173" y="14" width="145" height="234" rx="7" fill="#E6F5EE" stroke="#7BC4A0"/>
+<text x="245" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">MANAGER</text>
+<text x="245" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Direct reports data</text>
+<text x="245" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Team leave balances</text>
+<text x="245" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Team timesheets</text>
+<text x="245" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Pending approvals</text>
+<text x="245" y="118" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Other teams</text>
+<text x="245" y="134" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Salary data</text>
+<text x="245" y="150" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Cross-dept data</text>
+<text x="245" y="167" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Emirates ID raw</text>
+<text x="245" y="236" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">Scope: direct reports</text>
+<rect x="332" y="14" width="145" height="234" rx="7" fill="#FEF9EE" stroke="#C9A84C"/>
+<text x="404" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#A8863A">HR_ADMIN</text>
+<text x="404" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ All employees</text>
+<text x="404" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ All leave/timesheets</text>
+<text x="404" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Payroll data</text>
+<text x="404" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ EOSB queries</text>
+<text x="404" y="118" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Pending approvals</text>
+<text x="404" y="134" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Emirates ID raw</text>
+<text x="404" y="150" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ IBAN raw</text>
+<text x="404" y="167" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Autonomous actions</text>
+<text x="404" y="236" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#A8863A">Scope: all + no PII raw</text>
+<rect x="491" y="14" width="175" height="234" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="578" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C">SUPER_ADMIN</text>
+<text x="578" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Everything above</text>
+<text x="578" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ PII decrypt grant</text>
+<text x="578" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ ARIA configuration</text>
+<text x="578" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Authority level set</text>
+<text x="578" y="118" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Audit log viewer</text>
+<text x="578" y="134" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Data source toggle</text>
+<text x="578" y="150" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">Still blocked:</text>
+<text x="578" y="167" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#F4A0A0">✗ Salary changes</text>
+<text x="578" y="183" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#F4A0A0">✗ Termination exec</text>
+<text x="578" y="236" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.5)">Scope: all + config</text>
+</svg>
+</div>
+</div>
+</div>
+
+<div class="sec" id="s5">
+<div class="sec-lbl">Section 5</div>
+<div class="sec-title">Query Lifecycle &amp; Processing States</div>
+<div class="sec-desc">Every ARIA query passes through a structured lifecycle — from receipt through governance checking to response generation and audit logging.</div>
+<div class="swimlane"><div class="sw-head">ARIA Query Lifecycle — Full Processing Chain <span class="sw-stag">ALL AUTHORITY LEVELS · AUDIT EVERY STEP</span></div>
+<div class="sw-row"><div class="sw-lbl em">USER</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Sends Query</span><span class="sb-sub">Text or voice · any /aria endpoint</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">Session Captured</span><span class="sb-sub">User ID · role · timestamp recorded</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">GOVERNANCE</div><div class="sw-steps"><div class="sb sb-warn"><span class="sb-title">Access Policy Check</span><span class="sb-sub">Role scope enforced at DB layer</span></div><span class="sw-arr">→</span><div class="sb sb-warn"><span class="sb-title">Authority Level Check</span><span class="sb-sub">Advisory / Guided / Autonomous gate</span></div><span class="sw-arr">→</span><div class="sb sb-warn"><span class="sb-title">Blocklist Check</span><span class="sb-sub">Salary · termination · raw PII → DENY</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">ARIA ENGINE</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">DB Query</span><span class="sb-sub">Live data · scoped to role permissions</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">PII Masking</span><span class="sb-sub">Emirates ID → *** · IBAN → ***</span></div><span class="sw-arr">→</span><div class="sb sb-ok"><span class="sb-title">Response Generated</span><span class="sb-sub">Factual · grounded · never fabricated</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl hr">AUDIT</div><div class="sw-steps"><div class="sb sb-term"><span class="sb-title" style="color:var(--g2)">Log Written</span><span class="sb-sub" style="color:rgba(255,255,255,.6)">User · query · data accessed · response · timestamp</span></div><span class="sw-arr">→</span><div class="sb sb-term"><span class="sb-title" style="color:var(--g2)">INSERT-only</span><span class="sb-sub" style="color:rgba(255,255,255,.6)">BR-AUDIT-001 · 7-year retention</span></div></div></div>
+</div>
+<div class="sm-wrap" style="margin-top:16px"><div class="sm-hdr">⬤ ARIA Query Decision States</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 190" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ARIA Query Decision States</title>
+<desc>Shows how ARIA decides whether to answer, guide, or deny a query based on authority level and role.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="190" fill="#F5F6F8"/>
+<rect x="14" y="72" width="100" height="48" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="64" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A4FBA">QUERY</text>
+<text x="64" y="108" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Received</text>
+<line x1="114" y1="96" x2="134" y2="96" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="136" y="60" width="110" height="72" rx="7" fill="#0E7C6A" stroke="#085041" stroke-width="1.5"/>
+<text x="191" y="87" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">GOVERNANCE</text>
+<text x="191" y="103" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,.8)">CHECK</text>
+<text x="191" y="119" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,.7)">Access · Level · List</text>
+<line x1="246" y1="78" x2="276" y2="60" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<line x1="246" y1="96" x2="276" y2="96" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#arr-gold)"/>
+<line x1="246" y1="114" x2="276" y2="130" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="278" y="36" width="110" height="48" rx="7" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="333" y="56" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A6B3C">ALLOWED</text>
+<text x="333" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Answer + Audit Log</text>
+<rect x="278" y="72" width="110" height="48" rx="7" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+<text x="333" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B45C00">GUIDED</text>
+<text x="333" y="108" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Pre-fill + Confirm</text>
+<rect x="278" y="116" width="110" height="48" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="333" y="136" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B01B1B">DENIED</text>
+<text x="333" y="152" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Explain + Audit Log</text>
+<line x1="388" y1="60" x2="430" y2="60" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<line x1="388" y1="96" x2="430" y2="96" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#arr-gold)"/>
+<line x1="388" y1="140" x2="430" y2="140" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="432" y="36" width="230" height="48" rx="7" fill="#1A6B3C"/>
+<text x="547" y="56" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#fff">Response delivered + BR-AUDIT-001 log</text>
+<text x="547" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.7)">PII masked in response</text>
+<rect x="432" y="72" width="230" height="48" rx="7" fill="#FEF3E2" stroke="#F4B86A"/>
+<text x="547" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B45C00">Form pre-filled · HR confirms · log written</text>
+<text x="547" y="108" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">Never auto-submits</text>
+<rect x="432" y="116" width="230" height="48" rx="7" fill="#FDEAEA" stroke="#F4A0A0"/>
+<text x="547" y="136" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">Refusal message · reason explained</text>
+<text x="547" y="152" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B01B1B">Still audit-logged</text>
+</svg>
+</div>
+</div>
+</div>
+
+<div class="sec" id="s6">
+<div class="sec-lbl">Section 6</div>
+<div class="sec-title">Screen Mockups</div>
+<div class="sec-desc">Three ARIA interface screens: the Settings configuration panel, a live query exchange, and the audit log viewer.</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — ARIA Settings (/settings/aria → Identity tab)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.1);margin-bottom:8px">
+<div class="mf-topbar"><div class="mf-logo">AVANIIS <span>HR</span></div><div class="mf-search">🔍 <span>Settings...</span></div><div style="margin-left:auto"><div class="mf-av">SA</div></div></div>
+<div class="mf-body">
+<div class="mf-sidebar"><div class="sb-sec">Settings</div><div class="sb-item">⚙ System</div><div class="sb-item active">🤖 AI &amp; Access <span class="sb-badge">1</span></div><div class="sb-item">🔔 Notifications</div><div class="sb-item">🔐 Security</div></div>
+<div class="mf-main">
+<div style="font-size:16px;font-weight:700;color:var(--n);margin-bottom:16px">AI Agent (ARIA) — Identity</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div style="background:var(--off);border-radius:9px;padding:12px 16px"><div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px">AGENT STATUS</div><div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:700;color:var(--n)">Active</span><div style="width:40px;height:22px;background:var(--te);border-radius:11px;display:flex;align-items:center;justify-content:flex-end;padding:0 3px;cursor:pointer"><div style="width:16px;height:16px;background:#fff;border-radius:50%"></div></div></div></div>
+<div style="background:var(--off);border-radius:9px;padding:12px 16px"><div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px">AUTHORITY LEVEL</div><div style="display:flex;gap:6px"><span style="background:var(--bl);color:#fff;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:700">Advisory</span><span style="background:#fff;border:1px solid var(--bd);color:var(--mu);padding:3px 10px;border-radius:5px;font-size:11px;cursor:pointer">Guided</span><span style="background:#fff;border:1px solid var(--bd);color:var(--mu);padding:3px 10px;border-radius:5px;font-size:11px;cursor:pointer">Autonomous</span></div></div>
+<div style="background:var(--off);border-radius:9px;padding:12px 16px"><div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px">PII MASKING</div><div style="font-size:12px;display:flex;flex-direction:column;gap:4px"><div style="display:flex;justify-content:space-between"><span>Emirates ID</span><span style="color:var(--gr);font-weight:700">Masked ✓</span></div><div style="display:flex;justify-content:space-between"><span>IBAN</span><span style="color:var(--gr);font-weight:700">Masked ✓</span></div><div style="display:flex;justify-content:space-between"><span>Passport No.</span><span style="color:var(--gr);font-weight:700">Masked ✓</span></div></div></div>
+<div style="background:var(--off);border-radius:9px;padding:12px 16px"><div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:8px">VOICE INPUT</div><div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px">Enable for Chrome/Edge</span><div style="width:40px;height:22px;background:var(--te);border-radius:11px;display:flex;align-items:center;justify-content:flex-end;padding:0 3px;cursor:pointer"><div style="width:16px;height:16px;background:#fff;border-radius:50%"></div></div></div></div>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:24px">
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">①</div><div><strong style="display:block;font-size:11px">Authority Level toggle</strong>Advisory is default and safest — ARIA guides, never acts</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">②</div><div><strong style="display:block;font-size:11px">PII Masking always ON</strong>Cannot be disabled for Emirates ID, IBAN, or Passport</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">③</div><div><strong style="display:block;font-size:11px">Voice input</strong>Chrome and Edge only — Web Speech API required</div></div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup B — ARIA Query Exchange (/aria)</div>
+<div style="background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:20px;margin-bottom:24px;max-width:640px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:13px;font-weight:600">HR Console · HR Admin Scope</span><span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,.4)">Advisory · All employees in scope</span></div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="background:rgba(255,255,255,.04);border-radius:8px;padding:12px"><div style="font-size:11px;color:var(--g2);margin-bottom:4px">HR Admin asks:</div><div style="font-size:13px;color:#fff;font-style:italic">"Is Ahmed eligible for promotion to Grade 7?"</div></div>
+<div style="background:rgba(14,124,106,.15);border:1px solid rgba(14,124,106,.4);border-radius:8px;padding:12px"><div style="font-size:11px;color:var(--te-bd);margin-bottom:6px">ARIA checks: grade, time-in-grade, performance flags, disciplinary records, Grade 7 salary band</div><div style="font-size:12px;color:rgba(255,255,255,.85);line-height:1.6">Ahmed Hassan is currently Grade G6 (since Jan 2024 — 16 months). Eligibility requires 12 months in grade ✓. No open disciplinary records ✓. No pending performance flags ✓. Grade G7 salary band: AED 25,000–35,000 — within budget. <strong>Ahmed is eligible for promotion to Grade G7.</strong> Would you like me to guide you to the promotion workflow?</div></div>
+<div style="background:rgba(255,255,255,.04);border-radius:8px;padding:8px 12px"><div style="font-size:10px;color:rgba(255,255,255,.35)">📋 Audit logged: user=hr_admin_01 · query="Is Ahmed eligible for promotion to Grade 7?" · data_accessed=persons,worker_assignments,grades · response_generated=true · timestamp=2026-05-20T09:14:23Z</div></div>
+</div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup C — ARIA Audit Log (/settings/aria → Audit Logs)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08)">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between"><div style="font-size:16px;font-weight:700;color:var(--n)">ARIA Audit Logs</div><div style="font-size:11px;color:var(--mu);background:var(--lt);padding:4px 10px;border-radius:6px">INSERT-only · 7-year retention</div></div>
+<div style="padding:14px 20px;overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;min-width:600px"><thead><tr style="background:var(--n)"><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Timestamp</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">User</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Role</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Query</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Result</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px 12px;border-bottom:1px solid var(--lt);color:var(--mu)">2026-05-20 09:14:23</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">Sara Al-Zaabi</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)"><span style="background:var(--am-bg);color:var(--am);padding:1px 7px;border-radius:4px;font-size:10px">HR_ADMIN</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">Is Ahmed eligible for promotion to G7?</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)"><span style="background:var(--gr-bg);color:var(--gr);padding:1px 7px;border-radius:4px;font-size:10px">ANSWERED</span></td></tr>
+<tr><td style="padding:8px 12px;border-bottom:1px solid var(--lt);color:var(--mu)">2026-05-20 08:44:11</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">Ahmed Hassan</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)"><span style="background:var(--bl-bg);color:var(--bl);padding:1px 7px;border-radius:4px;font-size:10px">EMPLOYEE</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">What is Sara's salary?</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)"><span style="background:var(--rd-bg);color:var(--rd);padding:1px 7px;border-radius:4px;font-size:10px">DENIED</span></td></tr>
+<tr><td style="padding:8px 12px;color:var(--mu)">2026-05-20 07:30:05</td><td style="padding:8px 12px">Khalid Al-Mansoori</td><td style="padding:8px 12px"><span style="background:#EDE8FC;color:var(--pu);padding:1px 7px;border-radius:4px;font-size:10px">MANAGER</span></td><td style="padding:8px 12px">How many pending approvals do I have?</td><td style="padding:8px 12px"><span style="background:var(--gr-bg);color:var(--gr);padding:1px 7px;border-radius:4px;font-size:10px">ANSWERED</span></td></tr>
+</tbody></table>
+</div>
+</div>
+</div>
+
+<div class="sec" id="s7">
+<div class="sec-lbl">Section 7</div>
+<div class="sec-title">ARIA Configuration Guide</div>
+<div class="sec-desc">How to configure ARIA for your organisation — authority levels, data sources, and per-role scope settings.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">Configuration Steps</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Step 1: Activate</span><span style="font-weight:700">Settings → AI → Active ON</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Step 2: Authority</span><span style="font-weight:700">Start with Advisory</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Step 3: Data sources</span><span style="font-weight:700">Behaviour tab → enable per role</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Step 4: PII masking</span><span style="font-weight:700">Cannot be disabled — by design</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">Step 5: Test queries</span><span style="font-weight:700">Each role before go-live</span></div>
+</div>
+<div style="background:var(--am-bg);border:1px solid var(--am-bd);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--am)">⚠ Always test ARIA with an EMPLOYEE-scoped session to confirm cross-role PII is correctly blocked before go-live.</div>
+</div>
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">Data Sources by Role</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">EMPLOYEE</span><span style="font-weight:700">Leave · Payslips · Letters · Profile</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">MANAGER</span><span style="font-weight:700">Team leave · Timesheets · Approvals</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">HR_ADMIN</span><span style="font-weight:700">All HR data · Payroll · EOSB</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">SUPER_ADMIN</span><span style="font-weight:700">All + Config + Audit Logs</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">All roles blocked</span><span style="color:var(--rd);font-weight:700">Raw PII · Salary changes</span></div>
+</div>
+<div style="background:var(--te-bg);border:1px solid var(--te-bd);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--te)">💡 Enable only the data sources each role needs. Minimal access = reduced audit surface.</div>
+</div>
+</div>
+</div>
+
+
+<div class="sm-wrap" style="margin-top:14px">
+<div class="sm-hdr">⬤ Authority Level Capabilities — At a Glance</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ARIA Authority Level Capabilities Comparison</title>
+<desc>Advisory vs Guided vs Autonomous authority levels showing what each can and cannot do.</desc>
+<defs><marker id="al1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="140" fill="#F5F6F8"/>
+<rect x="14" y="14" width="196" height="112" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="112" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A4FBA">ADVISORY (Default)</text>
+<text x="26" y="50" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Answer HR questions</text>
+<text x="26" y="66" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Guide to correct workflow</text>
+<text x="26" y="82" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Surface insights</text>
+<text x="26" y="98" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Pre-fill forms</text>
+<text x="26" y="114" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Take any action</text>
+<rect x="224" y="14" width="196" height="112" rx="7" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+<text x="322" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B45C00">GUIDED</text>
+<text x="236" y="50" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Everything Advisory does</text>
+<text x="236" y="66" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Pre-fill workflow forms</text>
+<text x="236" y="82" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">⚠ HR must confirm each step</text>
+<text x="236" y="98" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Auto-submit</text>
+<text x="236" y="114" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Salary/termination</text>
+<rect x="434" y="14" width="232" height="112" rx="7" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="550" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A6B3C">AUTONOMOUS (Opt-in only)</text>
+<text x="446" y="50" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Everything Guided does</text>
+<text x="446" y="66" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Execute admin-approved actions</text>
+<text x="446" y="82" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">⚠ Confirmation dialog always</text>
+<text x="446" y="98" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Salary changes (hardcoded)</text>
+<text x="446" y="114" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Terminations (hardcoded)</text>
+</svg>
+</div>
+</div>
+
+<div class="sec" id="s8">
+<div class="sec-lbl">Section 8</div>
+<div class="sec-title">Governance Scenarios</div>
+<div class="sec-desc">Four real-world ARIA governance situations and how to handle them.</div>
+<div class="sc-grid">
+<div class="sc-card"><div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">A</div><div class="sc-title">Employee asks ARIA about a colleague's salary</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Ahmed (EMPLOYEE) asks ARIA: "What is Sara's salary?"</div></div><div class="sc-step"><div class="sc-n">2</div><div>ARIA governance layer: requesting role = EMPLOYEE, target = different person → salary data = ACCESS DENIED</div></div><div class="sc-step"><div class="sc-n">3</div><div>ARIA responds: "Salary data for other employees is restricted. I can show you your own salary at /me/payslips."</div></div><div class="sc-step"><div class="sc-n">4</div><div>Refusal is logged to audit_log with DENIED status — this is normal and expected</div></div><div class="sc-warn">⚠ DENIED logs are not errors — they are correct governance behaviour. Do not disable the policy if you see them in audit logs.</div><div class="sc-rule">Role scope · PII governance · audit_log.status=DENIED</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">ARIA at Autonomous level — what can it do?</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>SUPER_ADMIN enables Autonomous authority level</div></div><div class="sc-step"><div class="sc-n">2</div><div>HR Admin asks ARIA to create an acting assignment for a manager on leave</div></div><div class="sc-step"><div class="sc-n">3</div><div>ARIA pre-fills the acting assignment form with all required fields</div></div><div class="sc-step"><div class="sc-n">4</div><div>ARIA presents a confirmation dialog — HR Admin reviews and clicks Confirm</div></div><div class="sc-step"><div class="sc-n">5</div><div>System executes the acting assignment — ARIA did NOT auto-submit without confirmation</div></div><div class="sc-warn">⚠ Even at Autonomous level, salary changes, demotions, and terminations are always blocked. The blocklist is hardcoded.</div><div class="sc-rule">Autonomous level · blocklist · confirmation dialog mandatory</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">C</div><div class="sc-title">ARIA returning stale data</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Admin notices ARIA is showing an employee in a role they left 2 days ago</div></div><div class="sc-step"><div class="sc-n">2</div><div>ARIA queries live database — if it shows old data, the DB record may not have been updated</div></div><div class="sc-step"><div class="sc-n">3</div><div>Check: was the transfer/promotion workflow fully EXECUTED? (not just APPROVED)</div></div><div class="sc-step"><div class="sc-n">4</div><div>If approval is pending, effective_date may not have been reached yet — ARIA shows current data correctly</div></div><div class="sc-step"><div class="sc-n">5</div><div>ARIA does not cache — if DB is updated, ARIA shows updated data on next query immediately</div></div><div class="sc-rule">ARIA queries live DB · effective_date · EXECUTED status</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Auditor asks for ARIA query history for an employee</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Director requests: "Show all ARIA queries that accessed Ahmed's data in the last 30 days"</div></div><div class="sc-step"><div class="sc-n">2</div><div>SUPER_ADMIN: /settings/aria → Audit Logs → filter by person_id = Ahmed's ID, date range last 30 days</div></div><div class="sc-step"><div class="sc-n">3</div><div>Export shows: who queried, what was asked, whether it was answered or denied, and what data was returned</div></div><div class="sc-step"><div class="sc-n">4</div><div>Audit log export is available as CSV for regulatory submission</div></div><div class="sc-rule">BR-AUDIT-001 · /settings/aria → Audit Logs · 7-year retention</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s9">
+<div class="sec-lbl">Section 9</div>
+<div class="sec-title">Troubleshooting</div>
+<div class="sec-desc">Common ARIA governance and configuration issues — cause and exact fix.</div>
+<div class="ts-grid">
+<div class="ts-card"><div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚫 ARIA Not Responding</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">ARIA panel not loading</div><div class="ts-c">Active toggle is OFF in /settings/aria</div><div class="ts-f">→ SUPER_ADMIN: Settings → AI & Access → ARIA → Identity tab → toggle Active ON.</div></div><div class="ts-prob"><div class="ts-p">ARIA returns "I cannot answer that"</div><div class="ts-c">Data source for that topic not enabled in Behaviour tab</div><div class="ts-f">→ Settings → AI → Behaviour tab → enable the relevant data source for the user's role.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">ARIA not appearing at /me/aria for employees</div><div class="ts-c">Employee scope ARIA not enabled separately from HR console ARIA</div><div class="ts-f">→ Settings → AI → Behaviour → Employee section → toggle ARIA for employees ON.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⚠ Governance Concerns</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">ARIA answered a query it should have blocked</div><div class="ts-c">Role scope configuration incorrect — data source too broad</div><div class="ts-f">→ Immediately review Settings → AI → Behaviour tab. Check which data sources are enabled per role. Restrict as needed.</div></div><div class="ts-prob"><div class="ts-p">Too many DENIED entries in audit logs</div><div class="ts-c">Normal — employees probing cross-role queries is common</div><div class="ts-f">→ DENIED logs are not errors — they show governance is working. Only investigate ANSWERED logs for unexpected data access.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">ARIA showing PII (Emirates ID, IBAN) unmasked</div><div class="ts-c">PII masking cannot be disabled by design — this should never happen</div><div class="ts-f">→ If observed, escalate to SUPER_ADMIN immediately as a security incident. Check audit log for the query and raise with engineering.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">🎙 Voice Input Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Voice icon not appearing</div><div class="ts-c">Voice input toggle OFF or browser not supported</div><div class="ts-f">→ Enable in Settings → AI → Voice toggle ON. Voice requires Chrome or Edge — not available in Firefox/Safari.</div></div><div class="ts-prob"><div class="ts-p">Voice input not transcribing correctly</div><div class="ts-c">Arabic names/terms may require specific dialect configuration</div><div class="ts-f">→ Settings → AI → Voice → set Language to ar-AE (UAE Arabic). English responses will still use English.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Voice query answered but not logged</div><div class="ts-c">Voice queries are converted to text before governance layer — all are logged</div><div class="ts-f">→ Check audit_log for the timestamp. Voice queries log as text after transcription.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">📊 Audit Log Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Audit log export not working</div><div class="ts-c">Export requires SUPER_ADMIN role</div><div class="ts-f">→ /settings/aria → Audit Logs → Export CSV. Only SUPER_ADMIN can export. If button is greyed, check role assignment at /users.</div></div><div class="ts-prob"><div class="ts-p">Audit log shows wrong user</div><div class="ts-c">Shared session or incorrect SSO mapping</div><div class="ts-f">→ Check SSO configuration. Each user must have their own Entra ID identity — shared accounts violate audit integrity.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Cannot find a specific query in audit log</div><div class="ts-c">Query may have been before audit logging was enabled</div><div class="ts-f">→ Audit logging is enabled when ARIA is first activated. Queries before activation are not logged — this is expected.</div></div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s10">
+<div class="sec-lbl">Section 10</div>
+<div class="sec-title">ARIA Query Reference — All Roles</div>
+<div class="sec-desc">Eight canonical queries across all roles showing exactly how ARIA processes each request with governance applied.</div>
+<div class="aria-wrap">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:14px;font-weight:600">Governance &amp; Security — Query Reference</span></div>
+<div class="aria-grid">
+<div class="aria-card"><div class="aria-q">"Is Ahmed eligible for promotion to Grade 7?" (HR Admin)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Role = HR_ADMIN → access to all employee data confirmed</div><div class="aria-check"><span class="aria-ci">2.</span>Check current grade, time-in-grade, disciplinary flags, salary band</div><div class="aria-check"><span class="aria-ci">3.</span>Authority level Advisory → answer only, no workflow initiated</div></div><div class="aria-response">"Ahmed is eligible. He has been at Grade G6 for 16 months (minimum 12 ✓), no disciplinary records ✓, and Grade G7 salary band is within budget. I can guide you to the promotion workflow if you'd like."</div><div class="aria-rule">HR_ADMIN scope · grades · worker_assignments · Advisory</div></div>
+<div class="aria-card"><div class="aria-q">"Tell me Sara's Emirates ID" (HR Admin)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Role = HR_ADMIN → data access confirmed</div><div class="aria-check"><span class="aria-ci">2.</span>Emirates ID → PII field → MASKING POLICY APPLIED</div><div class="aria-check"><span class="aria-ci">3.</span>PII masking is always ON — cannot be bypassed</div></div><div class="aria-response">"Sara's Emirates ID is on file but I show it as ***-****-***-XXXX for security. If you need the full value, a SUPER_ADMIN can grant temporary decryption access in /settings/security."</div><div class="aria-rule">PII masking always on · AES-256-GCM · SUPER_ADMIN decrypt grant</div></div>
+<div class="aria-card"><div class="aria-q">"Change Ahmed's salary to AED 30,000" (HR Admin)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Query type = salary change → PERMANENT BLOCKLIST</div><div class="aria-check"><span class="aria-ci">2.</span>Blocked regardless of authority level</div></div><div class="aria-response">"Salary changes must be processed through the promotion or adjustment workflow — they cannot be made through ARIA. Go to the employee's profile → Actions → Raise Salary Adjustment, which requires HR Director approval."</div><div class="aria-rule">Permanent blocklist · salary changes always blocked · BR-29</div></div>
+<div class="aria-card"><div class="aria-q">"How many acting assignments are expiring this month?" (HR Admin)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Role = HR_ADMIN → all assignments in scope</div><div class="aria-check"><span class="aria-ci">2.</span>worker_assignments WHERE is_acting=true AND acting_end_date this month</div><div class="aria-check"><span class="aria-ci">3.</span>Flag any over 5 months (approaching 6-month UAE law threshold)</div></div><div class="aria-response">"3 acting assignments expire this month. ⚠ Khalid's acting role as Finance Manager has been active for 5 months and 20 days — UAE Labour Law requires substantive appointment after 6 months. Recommend initiating a promotion review."</div><div class="aria-rule">worker_assignments · is_acting · BR-AC-001 · UAE Labour Law</div></div>
+<div class="aria-card"><div class="aria-q">"Who has the most pending leave requests?" (HR Admin)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Role = HR_ADMIN → all employees</div><div class="aria-check"><span class="aria-ci">2.</span>absence_requests WHERE status=SUBMITTED, group by line_manager_id</div><div class="aria-check"><span class="aria-ci">3.</span>Sort by count DESC → identify backlog</div></div><div class="aria-response">"IT Department has the most pending requests: 6 outstanding leave requests, all assigned to manager Khalid Al-Mansoori. His oldest request has been pending 51 hours — SLA breached. I recommend escalating."</div><div class="aria-rule">absence_requests · line_manager_id · SLA 48h · HR_ADMIN scope</div></div>
+<div class="aria-card"><div class="aria-q">"Terminate Sara's employment" (any role)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Query type = termination action → PERMANENT BLOCKLIST</div><div class="aria-check"><span class="aria-ci">2.</span>Blocked regardless of role or authority level</div></div><div class="aria-response">"I can't initiate or execute terminations. This requires a formal offboarding process through HR Admin — go to the employee's profile → Actions → Initiate Offboarding. This will route through the approval workflow including HR Director sign-off."</div><div class="aria-rule">Permanent blocklist · termination always blocked · HR Director required</div></div>
+<div class="aria-card"><div class="aria-q">"Show me the pending transfer requests" (HR Admin)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Role = HR_ADMIN → all transfer_requests in scope</div><div class="aria-check"><span class="aria-ci">2.</span>transfer_requests WHERE status = PENDING_APPROVAL</div><div class="aria-check"><span class="aria-ci">3.</span>Return structured list with next approver and days pending</div></div><div class="aria-response">"4 pending transfer requests: Ahmed Hassan (Promotion to G7 — pending Finance, 3 days), Sara Al-Zaabi (Lateral transfer to Operations — pending HR Director, 1 day), and 2 more. View all at /hr-admin/approvals."</div><div class="aria-rule">transfer_requests · PENDING_APPROVAL · /hr-admin/approvals</div></div>
+<div class="aria-card"><div class="aria-q">"What can ARIA help me with?" (any role)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Check requesting user's role</div><div class="aria-check"><span class="aria-ci">2.</span>Return scope-appropriate capability summary</div></div><div class="aria-response">"As an HR Admin, I can answer questions about employees, leave balances, transfer eligibility, pending approvals, EOSB calculations, and workflow status. I can't change salaries, execute terminations, or share raw PII. Ask me anything HR-related!"</div><div class="aria-rule">Role-scoped capabilities · Advisory level · data_sources config</div></div>
+</div>
+</div>
+</div>
+
+</main>
+<div class="page-footer">
+  AVANIIS HR · ARIA AI Governance &amp; Security · v1.0 · May 2026 · Avaniis / Avaniis · Internal Use Only
+</div>
+<script>var ROLE_MAP = {
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  hr: ['s1','s2','s3','s4','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s8','s9','s10'],
+  emp: ['s1','s3','s8','s9','s10'],
+  sa: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+};
+
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  pay: ['s1','s2','s4','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

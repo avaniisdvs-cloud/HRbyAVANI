@@ -1,0 +1,8 @@
+node_modules
+.next
+*.log
+hr_data_migration
+scripts
+tests
+docs
+drizzle/migrations/meta

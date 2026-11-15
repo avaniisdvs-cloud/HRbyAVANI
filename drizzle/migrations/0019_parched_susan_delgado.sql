@@ -1,0 +1,1 @@
+ALTER TABLE "positions" ADD COLUMN "vacancy_start_date" date;

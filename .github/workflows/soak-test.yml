@@ -1,0 +1,227 @@
+name: Staging Soak Test
+
+# Runs the authenticated 60-minute endurance soak against a target deployment.
+# Uses scripts/mint-test-session.mjs to programmatically create a signed Auth.js
+# JWT — no interactive browser session or cookie sharing required.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# CREDENTIAL SECURITY RULES — mandatory, do not bypass:
+#   • Session tokens are NEVER printed, logged, or shared in chat/comments
+#   • AUTH_SECRET is consumed from GitHub Secrets only — never from code
+#   • The minted cookie value is masked with ::add-mask:: immediately after creation
+#   • AUTH_STATE_PATH is deleted from the runner at the end of every run
+#   • If targeting production (your production deployment), ALLOW_PRODUCTION_MINT
+#     must be explicitly enabled as a workflow input — it is OFF by default
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Required GitHub Secrets:
+#   STAGING_AUTH_SECRET  — AUTH_SECRET from the target Vercel environment
+#   STAGING_BASE_URL     — Target deployment URL (set this Secret explicitly;
+#                          no default so misconfiguration is caught at start)
+#
+# For production targeting (your production deployment):
+#   Set STAGING_BASE_URL secret = your approved HTTPS staging URL
+#   Enable "allow_production_mint" input when triggering via workflow_dispatch
+
+on:
+  # Weekly endurance run — Sunday 02:00 UTC (off-peak, low UAE traffic)
+  schedule:
+    - cron: '0 2 * * 0'
+
+  # Manual trigger with optional parameter overrides
+  workflow_dispatch:
+    inputs:
+      soak_duration:
+        description: 'k6 soak duration (e.g. 60m, 30m, 10m)'
+        required: false
+        default: '60m'
+      sustained_vus:
+        description: 'Number of sustained virtual users'
+        required: false
+        default: '20'
+      enable_spike:
+        description: 'Enable spike phase (true/false)'
+        required: false
+        default: 'true'
+      spike_vus:
+        description: 'Spike VU count'
+        required: false
+        default: '50'
+      role:
+        description: 'Test role to mint (HR_ADMIN | MANAGER | EMPLOYEE)'
+        required: false
+        default: 'HR_ADMIN'
+      allow_production_mint:
+        description: >
+          Allow minting against the production URL (your production deployment).
+          Only enable if STAGING_BASE_URL secret points to production AND
+          you have explicitly authorized a production load test.
+          Default: false (mint is blocked against production URL).
+        required: false
+        default: 'false'
+        type: boolean
+
+concurrency:
+  group: soak-${{ github.ref }}
+  cancel-in-progress: false   # never cancel a running soak mid-way
+
+jobs:
+  soak:
+    name: Authenticated Staging Soak (${{ github.event.inputs.soak_duration || '60m' }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 90       # 60m soak + 30m overhead for setup and analysis
+
+    env:
+      SOAK_DURATION:  ${{ github.event.inputs.soak_duration  || vars.SOAK_DURATION  || '60m' }}
+      SUSTAINED_VUS:  ${{ github.event.inputs.sustained_vus  || vars.SUSTAINED_VUS  || '20' }}
+      ENABLE_SPIKE:   ${{ github.event.inputs.enable_spike   || 'true' }}
+      SPIKE_VUS:      ${{ github.event.inputs.spike_vus      || '50' }}
+      MINT_ROLE:      ${{ github.event.inputs.role           || 'HR_ADMIN' }}
+      AUTH_STATE_PATH: tests/e2e/auth/staging-soak.json
+      K6_RESULTS_PATH: tests/performance/k6-soak-results-ci.json
+
+    steps:
+      # ── 1. Validate required secrets are present ──────────────────────────────
+      # Fail fast before any work if the required secret is missing.
+      - name: Validate STAGING_AUTH_SECRET and STAGING_BASE_URL are set
+        run: |
+          if [ -z "${{ secrets.STAGING_AUTH_SECRET }}" ]; then
+            echo "::error::STAGING_AUTH_SECRET is not set. Add it to GitHub Secrets before running this workflow."
+            exit 1
+          fi
+          if [ -z "${{ secrets.STAGING_BASE_URL }}" ]; then
+            echo "::error::STAGING_BASE_URL is not set. Add it to GitHub Secrets (your approved HTTPS staging URL)."
+            exit 1
+          fi
+          echo "Required secrets present. Target: ${{ secrets.STAGING_BASE_URL }}"
+
+      # ── 2. Checkout ───────────────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 3. Node + pnpm setup ──────────────────────────────────────────────────
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.4.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ── 4. Mint staging session JWT ───────────────────────────────────────────
+      # The --quiet flag suppresses all token output. The cookie value is never
+      # printed to logs. ::add-mask:: in the next step covers the k6 injection.
+      - name: Mint staging session JWT
+        env:
+          AUTH_SECRET:            ${{ secrets.STAGING_AUTH_SECRET }}
+          # ALLOW_PRODUCTION_MINT is only set when the user has explicitly enabled
+          # it via workflow_dispatch input. Never set to '1' in the default path.
+          ALLOW_PRODUCTION_MINT:  ${{ github.event.inputs.allow_production_mint == 'true' && '1' || '' }}
+        run: |
+          node scripts/mint-test-session.mjs \
+            --role "${{ env.MINT_ROLE }}" \
+            --base-url "${{ secrets.STAGING_BASE_URL }}" \
+            --output "${{ env.AUTH_STATE_PATH }}" \
+            --ttl 7200 \
+            --quiet
+
+      # ── 5. Verify target deployment is reachable ─────────────────────────────
+      - name: Smoke-check health endpoint
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.STAGING_BASE_URL }}/api/health" --max-time 15)
+          echo "Health endpoint HTTP status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "::error::Health check failed (HTTP $HTTP_STATUS). Aborting soak."
+            exit 1
+          fi
+          echo "Deployment reachable."
+
+      # ── 6. Extract cookie for k6 — value is masked immediately ───────────────
+      # COOKIE_NAME is logged (safe). COOKIE_VALUE is masked before any use.
+      # AUTH_COOKIE is written to GITHUB_ENV masked — never appears in logs.
+      - name: Extract k6 auth cookie (masked)
+        id: extract-cookie
+        run: |
+          COOKIE_NAME=$(python3 -c "
+          import json
+          d = json.load(open('${{ env.AUTH_STATE_PATH }}'))
+          print(d['cookies'][0]['name'])
+          ")
+          COOKIE_VALUE=$(python3 -c "
+          import json
+          d = json.load(open('${{ env.AUTH_STATE_PATH }}'))
+          print(d['cookies'][0]['value'])
+          ")
+          # Mask immediately — value will not appear in any subsequent log line
+          echo "::add-mask::$COOKIE_VALUE"
+          echo "AUTH_COOKIE=$COOKIE_NAME=$COOKIE_VALUE" >> "$GITHUB_ENV"
+          echo "cookie_name=$COOKIE_NAME" >> "$GITHUB_OUTPUT"
+          echo "Cookie ready: $COOKIE_NAME @ (value masked)"
+
+      # ── 7. Validate authenticated route returns 200 ───────────────────────────
+      # Confirms the minted JWT is accepted before spending 60 minutes on the soak.
+      # Only logs HTTP status — the cookie value itself is masked from all output.
+      - name: Validate authenticated access (/dashboard must return 200)
+        run: |
+          COOKIE_NAME="${{ steps.extract-cookie.outputs.cookie_name }}"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            --cookie "${{ env.AUTH_COOKIE }}" \
+            "${{ secrets.STAGING_BASE_URL }}/dashboard" \
+            --max-time 20)
+          echo "GET /dashboard → HTTP $HTTP_STATUS"
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "::error::Authenticated route returned $HTTP_STATUS (expected 200). JWT may be invalid for this deployment. Aborting."
+            exit 1
+          fi
+          echo "Authenticated access confirmed. Proceeding to soak."
+
+      # ── 8. Install k6 ────────────────────────────────────────────────────────
+      - name: Install k6
+        run: |
+          sudo gpg -k
+          sudo gpg --no-default-keyring \
+            --keyring /usr/share/keyrings/k6-archive-keyring.gpg \
+            --keyserver hkp://keyserver.ubuntu.com:80 \
+            --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo 'deb [signed-by=/usr/share/keyrings/k6-archive-keyring.gpg] https://dl.k6.io/deb stable main' \
+            | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update -q
+          sudo apt-get install -q k6
+
+      # ── 9. Run authenticated soak ─────────────────────────────────────────────
+      - name: Run authenticated soak test
+        run: |
+          k6 run \
+            -e BASE_URL="${{ secrets.STAGING_BASE_URL }}" \
+            -e AUTH_COOKIE="${{ env.AUTH_COOKIE }}" \
+            -e SOAK_DURATION="${{ env.SOAK_DURATION }}" \
+            -e SUSTAINED_VUS="${{ env.SUSTAINED_VUS }}" \
+            -e ENABLE_SPIKE="${{ env.ENABLE_SPIKE }}" \
+            -e SPIKE_VUS="${{ env.SPIKE_VUS }}" \
+            --out json="${{ env.K6_RESULTS_PATH }}" \
+            tests/performance/k6-soak-test.js
+
+      # ── 10. Upload results artifact ───────────────────────────────────────────
+      # Results JSON contains only performance metrics — no session token data.
+      - name: Upload soak results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: soak-results-${{ github.run_id }}
+          path: |
+            tests/performance/k6-soak-results-ci.json
+          retention-days: 30
+
+      # ── 11. Cleanup — delete auth state from runner regardless of outcome ──────
+      - name: Cleanup auth state
+        if: always()
+        run: |
+          rm -f "${{ env.AUTH_STATE_PATH }}"
+          echo "Auth state cleaned up from runner."

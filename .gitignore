@@ -1,0 +1,92 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js
+/.next/
+/out/
+
+# Build output
+/dist/
+
+# Testing
+/coverage/
+/playwright-report/
+/test-results/
+/blob-report/
+
+# Environment files — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# pnpm
+.pnpm-store/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Drizzle migration meta — journal + snapshots must be committed so CI
+# drift check has a baseline to compare against. Do NOT re-add this folder.
+# drizzle/migrations/meta/
+
+# Backups
+backups/
+
+# Claude Code internal worktrees (embedded git repos — never commit)
+.claude/worktrees/
+.clone/worktrees/
+tests/e2e/.auth/
+tests/e2e/auth/
+
+# User-uploaded files (contain PII — never commit)
+public/uploads/
+.vercel
+
+# Staging auth artifacts — contain signed session tokens, NEVER commit
+# These files hold active session credentials equivalent to passwords.
+# They are gitignored here AND excluded by the CI cleanup step (if: always()).
+# EPRC-01 B3: the .txt variant was previously tracked (the rule below only
+# covered .json). Broadened to all extensions + a defensive glob.
+tests/performance/staging-auth-cookie.*
+tests/performance/*-auth-cookie.*
+tests/e2e/auth/staging-*.json
+tests/e2e/auth/*-soak.json
+/tmp/staging-soak.json
+/tmp/prod-soak.json
+
+# C2-R: un-approved preview route + design docs — kept LOCAL only, never promoted
+# (removed from VCS after an auto-sync backup committed them against instructions)
+app/(hr-admin)/admin-preview/
+tests/roadmap/administration-ia-blueprint.md
+tests/roadmap/c2r-navigation-rationalization.md
+
+# Transient runtime lock files (not code)
+.claude/scheduled_tasks.lock
+.claude/*.lock
+
+# HR data migration working set — contains REAL employee PII (names, emails, DOB,
+# Oracle Fusion source workbooks, generated import files). NEVER commit to git.
+hr_data_migration/
+
+# Local UAT verification screenshots produced by scripts/uat-capture-approval-inbox.mjs.
+# Raw browser evidence — local-only, may contain UAT-run data; never committed.
+evidence/
+
+# Local agent/runtime workspaces are not application source.
+.claire/
+.claude/launch.json

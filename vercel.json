@@ -1,0 +1,17 @@
+{
+  "regions": ["fra1"],
+  "crons": [
+    {
+      "path": "/api/cron/workflow-sla",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/email-dispatch",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/future-dated-activation",
+      "schedule": "5 20 * * *"
+    }
+  ]
+}

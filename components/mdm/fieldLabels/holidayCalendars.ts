@@ -1,0 +1,15 @@
+export const HOLIDAY_CALENDAR_FIELD_LABELS: Record<string, string> = {
+  legalEntityId:  'Legal Entity',
+  holidayYear:    'Holiday Year',
+  holidayCode:    'Holiday Code',
+  holidayNameEn:  'Name (English)',
+  holidayNameAr:  'Name (Arabic)',
+  holidayDate:    'Holiday Date',
+  endDate:        'End Date',
+  durationDays:   'Duration (days)',
+  isFloating:     'Floating (Hijri)',
+  announcedDate:  'Announced Date',
+  isConfirmed:    'Confirmed',
+  appliesTo:      'Applies To',
+  emirate:        'Emirate',
+}

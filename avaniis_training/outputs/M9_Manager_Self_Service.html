@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M9 — Manager Self-Service (MSS) | AVANIIS HR</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+    --lane-mgr:#7B68EE;
+    --lane-hd:#7B2FBE;
+    --lane-fi:#E87040;
+    --aria-bg1:#0A2E35;
+    --aria-bg2:#0A2228;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Header ── */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* ── Sticky Nav ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* ── Role Filter ── */
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+
+/* ── Content ── */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+
+/* ── Preconditions ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+
+/* ── Blocking conditions ── */
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:140px}
+.block-reason{color:var(--rd)}
+
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+
+/* ── State Machines ── */
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+
+/* ── Mockups ── */
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+
+/* ── Inbox mockup ── */
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+
+/* ── Org chart node pair ── */
+.node-pair{display:flex;gap:24px;flex-wrap:wrap}
+.oc-node{width:220px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:12px 14px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:10px}
+.oc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12.5px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:10px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:7px 14px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 14px 9px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--mu)}
+.acting-bar{background:var(--am);padding:5px 14px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.oc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+
+/* ── ARIA ── */
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* ── SLA timers ── */
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+
+/* ── Callouts ── */
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+
+/* ── Footer ── */
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+
+/* ── Print ── */
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+
+/* ── Mockup shell ── */
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr;min-height:340px}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.mf-main{background:var(--off);padding:16px;position:relative}
+/* ── ARIA dark cards ── */
+.aria-wrap{background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+/* ── SM ── */
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+/* ── pre-items ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-chk{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-rt{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-lbl{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:#7A1A1A}
+/* ── Print + mobile ── */
+@media print{.nav-wrap,.rf-bar{display:none!important}.sec{page-break-inside:avoid}body{background:#fff}.card,.swimlane,.sm-wrap,.sc-card,.ts-card{box-shadow:none!important;border:1px solid #ccc!important}}
+@media(max-width:640px){.ph{padding:20px 18px}.content{padding:20px 14px}.nav-inner{padding:0 16px}.rf-bar{padding:8px 16px}.mf-body{grid-template-columns:1fr}.mf-sidebar{display:none}.sc-grid,.ts-grid,.type-grid,.pre-grid{grid-template-columns:1fr}.aria-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Manual · M9 — Manager Self-Service</div>
+  <div class="ph-title">Manager Self-Service (MSS)</div>
+  <div class="ph-sub">بوابة الخدمة الذاتية للمدراء · Leave Approvals · Timesheet Approvals · Team View · Delegation · ARIA Team Analytics</div>
+  <div class="ph-pills"><span class="pill  g">MANAGER</span><span class="pill  g">HR_ADMIN</span><span class="pill">HR_DIRECTOR</span><span class="pill">/approvals · /manager/*</span><span class="pill">BR-29 Three-Button Rule</span><span class="pill">v1.0 · May 2026</span></div>
+</div>
+<div class="nav-wrap"><div class="nav-inner"><a href="#s1" class="ni" data-section="s1">Overview</a><a href="#s2" class="ni" data-section="s2">Dependency Map</a><a href="#s3" class="ni" data-section="s3">MSS Capabilities</a><a href="#s4" class="ni" data-section="s4">Process Flows</a><a href="#s5" class="ni" data-section="s5">Approval States</a><a href="#s6" class="ni" data-section="s6">Screen Mockups</a><a href="#s7" class="ni" data-section="s7">Team Management</a><a href="#s8" class="ni" data-section="s8">Scenarios</a><a href="#s9" class="ni" data-section="s9">Troubleshooting</a><a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a></div></div>
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+</div>
+<main class="content">
+
+<div class="sec" id="s1">
+<div class="sec-lbl">Section 1</div>
+<div class="sec-title">Module Overview &amp; Preconditions</div>
+<div class="sec-desc">Manager Self-Service (MSS) gives line managers a dedicated workspace to manage their direct reports — reviewing leave, approving timesheets, viewing team org charts, delegating approvals, and accessing ARIA team analytics. All MSS routes are at <code>/manager/*</code> and require an ACTIVE worker assignment with the MANAGER role.</div>
+<div class="card" style="margin-bottom:16px">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions for MSS Access</div>
+<div class="pre-grid">
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">User has MANAGER role assigned</div><div class="pre-where">Configure: <span class="pre-rt">/users → Role = MANAGER</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">At least one direct report assigned</div><div class="pre-where">Configure: <span class="pre-rt">/persons/[id] → line_manager_id</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Microsoft Entra ID SSO active</div><div class="pre-where">Configure: <span class="pre-rt">/users → SSO tab</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Leave module configured (M2)</div><div class="pre-where">Required for leave approval at <span class="pre-rt">/approvals</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Timesheet rules configured</div><div class="pre-where">Configure: <span class="pre-rt">/master-data/timesheet-rules</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Approvals workflow active (M5)</div><div class="pre-where">Required for BR-29 three-button approvals</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">ARIA enabled with manager scope</div><div class="pre-where">Configure: <span class="pre-rt">/settings/aria → Manager scope ON</span></div></div></div>
+</div>
+</div>
+<div class="block-panel">
+<div class="block-title">🚫 Blocking Conditions</div>
+<div class="block-row"><span class="block-lbl">No direct reports assigned</span><span class="block-reason">MSS dashboard empty — no one to manage. Assign line_manager_id on worker assignments.</span></div>
+<div class="block-row"><span class="block-lbl">EMPLOYEE role only</span><span class="block-reason">Manager role must be assigned separately — EMPLOYEE role does not unlock MSS views.</span></div>
+<div class="block-row"><span class="block-lbl">Delegation expired</span><span class="block-reason">If delegatee's assignment ends, pending delegated approvals return to original manager.</span></div>
+<div class="block-row"><span class="block-lbl">48h SLA breach</span><span class="block-reason">Leave and timesheet approvals exceeding SLA trigger HR Admin escalation notification.</span></div>
+</div>
+</div>
+
+<div class="sec" id="s2">
+<div class="sec-lbl">Section 2</div>
+<div class="sec-title">Dependency Map</div>
+<div class="sec-desc">Three chains: MSS access prerequisites, what the manager can do, and the delegation flow.</div>
+<div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>MSS Dependency Map — Three Chains</title>
+<desc>Chain A: MSS prerequisites. Chain B: manager actions available once active. Chain C: delegation approval flow.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+<rect x="14" y="14" width="230" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — MSS ACCESS PREREQUISITES</text>
+<rect x="14" y="44" width="118" height="56" rx="7" fill="#0A1628"/>
+<text x="73" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">ACTIVE</text>
+<text x="73" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Assignment</text>
+<text x="73" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">assignment_status</text>
+<line x1="132" y1="72" x2="152" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">MANAGER</text>
+<text x="213" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Role Assigned</text>
+<text x="213" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/users role</text>
+<line x1="272" y1="72" x2="292" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Direct Reports</text>
+<text x="353" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Assigned</text>
+<text x="353" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">line_manager_id</text>
+<line x1="412" y1="72" x2="432" y2="72" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="434" y="44" width="138" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="503" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">MSS Fully</text>
+<text x="503" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Operational</text>
+<text x="503" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">/manager/* routes</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="124" width="270" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — MANAGER ACTIONS AVAILABLE</text>
+<rect x="14" y="158" width="118" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="73" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">MSS Active</text>
+<text x="73" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">/manager/* live</text>
+<line x1="132" y1="186" x2="152" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="154" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Approve</text>
+<text x="213" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/approvals</text>
+<line x1="272" y1="186" x2="292" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="294" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">View Team</text>
+<text x="353" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/manager/team</text>
+<line x1="412" y1="186" x2="432" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="434" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="493" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">ARIA Team</text>
+<text x="493" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/manager/aria</text>
+<line x1="552" y1="186" x2="572" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="574" y="158" width="138" height="56" rx="7" fill="#1A6B3C"/>
+<text x="643" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Delegate</text>
+<text x="643" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">to another manager</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="238" width="260" height="22" rx="4" fill="#7B68EE"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — DELEGATION FLOW (BR-29)</text>
+<rect x="14" y="270" width="128" height="56" rx="7" fill="#0A1628"/>
+<text x="78" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Approval</text>
+<text x="78" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Pending</text>
+<text x="78" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">in /approvals</text>
+<line x1="142" y1="298" x2="162" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="164" y="270" width="128" height="56" rx="7" fill="#7B68EE"/>
+<text x="228" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Manager</text>
+<text x="228" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Delegates</text>
+<text x="228" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.7)">selects delegatee</text>
+<line x1="292" y1="298" x2="312" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="314" y="270" width="128" height="56" rx="7" fill="#0E7C6A"/>
+<text x="378" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Delegatee</text>
+<text x="378" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Notified</text>
+<text x="378" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">email + badge</text>
+<line x1="442" y1="298" x2="462" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="464" y="270" width="128" height="56" rx="7" fill="#0E7C6A"/>
+<text x="528" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Delegatee</text>
+<text x="528" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Acts on Item</text>
+<text x="528" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">Approve/Reject</text>
+<line x1="592" y1="298" x2="612" y2="298" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="614" y="270" width="128" height="56" rx="7" fill="#1A6B3C"/>
+<text x="678" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Audit Log</text>
+<text x="678" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Updated</text>
+<text x="678" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">BR-AUDIT-001</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="352" width="400" height="110" rx="8" fill="#fff" stroke="#D4D8E2"/>
+<text x="26" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96">LEGEND</text>
+<rect x="26" y="378" width="13" height="13" rx="3" fill="#0A1628"/><text x="45" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Prerequisite / trigger</text>
+<rect x="200" y="378" width="13" height="13" rx="3" fill="#0E7C6A"/><text x="219" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Available action / system</text>
+<rect x="26" y="400" width="13" height="13" rx="3" fill="#7B68EE"/><text x="45" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Delegation (BR-29)</text>
+<rect x="200" y="400" width="13" height="13" rx="3" fill="#1A6B3C"/><text x="219" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Audit / preservation</text>
+<rect x="414" y="352" width="462" height="110" rx="8" fill="#FDEAEA" stroke="#F4A0A0"/>
+<text x="426" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">BLOCKING CONDITIONS</text>
+<text x="426" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">No direct reports</text><text x="536" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — MSS dashboard empty, set line_manager_id</text>
+<text x="426" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">EMPLOYEE role only</text><text x="540" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — MANAGER role must be assigned separately</text>
+<text x="426" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">48h SLA breached</text><text x="538" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — escalation to HR Admin triggered automatically</text>
+<text x="426" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Delegatee not ACTIVE</text><text x="558" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — delegation fails if target manager is suspended</text>
+</svg>
+</div>
+</div>
+
+<div class="sec" id="s3">
+<div class="sec-lbl">Section 3</div>
+<div class="sec-title">Six MSS Capabilities</div>
+<div class="sec-desc">What a manager can do in the MSS workspace. All require the MANAGER role. Some capabilities require additional conditions.</div>
+<div class="type-grid">
+<div class="type-card" style="border-color:var(--te-bd)"><div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">✅</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Leave Approvals</div><div style="font-size:10px;color:var(--mu)">/approvals</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Approve leave request</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Reject leave request</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Delegate to another manager</span><span class="tv-g">Yes ✓ (BR-29)</span></div><div class="tr"><span class="tk">Override balance</span><span class="tv-r">HR Admin only ✗</span></div><div class="mistake">⚠ BR-29: All approvals must show Approve + Reject + Delegate — never hide any of the three buttons.</div></div></div>
+<div class="type-card" style="border-color:#C4ADEE"><div style="background:var(--pu-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--pu);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">⏱</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Timesheet Approvals</div><div style="font-size:10px;color:var(--mu)">/approvals → Timesheets</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Approve / Reject</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Unlock for resubmission</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Edit submitted hours</span><span class="tv-r">Cannot edit employee's hours</span></div><div class="tr"><span class="tk">48h SLA</span><span class="tv-a">Escalates if breached</span></div><div class="mistake">⚠ Common: manager unlocks timesheet after already approving — must reject first to allow employee resubmission.</div></div></div>
+<div class="type-card" style="border-color:var(--bl-bd)"><div style="background:var(--bl-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--bl);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">👥</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Team View</div><div style="font-size:10px;color:var(--mu)">/manager/team</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">View all direct reports</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">View team leave calendar</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">View team org chart</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">View salary details</span><span class="tv-r">HR Admin only ✗</span></div><div class="mistake">⚠ Common: manager cannot see salary in team view — this is intentional. Only HR Admin and above can view salary data.</div></div></div>
+<div class="type-card" style="border-color:var(--am-bd)"><div style="background:var(--am-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--am);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🔄</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Delegation</div><div style="font-size:10px;color:var(--mu)">/approvals → Delegate</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Delegate single item</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Bulk delegate all pending</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Delegatee must be MANAGER</span><span class="tv-a">Enforced</span></div><div class="tr"><span class="tk">Original manager notified when done</span><span class="tv-g">Yes ✓</span></div><div class="mistake">⚠ Common: delegating to an EMPLOYEE role — system blocks. Delegatee must also have MANAGER role.</div></div></div>
+<div class="type-card" style="border-color:var(--gr-bd)"><div style="background:var(--gr-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--gr);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📊</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Team Analytics</div><div style="font-size:10px;color:var(--mu)">/manager/analytics</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Leave utilisation</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Headcount by status</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Pending approval count</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Cross-department data</span><span class="tv-r">HR only ✗</span></div><div class="mistake">⚠ Common: manager can only see analytics for their own direct reports — not peers' teams or department-wide.</div></div></div>
+<div class="type-card" style="border-color:var(--te-bd)"><div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🤖</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">ARIA Team Queries</div><div style="font-size:10px;color:var(--mu)">/manager/aria</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Ask about direct reports</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Ask about leave patterns</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Ask about other teams</span><span class="tv-r">Blocked ✗</span></div><div class="tr"><span class="tk">Salary queries</span><span class="tv-r">HR scope only ✗</span></div><div class="mistake">⚠ Common: manager asks ARIA about a peer's team — ARIA refuses and explains the scope is limited to own direct reports.</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s4">
+<div class="sec-lbl">Section 4</div>
+<div class="sec-title">Step-by-Step Process Flows</div>
+<div class="sec-desc">Two critical MSS workflows: the three-button approval flow (BR-29) and the delegation flow.</div>
+<div class="swimlane"><div class="sw-head">Flow A — Manager Approves Leave Request (BR-29) <span class="sw-stag">3 BUTTONS ALWAYS · 3 LANES</span></div>
+<div class="sw-row"><div class="sw-lbl em">EMPLOYEE</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Submits Leave</span><span class="sb-sub">/me/leave → New Request → Submit</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">Status = SUBMITTED</span><span class="sb-sub">Visible in /approvals for manager</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl mg">MANAGER</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Reviews in /approvals</span><span class="sb-sub">See: type, dates, balance, reason</span></div><span class="sw-arr">→</span><div class="sb sb-warn" style="position:relative"><span class="sn">3</span><span class="sb-title">Three Buttons (BR-29)</span><span class="sb-sub">APPROVE · REJECT · DELEGATE</span></div><span class="sw-arr">→</span><div class="sb sb-ok"><span class="sb-title">Decision Made</span><span class="sb-sub">Employee notified immediately</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">On APPROVE</span><span class="sb-sub">Balance deducted · calendar blocked · audit log</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">On REJECT</span><span class="sb-sub">Request terminal · employee can re-apply</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">On DELEGATE</span><span class="sb-sub">Delegatee notified · original manager cc'd</span></div></div></div>
+</div>
+<div class="swimlane"><div class="sw-head">Flow B — Manager Delegates Approval to Another Manager <span class="sw-stag">BR-29 DELEGATION · MANAGER ROLE REQUIRED</span></div>
+<div class="sw-row"><div class="sw-lbl mg">MANAGER</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Open /approvals</span><span class="sb-sub">Find pending item</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Click Delegate</span><span class="sb-sub">Search for another manager</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">3</span><span class="sb-title">Select Delegatee</span><span class="sb-sub">Must be MANAGER role + ACTIVE</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">Validate Delegatee</span><span class="sb-sub">Role = MANAGER · status = ACTIVE</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">Transfer Item</span><span class="sb-sub">Appears in delegatee's /approvals inbox</span></div><span class="sw-arr">→</span><div class="sb sb-term"><span class="sb-title" style="color:var(--g2)">Audit Log</span><span class="sb-sub" style="color:rgba(255,255,255,.6)">Original manager + delegatee + timestamp</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl hd">DELEGATEE</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">Receives Notification</span><span class="sb-sub">Email + /approvals badge</span></div><span class="sw-arr">→</span><div class="sb sb-ok"><span class="sb-title">Acts on Item</span><span class="sb-sub">Approve / Reject with full context</span></div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s5">
+<div class="sec-lbl">Section 5</div>
+<div class="sec-title">Approval State Machine</div>
+<div class="sec-desc">Every approval request moves through these states. APPROVED and REJECTED are terminal states. DELEGATED creates a new approval instance for the delegatee.</div>
+<div class="sm-wrap"><div class="sm-hdr">⬤ Approval Request States — workflow_instances.status</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 700 260" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Approval Request State Machine</title>
+<desc>Approval states from PENDING through APPROVED, REJECTED, or DELEGATED.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="700" height="260" fill="#F5F6F8"/>
+<rect x="14" y="100" width="110" height="52" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="69" y="122" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A4FBA">SUBMITTED</text>
+<text x="69" y="139" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">In manager inbox</text>
+<line x1="124" y1="116" x2="144" y2="116" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="146" y="80" width="120" height="92" rx="8" fill="#0E7C6A" stroke="#085041" stroke-width="2"/>
+<text x="206" y="116" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#fff">PENDING</text>
+<text x="206" y="132" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)">REVIEW</text>
+<text x="206" y="147" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">48h SLA</text>
+<text x="206" y="162" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.6)">3 buttons BR-29</text>
+<line x1="266" y1="104" x2="296" y2="80" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<line x1="266" y1="148" x2="296" y2="152" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<line x1="266" y1="168" x2="296" y2="190" stroke="#7B68EE" stroke-width="1.5" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="298" y="52" width="120" height="52" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="358" y="74" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A6B3C">APPROVED</text>
+<text x="358" y="91" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Terminal ✓ · audit logged</text>
+<rect x="298" y="134" width="120" height="52" rx="8" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="358" y="156" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#B01B1B">REJECTED</text>
+<text x="358" y="173" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Terminal · employee notified</text>
+<rect x="298" y="176" width="120" height="52" rx="8" fill="#EDE8FC" stroke="#C4ADEE" stroke-width="1.5"/>
+<text x="358" y="198" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#7B68EE">DELEGATED</text>
+<text x="358" y="215" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#7B68EE">New instance created</text>
+<line x1="418" y1="202" x2="448" y2="202" stroke="#7B68EE" stroke-width="1.5" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="450" y="176" width="130" height="52" rx="8" fill="#0E7C6A"/>
+<text x="515" y="198" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Delegatee</text>
+<text x="515" y="215" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">PENDING_REVIEW</text>
+<rect x="14" y="220" width="672" height="30" rx="6" fill="#FEF3E2" stroke="#F4B86A"/>
+<text x="350" y="239" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00" font-weight="700">⚠ BR-29: APPROVED · REJECTED · DELEGATE buttons must always be visible. Never hide or disable any of the three. SLA = 48 hours.</text>
+</svg>
+</div>
+</div>
+<div class="sm-wrap" style="margin-top:16px"><div class="sm-hdr">⬤ MSS Access by Role Scope</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>MSS Role Scope Comparison</title>
+<desc>What each role can see in the MSS workspace — EMPLOYEE vs MANAGER vs HR_ADMIN scope.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="130" fill="#F5F6F8"/>
+<rect x="14" y="14" width="190" height="104" rx="8" fill="#EAF0FD" stroke="#90AADE"/>
+<text x="109" y="30" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A4FBA">EMPLOYEE scope</text>
+<text x="26" y="48" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">✓ Own leave/payslips/letters</text>
+<text x="26" y="64" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ No approvals view</text>
+<text x="26" y="80" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ No team view</text>
+<text x="26" y="96" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ No salary visibility</text>
+<text x="26" y="112" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">/me/* routes only</text>
+<rect x="218" y="14" width="220" height="104" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="328" y="30" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">MANAGER scope</text>
+<text x="230" y="48" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Direct reports' data</text>
+<text x="230" y="64" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Leave + timesheet approvals</text>
+<text x="230" y="80" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Team calendar + org chart</text>
+<text x="230" y="96" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Salary data</text>
+<text x="230" y="112" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">/manager/* + /me/*</text>
+<rect x="452" y="14" width="214" height="104" rx="8" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="559" y="30" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C">HR_ADMIN scope</text>
+<text x="464" y="48" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ All employees</text>
+<text x="464" y="64" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ All approvals</text>
+<text x="464" y="80" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Salary + payroll data</text>
+<text x="464" y="96" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Override any balance</text>
+<text x="464" y="112" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">All routes</text>
+</svg>
+</div>
+</div>
+</div>
+
+<div class="sec" id="s6">
+<div class="sec-lbl">Section 6</div>
+<div class="sec-title">Screen Mockups</div>
+<div class="sec-desc">Three annotated screens showing the manager self-service workspace.</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — Manager Approvals (/approvals)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.1);margin-bottom:8px">
+<div class="mf-topbar"><div class="mf-logo">AVANIIS <span>HR</span></div><div class="mf-search">🔍 <span>Search...</span></div><div style="margin-left:auto;display:flex;gap:8px;align-items:center"><div style="position:relative"><div style="color:rgba(255,255,255,.7);font-size:14px">🔔</div><div style="position:absolute;top:-4px;right:-6px;background:var(--rd);color:#fff;border-radius:50%;width:14px;height:14px;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center">3</div></div><div class="mf-av">SR</div></div></div>
+<div class="mf-body">
+<div class="mf-sidebar"><div class="sb-sec">Manager</div><div class="sb-item active">✅ Approvals <span class="sb-badge">3</span></div><div class="sb-item">👥 My Team</div><div class="sb-item">📊 Analytics</div><div class="sb-item">🤖 ARIA Team</div><div class="sb-sec">My Space</div><div class="sb-item">👤 My Profile</div></div>
+<div class="mf-main">
+<div style="font-size:18px;font-weight:700;color:var(--n);margin-bottom:14px">Pending Approvals <span style="font-size:13px;font-weight:400;color:var(--mu)">(3 items)</span></div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="background:var(--off);border-radius:10px;padding:14px 16px;border-left:4px solid var(--te)">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px"><div><div style="font-weight:700;font-size:13px;color:var(--n)">Annual Leave Request</div><div style="font-size:11px;color:var(--mu)">Ahmed Al-Mansoori · 16–20 Jun 2026 (5 days) · Balance: 14 days</div></div><span style="background:var(--am-bg);color:var(--am);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700">PENDING · 6h ago</span></div>
+<div style="display:flex;gap:8px"><button style="background:var(--gr);color:#fff;border:none;border-radius:7px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer">✓ Approve</button><button style="background:var(--rd);color:#fff;border:none;border-radius:7px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer">✗ Reject</button><button style="background:var(--pu-bg);color:var(--pu);border:1px solid var(--pu-bd);border-radius:7px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer">→ Delegate</button></div>
+</div>
+<div style="background:var(--off);border-radius:10px;padding:14px 16px;border-left:4px solid var(--pu)">
+<div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px"><div><div style="font-weight:700;font-size:13px;color:var(--n)">Timesheet — May Week 4</div><div style="font-size:11px;color:var(--mu)">Sara Al-Zaabi · 42.5 hours · 19–25 May 2026</div></div><span style="background:var(--am-bg);color:var(--am);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700">PENDING · 2d ago</span></div>
+<div style="display:flex;gap:8px"><button style="background:var(--gr);color:#fff;border:none;border-radius:7px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer">✓ Approve</button><button style="background:var(--rd);color:#fff;border:none;border-radius:7px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer">✗ Reject</button><button style="background:var(--pu-bg);color:var(--pu);border:1px solid var(--pu-bd);border-radius:7px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer">→ Delegate</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:24px">
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">①</div><div><strong style="display:block;font-size:11px">BR-29: Three buttons always</strong>Approve · Reject · Delegate must all be visible. Never hide any.</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">②</div><div><strong style="display:block;font-size:11px">Badge count</strong>Red badge on 🔔 and sidebar item shows total pending items</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">③</div><div><strong style="display:block;font-size:11px">Waiting time shown</strong>"6h ago" / "2d ago" warns manager about SLA proximity</div></div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup B — Team View (/manager/team)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08);margin-bottom:24px">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between"><div style="font-size:16px;font-weight:700;color:var(--n)">My Team <span style="font-size:12px;font-weight:400;color:var(--mu)">(4 direct reports)</span></div><div style="display:flex;gap:8px"><button style="background:var(--lt);color:var(--tx);border:1px solid var(--bd);border-radius:7px;padding:6px 14px;font-size:11px;cursor:pointer">📅 Leave Calendar</button><button style="background:var(--lt);color:var(--tx);border:1px solid var(--bd);border-radius:7px;padding:6px 14px;font-size:11px;cursor:pointer">🌳 Org Chart</button></div></div>
+<div style="padding:14px 20px;display:flex;flex-direction:column;gap:6px">
+<div style="display:grid;grid-template-columns:1fr 1fr 80px 80px auto;gap:10px;background:var(--off);border-radius:8px;padding:9px 12px;font-size:12px;align-items:center"><div><div style="font-weight:700">Ahmed Al-Mansoori</div><div style="font-size:10px;color:var(--mu)">Senior Software Engineer</div></div><div style="font-size:11px;color:var(--mu)">Grade G6</div><div><span style="background:var(--gr-bg);color:var(--gr);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">ACTIVE</span></div><div style="font-size:11px;color:var(--te)">14d leave</div><button style="background:var(--bl-bg);color:var(--bl);border:none;border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer">View</button></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 80px 80px auto;gap:10px;background:var(--off);border-radius:8px;padding:9px 12px;font-size:12px;align-items:center"><div><div style="font-weight:700">Sara Al-Zaabi</div><div style="font-size:10px;color:var(--mu)">IT Operations Lead</div></div><div style="font-size:11px;color:var(--mu)">Grade G7</div><div><span style="background:var(--am-bg);color:var(--am);padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700">ON LEAVE</span></div><div style="font-size:11px;color:var(--am)">2d left</div><button style="background:var(--bl-bg);color:var(--bl);border:none;border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer">View</button></div>
+</div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup C — ARIA Team Query (/manager/aria)</div>
+<div style="background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:20px;max-width:620px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:13px;font-weight:600">Team Query · Manager Scope</span><span style="margin-left:auto;font-size:10px;color:rgba(255,255,255,.4)">4 direct reports in scope</span></div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px"><div style="font-size:12px;color:var(--g2);font-style:italic;margin-bottom:6px">"Who on my team is on leave this week?"</div><div style="font-size:12px;color:rgba(255,255,255,.85);line-height:1.6">Sara Al-Zaabi is on annual leave until 26 May 2026. No other team members have approved leave this week.</div></div>
+<div style="background:rgba(255,255,255,.06);border-radius:8px;padding:12px 14px"><div style="font-size:12px;color:var(--g2);font-style:italic;margin-bottom:6px">"How many pending approvals do I have?"</div><div style="font-size:12px;color:rgba(255,255,255,.85);line-height:1.6">You have <strong>3 pending approvals</strong>: 2 leave requests and 1 timesheet. Sara's timesheet has been pending for 48 hours — SLA threshold reached. Recommend reviewing it now.</div></div>
+</div>
+<div style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:7px;padding:8px 12px;margin-top:12px;font-size:11px;color:rgba(255,255,255,.6)">💡 ARIA at /manager/aria is scoped to your direct reports only. For cross-team data, ask HR Admin.</div>
+</div>
+</div>
+
+<div class="sec" id="s7">
+<div class="sec-lbl">Section 7</div>
+<div class="sec-title">Team Management Quick Reference</div>
+<div class="sec-desc">Day-to-day team management guidance for managers — leave calendar, delegation rules, and SLA management.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">📋 Leave &amp; Timesheet SLAs</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Leave approval SLA</span><span style="font-weight:700">48 hours</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Timesheet approval SLA</span><span style="font-weight:700">48 hours</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">SLA breach action</span><span style="color:var(--rd);font-weight:700">HR Admin notified</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Approval buttons (BR-29)</span><span style="color:var(--gr);font-weight:700">Always 3</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">Delegate to EMPLOYEE</span><span style="color:var(--rd);font-weight:700">Blocked</span></div>
+</div>
+<div style="background:var(--am-bg);border:1px solid var(--am-bd);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--am)">⚠ 48h countdown starts when employee submits. Weekend days count in the SLA clock.</div>
+</div>
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">🔄 Delegation Rules</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Delegatee must be</span><span style="font-weight:700">MANAGER role + ACTIVE</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Original manager notified</span><span style="color:var(--gr);font-weight:700">On decision ✓</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Audit trail shows</span><span style="font-weight:700">Both managers</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Can re-delegate</span><span style="color:var(--am);font-weight:700">Yes, once only</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">If delegatee goes inactive</span><span style="font-weight:700">Returns to original</span></div>
+</div>
+<div style="background:var(--te-bg);border:1px solid var(--te-bd);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--te)">💡 For long absences, use bulk delegation: /approvals → ⋯ → Delegate All Pending to another manager.</div>
+</div>
+</div>
+</div>
+
+
+<div class="sm-wrap" style="margin-top:14px">
+<div class="sm-hdr">⬤ Team Leave Overview — At a Glance</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 130" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Manager Team Leave Utilisation Overview</title>
+<desc>Shows team leave balance usage and approval pending counts for the manager's direct reports.</desc>
+<defs><marker id="tm1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="130" fill="#F5F6F8"/>
+<rect x="14" y="14" width="148" height="100" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="88" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">APPROVALS SLA</text>
+<text x="88" y="58" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="28" font-weight="700" fill="#1A6B3C">48h</text>
+<text x="88" y="76" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Both leave &amp;</text>
+<text x="88" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">timesheet</text>
+<text x="88" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">Breach → HR escalate</text>
+<rect x="176" y="14" width="148" height="100" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="250" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A4FBA">DELEGATION</text>
+<text x="250" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Delegatee must be</text>
+<text x="250" y="71" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">MANAGER + ACTIVE</text>
+<text x="250" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Audit logs both</text>
+<text x="250" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">managers (BR-AUDIT-001)</text>
+<rect x="338" y="14" width="148" height="100" rx="8" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+<text x="412" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B45C00">BR-29 RULE</text>
+<text x="412" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Three buttons</text>
+<text x="412" y="71" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B45C00">ALWAYS visible</text>
+<text x="412" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Approve · Reject</text>
+<text x="412" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">· Delegate</text>
+<rect x="500" y="14" width="166" height="100" rx="8" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="583" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C">SCOPE REMINDER</text>
+<text x="583" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)">ARIA + Team View</text>
+<text x="583" y="71" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Direct reports only</text>
+<text x="583" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.6)">No salary visibility</text>
+<text x="583" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.6)">No cross-team data</text>
+</svg>
+</div>
+</div>
+
+<div class="sec" id="s8">
+<div class="sec-lbl">Section 8</div>
+<div class="sec-title">Operational Scenarios</div>
+<div class="sec-desc">Four real-world MSS situations with step-by-step resolution.</div>
+<div class="sc-grid">
+<div class="sc-card"><div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">A</div><div class="sc-title">Manager cannot see approval items</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Manager opens /approvals — shows "No items pending"</div></div><div class="sc-step"><div class="sc-n">2</div><div>Check: does the manager have any employees with line_manager_id pointing to them?</div></div><div class="sc-step"><div class="sc-n">3</div><div>If no direct reports, no approvals will ever appear — assign line_manager_id on worker assignments</div></div><div class="sc-step"><div class="sc-n">4</div><div>If direct reports exist: check that their leave request is SUBMITTED (not DRAFT)</div></div><div class="sc-step"><div class="sc-n">5</div><div>If status = DRAFT, employee has not submitted yet — only they can do that</div></div><div class="sc-rule">worker_assignments.line_manager_id · absence_requests.status</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">48-hour SLA breach — HR notified</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Admin receives alert: "Manager [name] has 2 approval items overdue by 48h"</div></div><div class="sc-step"><div class="sc-n">2</div><div>HR Admin: /approvals → filter by manager → find overdue items</div></div><div class="sc-step"><div class="sc-n">3</div><div>HR Admin can either: (a) escalate to manager with reminder, or (b) approve on behalf if manager is unavailable</div></div><div class="sc-step"><div class="sc-n">4</div><div>HR Admin override is logged in audit_log with reason field required</div></div><div class="sc-warn">⚠ Repeated SLA breaches trigger escalation to HR Director. Configure SLA in /settings/workflows → SLA tab.</div><div class="sc-rule">workflow_instances · SLA · audit_log · HR override</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">C</div><div class="sc-title">Manager wants to bulk-delegate before annual leave</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Manager about to go on leave and has 5 pending approval items</div></div><div class="sc-step"><div class="sc-n">2</div><div>/approvals → ⋯ menu → Delegate All Pending</div></div><div class="sc-step"><div class="sc-n">3</div><div>Search for another manager — must have MANAGER role and ACTIVE assignment</div></div><div class="sc-step"><div class="sc-n">4</div><div>Select delegatee — all 5 items move to their inbox immediately</div></div><div class="sc-step"><div class="sc-n">5</div><div>Original manager receives notification for each item when acted on</div></div><div class="sc-rule">BR-29 delegation · MANAGER role enforced · bulk delegate</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Employee says they cannot see their leave request status</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Employee submits leave — status shows SUBMITTED, then disappears from /me/leave</div></div><div class="sc-step"><div class="sc-n">2</div><div>This is a refresh issue — tell employee to reload /me/leave</div></div><div class="sc-step"><div class="sc-n">3</div><div>If still missing: check absence_requests table for the record by employee ID and date range</div></div><div class="sc-step"><div class="sc-n">4</div><div>If found in DB but not shown — check if it was accidentally RECALLED by HR Admin</div></div><div class="sc-step"><div class="sc-n">5</div><div>If request shows REJECTED: employee needs to create a new request</div></div><div class="sc-rule">absence_requests.status · browser refresh · audit_log</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s9">
+<div class="sec-lbl">Section 9</div>
+<div class="sec-title">Troubleshooting</div>
+<div class="sec-desc">Common MSS issues — problem, root cause, and exact resolution.</div>
+<div class="ts-grid">
+<div class="ts-card"><div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚫 Cannot Access /approvals</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Approvals tab not showing in sidebar</div><div class="ts-c">User has EMPLOYEE role only — MANAGER role not assigned</div><div class="ts-f">→ SUPER_ADMIN: /users → find user → Role field → assign MANAGER role. Sidebar updates on next login.</div></div><div class="ts-prob"><div class="ts-p">Approvals shows but always empty</div><div class="ts-c">No direct reports with line_manager_id pointing to this manager</div><div class="ts-f">→ HR Admin: /persons → find each direct report → Assignments → set line_manager_id to this manager.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Can see approvals but cannot approve</div><div class="ts-c">Workflow module not configured (M5 prerequisite)</div><div class="ts-f">→ Check /settings/workflows. At least one approval workflow must be active for approvals to function.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⏳ Approval Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Only 2 buttons showing instead of 3</div><div class="ts-c">UI customization removed Delegate — this violates BR-29</div><div class="ts-f">→ SUPER_ADMIN: /settings/workflows → Approval Settings → ensure "Show Delegate" is ON. This is a mandatory requirement.</div></div><div class="ts-prob"><div class="ts-p">Delegated item returned to original manager</div><div class="ts-c">Delegatee's assignment became SUSPENDED/TERMINATED</div><div class="ts-f">→ Check delegatee's assignment_status. Reassign to another active manager.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Cannot delegate — person not in list</div><div class="ts-c">Target person has EMPLOYEE role only, not MANAGER</div><div class="ts-f">→ Assign MANAGER role at /users for the target person. They then appear in the delegation search.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">👥 Team View Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Team member missing from /manager/team</div><div class="ts-c">worker_assignments.line_manager_id not set correctly</div><div class="ts-f">→ HR Admin: /persons/[employee_id] → current assignment → set line_manager_id to this manager's person ID.</div></div><div class="ts-prob"><div class="ts-p">Cannot see salary in team view</div><div class="ts-c">By design — managers cannot see salary data</div><div class="ts-f">→ Expected behaviour. Salary data is HR Admin scope only. Contact HR Admin for salary-related decisions.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Leave calendar shows wrong data</div><div class="ts-c">Approved leave not showing — may be a different entity</div><div class="ts-f">→ Check that the employee and manager are in the same legal_entity_id. Cross-entity visibility is restricted.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">🤖 ARIA Team Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">ARIA showing data for wrong team</div><div class="ts-c">ARIA at /manager/aria should auto-scope to requesting manager's direct reports</div><div class="ts-f">→ Check worker_assignments.line_manager_id for all shown employees. If wrong, reassign at /persons.</div></div><div class="ts-prob"><div class="ts-p">ARIA refuses to answer about a colleague's team</div><div class="ts-c">Correct behaviour — cross-team queries blocked at governance layer</div><div class="ts-f">→ Expected. Ask HR Admin or use /reports for cross-team analytics.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">ARIA not showing pending approvals count</div><div class="ts-c">Approvals data source not enabled in ARIA Behaviour tab</div><div class="ts-f">→ SUPER_ADMIN: Settings → AI & Access → ARIA Behaviour → enable Approvals data source.</div></div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s10">
+<div class="sec-lbl">Section 10</div>
+<div class="sec-title">ARIA Intelligence — Manager Team Queries</div>
+<div class="sec-desc">What managers can ask ARIA about their team. Scoped to direct reports only — cross-team queries are blocked.</div>
+<div class="aria-wrap">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:14px;font-weight:600">Manager Self-Service — Team Query Reference</span></div>
+<div class="aria-grid">
+<div class="aria-card"><div class="aria-q">"Who on my team is on leave this week?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Get requesting manager's person_id from session</div><div class="aria-check"><span class="aria-ci">2.</span>worker_assignments WHERE line_manager_id = manager → get direct_report_ids</div><div class="aria-check"><span class="aria-ci">3.</span>absence_requests WHERE person_id IN direct_reports AND status=ACTIVE AND date range = this week</div></div><div class="aria-response">"Sara Al-Zaabi is on annual leave this week (until 26 May). No other direct reports have approved leave this week."</div><div class="aria-rule">worker_assignments · absence_requests · manager scope</div></div>
+<div class="aria-card"><div class="aria-q">"How many pending approvals do I have?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>workflow_instances WHERE assigned_to = manager AND status = PENDING_REVIEW</div><div class="aria-check"><span class="aria-ci">2.</span>Check each item's created_at against 48h SLA threshold</div><div class="aria-check"><span class="aria-ci">3.</span>Flag urgent items near SLA breach</div></div><div class="aria-response">"You have <strong>3 pending approvals</strong>: 2 leave requests and 1 timesheet. ⚠ Sara's timesheet has been pending 48 hours — SLA threshold reached. Review it at /approvals now."</div><div class="aria-rule">workflow_instances · SLA 48h · /approvals</div></div>
+<div class="aria-card"><div class="aria-q">"What is Ahmed's current leave balance?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Confirm Ahmed is a direct report of requesting manager</div><div class="aria-check"><span class="aria-ci">2.</span>absence_balances WHERE person_id = Ahmed AND leave_type = ANNUAL</div></div><div class="aria-response">"Ahmed has <strong>14 days</strong> of annual leave remaining. His request for 16–20 June would leave him with 9 days. He has sufficient balance."</div><div class="aria-rule">absence_balances · direct report scope · manager only</div></div>
+<div class="aria-card"><div class="aria-q">"Show me all team members currently active"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>worker_assignments WHERE line_manager_id = manager → all direct reports</div><div class="aria-check"><span class="aria-ci">2.</span>Filter by assignment_status = ACTIVE (not ON_LEAVE, SUSPENDED)</div></div><div class="aria-response">"Your team has 4 members. Currently ACTIVE: Ahmed Al-Mansoori, Mohammed Al-Rashidi, Fatima Al-Suwaidi. ON_LEAVE: Sara Al-Zaabi (returns 27 May)."</div><div class="aria-rule">worker_assignments · assignment_status · direct report scope</div></div>
+<div class="aria-card"><div class="aria-q">"How many days leave has my team taken this year?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>absence_requests WHERE person_id IN direct_reports AND status=COMPLETED AND year=2026</div><div class="aria-check"><span class="aria-ci">2.</span>Sum total_days by person</div></div><div class="aria-response">"Year-to-date leave by team member: Ahmed 16d · Sara 21d · Mohammed 8d · Fatima 12d. Team average: 14.25 days of the 30-day annual entitlement."</div><div class="aria-rule">absence_requests · direct report scope · year filter</div></div>
+<div class="aria-card"><div class="aria-q">"Can you tell me what salary Ahmed is on?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Requesting user role = MANAGER</div><div class="aria-check"><span class="aria-ci">2.</span>Salary data → HR_ADMIN scope only → ACCESS DENIED</div></div><div class="aria-response">"Salary data is restricted to HR Admin and above. I'm not able to share this with you at the MANAGER scope. Please contact your HR Admin for compensation queries."</div><div class="aria-rule">Role scope enforcement · salary = HR_ADMIN only</div></div>
+<div class="aria-card"><div class="aria-q">"I want to know about the team lead Sara's workload"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Confirm Sara is a direct report of requesting manager</div><div class="aria-check"><span class="aria-ci">2.</span>Check timesheets, leave, pending items for Sara</div></div><div class="aria-response">"Sara is currently on leave (returns 27 May). Before leave, she submitted 42.5 hours timesheet for the last week — that is pending your approval. 3 leave requests approved this year (21 days total)."</div><div class="aria-rule">timesheets · absence_requests · direct report scope</div></div>
+<div class="aria-card"><div class="aria-q">"What is the team headcount?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>worker_assignments WHERE line_manager_id = manager → count</div><div class="aria-check"><span class="aria-ci">2.</span>Break down by assignment_status</div></div><div class="aria-response">"Your team headcount is <strong>4 direct reports</strong>: 3 ACTIVE, 1 ON_LEAVE. No PENDING_HIRE or SUSPENDED members currently."</div><div class="aria-rule">worker_assignments.line_manager_id · status breakdown</div></div>
+</div>
+</div>
+</div>
+
+</main>
+<div class="page-footer">
+  AVANIIS HR · Manager Self-Service (MSS) · v1.0 · May 2026 · Avaniis / Avaniis · Internal Use Only
+</div>
+<script>var ROLE_MAP = {
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  hr: ['s1','s2','s3','s7','s8','s9','s10'],
+  mgr: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  emp: ['s1','s8','s9'],
+  sa: ['s1','s2','s5','s9'],
+};
+
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  pay: ['s1','s2','s4','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

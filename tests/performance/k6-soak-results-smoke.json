@@ -1,0 +1,38 @@
+{
+  "soak_environment": "http://localhost:3000",
+  "soak_duration": "5m",
+  "sustained_vus": 5,
+  "spike_vus": "disabled",
+  "run_timestamp": "2026-05-23T09:19:23.621Z",
+  "latency_results": {
+    "page_p95_ms": 257.87235,
+    "page_p99_ms": null,
+    "api_p95_ms": 0,
+    "db_probe_p95_ms": 151.54999999999998,
+    "db_probe_max_ms": 161,
+    "health_p95_ms": 44.352999999999966
+  },
+  "stability_results": {
+    "page_error_rate": 1,
+    "api_error_rate": 0,
+    "connection_errors": 0,
+    "check_pass_rate": 0.6829558998808105
+  },
+  "drift_analysis": {
+    "drift_p99_ms": null,
+    "drift_ratio": null,
+    "drift_detected": false,
+    "note": "OK: latency stable across soak window."
+  },
+  "threshold_results": {
+    "page_p95 < 2500ms": "PASS",
+    "page_p99 < 5000ms": "N/A",
+    "api_p95 < 600ms": "PASS",
+    "db_probe_p95 < 8000ms": "PASS",
+    "page_error_rate < 0.5%": "FAIL",
+    "check_rate > 97%": "FAIL",
+    "connection_errors < 5": "PASS",
+    "no_drift_detected": "PASS"
+  },
+  "verdict": "FAIL — 2 threshold(s) breached ❌"
+}

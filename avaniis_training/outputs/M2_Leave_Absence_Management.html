@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M2 — Leave &amp; Absence Management | AVANIIS HR v3.0</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+  --lane-mgr:#5B2D9E;
+  --lane-hd:#3A1577;
+  --lane-fi:#B35C00;
+  --aria-bg1:#0A1628;
+  --aria-bg2:#12244A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:var(--rd)}
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:145px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════════════════════════════════════════════════════ -->
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Module M2 · v3.0 Enterprise</div>
+  <div class="ph-title">Leave &amp; Absence Management</div>
+  <div class="ph-sub">إدارة الإجازات والغياب · Complete Operational Guide · ESS Requests · Manager Approvals · Balance Accrual · UAE Compliance · ARIA Intelligence</div>
+  <div class="ph-pills">
+    <span class="pill g">EMPLOYEE</span><span class="pill g">MANAGER</span>
+    <span class="pill g">HR ADMIN</span><span class="pill g">HR DIRECTOR</span>
+    <span class="pill">UAE FDL 33/2021</span><span class="pill">v3.0 · May 2026</span>
+  </div>
+</div>
+
+<!-- ════ STICKY NAV ═════════════════════════════════════════════════ -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <a href="#s1" class="ni" data-section="s1">Overview</a>
+    <a href="#s2" class="ni" data-section="s2">Dependency Map</a>
+    <a href="#s3" class="ni" data-section="s3">Leave Types</a>
+    <a href="#s4" class="ni" data-section="s4">Step-by-Step</a>
+    <a href="#s5" class="ni" data-section="s5">State Machines</a>
+    <a href="#s6" class="ni" data-section="s6">Screen Mockups</a>
+    <a href="#s7" class="ni" data-section="s7">Approvals Guide</a>
+    <a href="#s8" class="ni" data-section="s8">Scenarios</a>
+    <a href="#s9" class="ni" data-section="s9">Troubleshooting</a>
+    <a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a>
+  </div>
+</div>
+
+<!-- ════ ROLE FILTER ════════════════════════════════════════════════ -->
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'hd')">HR Director</button>
+</div>
+
+<main class="content">
+
+<!-- ════ SECTION 1 — OVERVIEW & PRECONDITIONS ═══════════════════════ -->
+<div class="sec" id="s1">
+  <div class="sec-lbl">Section 1</div>
+  <div class="sec-title">Module Overview &amp; Preconditions</div>
+  <div class="sec-desc">The Leave &amp; Absence Management module in AVANIIS HR handles every employee absence type from request to payroll notification. Leave balances accrue monthly via a cron-driven engine, employees submit requests through self-service (/me/leave), managers approve within a 48-hour SLA, and the system automatically deducts balances, blocks the team calendar, and notifies the payroll run — all with an immutable audit trail for UAE Labour Law (FDL 33/2021) compliance.</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions Checklist — All must be true before any leave request can be submitted</div>
+    <div class="pre-grid">
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Employee has ACTIVE assignment</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/persons/[id] → Assignments</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Leave types configured</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/leave-types</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Leave rules set (accrual rates, carry-forward caps)</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/leave-rules</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Holiday calendar configured for legal entity</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/holidays</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Accrual engine cron is running</div>
+          <div class="pre-where">Verify at: <span class="pre-route">/api/cron/workflow-sla</span> · node-cron scheduler</div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Manager assigned as line_manager_id</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/persons/[id] → Assignments → line_manager_id</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Leave approval workflow configured</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/workflows</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block-panel">
+    <div class="block-title">🚫 Blocking Conditions — System will refuse the leave request</div>
+    <div class="block-row"><span class="block-label">No leave balance</span><span class="block-reason">absence_balances.remaining_days = 0 for the selected leave type. Employee must wait for next accrual or request unpaid leave.</span></div>
+    <div class="block-row"><span class="block-label">Dates in the past</span><span class="block-reason">Start date is before today. HR Admin can submit retroactive requests with a mandatory override reason. Employees cannot.</span></div>
+    <div class="block-row"><span class="block-label">Overlapping approved leave</span><span class="block-reason">An APPROVED or ACTIVE absence_request already covers the requested date range. Cancel or modify the existing request first.</span></div>
+    <div class="block-row"><span class="block-label">Notice period conflict</span><span class="block-reason">Employee is in an active notice period and the leave type does not allow resumption. Annual leave during notice requires HR Director sign-off.</span></div>
+    <div class="block-row" style="margin-bottom:0"><span class="block-label">Sick &gt; 2 days — no cert</span><span class="block-reason">Sick leave exceeding 2 consecutive days requires a medical certificate upload (BR-LV-002). System creates PENDING_CERT status and blocks approval until cert is attached.</span></div>
+  </div>
+</div>
+
+<!-- ════ SECTION 2 — DEPENDENCY MAP ════════════════════════════════ -->
+<div class="sec" id="s2">
+  <div class="sec-lbl">Section 2</div>
+  <div class="sec-title">Dependency Map</div>
+  <div class="sec-desc">Three chains: the pre-conditions enabling a leave request, what the system does automatically after a request is approved, and the sick leave medical certificate compliance path. Every node shows the exact field it represents.</div>
+  <div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Dependency Map — Leave and Absence Management</title>
+<desc>Three chains: pre-conditions before leave request, post-approval system actions, sick leave certificate compliance path.</desc>
+<defs>
+  <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="agold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+<!-- Chain A label -->
+<rect x="14" y="14" width="210" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — PRE-CONDITIONS</text>
+<!-- A1 Active Assignment -->
+<rect x="14" y="44" width="124" height="58" rx="7" fill="#0A1628"/>
+<text x="76" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">ACTIVE</text>
+<text x="76" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">Assignment</text>
+<text x="76" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">status=ACTIVE</text>
+<line x1="138" y1="73" x2="158" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A2 Eligibility Created -->
+<rect x="160" y="44" width="134" height="58" rx="7" fill="#0E7C6A"/>
+<text x="227" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Leave Eligibility</text>
+<text x="227" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Created</text>
+<text x="227" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">absence_balances row</text>
+<line x1="294" y1="73" x2="314" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A3 Accrual Runs Monthly -->
+<rect x="316" y="44" width="138" height="58" rx="7" fill="#0E7C6A"/>
+<text x="385" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Accrual Runs</text>
+<text x="385" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Monthly (cron)</text>
+<text x="385" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/api/cron/accrual</text>
+<line x1="454" y1="73" x2="474" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A4 Balance Accrues -->
+<rect x="476" y="44" width="132" height="58" rx="7" fill="#0E7C6A"/>
+<text x="542" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Balance</text>
+<text x="542" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Accrues</text>
+<text x="542" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">accrued_days ++</text>
+<line x1="608" y1="73" x2="628" y2="73" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+<!-- A5 Employee Can Request -->
+<rect x="630" y="44" width="154" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="707" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Employee Can</text>
+<text x="707" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Request Leave</text>
+<text x="707" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">remaining_days &gt; 0</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Chain B label -->
+<rect x="14" y="124" width="238" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — AFTER APPROVAL</text>
+<!-- B1 Request Submitted -->
+<rect x="14" y="158" width="136" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="82" y="181" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Request</text>
+<text x="82" y="197" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Submitted</text>
+<text x="82" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">status=SUBMITTED</text>
+<line x1="150" y1="187" x2="170" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B2 Manager Approves -->
+<rect x="172" y="158" width="148" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="246" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Manager</text>
+<text x="246" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Approves</text>
+<text x="246" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">48h SLA · BR-29</text>
+<line x1="320" y1="187" x2="340" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B3 Balance Deducted -->
+<rect x="342" y="158" width="138" height="58" rx="7" fill="#0E7C6A"/>
+<text x="411" y="181" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Balance</text>
+<text x="411" y="197" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Deducted</text>
+<text x="411" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">remaining_days --</text>
+<line x1="480" y1="187" x2="500" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B4 Calendar Blocked -->
+<rect x="502" y="158" width="138" height="58" rx="7" fill="#0E7C6A"/>
+<text x="571" y="181" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Calendar</text>
+<text x="571" y="197" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Blocked</text>
+<text x="571" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">team calendar entry</text>
+<line x1="640" y1="187" x2="660" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B5 Payroll Notified -->
+<rect x="662" y="158" width="148" height="58" rx="7" fill="#1A6B3C"/>
+<text x="736" y="181" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Payroll</text>
+<text x="736" y="197" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Notified</text>
+<text x="736" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">notification_log outbox</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Chain C label -->
+<rect x="14" y="238" width="310" height="22" rx="4" fill="#5B2D9E"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — SICK LEAVE &gt;2 DAYS (CERT REQUIRED)</text>
+<!-- C1 Sick Leave >2 days -->
+<rect x="14" y="270" width="138" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="83" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Sick Leave</text>
+<text x="83" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">&gt; 2 Days</text>
+<text x="83" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">BR-LV-002 triggered</text>
+<line x1="152" y1="299" x2="172" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C2 Medical Cert Required -->
+<rect x="174" y="270" width="148" height="58" rx="7" fill="#FDEAEA" stroke="#B01B1B" stroke-width="1.5"/>
+<text x="248" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A1A1A">Medical Cert</text>
+<text x="248" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A1A1A">Required</text>
+<text x="248" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B01B1B">status=PENDING_CERT</text>
+<line x1="322" y1="299" x2="342" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C3 HR Uploads Cert -->
+<rect x="344" y="270" width="138" height="58" rx="7" fill="#0E7C6A"/>
+<text x="413" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">HR Uploads</text>
+<text x="413" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Certificate</text>
+<text x="413" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">cert_document_url set</text>
+<line x1="482" y1="299" x2="502" y2="299" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- C4 Balance Deducted -->
+<rect x="504" y="270" width="138" height="58" rx="7" fill="#0E7C6A"/>
+<text x="573" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Balance</text>
+<text x="573" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Deducted</text>
+<text x="573" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">sick_days used ++</text>
+<line x1="642" y1="299" x2="662" y2="299" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard)"/>
+<!-- C5 Audit Logged -->
+<rect x="664" y="270" width="148" height="58" rx="7" fill="#B01B1B"/>
+<text x="738" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Immutable</text>
+<text x="738" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Audit Logged</text>
+<text x="738" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">audit_log INSERT-only</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Legend -->
+<rect x="14" y="350" width="420" height="120" rx="8" fill="#fff" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="368" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96" letter-spacing="0.08em">LEGEND</text>
+<rect x="26" y="375" width="13" height="13" rx="3" fill="#0A1628"/>
+<text x="45" y="386" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Trigger / Employee action</text>
+<rect x="216" y="375" width="13" height="13" rx="3" fill="#0E7C6A"/>
+<text x="235" y="386" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System auto-action</text>
+<rect x="26" y="397" width="13" height="13" rx="3" fill="#FEF3E2" stroke="#B45C00" stroke-width="1"/>
+<text x="45" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Decision point (Manager/HR)</text>
+<rect x="216" y="397" width="13" height="13" rx="3" fill="#B01B1B"/>
+<text x="235" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Compliance / terminal action</text>
+<rect x="26" y="419" width="13" height="13" rx="3" fill="#5B2D9E"/>
+<text x="45" y="430" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Compliance exception path</text>
+<rect x="216" y="419" width="13" height="13" rx="3" fill="#1A6B3C"/>
+<text x="235" y="430" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Payroll / downstream impact</text>
+<line x1="26" y1="449" x2="38" y2="449" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+<text x="45" y="453" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Critical gate (balance check)</text>
+<line x1="216" y1="449" x2="228" y2="449" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<text x="235" y="453" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Auto-propagation</text>
+<!-- Blocking conditions panel -->
+<rect x="444" y="350" width="442" height="120" rx="8" fill="#FDEAEA" stroke="#B01B1B" stroke-width="1"/>
+<text x="456" y="368" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B" letter-spacing="0.07em">BLOCKING CONDITIONS</text>
+<text x="456" y="388" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">No balance</text>
+<text x="526" y="388" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— absence_balances.remaining_days = 0</text>
+<text x="456" y="406" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Past dates</text>
+<text x="526" y="406" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— employees cannot request retroactively</text>
+<text x="456" y="424" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Overlapping leave</text>
+<text x="556" y="424" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— APPROVED/ACTIVE request already exists</text>
+<text x="456" y="442" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Notice period</text>
+<text x="536" y="442" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— annual leave during notice needs HD sign-off</text>
+<text x="456" y="460" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Sick &gt;2 days, no cert</span></text>
+<text x="576" y="460" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— BR-LV-002: cert required before approval</text>
+<text x="456" y="474" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B" font-style="italic">All blocks surface as red inline errors with the BR-LV-xxx rule code.</text>
+</svg>
+  </div>
+</div>
+
+<!-- ════ SECTION 3 — SIX LEAVE TYPES ═══════════════════════════════ -->
+<div class="sec" id="s3">
+  <div class="sec-lbl">Section 3</div>
+  <div class="sec-title">Six Leave &amp; Absence Types</div>
+  <div class="sec-desc">Select the correct leave type first — it determines the entitlement, approval chain, documentation requirements, and payroll treatment. All types are governed by UAE Federal Decree-Law No. 33 of 2021 (FDL 33/2021).</div>
+  <div class="type-grid">
+
+    <div class="type-card" style="border-color:#7BC4A0">
+      <div class="type-head" style="background:#E6F5EE">
+        <div class="type-icon" style="background:#1A6B3C;color:#fff">☀</div>
+        <div>
+          <div class="type-name">Annual Leave</div>
+          <div class="type-sub">Minimum 30 calendar days · accrues monthly</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Entitlement</span><span class="tv-g">30 days minimum (UAE law)</span></div>
+        <div class="tr"><span class="tk">Accrual</span><span class="tv">2.5 days per month</span></div>
+        <div class="tr"><span class="tk">Carry-forward cap</span><span class="tv-a">Max 30 days</span></div>
+        <div class="tr"><span class="tk">Approvals</span><span class="tv">Manager (48h SLA)</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-LV-001</span> <span class="br-pill">FDL-33-2021 Art.29</span></div>
+        <div class="mistake">⚠ Common mistake: carry-forward cap not set in leave rules — balances accumulate past 30 days, triggering a UAE compliance violation at year-end.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#F4A0A0">
+      <div class="type-head" style="background:#FDEAEA">
+        <div class="type-icon" style="background:#B01B1B;color:#fff">🏥</div>
+        <div>
+          <div class="type-name">Sick Leave</div>
+          <div class="type-sub">90 days tiered · cert required &gt;2 days</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">First 15 days</span><span class="tv-g">Full pay</span></div>
+        <div class="tr"><span class="tk">Days 16–45</span><span class="tv-a">Half pay</span></div>
+        <div class="tr"><span class="tk">Days 46–90</span><span class="tv-r">No pay</span></div>
+        <div class="tr"><span class="tk">Cert required</span><span class="tv-r">&gt; 2 consecutive days</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-LV-002</span></div>
+        <div class="mistake">⚠ Common mistake: approving sick leave &gt;2 days without uploading the medical certificate — leaves system in PENDING_CERT state and ARIA flags it daily.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#C4ADEE">
+      <div class="type-head" style="background:#F0EAFB">
+        <div class="type-icon" style="background:#5B2D9E;color:#fff">👶</div>
+        <div>
+          <div class="type-name">Maternity Leave</div>
+          <div class="type-sub">60 days · 45 full + 15 half pay</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Duration</span><span class="tv">60 calendar days</span></div>
+        <div class="tr"><span class="tk">First 45 days</span><span class="tv-g">Full pay</span></div>
+        <div class="tr"><span class="tk">Days 46–60</span><span class="tv-a">Half pay</span></div>
+        <div class="tr"><span class="tk">Eligibility</span><span class="tv">All female employees</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-LV-003</span> <span class="br-pill">FDL-33-2021 Art.30</span></div>
+        <div class="mistake">⚠ Common mistake: checking maternity eligibility by tenure — UAE law grants maternity leave regardless of length of service (FDL 33/2021 Art. 30).</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#90AADE">
+      <div class="type-head" style="background:#EAF0FD">
+        <div class="type-icon" style="background:#1A4FBA;color:#fff">👨‍👦</div>
+        <div>
+          <div class="type-name">Paternity Leave</div>
+          <div class="type-sub">5 working days · within 6 months of birth</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Duration</span><span class="tv">5 working days</span></div>
+        <div class="tr"><span class="tk">Pay</span><span class="tv-g">Full pay</span></div>
+        <div class="tr"><span class="tk">Window</span><span class="tv">Within 6 months of birth</span></div>
+        <div class="tr"><span class="tk">Proof required</span><span class="tv-a">Birth certificate</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-LV-004</span> <span class="br-pill">FDL-33-2021 Art.32</span></div>
+        <div class="mistake">⚠ Common mistake: applying as calendar days instead of working days — always use working days, excluding public holidays in the entity's holiday calendar.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#D4D8E2">
+      <div class="type-head" style="background:#F5F6F8">
+        <div class="type-icon" style="background:#6B7A96;color:#fff">∅</div>
+        <div>
+          <div class="type-name">Unpaid Leave</div>
+          <div class="type-sub">No balance required · HR Director sign-off</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Balance needed</span><span class="tv-g">None</span></div>
+        <div class="tr"><span class="tk">Pay impact</span><span class="tv-r">Salary deduction — prorated</span></div>
+        <div class="tr"><span class="tk">Approvals</span><span class="tv">Manager + HR Director</span></div>
+        <div class="tr"><span class="tk">EOSB impact</span><span class="tv-a">Continuous service maintained</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">FDL-33-2021 Art.31</span></div>
+        <div class="mistake">⚠ Common mistake: not checking payroll run status — unpaid leave deductions must be processed in the correct payroll period or a retroactive adjustment is required.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#9FD8CF">
+      <div class="type-head" style="background:#E0F4F0">
+        <div class="type-icon" style="background:#0E7C6A;color:#fff">🏛</div>
+        <div>
+          <div class="type-name">Public Holiday</div>
+          <div class="type-sub">System-applied · entity holiday calendar</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Application</span><span class="tv-g">Automatic (no request needed)</span></div>
+        <div class="tr"><span class="tk">Source</span><span class="tv">Entity holiday calendar</span></div>
+        <div class="tr"><span class="tk">Balance impact</span><span class="tv-g">Zero — not deducted</span></div>
+        <div class="tr"><span class="tk">Overlapping AL</span><span class="tv-a">Public holiday day not counted</span></div>
+        <div class="tr"><span class="tk">Config</span><span class="br-pill">/master-data/holidays</span></div>
+        <div class="mistake">⚠ Common mistake: forgetting to configure the entity-specific holiday calendar — if unconfigured, public holidays are not blocked and annual leave balance is incorrectly deducted.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 4 — STEP-BY-STEP PROCESS FLOWS ════════════════════ -->
+<div class="sec" id="s4">
+  <div class="sec-lbl">Section 4</div>
+  <div class="sec-title">Step-by-Step Process Flows</div>
+  <div class="sec-desc">Two complete workflows rendered as role-lane swimlanes. Flow A covers the standard employee self-service request path. Flow B covers the HR Admin on-behalf submission with override capability.</div>
+
+  <!-- FLOW A: Employee Self-Service -->
+  <div class="swimlane">
+    <div class="sw-head">Flow A — Employee Self-Service Leave Request <span class="sw-stag">BR-LV-001 · 5 STAGES</span></div>
+    <div class="sw-row">
+      <div class="sw-lbl em">EMPLOYEE</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Open Leave Form</span>
+          <span class="sb-sub">/me/leave → New Request</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Fill Request</span>
+          <span class="sb-sub">Type · Start · End · Reason</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Submit</span>
+          <span class="sb-sub">Status → SUBMITTED</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto">
+          <span class="sb-title">Validate</span>
+          <span class="sb-sub">Balance · No overlap · No past dates</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Check Holiday</span>
+          <span class="sb-sub">Exclude public holidays from count</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Route Workflow</span>
+          <span class="sb-sub">Notify Manager · Start 48h SLA</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Review Request</span>
+          <span class="sb-sub">/approvals → view dates + balance</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn">
+          <span class="sb-title">Decide</span>
+          <span class="sb-sub">Approve / Reject / Delegate (BR-29)</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn">
+          <span class="sb-title">SLA Breach?</span>
+          <span class="sb-sub">48h → auto-escalates to HR Admin</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM<br>EXECUTE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Deduct Balance</span>
+          <span class="sb-sub">absence_balances updated</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Block Calendar</span>
+          <span class="sb-sub">Team calendar entry created</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Notify Payroll</span>
+          <span class="sb-sub">notification_log outbox</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-term">
+          <span class="sb-title" style="color:var(--g2)">Audit Log</span>
+          <span class="sb-sub" style="color:rgba(255,255,255,.6)">Immutable · INSERT-only</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl em">EMPLOYEE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Notified</span>
+          <span class="sb-sub">Email + in-app: decision + dates</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Balance Updated</span>
+          <span class="sb-sub">/me/leave shows new remaining days</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLA Timers -->
+  <div class="card" style="margin-bottom:20px">
+    <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">⏱ SLA Timers — Flow A</div>
+    <div class="sla-grid">
+      <div class="sla-tile"><div class="sla-label">Manager decision</div><div class="sla-num">48 hrs</div><div class="sla-sub">UAE business days · auto-escalates</div></div>
+      <div class="sla-tile"><div class="sla-label">HR Admin review (on behalf)</div><div class="sla-num">24 hrs</div><div class="sla-sub">Immediate system action on submit</div></div>
+      <div class="sla-tile sla-tile warn"><div class="sla-label">⚠ Max escalation window</div><div class="sla-num">5 days</div><div class="sla-sub">Breach → ARIA alert to HR Director</div></div>
+    </div>
+  </div>
+
+  <!-- FLOW B: HR Admin On-Behalf -->
+  <div class="swimlane">
+    <div class="sw-head">Flow B — HR Admin Applies Leave On Behalf <span class="sw-stag">OVERRIDE FLOW · 3 STAGES</span></div>
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR<br>ADMIN</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Open Employee</span>
+          <span class="sb-sub">/absence → [Employee] → Apply Leave</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Fill Form</span>
+          <span class="sb-sub">Type · Dates · Override reason</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Balance Warning</span>
+          <span class="sb-sub">HR can bypass — requires reason</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto">
+          <span class="sb-title">Skip ESS Check</span>
+          <span class="sb-sub">HR_ADMIN role bypasses front-end blocks</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Validate Core Rules</span>
+          <span class="sb-sub">BR-LV-002 cert check still applies</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Auto-Approve</span>
+          <span class="sb-sub">No manager step — HR direct submit</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM<br>EXECUTE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Deduct Balance</span>
+          <span class="sb-sub">Immediate · no SLA wait</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Notify Employee</span>
+          <span class="sb-sub">Email: leave applied by HR on your behalf</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-term">
+          <span class="sb-title" style="color:var(--g2)">Audit Log</span>
+          <span class="sb-sub" style="color:rgba(255,255,255,.6)">actor_id = HR Admin</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl em">EMPLOYEE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Receives Email</span>
+          <span class="sb-sub">Informed of leave applied · cannot reject</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Balance Updated</span>
+          <span class="sb-sub">/me/leave shows deduction</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout callout-w" style="margin-bottom:0">⚠ HR Admin on-behalf submission bypasses the ESS date restriction but cannot bypass the medical certificate requirement for sick leave exceeding 2 days (BR-LV-002). All overrides are prominently marked in the audit log with the HR Admin's actor_id and override reason.</div>
+</div>
+
+<!-- ════ SECTION 5 — STATE MACHINES ════════════════════════════════ -->
+<div class="sec" id="s5">
+  <div class="sec-lbl">Section 5</div>
+  <div class="sec-title">State Machines</div>
+  <div class="sec-desc">Two node-edge diagrams showing every possible status transition. Arrows show what triggers each change. ACTIVE state (employee currently on leave) is the central teal node.</div>
+
+  <!-- SM1: Leave Request Lifecycle -->
+  <div class="sm-wrap" style="margin-bottom:16px">
+    <div class="sm-hdr">⬤ State Machine 1 — Leave Request Lifecycle (absence_requests.status)</div>
+    <div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 780 320" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Leave Request Lifecycle State Machine</title>
+<desc>Shows all status transitions for absence_requests: from DRAFT through SUBMITTED, APPROVED, ACTIVE, COMPLETED, and branch states REJECTED, WITHDRAWN, CANCELLED.</desc>
+<defs>
+  <marker id="sm1a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm1g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm1r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm1am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="780" height="320" fill="#F5F6F8"/>
+<!-- UAE law note -->
+<rect x="14" y="14" width="752" height="22" rx="4" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1"/>
+<text x="390" y="29" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#0E7C6A" font-weight="700">UAE Labour Law (FDL 33/2021): Leave balances must be maintained and excess carry-forward forfeited at year-end (max 30 days — BR-LV-001)</text>
+<!-- Main flow row at y=54 -->
+<!-- DRAFT -->
+<rect x="14" y="54" width="112" height="52" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="70" y="75" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">DRAFT</text>
+<text x="70" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Form saved</text>
+<line x1="126" y1="80" x2="146" y2="80" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<text x="136" y="73" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Submit</text>
+<!-- SUBMITTED -->
+<rect x="148" y="54" width="124" height="52" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="210" y="75" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A4FBA">SUBMITTED</text>
+<text x="210" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#1A4FBA">Awaiting approval</text>
+<line x1="272" y1="80" x2="292" y2="80" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<text x="282" y="73" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Approved</text>
+<!-- APPROVED -->
+<rect x="294" y="54" width="124" height="52" rx="8" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+<text x="356" y="75" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#0E7C6A">APPROVED</text>
+<text x="356" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#0E7C6A">Awaiting start date</text>
+<line x1="418" y1="80" x2="438" y2="80" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm1g)"/>
+<text x="428" y="73" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Start date</text>
+<!-- ACTIVE (teal, central, larger) -->
+<rect x="440" y="42" width="150" height="76" rx="8" fill="#0E7C6A" stroke="#085041" stroke-width="2"/>
+<text x="515" y="74" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="16" font-weight="700" fill="#fff">ACTIVE</text>
+<text x="515" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.75)">Employee is on leave</text>
+<text x="515" y="108" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.55)">status = ACTIVE</text>
+<line x1="590" y1="80" x2="610" y2="80" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm1g)"/>
+<text x="600" y="73" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">End date</text>
+<!-- COMPLETED (terminal, green) -->
+<rect x="612" y="54" width="120" height="52" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="672" y="75" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A6B3C">COMPLETED</text>
+<text x="672" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#1A6B3C">Return confirmed</text>
+<!-- Branches downward -->
+<!-- SUBMITTED → REJECTED -->
+<line x1="192" y1="106" x2="192" y2="206" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm1r)"/>
+<text x="200" y="162" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Manager rejects</text>
+<!-- SUBMITTED → WITHDRAWN -->
+<path d="M170 106 L170 172 L72 172 L72 206" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<text x="76" y="168" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Employee cancels</text>
+<!-- APPROVED → CANCELLED -->
+<line x1="356" y1="106" x2="356" y2="206" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#sm1am)"/>
+<text x="364" y="162" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Before start date</text>
+<!-- Branch states row at y=208 -->
+<rect x="14" y="208" width="112" height="52" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="70" y="229" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">WITHDRAWN</text>
+<text x="70" y="246" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Cancelled by emp</text>
+<rect x="148" y="208" width="122" height="52" rx="8" fill="#FCEBEB" stroke="#F09595" stroke-width="1.5"/>
+<text x="209" y="229" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#A32D2D">REJECTED</text>
+<text x="209" y="244" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#A32D2D">Terminal · no reopen</text>
+<rect x="294" y="208" width="122" height="52" rx="8" fill="#FAEEDA" stroke="#FAC775" stroke-width="1.5"/>
+<text x="355" y="229" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">CANCELLED</text>
+<text x="355" y="244" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#633806">APPROVED only · pre-start</text>
+<!-- Terminal label -->
+<text x="209" y="272" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#A32D2D" font-style="italic">Create new request to retry</text>
+<!-- Balance restored label -->
+<text x="355" y="272" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#633806" font-style="italic">Balance restored on cancel</text>
+</svg>
+    </div>
+  </div>
+
+  <!-- SM2: Sick Leave Certificate Flow -->
+  <div class="sm-wrap">
+    <div class="sm-hdr">⬤ State Machine 2 — Sick Leave Certificate Compliance (BR-LV-002)</div>
+    <div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 740 270" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Sick Leave Certificate Compliance State Machine</title>
+<desc>Shows the sick leave certificate compliance flow for absences exceeding 2 consecutive days under BR-LV-002.</desc>
+<defs>
+  <marker id="sm2a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="740" height="270" fill="#F5F6F8"/>
+<!-- UAE note banner -->
+<rect x="14" y="14" width="712" height="22" rx="4" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1"/>
+<text x="370" y="29" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00" font-weight="700">⚠ BR-LV-002: Medical certificate mandatory for sick leave exceeding 2 consecutive days. ARIA alerts HR Admin daily until cert is uploaded.</text>
+<!-- SICK SUBMITTED -->
+<rect x="14" y="52" width="136" height="58" rx="8" fill="#FAEEDA" stroke="#FAC775" stroke-width="1.5"/>
+<text x="82" y="74" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">SICK LEAVE</text>
+<text x="82" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">SUBMITTED</text>
+<text x="82" y="105" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">&gt; 2 days detected</text>
+<line x1="150" y1="81" x2="170" y2="81" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+<!-- PENDING_CERT (central, amber, larger) -->
+<rect x="172" y="44" width="160" height="74" rx="8" fill="#FEF3E2" stroke="#B45C00" stroke-width="2"/>
+<text x="252" y="75" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#7A3E00">PENDING</text>
+<text x="252" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#7A3E00">CERT</text>
+<text x="252" y="110" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(180,92,0,0.7)">cert_document_url = NULL</text>
+<line x1="332" y1="81" x2="352" y2="81" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#sm2g)"/>
+<text x="342" y="74" font-family="-apple-system,sans-serif" font-size="9" fill="#0E7C6A">HR uploads cert</text>
+<!-- CERT_RECEIVED -->
+<rect x="354" y="52" width="136" height="58" rx="8" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+<text x="422" y="74" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#0E7C6A">CERT</text>
+<text x="422" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#0E7C6A">RECEIVED</text>
+<text x="422" y="105" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#0E7C6A">cert validated · url set</text>
+<line x1="490" y1="81" x2="510" y2="81" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm2g)"/>
+<text x="500" y="74" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Approve</text>
+<!-- APPROVED (terminal, green) -->
+<rect x="512" y="52" width="136" height="58" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="580" y="74" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A6B3C">APPROVED</text>
+<text x="580" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A6B3C">WITH CERT</text>
+<text x="580" y="105" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#1A6B3C">Balance deducted</text>
+<!-- PENDING_CERT → REJECTED_NO_CERT (downward) -->
+<line x1="252" y1="118" x2="252" y2="188" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm2r)"/>
+<text x="258" y="158" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">14-day limit exceeded</text>
+<!-- REJECTED_NO_CERT -->
+<rect x="172" y="190" width="160" height="58" rx="8" fill="#FCEBEB" stroke="#F09595" stroke-width="1.5"/>
+<text x="252" y="212" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#A32D2D">REJECTED</text>
+<text x="252" y="228" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#A32D2D">NO CERT</text>
+<text x="252" y="242" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#A32D2D">Terminal · UAE violation risk</text>
+<!-- ARIA daily alert box -->
+<rect x="512" y="180" width="200" height="58" rx="6" fill="#0A1628" stroke="#C9A84C" stroke-width="1"/>
+<text x="612" y="200" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">ARIA DAILY ALERT</text>
+<text x="612" y="218" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">"[Employee] sick leave has been</text>
+<text x="612" y="232" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">PENDING_CERT for [N] days."</text>
+<line x1="490" y1="200" x2="510" y2="205" stroke="#C9A84C" stroke-width="1.5" fill="none" marker-end="url(#sm2am)"/>
+</svg>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SECTION 6 — SCREEN MOCKUPS ════════════════════════════════ -->
+<div class="sec" id="s6">
+  <div class="sec-lbl">Section 6</div>
+  <div class="sec-title">Simulated Screen Mockups</div>
+  <div class="sec-desc">Three annotated UI representations showing exactly what different roles see and interact with. Built to match the actual AVANIIS HR interface at /me/leave, /approvals, and /absence.</div>
+
+  <!-- Mockup A -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — Employee Self-Service: New Leave Request (/me/leave)</div>
+  <div class="mockup-frame" style="margin-bottom:8px">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 <span>Search employees, modules...</span></div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">2</div></div>
+        <div class="mf-ico">🤖</div>
+        <div class="mf-av">AH</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">My Space</div>
+        <div class="sb-item">🏠 My Dashboard</div>
+        <div class="sb-item active">📅 Leave &amp; Absence</div>
+        <div class="sb-item">👤 My Profile</div>
+        <div class="sb-item">💰 My Payslips</div>
+        <div class="sb-item">⏱ My Timesheet</div>
+        <div class="sb-sec">Support</div>
+        <div class="sb-item">✉ My Letters</div>
+        <div class="sb-item">🤖 Ask ARIA</div>
+      </div>
+      <div class="mf-main">
+        <div class="mf-overlay"></div>
+        <div class="drawer">
+          <div class="dr-hdr">
+            <h3>New Leave Request <span style="font-size:11px;opacity:.6">①</span></h3>
+            <p>Ahmed Al-Rashidi · Software Engineer · Avaniis Technology</p>
+          </div>
+          <div class="dr-body">
+            <div class="dr-sec">Leave Type &amp; Dates</div>
+            <div class="frow">
+              <label>Leave Type <span class="req">*</span> <span style="font-size:10px;color:var(--mu)">(②)</span></label>
+              <div class="fld focus">Annual Leave ▾</div>
+              <div class="fhint">Remaining balance: <strong style="color:var(--gr)">18.5 days</strong> · Carry-forward cap: 30 days</div>
+            </div>
+            <div class="frow-2">
+              <div class="frow" style="margin-bottom:0">
+                <label>Start Date <span class="req">*</span> <span style="font-size:10px;color:var(--mu)">(③)</span></label>
+                <div class="fld">2026-06-15 ▾</div>
+              </div>
+              <div class="frow" style="margin-bottom:0">
+                <label>End Date <span class="req">*</span></label>
+                <div class="fld">2026-06-22 ▾</div>
+              </div>
+            </div>
+            <div class="vbar vbar-ok" style="margin-bottom:10px">✓ 5 working days (2 public holidays excluded) · 13.5 days will remain</div>
+            <div class="dr-sec">Reason</div>
+            <div class="frow">
+              <label>Reason <span style="font-size:10px;color:var(--mu)">(optional — helps manager)</span></label>
+              <div class="fld" style="min-height:44px;font-size:12px">Family vacation — booked travel</div>
+            </div>
+            <div class="frow">
+              <label>Emergency contact during leave <span style="font-size:10px;color:var(--mu)">(④)</span></label>
+              <div class="fld">+971 50 123 4567</div>
+            </div>
+            <div class="vbar vbar-warn">ℹ Your manager (Sara Al-Mansouri) will receive an email + in-app notification. SLA: 48 business hours.</div>
+          </div>
+          <div class="dr-foot">
+            <button class="btn btn-g" style="flex:1">Cancel</button>
+            <button class="btn btn-p" style="flex:2">Submit Request →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item"><span class="ann-num">①</span><div><span class="ann-t">Drawer Header</span>Pre-filled with employee name, current title, and legal entity. Confirms you are submitting for yourself. HR Admin sees employee name here when submitting on behalf.</div></div>
+    <div class="ann-item"><span class="ann-num">②</span><div><span class="ann-t">Leave Type Dropdown</span>Only types with available balance are shown. Sick leave is always shown. After selection, the remaining balance updates instantly below the dropdown.</div></div>
+    <div class="ann-item"><span class="ann-num">③</span><div><span class="ann-t">Date Range Picker</span>Public holidays are highlighted and automatically excluded from the working-day count. The green confirmation bar updates live as dates change.</div></div>
+    <div class="ann-item"><span class="ann-num">④</span><div><span class="ann-t">Emergency Contact</span>Optional field stored in absence_requests. Useful for HR to reach the employee if an urgent matter arises during leave. Not required for submission.</div></div>
+  </div>
+
+  <!-- Mockup B -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin:28px 0 8px">Mockup B — Manager Approval View (/approvals)</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 <span>Search...</span></div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">4</div></div>
+        <div class="mf-ico">✅<div class="mf-badge" style="background:var(--am)">3</div></div>
+        <div class="mf-av">SM</div>
+      </div>
+    </div>
+    <div style="padding:16px 20px 0;background:#fff;border-bottom:1px solid var(--bd)">
+      <div style="font-size:18px;font-weight:700;color:var(--n);margin-bottom:4px">Approvals Inbox <span style="font-size:13px;background:var(--am-bg);color:var(--am);padding:2px 10px;border-radius:12px;font-weight:700">3 pending</span></div>
+      <div style="font-size:12px;color:var(--mu);margin-bottom:12px">Items waiting for your decision. SLA tracked in UAE business days.</div>
+      <div style="display:flex;gap:0;border-bottom:1px solid var(--bd)">
+        <div style="padding:8px 16px;font-size:12px;color:var(--mu);cursor:pointer">All (3)</div>
+        <div style="padding:8px 16px;font-size:12px;font-weight:700;color:var(--n);border-bottom:2.5px solid var(--g);margin-bottom:-1px;cursor:pointer">Leave (3)</div>
+        <div style="padding:8px 16px;font-size:12px;color:var(--mu);cursor:pointer">Transfers (0)</div>
+      </div>
+    </div>
+    <div style="background:#fff;overflow-x:auto">
+      <table class="inbox-tbl">
+        <thead><tr><th>Employee</th><th>Leave Type</th><th>Dates</th><th>Days</th><th>Balance Remaining</th><th>SLA</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div style="font-weight:700;font-size:13px">Ahmed Al-Rashidi</div><div style="font-size:10px;color:var(--mu)">Software Engineer · Avaniis Technology</div></td>
+            <td><span class="sp sp-ok">Annual</span></td>
+            <td style="font-size:12px">15 Jun – 22 Jun</td>
+            <td style="font-size:12px">5 days</td>
+            <td style="font-size:12px;color:var(--gr);font-weight:700">18.5 → 13.5</td>
+            <td><span style="color:var(--gr);font-weight:700;font-size:12px">🟢 36 hrs</span></td>
+            <td><div class="act-btns"><button class="act-btn ab-ok">✓ Approve</button><button class="act-btn ab-no">✗ Reject</button><button class="act-btn ab-dl">→ Delegate</button></div></td>
+          </tr>
+          <tr class="urgent">
+            <td><div style="font-weight:700;font-size:13px">Omar Al-Farsi</div><div style="font-size:10px;color:var(--mu)">DevOps Engineer · Avaniis Technology</div></td>
+            <td><span class="sp sp-u">Sick</span></td>
+            <td style="font-size:12px">10 Jun – 15 Jun</td>
+            <td style="font-size:12px">4 days</td>
+            <td style="font-size:12px;color:var(--am);font-weight:700">⚠ Cert pending</td>
+            <td><span style="color:var(--rd);font-weight:700;font-size:12px">🔴 SLA BREACH</span></td>
+            <td><div class="act-btns"><button class="act-btn ab-dl">👁 View Cert</button></div></td>
+          </tr>
+          <tr>
+            <td><div style="font-weight:700;font-size:13px">Fatima Al-Zaabi</div><div style="font-size:10px;color:var(--mu)">Product Manager · Avaniis Technology</div></td>
+            <td><span class="sp sp-p">Unpaid</span></td>
+            <td style="font-size:12px">01 Jul – 14 Jul</td>
+            <td style="font-size:12px">10 days</td>
+            <td style="font-size:12px;color:var(--mu)">N/A (unpaid)</td>
+            <td><span style="color:var(--am);font-weight:700;font-size:12px">🟡 18 hrs</span></td>
+            <td><div class="act-btns"><button class="act-btn ab-ok">✓ Approve</button><button class="act-btn ab-no">✗ Reject</button><button class="act-btn ab-dl">→ Delegate</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="callout callout-r">⚠ Row 2 (Omar Al-Farsi) has a medical certificate pending. The sick leave approval is blocked until HR uploads the certificate. The 48-hour SLA has been breached — this has been escalated to HR Admin.</div>
+
+  <!-- Mockup C -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin:28px 0 8px">Mockup C — Leave Balance Dashboard (/absence → Balance Overview)</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--mu);margin-bottom:16px">Ahmed Al-Rashidi · Avaniis Technology · Leave Year 2026</div>
+<svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block;margin-bottom:16px">
+<title>Leave Balance Dashboard — Ahmed Al-Rashidi 2026</title>
+<desc>Bar chart showing used and remaining days for each leave type: Annual, Sick, Maternity, Paternity.</desc>
+<defs>
+  <marker id="sm4a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm4g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm4r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm4am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="640" height="220" fill="#F5F6F8" rx="8"/>
+<!-- Title -->
+<text x="20" y="28" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#0A1628">Leave Balance Overview · 2026</text>
+<text x="20" y="44" font-family="-apple-system,sans-serif" font-size="10" fill="#6B7A96">Accrued to date · Used · Remaining · Pending requests</text>
+<!-- Legend -->
+<rect x="400" y="16" width="12" height="12" rx="2" fill="#1A6B3C"/>
+<text x="416" y="26" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Remaining</text>
+<rect x="480" y="16" width="12" height="12" rx="2" fill="#EAF0FD" stroke="#90AADE" stroke-width="1"/>
+<text x="496" y="26" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Used</text>
+<rect x="540" y="16" width="12" height="12" rx="2" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1"/>
+<text x="556" y="26" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Pending</text>
+<!-- Y axis line -->
+<line x1="150" y1="58" x2="150" y2="200" stroke="#D4D8E2" stroke-width="1"/>
+<!-- Bar: Annual Leave — max 30 days, accrued 18.5, used 6.5, pending 5 -->
+<text x="140" y="82" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0A1628">Annual</text>
+<text x="140" y="94" text-anchor="end" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">max 30 days</text>
+<!-- background bar -->
+<rect x="156" y="72" width="400" height="16" rx="4" fill="#EEF0F5"/>
+<!-- used (6.5/30 = 86.7px) -->
+<rect x="156" y="72" width="87" height="16" rx="4" fill="#EAF0FD" stroke="#90AADE" stroke-width="0.5"/>
+<!-- remaining (12/30 = 160px) -->
+<rect x="243" y="72" width="160" height="16" rx="4" fill="#1A6B3C"/>
+<!-- pending (5/30 = 66.7px) -->
+<rect x="403" y="72" width="67" height="16" rx="4" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1"/>
+<text x="565" y="83" font-family="-apple-system,sans-serif" font-size="10" fill="#1A6B3C" font-weight="700">12 rem</text>
+<!-- Bar: Sick Leave — max 90 days, used 3 -->
+<text x="140" y="122" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0A1628">Sick</text>
+<text x="140" y="134" text-anchor="end" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">max 90 days</text>
+<rect x="156" y="112" width="400" height="16" rx="4" fill="#EEF0F5"/>
+<!-- used (3/90 = 13.3px) -->
+<rect x="156" y="112" width="14" height="16" rx="4" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="0.5"/>
+<!-- remaining (87/90 = 387px) -->
+<rect x="170" y="112" width="250" height="16" rx="4" fill="#1A6B3C"/>
+<text x="565" y="123" font-family="-apple-system,sans-serif" font-size="10" fill="#1A6B3C" font-weight="700">87 rem</text>
+<!-- Bar: Maternity Leave — 60 days (N/A - male employee) -->
+<text x="140" y="162" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#6B7A96">Maternity</text>
+<text x="140" y="174" text-anchor="end" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">N/A</text>
+<rect x="156" y="152" width="400" height="16" rx="4" fill="#EEF0F5"/>
+<text x="166" y="164" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96" font-style="italic">Not applicable for this employee</text>
+<!-- Bar: Paternity Leave — 5 days, 5 remaining -->
+<text x="140" y="202" text-anchor="end" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0A1628">Paternity</text>
+<text x="140" y="214" text-anchor="end" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">max 5 days</text>
+<rect x="156" y="192" width="400" height="16" rx="4" fill="#EEF0F5"/>
+<!-- remaining (5/5 = 400px but cap at 280) -->
+<rect x="156" y="192" width="280" height="16" rx="4" fill="#1A6B3C"/>
+<text x="565" y="203" font-family="-apple-system,sans-serif" font-size="10" fill="#1A6B3C" font-weight="700">5 rem</text>
+</svg>
+    <div class="callout callout-i">ℹ Pending leave (shown in amber) has been submitted but is awaiting manager approval. It is not yet deducted from the balance. If the request is rejected, the pending reservation is released.</div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item"><span class="ann-num">①</span><div><span class="ann-t">Balance Bar Chart</span>Shows used (blue), remaining (green), and pending (amber) days for each leave type. Updates in real-time when requests are approved or cancelled.</div></div>
+    <div class="ann-item"><span class="ann-num">②</span><div><span class="ann-t">Carry-Forward Warning</span>A yellow banner appears when remaining annual leave exceeds 25 days, warning the employee the 30-day cap approaches at year-end.</div></div>
+    <div class="ann-item"><span class="ann-num">③</span><div><span class="ann-t">Sick Leave Tiers</span>The sick leave bar shows a color-coded breakdown: first 15 days full-pay (green), days 16–45 half-pay (amber), days 46–90 no-pay (red).</div></div>
+    <div class="ann-item"><span class="ann-num">④</span><div><span class="ann-t">N/A Types</span>Leave types not applicable for the employee (e.g., maternity for male employees) are shown greyed-out to confirm the type is configured system-wide but simply not eligible.</div></div>
+  </div>
+</div>
+
+<!-- ════ SECTION 7 — APPROVAL GUIDE ════════════════════════════════ -->
+<div class="sec" id="s7">
+  <div class="sec-lbl">Section 7</div>
+  <div class="sec-title">Approval Inbox Guide</div>
+  <div class="sec-desc">Two paths to the same decision. Every approval screen enforces BR-29 — exactly three buttons: Approve · Reject · Delegate. The 48-hour SLA is tracked in UAE business days via /api/cron/workflow-sla.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">Path A — In-App (/approvals)</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">① Open <strong>Approvals</strong> in sidebar — badge shows count of pending items</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">② Filter by <strong>Leave</strong> tab to see only leave requests</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">③ Sort by <strong>SLA Remaining</strong> — red = breach, amber = &lt;8 hours, green = safe</div>
+        <div style="background:var(--gr-bg);border-radius:7px;padding:8px 12px;color:var(--gr)">④ Click <strong>Approve / Reject / Delegate</strong> — decision recorded immediately. Reject requires a reason (min 10 chars).</div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">Path B — Email One-Click JWT</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">① Receive notification email with leave summary (employee, type, dates, current balance)</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">② Click Approve / Reject / Delegate link directly in the email body</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">③ Browser opens a confirmation page — no login required (JWT token auth)</div>
+        <div style="background:var(--gr-bg);border-radius:7px;padding:8px 12px;color:var(--gr)">④ Decision recorded instantly. Token is single-use and expires after 7 days.</div>
+      </div>
+      <div class="callout callout-i">ℹ If the email link says "already actioned", the request was decided in-app first. Check /approvals → Completed Requests for the full decision trail.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:14px">SLA Rules · Delegation · Carry-Forward</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px">
+      <div>
+        <div style="font-weight:700;color:var(--n);margin-bottom:8px">SLA Timers</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Manager decision window</span><span style="font-weight:700">48 hours</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Calendar basis</span><span style="font-weight:700">UAE business days</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>On breach — action</span><span style="font-weight:700;color:var(--am)">Auto-escalate to HR Admin</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Cron job</span><span class="br-pill">/api/cron/workflow-sla</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0"><span>Medical cert SLA</span><span style="font-weight:700">14 days then auto-reject</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--n);margin-bottom:8px">Delegation &amp; Carry-Forward Rules</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:12px">
+          <div style="padding:4px 0;border-bottom:1px solid var(--lt)">Delegation route: <span class="br-pill">/settings/delegations</span></div>
+          <div style="padding:4px 0;border-bottom:1px solid var(--lt)">Fields: Delegator · Delegate · Date range · Scope</div>
+          <div style="padding:4px 0;border-bottom:1px solid var(--lt)">Essential when manager is on leave (who approves the team?)</div>
+          <div style="padding:4px 0;border-bottom:1px solid var(--lt)">Carry-forward cap: <strong>30 days</strong> (UAE FDL 33/2021)</div>
+          <div style="padding:4px 0">Excess days forfeited at year-end — ARIA warns at 25 days</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout callout-w" style="margin-top:12px">⚠ BR-29 rule: Every leave approval screen must show exactly three buttons — Approve, Reject, Delegate. Reject requires a written reason (minimum 10 characters). The reason is stored permanently in the audit log and surfaced to the employee in the rejection email.</div>
+  </div>
+</div>
+
+<!-- ════ SECTION 8 — OPERATIONAL SCENARIOS ═════════════════════════ -->
+<div class="sec" id="s8">
+  <div class="sec-lbl">Section 8</div>
+  <div class="sec-title">Operational Scenarios</div>
+  <div class="sec-desc">Four real-world leave scenarios from AVANIIS Real Estate and Avaniis. Each shows exact resolution steps, compliance references, and what breaks if a step is skipped.</div>
+  <div class="sc-grid">
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">A</div><div class="sc-title">Leave overlaps employee notice period</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>Ahmed submits 10-day annual leave from 1 July. HR checks and finds Ahmed handed in resignation — notice period started 28 June.</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>System detects notice period overlap: worker_assignments.notice_start_date ≤ leave start. Surfaces a warning to the manager on the approval screen.</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>Manager has three options: (a) Approve — leave runs during notice, employee returns and continues notice. (b) Reject — leave is not granted; employee serves full notice. (c) Escalate to HR Director — required if annual leave exceeds 5 days during notice.</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>If approved: payroll processes leave pay, then notice pay resumes from return date. Effective end date of employment adjusts accordingly.</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>HR Director signs off at /approvals if leave &gt; 5 days during notice — mandatory second approval step is inserted into the workflow automatically.</div></div>
+        <div class="sc-warn">⚠ UAE Labour Law: An employer cannot prevent an employee from taking earned annual leave accumulated during the notice period (FDL 33/2021 Art. 43). Rejection must be documented with a valid business reason.</div>
+        <div class="sc-rule">BR-LV-001 · FDL-33-2021 Art.43 · notice_period · worker_assignments</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">Sick leave exceeds 90 days — status escalation</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>Mohammed has been on sick leave for 86 days. ARIA alerts HR Admin: "Mohammed Al-Hassan's sick balance will be exhausted in 4 days."</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>HR Admin navigates to /absence → Mohammed → Sick Leave History to confirm the exact usage: 15 full-pay days + 30 half-pay days + 41 no-pay days = 86 of 90 used.</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>On day 91, system auto-transitions: sick leave is exhausted. HR Admin must choose: (a) Grant unpaid leave extension (HR Director sign-off). (b) Process termination on medical grounds (Legal + Finance approval).</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>If unpaid extension granted: a new absence_request is created with type = UNPAID_LEAVE, linked to the sick leave record for continuity.</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>Medical certificates required throughout. Payroll automatically adjusts to unpaid deduction from day 91.</div></div>
+        <div class="sc-warn">⚠ UAE Labour Law: Maximum sick leave is 90 days per year (FDL 33/2021 Art. 31) — 15 full pay + 30 half pay + 45 without pay. Exceeding without an extension constitutes an employment risk. HR Director and Legal must be involved in any extension.</div>
+        <div class="sc-rule">BR-LV-002 · FDL-33-2021 Art.31 · absence_balances · sick_days tiered</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">C</div><div class="sc-title">Leave applied after payroll close — retroactive handling</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>Sara was absent for 3 days in May but the leave was only submitted on 5 June — after the May payroll run closed (status = PAID).</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>System detects the retroactive date. Blocks the employee submission but allows HR Admin to submit with an override reason.</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>HR Admin submits backdated leave at /absence → Sara Al-Mansouri → Apply Leave → toggle "Retroactive" → enter override reason ≥ 30 chars.</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>Workflow created: requires HR Director approval for retroactive leave (BR-WF-010). Normal 48h SLA applies.</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>On approval: balance deducted from Sara's account retroactively. Payroll adjustment is queued for the next run as a retro correction item visible at Payroll → Runs → Corrections.</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>Finance reviews the payroll correction before the next run closes. May result in a deduction from June pay if May overpayment occurred.</div></div>
+        <div class="sc-warn">⚠ Retroactive leave adjustments affect completed payroll runs. Always confirm with Finance before submitting retroactive leave exceeding the current month to avoid double corrections.</div>
+        <div class="sc-rule">BR-WF-010 · absence_requests.start_date · payroll_runs.status = PAID · retroactive correction</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Manager on leave — setting up team leave delegation</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>Sara Al-Mansouri (IT Manager) is going on annual leave for 15 days. She has a team of 8 direct reports who may submit leave requests during her absence.</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>Sara navigates to Settings → Delegations → Add Rule. She designates Omar Hassan as her delegate for the leave period.</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>Scope: all workflow types during 15-Jun to 30-Jun 2026. Omar will receive all approval emails and in-app notifications directed to Sara.</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>While Sara is on leave, a team member submits annual leave. The system routes the request to Omar (as delegate) — not to Sara. Omar sees it in /approvals with a "Delegated from Sara Al-Mansouri" label.</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>Omar approves or rejects. Decision is recorded in the audit log with both Omar's actor_id and the delegation reference. Sara sees all decisions taken on her behalf in /approvals → Delegation History on return.</div></div>
+        <div class="sc-warn">⚠ Delegation must be set up BEFORE the manager goes on leave — it cannot be applied retroactively. If no delegation is set and the manager is ACTIVE on leave (status = ON_LEAVE), the request will auto-escalate to HR Admin after 48 hours.</div>
+        <div class="sc-rule">BR-29 · /settings/delegations · workflow_instances.delegated_to · SLA auto-escalation</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 9 — TROUBLESHOOTING ════════════════════════════════ -->
+<div class="sec" id="s9">
+  <div class="sec-lbl">Section 9</div>
+  <div class="sec-title">Troubleshooting Knowledge Base</div>
+  <div class="sec-desc">Every problem has three layers: what the user sees, what caused it, and exactly how to fix it. These are the four most common leave support tickets in AVANIIS HR.</div>
+  <div class="ts-grid">
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚫 Balance Shows Zero or Is Missing</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Annual leave balance shows 0 for a new hire</div>
+          <div class="ts-c">New hire started mid-month — accrual has not yet run, or the first prorated accrual is less than 1 day</div>
+          <div class="ts-f">→ Check accrual run logs at /absence → Administration → Accrual History. For new hires, first accrual runs on the 1st of the following month (prorated from hire date).</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Balance shows 0 but employee has worked 6 months</div>
+          <div class="ts-c">Leave rules not configured, or accrual cron has not been running</div>
+          <div class="ts-f">→ Go to /master-data/leave-rules and verify a rule exists for this employee's leave type + legal entity. Then verify cron health at Settings → System → Cron Status.</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">Leave type not visible in employee's dropdown</div>
+          <div class="ts-c">Leave type is inactive or not mapped to the employee's legal entity</div>
+          <div class="ts-f">→ /master-data/leave-types → edit the leave type → ensure is_active = true and the correct legal entities are selected.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⏸ Employee Cannot Submit Leave Request</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">"Insufficient balance" error on submit</div>
+          <div class="ts-c">remaining_days in absence_balances is less than the requested leave duration</div>
+          <div class="ts-f">→ Check actual balance at /absence → [Employee] → Balance tab. If the balance is wrong, check for a stuck accrual run. If correct, suggest unpaid leave as an alternative.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">"Date is in the past" error</div>
+          <div class="ts-c">Employees cannot submit retroactive requests. Only HR Admin can.</div>
+          <div class="ts-f">→ HR Admin navigates to /absence → [Employee] → Apply Leave → enable the Retroactive toggle. Requires override reason and triggers HR Director approval workflow.</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">"Overlapping leave exists" error</div>
+          <div class="ts-c">An APPROVED or ACTIVE absence_request already covers part of the date range</div>
+          <div class="ts-f">→ /absence → [Employee] → Leave History to identify the conflicting request. Cancel or modify the conflicting request first, then resubmit.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">📧 Manager Not Receiving Leave Notifications</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Manager's email inbox shows no leave approval notifications</div>
+          <div class="ts-c">Email outbox (notification_log) has entries stuck in PENDING or FAILED status</div>
+          <div class="ts-f">→ Settings → System → Notification Log. Filter by type = LEAVE_APPROVAL. Check for FAILED entries and re-queue from the admin panel. Verify SMTP settings if all emails are failing.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Notifications going to the wrong person</div>
+          <div class="ts-c">employee.line_manager_id is pointing to an outdated manager assignment</div>
+          <div class="ts-f">→ /persons/[id] → Assignments → verify line_manager_id is the current manager. If a transfer happened recently, check if the assignment record was updated with the correct effective date.</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">Manager on leave — no one is receiving approvals</div>
+          <div class="ts-c">No delegation rule configured for the absent manager</div>
+          <div class="ts-f">→ HR Admin: Settings → Delegations → Add Rule. Set the manager as delegator, assign a delegate, and specify the date range. Existing pending requests will be re-notified to the delegate within 1 hour.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">📅 Public Holidays Not Being Excluded</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">National Day appears in the working day count for a leave request</div>
+          <div class="ts-c">The entity-specific holiday calendar has not been configured, or National Day was not added to the calendar for this year</div>
+          <div class="ts-f">→ /master-data/holidays → select the legal entity → verify 2026 entries include all public holidays. After adding, the system recalculates any existing SUBMITTED requests that include the missed dates.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Holiday calendar is configured but still being counted</div>
+          <div class="ts-c">The holiday is linked to a different legal entity than the employee's current entity</div>
+          <div class="ts-f">→ Check /persons/[id] → Assignments → legal_entity_id. Cross-reference with /master-data/holidays → filter by entity. Ensure the holiday record's entity_id matches the employee's entity_id.</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">Ramadan working hours not reflected in leave calculation</div>
+          <div class="ts-c">Ramadan schedule is managed via timesheets, not holiday calendar. Leave is calculated in calendar days, not hours.</div>
+          <div class="ts-f">→ Ramadan hour adjustments are in /timesheets → Schedule → Ramadan Mode. Leave balances are not affected by Ramadan shortened hours — they remain in calendar days per UAE law.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 10 — ARIA INTELLIGENCE ════════════════════════════ -->
+<div class="sec" id="s10">
+  <div class="sec-lbl">Section 10</div>
+  <div class="sec-title">ARIA Intelligence Notes</div>
+  <div class="sec-desc">Eight documented ARIA queries for the Leave &amp; Absence module — each showing the exact dependency-check sequence, the table/field references, and the response ARIA returns. Access ARIA at /aria (HR Admin) or /me/aria (Employee).</div>
+
+  <div class="aria-wrap">
+    <div class="aria-hdr">
+      <span class="aria-badge">ARIA</span>
+      <div>
+        <div class="aria-title">Adaptive Resource Intelligence Agent — Leave &amp; Absence Dependency Logic</div>
+        <div class="aria-sub">HR Admin access: /aria · Employee access: /me/aria · Manager access: /approvals inline chat</div>
+      </div>
+    </div>
+
+    <div class="aria-grid">
+
+      <div class="aria-card">
+        <div class="aria-q">"How many annual leave days does Ahmed have left?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Resolve Ahmed's person_id from persons WHERE name_en ILIKE 'Ahmed%'</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Query absence_balances WHERE person_id = Ahmed AND leave_type = ANNUAL_LEAVE AND year = current_year</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Calculate: accrued_days - used_days = remaining_days</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Check for pending requests (status = SUBMITTED) to show reserved but not yet deducted days</div>
+        </div>
+        <div class="aria-response">"Ahmed Al-Rashidi has 18.5 annual leave days accrued this year. He has used 6.5 days. He has 5 days pending manager approval. Available to book now: 12 days. Carry-forward cap is 30 days — he is within limit."</div>
+        <div class="aria-rule">absence_balances · absence_requests.status = SUBMITTED · BR-LV-001</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Who is on leave this week?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Query absence_requests WHERE status IN ('APPROVED','ACTIVE') AND start_date &lt;= end_of_week AND end_date &gt;= start_of_week</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Join to persons to get name_en, name_ar, department_id, line_manager_id</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Scoped to caller's department or team if caller is MANAGER role</div>
+        </div>
+        <div class="aria-response">Returns a structured list: "3 employees on leave this week: Sara Al-Mansouri (Annual, returns Mon 23 Jun), Omar Hassan (Sick, expected return 18 Jun), Fatima Al-Zaabi (Unpaid, returns 30 Jun). Team coverage: 8 of 11 available."</div>
+        <div class="aria-rule">absence_requests · persons · worker_assignments.line_manager_id</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Show all pending leave approvals for my team"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Identify caller's role: if MANAGER, scope to persons WHERE line_manager_id = caller.person_id</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Query absence_requests WHERE status = SUBMITTED AND person_id IN (team members)</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Join workflow_instances to get SLA remaining for each request</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Sort by SLA_remaining ASC — most urgent first</div>
+        </div>
+        <div class="aria-response">"You have 3 pending leave approvals. Ahmed (Annual, 5 days, 36 hours left on SLA). Fatima (Unpaid, 10 days, 18 hours — act soon). Mohammed (Paternity, 5 days, 44 hours). Navigate to /approvals to decide."</div>
+        <div class="aria-rule">absence_requests.status=SUBMITTED · workflow_instances · SLA timer · BR-29</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Ahmed wants sick leave — what documents are needed?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Determine requested sick leave duration from context (or ask: "How many days?")</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>If duration &lt;= 2 days: no certificate required — apply leave normally</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>If duration &gt; 2 days: BR-LV-002 applies — medical certificate from a licensed UAE clinic is mandatory</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Check Ahmed's current sick_days_used to determine pay tier (full/half/no pay)</div>
+        </div>
+        <div class="aria-response">"For sick leave exceeding 2 consecutive days, Ahmed must provide a medical certificate from a licensed UAE clinic or hospital. Upload the certificate at /absence → Ahmed → Sick Leave → Upload Certificate. Without it, the leave stays in PENDING_CERT and cannot be approved."</div>
+        <div class="aria-rule">BR-LV-002 · absence_requests.cert_document_url · FDL-33-2021 Art.31</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Why is Sara's annual leave balance negative?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Query absence_balances WHERE person_id = Sara AND leave_type = ANNUAL_LEAVE</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Check if used_days exceeds accrued_days (advance leave scenario)</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Check carry_forward_days — was last year's carry-forward added incorrectly?</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Check for year-end forfeiture: was excess carry-forward deducted reducing opening balance?</div>
+        </div>
+        <div class="aria-response">"Sara's balance is -2.5 days because she was granted advance leave in March (approved with override by HR Admin). Her accrual rate is 2.5 days/month. At her current rate she will be back in credit by 1 August. No action required unless she requests further leave before then."</div>
+        <div class="aria-rule">absence_balances.accrued_days · used_days · carry_forward_days · advance_leave flag</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"How many sick days has Mohammed taken this year?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Query absence_requests WHERE person_id = Mohammed AND leave_type = SICK_LEAVE AND EXTRACT(year FROM start_date) = current_year AND status IN ('APPROVED','ACTIVE','COMPLETED')</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>SUM(end_date - start_date + 1) for working days</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Map to pay tier: first 15 = full pay, 16-45 = half pay, 46-90 = no pay</div>
+        </div>
+        <div class="aria-response">"Mohammed Al-Hassan has taken 23 sick days in 2026. Breakdown: 15 days full pay (Jan–Feb), 8 days half pay (Mar). He has 37 days of half-pay sick leave and 45 days no-pay sick leave remaining before exhaustion. No medical certificate issues on file."</div>
+        <div class="aria-rule">absence_requests · SUM(sick_days) · pay tier calculation · BR-LV-002</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"What is the maximum annual leave carry-forward?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Query leave_rules WHERE leave_type = ANNUAL_LEAVE AND legal_entity_id = caller entity</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Read carry_forward_max_days from the configured rule</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Cross-check with UAE law minimum: FDL 33/2021 sets 30 calendar days maximum carry-forward</div>
+        </div>
+        <div class="aria-response">"Under UAE Federal Decree-Law No. 33 of 2021 (FDL 33/2021 Art. 29), employees may carry forward up to 30 calendar days of unused annual leave to the following year, subject to employer consent. Any excess above 30 days is forfeited at year-end. AVANIIS HR will automatically warn you when any employee's balance exceeds 25 days."</div>
+        <div class="aria-rule">BR-LV-001 · leave_rules.carry_forward_max_days · FDL-33-2021 Art.29</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Can Fatima take maternity leave next month?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Verify Fatima's gender from persons record (eligibility: female employees only)</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Check assignment_status = ACTIVE (cannot be on notice period or PENDING_HIRE)</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Check if Fatima has taken maternity leave in the current year (one instance per pregnancy)</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Apply BR-LV-003: 60 days total (45 full pay + 15 half pay) — tenure is NOT a condition under FDL 33/2021</div>
+        </div>
+        <div class="aria-response">"Fatima Al-Zaabi is eligible for maternity leave. She is an active employee with no prior maternity leave this year. Under UAE FDL 33/2021 Art. 30, she is entitled to 60 days: first 45 days at full pay, days 46–60 at half pay. No minimum service requirement applies. HR can submit the request at /absence → Fatima → Apply Leave → Maternity."</div>
+        <div class="aria-rule">BR-LV-003 · FDL-33-2021 Art.30 · persons.gender · absence_requests history</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="page-footer">
+  AVANIIS HR · Training Module M2: Leave &amp; Absence Management · v3.0 Enterprise Edition · May 2026<br>
+  Avaniis / Avaniis · Internal Use Only · UAE Federal Decree-Law No. 33 of 2021 and amendments
+</div>
+
+<script>
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  emp: ['s1','s3','s6','s7','s10'],
+  hd:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

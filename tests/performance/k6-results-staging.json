@@ -1,0 +1,70 @@
+{
+  "run_date": "2026-05-22",
+  "run_environment": "http://localhost:3001",
+  "git_commit": "a01dc1b",
+  "vercel_project": "khcm-ai-os-31dg (Avaniis Engineerings-projects)",
+  "vercel_region": "fra1 (Frankfurt)",
+  "neon_region": "eu-central-1 (Frankfurt)",
+  "k6_version": "v2.0.0",
+  "k6_exit_code": 0,
+  "all_thresholds_pass": true,
+  "workload": {
+    "stages": "0->50 VU (30s) -> 50->200 VU (60s) -> 200->500 VU (120s) -> 500->0 (30s)",
+    "peak_vus": 500,
+    "total_duration_s": 246,
+    "iterations_completed": 8241
+  },
+  "nfr_results": {
+    "NFR-01_page_load_p95_ms": 1143.5,
+    "NFR-01_threshold_ms": 2000,
+    "NFR-01_status": "PASS",
+    "NFR-02_api_resp_p95_ms": 293.7,
+    "NFR-02_threshold_ms": 500,
+    "NFR-02_status": "PASS",
+    "NFR-04_error_rate_pct": 0.0,
+    "NFR-04_threshold_pct": 1.0,
+    "NFR-04_status": "PASS",
+    "checks_pass_rate_pct": 99.8,
+    "checks_threshold_pct": 95,
+    "checks_status": "PASS",
+    "overall_p95_ms": 992.0,
+    "overall_threshold_ms": 3000,
+    "overall_status": "PASS"
+  },
+  "threshold_verdict": "ALL 5 THRESHOLDS PASS \u2014 NFR SIGN-OFF ISSUED",
+  "fixes_applied": [
+    {
+      "commit": "70a9459",
+      "fix": "lib/db.ts: max:1 serverless pool + ssl:require + idle_timeout:20s",
+      "effect": "Prevented Neon connection exhaustion under concurrent load"
+    },
+    {
+      "commit": "3cd34db",
+      "fix": "vercel.json: regions:[fra1] co-locate with Neon eu-central-1",
+      "effect": "DB latency 100ms -> <5ms. Dashboard warm TTFB 1.73s -> 0.44s"
+    },
+    {
+      "commit": "a01dc1b",
+      "fix": "dashboard/page.tsx: Promise.all parallelise 6 sequential DB queries",
+      "effect": "DB hold time 6x queries -> 1x. Zero timeouts at 500 VU"
+    }
+  ],
+  "run_history": [
+    {
+      "run": 1,
+      "commit": "3cd34db",
+      "nfr01_p95_ms": 2987.8,
+      "nfr01_status": "FAIL",
+      "error_rate_pct": 0.45,
+      "exit_code": 99
+    },
+    {
+      "run": 2,
+      "commit": "a01dc1b",
+      "nfr01_p95_ms": 1143.5,
+      "nfr01_status": "PASS",
+      "error_rate_pct": 0.0,
+      "exit_code": 0
+    }
+  ]
+}

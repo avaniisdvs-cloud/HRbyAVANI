@@ -1,0 +1,2308 @@
+{
+  "config": {
+    "configFile": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/playwright.config.ts",
+    "rootDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 8
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/cross-browser\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/cross-browser\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/cross-browser\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "edge",
+        "name": "edge",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/cross-browser\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "mobile-chrome",
+        "name": "mobile-chrome",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/cross-browser\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "mobile-safari",
+        "name": "mobile-safari",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/cross-browser\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/cross-browser\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "rtl",
+        "name": "rtl",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/rtl-certification\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "setup-super-admin",
+        "name": "setup-super-admin",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "setup-hr-admin",
+        "name": "setup-hr-admin",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "setup-manager",
+        "name": "setup-manager",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "setup-employee",
+        "name": "setup-employee",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/auth\\.setup\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "super-admin",
+        "name": "super-admin",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "tests/e2e/super-admin.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "hr-admin",
+        "name": "hr-admin",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/tests\\/e2e\\/(hr-admin|persons)\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "manager",
+        "name": "manager",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "tests/e2e/manager.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "employee",
+        "name": "employee",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "tests/e2e/employee.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 8
+        },
+        "id": "documents-uat",
+        "name": "documents-uat",
+        "testDir": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "tests/e2e/documents-uat.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "tests/e2e/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 8,
+    "webServer": {
+      "command": "pnpm dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "fixtures/auth.setup.ts",
+      "file": "fixtures/auth.setup.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "authenticate as hr-admin",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "setup-hr-admin",
+              "projectName": "setup-hr-admin",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4273,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-06-12T11:31:58.461Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6db7255f214771fc958b-a7ab5dafedca2eb03fb7",
+          "file": "fixtures/auth.setup.ts",
+          "line": 85,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "hr-admin.spec.ts",
+      "file": "hr-admin.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "HR_ADMIN | MDM | Legal entities",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-001 Legal entities list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5625,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.344Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-7a7fd531a9b03a6c642f",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Departments",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-002 Departments list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5355,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.344Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-bfa1adb0251dd05fbfe0",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Positions",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-003 Positions list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5044,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.344Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-1047b68ec6c86e167222",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Grades",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-004 Grades list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5047,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.344Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-2cf4258338e7065319bd",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Locations",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-005 Locations list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 4962,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.349Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-3fe1e49b4459294b6e16",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Work schedules",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-006 Work schedules list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 5867,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.343Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-6758fd5d4ab84e0249d0",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Holiday calendars",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-007 Holiday calendars list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 6190,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.344Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-8eff875913f516418a2a",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Leave types",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-008 Leave types list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 5338,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:03.350Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-e84dfff794cbc9ce1b77",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | MDM | Jobs",
+          "file": "hr-admin.spec.ts",
+          "line": 26,
+          "column": 8,
+          "specs": [
+            {
+              "title": "HA-009 Jobs list + create drawer + validation + history",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 3353,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:08.519Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-8c0173b196bc5c1eb397",
+              "file": "hr-admin.spec.ts",
+              "line": 27,
+              "column": 9
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Persons | Person List",
+          "file": "hr-admin.spec.ts",
+          "line": 81,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-010 Person list loads; list search updates results (Option D master-detail)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 3229,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:08.604Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-088a7483f310f85e2342",
+              "file": "hr-admin.spec.ts",
+              "line": 82,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Persons | New Person",
+          "file": "hr-admin.spec.ts",
+          "line": 105,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-011 New employee form validates empty submit — no DB write",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3194,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:08.604Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-bb716b5a42638d55e7c6",
+              "file": "hr-admin.spec.ts",
+              "line": 106,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Persons | Person Detail (requires seed)",
+          "file": "hr-admin.spec.ts",
+          "line": 119,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-012 Person detail page loads with tabs",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 6576,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:23.245Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-83d8f5f01c28a4fd503c",
+              "file": "hr-admin.spec.ts",
+              "line": 142,
+              "column": 7
+            },
+            {
+              "title": "HA-013 Person edit form + drawer loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 4875,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:23.502Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-c53f50fdd1d7ea117286",
+              "file": "hr-admin.spec.ts",
+              "line": 148,
+              "column": 7
+            },
+            {
+              "title": "HA-014 Bank details PII fields are masked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2596,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:23.508Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-80758fa5b940633f5079",
+              "file": "hr-admin.spec.ts",
+              "line": 154,
+              "column": 7
+            },
+            {
+              "title": "HA-015 Dependents section renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 2621,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:23.517Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-0ba82ecd882f7bad0aaa",
+              "file": "hr-admin.spec.ts",
+              "line": 165,
+              "column": 7
+            },
+            {
+              "title": "HA-016 Documents list container renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 1647,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:24.582Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-cd667cbeacfded6c4cc1",
+              "file": "hr-admin.spec.ts",
+              "line": 171,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Absence | Leave List",
+          "file": "hr-admin.spec.ts",
+          "line": 180,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-017 Leave list loads; LeaveFilterBar visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 3074,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:08.887Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-5cccfcac4e2f69dacb0a",
+              "file": "hr-admin.spec.ts",
+              "line": 181,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Absence | New Leave",
+          "file": "hr-admin.spec.ts",
+          "line": 192,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-018 New leave page loads — form or main content visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3484,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:08.910Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-3e4e99f7d45bc38657c1",
+              "file": "hr-admin.spec.ts",
+              "line": 193,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Absence | Decision Bar",
+          "file": "hr-admin.spec.ts",
+          "line": 203,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-019 Absence detail: LeaveDecisionBar with Approve/Reject/Delegate (BR-29)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Decision bar not rendered on this absence record — check BR-29 implementation",
+                      "location": {
+                        "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                        "line": 216,
+                        "column": 12
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "skipped",
+                      "duration": 6445,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:09.182Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "Decision bar not rendered on this absence record — check BR-29 implementation",
+                          "location": {
+                            "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                            "line": 216,
+                            "column": 12
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-4d664df1a1a5f5027c78",
+              "file": "hr-admin.spec.ts",
+              "line": 204,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Absence | Balances, Calendar & Rules",
+          "file": "hr-admin.spec.ts",
+          "line": 225,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-020 Balance cards render",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 6031,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:09.425Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-426d786273aa32ec5599",
+              "file": "hr-admin.spec.ts",
+              "line": 226,
+              "column": 7
+            },
+            {
+              "title": "HA-021 Calendar container renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 4226,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:09.748Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-4139c7eecb3d04f0cc7d",
+              "file": "hr-admin.spec.ts",
+              "line": 232,
+              "column": 7
+            },
+            {
+              "title": "HA-022 Rules editor loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "/absence/rules route not yet built — skipping",
+                      "location": {
+                        "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                        "line": 243,
+                        "column": 12
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "skipped",
+                      "duration": 5825,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:11.803Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "/absence/rules route not yet built — skipping",
+                          "location": {
+                            "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                            "line": 243,
+                            "column": 12
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-a54fdb72c5bc2a41ac46",
+              "file": "hr-admin.spec.ts",
+              "line": 238,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Workflow | Definitions & Groups",
+          "file": "hr-admin.spec.ts",
+          "line": 252,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-023 Workflow definitions list loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2499,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:11.838Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-b00e33c86c62b85e4b96",
+              "file": "hr-admin.spec.ts",
+              "line": 253,
+              "column": 7
+            },
+            {
+              "title": "HA-025 Delegations list renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 2881,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:11.877Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-f4549edee2c8c3edcb5a",
+              "file": "hr-admin.spec.ts",
+              "line": 258,
+              "column": 7
+            },
+            {
+              "title": "HA-026 Approval groups list renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 2904,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:11.967Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-4336204be0b9f4cad17c",
+              "file": "hr-admin.spec.ts",
+              "line": 263,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Workflow | Step Editor (requires seed)",
+          "file": "hr-admin.spec.ts",
+          "line": 270,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-024 Step editor + ConditionBuilder AND/OR tree visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "No workflow definitions in DB",
+                      "location": {
+                        "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                        "line": 275,
+                        "column": 23
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "skipped",
+                      "duration": 6518,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:12.400Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "No workflow definitions in DB",
+                          "location": {
+                            "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                            "line": 275,
+                            "column": 23
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-8d40f73f2ab6c94ce8c8",
+              "file": "hr-admin.spec.ts",
+              "line": 271,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Workflow | Approvals",
+          "file": "hr-admin.spec.ts",
+          "line": 289,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-027 Approvals inbox renders (container — may be empty)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 3144,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:13.980Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-8456c204577077ea7c06",
+              "file": "hr-admin.spec.ts",
+              "line": 290,
+              "column": 7
+            },
+            {
+              "title": "HA-028 Approval detail: exactly 3 decision buttons (BR-29)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Approvals inbox is empty — seed workflow instances first",
+                      "location": {
+                        "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                        "line": 301,
+                        "column": 23
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "skipped",
+                      "duration": 6241,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:14.342Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "Approvals inbox is empty — seed workflow instances first",
+                          "location": {
+                            "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                            "line": 301,
+                            "column": 23
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-33910fd8dfb72e55bcda",
+              "file": "hr-admin.spec.ts",
+              "line": 297,
+              "column": 7
+            },
+            {
+              "title": "HA-029 SLA cron endpoint returns 200 (GET with CRON_SECRET)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "CRON_SECRET not set — skip SLA cron test",
+                      "location": {
+                        "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                        "line": 316,
+                        "column": 25
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "skipped",
+                      "duration": 32,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:14.764Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "CRON_SECRET not set — skip SLA cron test",
+                          "location": {
+                            "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                            "line": 316,
+                            "column": 25
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-8c8c606cc867a182aec3",
+              "file": "hr-admin.spec.ts",
+              "line": 314,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Org Chart",
+          "file": "hr-admin.spec.ts",
+          "line": 326,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-030 Full-screen canvas loads — react-flow container present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 3528,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:14.801Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-3721c6a0c7c70ca7ab39",
+              "file": "hr-admin.spec.ts",
+              "line": 327,
+              "column": 7
+            },
+            {
+              "title": "HA-031 Filter panel opens; department dropdown visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 3613,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:14.878Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-bab7a5723436b2baed9c",
+              "file": "hr-admin.spec.ts",
+              "line": 336,
+              "column": 7
+            },
+            {
+              "title": "HA-032 Search input is visible and accepts input",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 3382,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:15.463Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-065dfb436032790e8ada",
+              "file": "hr-admin.spec.ts",
+              "line": 354,
+              "column": 7
+            },
+            {
+              "title": "HA-033 Expand/collapse — canvas is stable",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3476,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:15.632Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-59a201cd2d5e3616666a",
+              "file": "hr-admin.spec.ts",
+              "line": 368,
+              "column": 7
+            },
+            {
+              "title": "HA-034 Export PNG button is visible and not disabled",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 2176,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:17.131Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-cdcce26837dfba2c03d3",
+              "file": "hr-admin.spec.ts",
+              "line": 386,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Reports",
+          "file": "hr-admin.spec.ts",
+          "line": 401,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-035 HRAdminDashboard renders with at least one KPICard",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1609,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:17.635Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-d38819030c96db3fea15",
+              "file": "hr-admin.spec.ts",
+              "line": 402,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Timesheets",
+          "file": "hr-admin.spec.ts",
+          "line": 410,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-036 HR admin timesheet view loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 2194,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:18.333Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-d7e178c636f039b145bf",
+              "file": "hr-admin.spec.ts",
+              "line": 411,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Directory",
+          "file": "hr-admin.spec.ts",
+          "line": 418,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-037 Card grid loads; search input present; no JS error on type",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 2695,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:18.496Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-ee5ad84a0a4f8f0b19cf",
+              "file": "hr-admin.spec.ts",
+              "line": 419,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | ARIA OS",
+          "file": "hr-admin.spec.ts",
+          "line": 436,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-038 ARIA OS loads; tab strip visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 4322,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:18.850Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-72a81a56d1e604d5108e",
+              "file": "hr-admin.spec.ts",
+              "line": 457,
+              "column": 7
+            },
+            {
+              "title": "HA-039 UAE Labour Law tab renders rules list",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 4318,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:18.922Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-3597283d9a8be4be9ee6",
+              "file": "hr-admin.spec.ts",
+              "line": 468,
+              "column": 7
+            },
+            {
+              "title": "HA-040 Reports tab renders cards for HR_ADMIN",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4385,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:19.118Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-2a1cdcef0f4266746551",
+              "file": "hr-admin.spec.ts",
+              "line": 481,
+              "column": 7
+            },
+            {
+              "title": "HA-041 Alerts tab renders filter buttons (All, Critical, Warnings, Info)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 4263,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:19.248Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-fef77b4607cb3633edfd",
+              "file": "hr-admin.spec.ts",
+              "line": 495,
+              "column": 7
+            },
+            {
+              "title": "HA-042 Approvals tab panel renders",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 4185,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:19.311Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-204747c695364f6d0118",
+              "file": "hr-admin.spec.ts",
+              "line": 511,
+              "column": 7
+            },
+            {
+              "title": "HA-043 Compliance tab ScoreRing SVG donut visible",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 4045,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:20.532Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-8b983fb27c6115577954",
+              "file": "hr-admin.spec.ts",
+              "line": 522,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Global UI",
+          "file": "hr-admin.spec.ts",
+          "line": 538,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-044 Notification panel is wired up (region in DOM)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 2623,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:20.588Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-0bfa4d985beec6d52af9",
+              "file": "hr-admin.spec.ts",
+              "line": 539,
+              "column": 7
+            },
+            {
+              "title": "HA-045 Global search dropdown appears after typing 3 chars",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 8,
+                      "parallelIndex": 7,
+                      "status": "passed",
+                      "duration": 5277,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:21.195Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-45e91df5b252aaf4db67",
+              "file": "hr-admin.spec.ts",
+              "line": 551,
+              "column": 7
+            },
+            {
+              "title": "HA-046 Profile menu opens; settings link present",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 2761,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:23.176Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-154c305ccb8a8e208f0e",
+              "file": "hr-admin.spec.ts",
+              "line": 570,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "HR_ADMIN | Security | Role Guard",
+          "file": "hr-admin.spec.ts",
+          "line": 589,
+          "column": 6,
+          "specs": [
+            {
+              "title": "HA-047 HR_ADMIN is blocked from /settings/ai-agent",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Role guard for /settings/ai-agent not yet built — skipping until implemented",
+                      "location": {
+                        "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                        "line": 608,
+                        "column": 12
+                      }
+                    }
+                  ],
+                  "expectedStatus": "skipped",
+                  "projectId": "hr-admin",
+                  "projectName": "hr-admin",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "skipped",
+                      "duration": 5276,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-06-12T11:32:23.215Z",
+                      "annotations": [
+                        {
+                          "type": "skip",
+                          "description": "Role guard for /settings/ai-agent not yet built — skipping until implemented",
+                          "location": {
+                            "file": "/Users/d.kethari/D_Drive/AVANIIS_HR_SYS/tests/e2e/hr-admin.spec.ts",
+                            "line": 608,
+                            "column": 12
+                          }
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "3e2a8fb12e4be89b9e35-d46cee13d72e9247bf62",
+              "file": "hr-admin.spec.ts",
+              "line": 590,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-06-12T11:31:53.313Z",
+    "duration": 39385.138999999996,
+    "expected": 42,
+    "skipped": 6,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

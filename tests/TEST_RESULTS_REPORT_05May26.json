@@ -1,0 +1,198 @@
+{
+  "report": "AVANIIS HR System Master Test Results",
+  "generated": "2026-05-05",
+  "sprint": "Post-Sprint 11",
+  "summary": {
+    "total": 638,
+    "pass": 610,
+    "fail": 0,
+    "skip": 28,
+    "pass_pct": 95.6
+  },
+  "vitest_suite": {
+    "files": 950,
+    "tests": 16333,
+    "pass": 16183,
+    "fail": 26,
+    "skip": 124
+  },
+  "new_tests_added": 551,
+  "agents": [
+    {
+      "agent": "AGENT-0",
+      "category": "Environment Audit",
+      "total": 9,
+      "pass": 8,
+      "fail": 0,
+      "skip": 1
+    },
+    {
+      "agent": "AGENT-1A",
+      "category": "MDM Seed Data",
+      "total": 7,
+      "pass": 7,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-1B",
+      "category": "Schedules & Holidays Seed",
+      "total": 14,
+      "pass": 14,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-1C",
+      "category": "Leave Types Seed",
+      "total": 12,
+      "pass": 12,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-1D",
+      "category": "Test Employees Seed",
+      "total": 30,
+      "pass": 30,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-1E",
+      "category": "Workflow Templates Seed",
+      "total": 3,
+      "pass": 2,
+      "fail": 0,
+      "skip": 1
+    },
+    {
+      "agent": "AGENT-2A",
+      "category": "MDM CRUD Tests",
+      "total": 48,
+      "pass": 48,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-2B",
+      "category": "Work Schedules Tests",
+      "total": 47,
+      "pass": 47,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-2C",
+      "category": "Custom Fields Tests",
+      "total": 34,
+      "pass": 34,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-2D",
+      "category": "Settings Config Tests",
+      "total": 38,
+      "pass": 38,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-3A",
+      "category": "Employee Profile Tests",
+      "total": 45,
+      "pass": 45,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-3B",
+      "category": "Leave Cycle Tests",
+      "total": 40,
+      "pass": 34,
+      "fail": 0,
+      "skip": 6
+    },
+    {
+      "agent": "AGENT-3C",
+      "category": "EOSB Calculations",
+      "total": 27,
+      "pass": 27,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-3D",
+      "category": "Compliance Engine BR-xx",
+      "total": 65,
+      "pass": 60,
+      "fail": 0,
+      "skip": 5
+    },
+    {
+      "agent": "AGENT-4A",
+      "category": "Workflow Engine Tests",
+      "total": 31,
+      "pass": 31,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-4B",
+      "category": "Notification Tests",
+      "total": 16,
+      "pass": 16,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-4C",
+      "category": "ARIA AI Agent Tests",
+      "total": 43,
+      "pass": 34,
+      "fail": 0,
+      "skip": 9
+    },
+    {
+      "agent": "AGENT-5A",
+      "category": "RBAC Access Control",
+      "total": 60,
+      "pass": 60,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-5B",
+      "category": "Encryption & Audit",
+      "total": 35,
+      "pass": 35,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-5C",
+      "category": "Performance Benchmarks",
+      "total": 22,
+      "pass": 22,
+      "fail": 0,
+      "skip": 0
+    },
+    {
+      "agent": "AGENT-6A",
+      "category": "E2E HR Admin Flows",
+      "total": 6,
+      "pass": 0,
+      "fail": 0,
+      "skip": 6
+    },
+    {
+      "agent": "AGENT-6B",
+      "category": "E2E Employee Flows",
+      "total": 6,
+      "pass": 6,
+      "fail": 0,
+      "skip": 0
+    }
+  ]
+}

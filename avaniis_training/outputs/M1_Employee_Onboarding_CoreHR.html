@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M1 — Employee Onboarding &amp; Core HR | AVANIIS HR v3.0</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+  --lane-mgr:#5B2D9E;
+  --lane-hd:#3D1A6B;
+  --lane-fi:#C2540A;
+  --aria-bg1:#0A1628;
+  --aria-bg2:#0D3D30;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:var(--rd)}
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-te{background:var(--te-bg);color:var(--te)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.tab-row{display:flex;gap:0;border-bottom:2px solid var(--bd);margin-bottom:14px}
+.tab{padding:8px 16px;font-size:12px;font-weight:600;color:var(--mu);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px}
+.tab.active{color:var(--n);border-bottom-color:var(--g)}
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.guide-card{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:16px 18px}
+.guide-title{font-size:12px;font-weight:700;color:var(--n);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--lt)}
+.guide-row{display:flex;gap:8px;margin-bottom:7px;font-size:12px}
+.guide-key{color:var(--mu);min-width:110px;flex-shrink:0}
+.guide-val{color:var(--tx);font-weight:600}
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+  .guide-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════════════════════════════════════════════════════ -->
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Module M1 · v3.0 Enterprise</div>
+  <div class="ph-title">Employee Onboarding &amp; Core HR</div>
+  <div class="ph-sub">تأهيل الموظفين والموارد البشرية الأساسية · Complete Operational Guide · Navigation · Workflows · State Machines · Mockups · Scenarios · Troubleshooting · ARIA Intelligence</div>
+  <div class="ph-pills">
+    <span class="pill g">HR ADMIN</span><span class="pill g">HR DIRECTOR</span>
+    <span class="pill">SUPER ADMIN</span><span class="pill">MANAGER</span>
+    <span class="pill">UAE Labour Law</span><span class="pill">v3.0 · May 2026</span>
+  </div>
+</div>
+
+<!-- ════ STICKY NAV ═════════════════════════════════════════════════ -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <a href="#s1" class="ni" data-section="s1">Overview</a>
+    <a href="#s2" class="ni" data-section="s2">Dependency Map</a>
+    <a href="#s3" class="ni" data-section="s3">Hire Types</a>
+    <a href="#s4" class="ni" data-section="s4">Step-by-Step</a>
+    <a href="#s5" class="ni" data-section="s5">State Machines</a>
+    <a href="#s6" class="ni" data-section="s6">Screen Mockups</a>
+    <a href="#s7" class="ni" data-section="s7">Probation Guide</a>
+    <a href="#s8" class="ni" data-section="s8">Scenarios</a>
+    <a href="#s9" class="ni" data-section="s9">Troubleshooting</a>
+    <a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a>
+  </div>
+</div>
+
+<!-- ════ ROLE FILTER ════════════════════════════════════════════════ -->
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'hd')">HR Director</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+</div>
+
+<main class="content">
+
+<!-- ════ SECTION 1 — OVERVIEW & PRECONDITIONS ═══════════════════════ -->
+<div class="sec" id="s1">
+  <div class="sec-lbl">Section 1</div>
+  <div class="sec-title">Module Overview &amp; Preconditions</div>
+  <div class="sec-desc">Employee Onboarding in AVANIIS HR is the foundational process by which a new person record is created, linked to a position, assigned a grade, and activated — triggering leave entitlement, payroll enrolment, org chart placement, and ESS access in a single atomic transaction. Every write uses the effective-date pattern; no records are deleted. Every action produces an immutable audit entry in audit_log.</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions Checklist — All must be true before creating an employee record</div>
+    <div class="pre-grid">
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Legal entity exists and is active</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/legal-entities</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Department exists under the legal entity</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/departments</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Position exists with a grade assigned</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/positions</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Grade has defined salary band (min/max)</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/grades</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Job title defined and linked to position</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/jobs</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Line manager has an ACTIVE worker assignment</div>
+          <div class="pre-where">Verify at: <span class="pre-route">/persons → Assignments tab</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Hire workflow template configured for this entity</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/workflows</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block-panel">
+    <div class="block-title">🚫 Blocking Conditions — System will refuse to create the employee record</div>
+    <div class="block-row"><span class="block-label">Duplicate emirates_id</span><span class="block-reason">emirates_id (AES-256-GCM encrypted) must be unique across all persons records. If a match is found, system surfaces "Employee exists" with a link to the existing record.</span></div>
+    <div class="block-row"><span class="block-label">Position already occupied</span><span class="block-reason">Cannot assign two ACTIVE worker_assignments to the same position_id. Archive the existing occupant or choose a different position.</span></div>
+    <div class="block-row"><span class="block-label">Missing grade_salary_ranges</span><span class="block-reason">The grade linked to the target position has no min/max salary band. Go to /master-data/grades and add the band before proceeding.</span></div>
+    <div class="block-row"><span class="block-label">Payroll entity mismatch</span><span class="block-reason">The employee's legal entity does not have a payroll configuration. Map the entity to a payroll run template at /payroll → Settings.</span></div>
+    <div class="block-row" style="margin-bottom:0"><span class="block-label">Hire date &gt;30 days past</span><span class="block-reason">Backdated hire beyond 30 days requires dual approval (Manager + HR Director) per BR-WF-010. The standard hire form will reject and route to the backdated workflow automatically.</span></div>
+  </div>
+</div>
+
+<!-- ════ SECTION 2 — DEPENDENCY MAP ════════════════════════════════ -->
+<div class="sec" id="s2">
+  <div class="sec-lbl">Section 2</div>
+  <div class="sec-title">Dependency Map</div>
+  <div class="sec-desc">Three chains: master-data pre-conditions that must exist before a hire executes, the automatic cascade triggered when an employee becomes ACTIVE, and the backdated hire compliance path via BR-WF-010 dual approval.</div>
+  <div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 490" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Dependency Map — Employee Onboarding and Core HR</title>
+<desc>Three chains: master-data pre-conditions, post-activation cascade, backdated hire compliance path.</desc>
+<defs>
+  <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="agold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="490" fill="#F5F6F8"/>
+<!-- Chain A label -->
+<rect x="14" y="14" width="234" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — MASTER DATA PRE-CONDITIONS</text>
+<!-- A1 Legal Entity -->
+<rect x="14" y="44" width="118" height="58" rx="7" fill="#0A1628"/>
+<text x="73" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Legal</text>
+<text x="73" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Entity</text>
+<text x="73" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">legal_entities</text>
+<line x1="132" y1="73" x2="150" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A2 Department -->
+<rect x="152" y="44" width="118" height="58" rx="7" fill="#0E7C6A"/>
+<text x="211" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Department</text>
+<text x="211" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">+ Entity</text>
+<text x="211" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">departments</text>
+<line x1="270" y1="73" x2="288" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A3 Position+Grade -->
+<rect x="290" y="44" width="128" height="58" rx="7" fill="#0E7C6A"/>
+<text x="354" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Position</text>
+<text x="354" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">+ Grade</text>
+<text x="354" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">positions · grades</text>
+<line x1="418" y1="73" x2="436" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A4 Person Record -->
+<rect x="438" y="44" width="128" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="502" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Person</text>
+<text x="502" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Record</text>
+<text x="502" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">persons table</text>
+<line x1="566" y1="73" x2="584" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A5 Worker Assignment -->
+<rect x="586" y="44" width="128" height="58" rx="7" fill="#0E7C6A"/>
+<text x="650" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Worker</text>
+<text x="650" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Assignment</text>
+<text x="650" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">worker_assignments</text>
+<line x1="714" y1="73" x2="732" y2="73" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+<!-- A6 ACTIVE -->
+<rect x="734" y="44" width="150" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="809" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#C9A84C">ACTIVE</text>
+<text x="809" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" fill="#C9A84C">Employee</text>
+<text x="809" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">status = ACTIVE</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Chain B label -->
+<rect x="14" y="124" width="258" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — AUTO-CASCADE AFTER ACTIVATION</text>
+<!-- B1 -->
+<rect x="14" y="158" width="126" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="77" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Employee</text>
+<text x="77" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">ACTIVE</text>
+<text x="77" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">hire_date reached</text>
+<line x1="140" y1="187" x2="158" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B2 -->
+<rect x="160" y="158" width="136" height="58" rx="7" fill="#0E7C6A"/>
+<text x="228" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Leave Balance</text>
+<text x="228" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Created</text>
+<text x="228" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">absence_balances</text>
+<line x1="296" y1="187" x2="314" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B3 -->
+<rect x="316" y="158" width="136" height="58" rx="7" fill="#0E7C6A"/>
+<text x="384" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Payroll</text>
+<text x="384" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Enrolled</text>
+<text x="384" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">payroll_runs (next)</text>
+<line x1="452" y1="187" x2="470" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B4 -->
+<rect x="472" y="158" width="136" height="58" rx="7" fill="#0E7C6A"/>
+<text x="540" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Org Chart</text>
+<text x="540" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Node Added</text>
+<text x="540" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/org-chart visible</text>
+<line x1="608" y1="187" x2="626" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B5 -->
+<rect x="628" y="158" width="136" height="58" rx="7" fill="#1A6B3C"/>
+<text x="696" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">ESS &amp; ARIA</text>
+<text x="696" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Access Granted</text>
+<text x="696" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/me/* routes unlock</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Chain C label -->
+<rect x="14" y="238" width="316" height="22" rx="4" fill="#5B2D9E"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — BACKDATED HIRE &gt;30 DAYS (BR-WF-010)</text>
+<!-- C1 -->
+<rect x="14" y="270" width="132" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="80" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Hire Date</text>
+<text x="80" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">&gt;30 Days Past</text>
+<text x="80" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">backdated flag</text>
+<line x1="146" y1="299" x2="164" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C2 -->
+<rect x="166" y="270" width="140" height="58" rx="7" fill="#5B2D9E"/>
+<text x="236" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">BR-WF-010</text>
+<text x="236" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Dual Approval</text>
+<text x="236" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">workflow triggered</text>
+<line x1="306" y1="299" x2="324" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C3 -->
+<rect x="326" y="270" width="140" height="58" rx="7" fill="#5B2D9E"/>
+<text x="396" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Manager</text>
+<text x="396" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Approves</text>
+<text x="396" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">approval_steps step 1</text>
+<line x1="466" y1="299" x2="484" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C4 -->
+<rect x="486" y="270" width="148" height="58" rx="7" fill="#3D1A6B"/>
+<text x="560" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">HR Director</text>
+<text x="560" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Final Approval</text>
+<text x="560" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">approval_steps step 2</text>
+<line x1="634" y1="299" x2="652" y2="299" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard)"/>
+<!-- C5 -->
+<rect x="654" y="270" width="148" height="58" rx="7" fill="#0E7C6A"/>
+<text x="728" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Employee</text>
+<text x="728" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Created + Audit</text>
+<text x="728" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">backdated hire_date</text>
+<!-- Legend -->
+<rect x="14" y="346" width="420" height="132" rx="8" fill="#fff" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="364" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96" letter-spacing="0.08em">LEGEND</text>
+<rect x="26" y="371" width="13" height="13" rx="3" fill="#0A1628"/>
+<text x="45" y="382" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Trigger / Outcome (HR-initiated)</text>
+<rect x="216" y="371" width="13" height="13" rx="3" fill="#0E7C6A"/>
+<text x="235" y="382" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System auto-action</text>
+<rect x="26" y="393" width="13" height="13" rx="3" fill="#FEF3E2" stroke="#B45C00" stroke-width="1"/>
+<text x="45" y="404" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Decision point (HR must act)</text>
+<rect x="216" y="393" width="13" height="13" rx="3" fill="#5B2D9E"/>
+<text x="235" y="404" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Compliance gate (dual approval)</text>
+<rect x="26" y="415" width="13" height="13" rx="3" fill="#1A6B3C"/>
+<text x="45" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Preservation / ESS grant</text>
+<rect x="216" y="415" width="13" height="13" rx="3" fill="#3D1A6B"/>
+<text x="235" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">HR Director authority level</text>
+<line x1="26" y1="443" x2="38" y2="443" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+<text x="45" y="447" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Critical transition (activation)</text>
+<line x1="216" y1="443" x2="228" y2="443" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<text x="235" y="447" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Auto-propagation cascade</text>
+<line x1="26" y1="462" x2="398" y2="462" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="474" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00" font-style="italic">FDL 33/2021 Art. 9: Probation max 6 months. Hire date &gt;30 days backdated requires dual sign-off (BR-WF-010).</text>
+<!-- Blocking panel -->
+<rect x="444" y="346" width="442" height="132" rx="8" fill="#FDEAEA" stroke="#B01B1B" stroke-width="1"/>
+<text x="456" y="364" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B" letter-spacing="0.07em">BLOCKING CONDITIONS</text>
+<text x="456" y="384" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Duplicate emirates_id</text>
+<text x="576" y="384" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— unique across all persons</text>
+<text x="456" y="402" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Position occupied</text>
+<text x="556" y="402" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— one active assignment per position</text>
+<text x="456" y="420" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">No grade salary band</text>
+<text x="576" y="420" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— define min/max at /master-data/grades</text>
+<text x="456" y="438" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Payroll entity mismatch</text>
+<text x="576" y="438" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— map entity at /payroll → Settings</text>
+<text x="456" y="456" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Missing name_ar field</text>
+<text x="556" y="456" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— bilingual names mandatory (both required)</text>
+<text x="456" y="474" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B" font-style="italic">All blocks surface as inline red errors with the BR-xx code on the hire form.</text>
+</svg>
+  </div>
+</div>
+
+<!-- ════ SECTION 3 — SIX HIRE TYPES ════════════════════════════════ -->
+<div class="sec" id="s3">
+  <div class="sec-lbl">Section 3</div>
+  <div class="sec-title">Six Hire Types &amp; Feature Cards</div>
+  <div class="sec-desc">Select the correct hire type first — it determines the approval chain, whether probation applies, how EOSB is calculated, and which fields are mandatory.</div>
+  <div class="type-grid">
+
+    <div class="type-card" style="border-color:#90AADE">
+      <div class="type-head" style="background:#EAF0FD">
+        <div class="type-icon" style="background:#1A4FBA;color:#fff">👤</div>
+        <div><div class="type-name">Standard Hire</div><div class="type-sub">New employee · Future or today's date</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Approval chain</span><span class="tv">Manager → HR Admin</span></div>
+        <div class="tr"><span class="tk">Probation</span><span class="tv-a">Yes — 3 months default</span></div>
+        <div class="tr"><span class="tk">EOSB from</span><span class="tv">hire_date</span></div>
+        <div class="tr"><span class="tk">Backdated allowed</span><span class="tv">≤30 days, no dual approval</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">FDL-33-2021</span></div>
+        <div class="mistake">⚠ Common mistake: leaving name_ar blank — system blocks submission; both bilingual fields are mandatory.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#F4A0A0">
+      <div class="type-head" style="background:#FDEAEA">
+        <div class="type-icon" style="background:#B01B1B;color:#fff">📅</div>
+        <div><div class="type-name">Backdated Hire</div><div class="type-sub">Hire date &gt;30 days past</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Approval chain</span><span class="tv">Manager + HR Director</span></div>
+        <div class="tr"><span class="tk">Dual approval</span><span class="tv-r">Required (BR-WF-010)</span></div>
+        <div class="tr"><span class="tk">Probation</span><span class="tv-a">Yes — from backdated date</span></div>
+        <div class="tr"><span class="tk">Payroll impact</span><span class="tv">Retroactive adjustment</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-WF-010</span></div>
+        <div class="mistake">⚠ Common mistake: entering correct hire date without selecting the backdated type — system defaults to standard flow and blocks at &gt;30 days.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#7BC4A0">
+      <div class="type-head" style="background:#E6F5EE">
+        <div class="type-icon" style="background:#1A6B3C;color:#fff">🔄</div>
+        <div><div class="type-name">Rehire</div><div class="type-sub">Former employee returns</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Approval chain</span><span class="tv">Manager → HR Admin</span></div>
+        <div class="tr"><span class="tk">Previous service</span><span class="tv-a">Review EOSB history</span></div>
+        <div class="tr"><span class="tk">EOSB start</span><span class="tv">New hire_date (reset)</span></div>
+        <div class="tr"><span class="tk">Probation</span><span class="tv">Waivable by HR Director</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-EOSB-001</span></div>
+        <div class="mistake">⚠ Common mistake: not checking previous EOSB settlement. Link to prior person record at /persons/[id] before creating rehire record.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#F4B86A">
+      <div class="type-head" style="background:#FEF3E2">
+        <div class="type-icon" style="background:#B45C00;color:#fff">🔧</div>
+        <div><div class="type-name">Contractor</div><div class="type-sub">Fixed term · No EOSB entitlement</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Approval chain</span><span class="tv">Manager → HR Admin</span></div>
+        <div class="tr"><span class="tk">EOSB</span><span class="tv-r">Not applicable</span></div>
+        <div class="tr"><span class="tk">Leave entitlement</span><span class="tv-r">None by default</span></div>
+        <div class="tr"><span class="tk">Contract end date</span><span class="tv-a">Mandatory field</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">FDL-33-2021</span></div>
+        <div class="mistake">⚠ Common mistake: not setting contract end date — system will not enforce auto-termination without acting_end_date or contract_end populated.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#D4D8E2">
+      <div class="type-head" style="background:#F0EAFB">
+        <div class="type-icon" style="background:#5B2D9E;color:#fff">↔</div>
+        <div><div class="type-name">Secondee Inbound</div><div class="type-sub">Employee from another entity</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Home entity</span><span class="tv">Position kept open</span></div>
+        <div class="tr"><span class="tk">EOSB</span><span class="tv-a">Continues from home entity</span></div>
+        <div class="tr"><span class="tk">Max duration</span><span class="tv">12 months (BR-SE-001)</span></div>
+        <div class="tr"><span class="tk">GL cost split</span><span class="tv-a">Required between entities</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-SE-001</span></div>
+        <div class="mistake">⚠ Common mistake: creating as standard hire — this disconnects home entity service history and incorrectly resets EOSB calculation.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#9FD8CF">
+      <div class="type-head" style="background:#E0F4F0">
+        <div class="type-icon" style="background:#0E7C6A;color:#fff">⏱</div>
+        <div><div class="type-name">Probation Extension</div><div class="type-sub">Extend existing probation period</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Max extensions</span><span class="tv-r">2× (total max 6 months)</span></div>
+        <div class="tr"><span class="tk">Approval</span><span class="tv">HR Admin decision</span></div>
+        <div class="tr"><span class="tk">Cron alert</span><span class="tv">7 days before end date</span></div>
+        <div class="tr"><span class="tk">Outcome options</span><span class="tv">Confirm · Extend · Fail</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-PROB-001</span></div>
+        <div class="mistake">⚠ Common mistake: allowing a third extension — FDL 33/2021 Art. 9 caps probation at 6 months. Third extension is blocked by system with BR-PROB-001 error.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 4 — SWIMLANE PROCESS FLOWS ════════════════════════ -->
+<div class="sec" id="s4">
+  <div class="sec-lbl">Section 4</div>
+  <div class="sec-title">Step-by-Step Process Flows</div>
+  <div class="sec-desc">Two swimlane flows: standard hire (3 role lanes) and backdated hire over 30 days requiring dual approval per BR-WF-010 (4 role lanes). Every step is numbered and colour-coded by actor.</div>
+
+  <!-- Approval Flow SVG summary -->
+  <div class="card" style="margin-bottom:16px;padding:14px 16px">
+    <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Approval Flow Overview</div>
+<svg viewBox="0 0 860 80" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Hire Approval Flow Overview</title>
+<desc>High-level left-to-right approval flow for standard and backdated hire.</desc>
+<defs>
+  <marker id="ag2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="agold2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ate2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ard2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="860" height="80" fill="#F5F6F8" rx="6"/>
+<rect x="10" y="16" width="120" height="46" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="70" y="37" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">HR Admin</text>
+<text x="70" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="#1A4FBA">Initiates Hire</text>
+<line x1="130" y1="39" x2="154" y2="39" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag2)"/>
+<rect x="156" y="16" width="120" height="46" rx="7" fill="#F0EAFB" stroke="#5B2D9E" stroke-width="1.5"/>
+<text x="216" y="37" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#5B2D9E">Manager</text>
+<text x="216" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="#5B2D9E">Approves</text>
+<line x1="276" y1="39" x2="300" y2="39" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag2)"/>
+<rect x="302" y="16" width="148" height="46" rx="7" fill="#FDEAEA" stroke="#B01B1B" stroke-width="1.5"/>
+<text x="376" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B01B1B">HR Director</text>
+<text x="376" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Backdated only (BR-WF-010)</text>
+<line x1="450" y1="39" x2="474" y2="39" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold2)"/>
+<rect x="476" y="16" width="148" height="46" rx="7" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+<text x="550" y="37" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0E7C6A">System</text>
+<text x="550" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="#0E7C6A">Validates &amp; Creates</text>
+<line x1="624" y1="39" x2="648" y2="39" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate2)"/>
+<rect x="650" y="16" width="148" height="46" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="724" y="37" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">ACTIVE</text>
+<text x="724" y="52" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="rgba(255,255,255,0.6)">Onboarding complete</text>
+</svg>
+  </div>
+
+  <!-- Flow A: Standard Hire -->
+  <div class="swimlane">
+    <div class="sw-head">
+      <span>Flow A — Standard Hire</span>
+      <span class="sw-stag">HR ADMIN · SYSTEM · EMPLOYEE</span>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR<br>ADMIN</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Navigate</span>
+          <span class="sb-sub">/persons → New</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Fill Person</span>
+          <span class="sb-sub">name_en + name_ar</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Encrypt PII</span>
+          <span class="sb-sub">emirates_id + passport</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">4</span>
+          <span class="sb-title">Set Assignment</span>
+          <span class="sb-sub">position + grade + mgr</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">5</span>
+          <span class="sb-title">Submit Hire</span>
+          <span class="sb-sub">workflow triggers</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto" style="position:relative">
+          <span class="sn">6</span>
+          <span class="sb-title">Validate</span>
+          <span class="sb-sub">emirates_id unique</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="position:relative">
+          <span class="sn">7</span>
+          <span class="sb-title">Gen EMP-ID</span>
+          <span class="sb-sub">auto sequence</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="position:relative">
+          <span class="sn">8</span>
+          <span class="sb-title">Create Record</span>
+          <span class="sb-sub">persons + assignment</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="position:relative">
+          <span class="sn">9</span>
+          <span class="sb-title">Leave Balance</span>
+          <span class="sb-sub">absence_balances set</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="position:relative">
+          <span class="sn">10</span>
+          <span class="sb-title">ACTIVE</span>
+          <span class="sb-sub">audit + notify</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl em">EMPLOYEE</div>
+      <div class="sw-steps">
+        <div class="sb sb-def" style="position:relative">
+          <span class="sn">11</span>
+          <span class="sb-title">Welcome Email</span>
+          <span class="sb-sub">ESS invite sent</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-def" style="position:relative">
+          <span class="sn">12</span>
+          <span class="sb-title">Complete Profile</span>
+          <span class="sb-sub">/me/profile</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="position:relative">
+          <span class="sn">13</span>
+          <span class="sb-title">ESS Access</span>
+          <span class="sb-sub">all /me/* routes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flow B: Backdated Hire -->
+  <div class="swimlane">
+    <div class="sw-head">
+      <span>Flow B — Backdated Hire (&gt;30 Days)</span>
+      <span class="sw-stag">HR ADMIN · MANAGER · HR DIRECTOR · SYSTEM</span>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR<br>ADMIN</div>
+      <div class="sw-steps">
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Backdated Hire</span>
+          <span class="sb-sub">select type + reason</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Set Hire Date</span>
+          <span class="sb-sub">&gt;30 days past</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Submit + Justify</span>
+          <span class="sb-sub">BR-WF-010 triggers</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="position:relative">
+          <span class="sn">8</span>
+          <span class="sb-title">Notify Employee</span>
+          <span class="sb-sub">retroactive payroll</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER</div>
+      <div class="sw-steps">
+        <div class="sb sb-def" style="position:relative">
+          <span class="sn">4</span>
+          <span class="sb-title">Review Request</span>
+          <span class="sb-sub">/approvals inbox</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">5</span>
+          <span class="sb-title">Approve/Reject/<br>Delegate</span>
+          <span class="sb-sub">3-button — BR-29</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl hd">HR<br>DIRECTOR</div>
+      <div class="sw-steps">
+        <div class="sb sb-def" style="position:relative">
+          <span class="sn">6</span>
+          <span class="sb-title">Final Review</span>
+          <span class="sb-sub">/approvals inbox</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">7</span>
+          <span class="sb-title">Dual Approve/<br>Reject/Delegate</span>
+          <span class="sb-sub">BR-WF-010 step 2</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto" style="position:relative">
+          <span class="sn">9</span>
+          <span class="sb-title">Create Record</span>
+          <span class="sb-sub">backdated hire_date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="position:relative">
+          <span class="sn">10</span>
+          <span class="sb-title">Audit Entry</span>
+          <span class="sb-sub">immutable log</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="position:relative">
+          <span class="sn">11</span>
+          <span class="sb-title">ACTIVE</span>
+          <span class="sb-sub">payroll retroactive</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SECTION 5 — STATE MACHINE ════════════════════════════════ -->
+<div class="sec" id="s5">
+  <div class="sec-lbl">Section 5</div>
+  <div class="sec-title">Employee Status State Machine</div>
+  <div class="sec-desc">Every employee record travels through a defined set of statuses. ACTIVE is the central state enabling all HR operations. Terminal states (TERMINATED, RETIRED) have no outgoing arrows. Non-ACTIVE states restrict access to HR modules.</div>
+  <div class="sm-wrap">
+    <div class="sm-hdr">📊 Employee assignment_status Lifecycle — worker_assignments table</div>
+<svg viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block;padding:8px">
+<title>Employee Status State Machine</title>
+<desc>States: PENDING_HIRE, IN_PROBATION, ACTIVE, ON_LEAVE, SUSPENDED, TERMINATED, RETIRED. ACTIVE is the central teal state.</desc>
+<defs>
+  <marker id="ag3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="agold3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ate3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ard3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="800" height="340" fill="#F5F6F8" rx="8"/>
+<!-- PENDING_HIRE -->
+<rect x="20" y="120" width="140" height="64" rx="10" fill="#EAF0FD" stroke="#90AADE" stroke-width="2"/>
+<text x="90" y="146" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A4FBA">PENDING</text>
+<text x="90" y="163" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A4FBA">HIRE</text>
+<text x="90" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Modules locked</text>
+<!-- PENDING_HIRE → IN_PROBATION -->
+<line x1="160" y1="152" x2="192" y2="152" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold3)"/>
+<text x="174" y="145" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#A8863A">Hire confirmed</text>
+<!-- IN_PROBATION -->
+<rect x="194" y="120" width="140" height="64" rx="10" fill="#FEF3E2" stroke="#F4B86A" stroke-width="2"/>
+<text x="264" y="146" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#B45C00">IN</text>
+<text x="264" y="163" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#B45C00">PROBATION</text>
+<text x="264" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Max 6 months</text>
+<!-- IN_PROBATION → ACTIVE -->
+<line x1="334" y1="152" x2="362" y2="152" stroke="#0E7C6A" stroke-width="2" fill="none" marker-end="url(#ate3)"/>
+<text x="347" y="145" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#0E7C6A">Confirmed</text>
+<!-- ACTIVE — central, larger -->
+<rect x="364" y="100" width="160" height="100" rx="12" fill="#0E7C6A" stroke="#0E7C6A" stroke-width="3"/>
+<text x="444" y="140" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="16" font-weight="700" fill="#fff">ACTIVE</text>
+<text x="444" y="160" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.8)">All modules enabled</text>
+<text x="444" y="177" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.6)">ESS · Payroll · Leave · ARIA</text>
+<!-- ACTIVE → ON_LEAVE (up-right) -->
+<line x1="524" y1="130" x2="580" y2="100" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag3)"/>
+<text x="560" y="118" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#6B7A96">Leave approved</text>
+<!-- ON_LEAVE -->
+<rect x="582" y="60" width="140" height="64" rx="10" fill="#F0EAFB" stroke="#5B2D9E" stroke-width="1.5"/>
+<text x="652" y="87" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#5B2D9E">ON LEAVE</text>
+<text x="652" y="104" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">absence_requests.APPROVED</text>
+<!-- ON_LEAVE → ACTIVE -->
+<line x1="582" y1="115" x2="524" y2="148" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate3)"/>
+<text x="545" y="142" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#0E7C6A">Return date</text>
+<!-- ACTIVE → SUSPENDED -->
+<line x1="524" y1="178" x2="580" y2="208" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag3)"/>
+<text x="562" y="203" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#6B7A96">Disciplinary</text>
+<!-- SUSPENDED -->
+<rect x="582" y="210" width="140" height="64" rx="10" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="652" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#B45C00">SUSPENDED</text>
+<text x="652" y="253" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">HR review required</text>
+<!-- SUSPENDED → ACTIVE (lift) -->
+<line x1="582" y1="240" x2="524" y2="190" stroke="#0E7C6A" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#ate3)"/>
+<!-- ACTIVE → TERMINATED -->
+<line x1="444" y1="200" x2="444" y2="250" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard3)"/>
+<text x="480" y="230" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B01B1B">Termination</text>
+<!-- TERMINATED -->
+<rect x="364" y="252" width="160" height="60" rx="10" fill="#B01B1B"/>
+<text x="444" y="278" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#fff">TERMINATED</text>
+<text x="444" y="295" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">EOSB settled · no outgoing</text>
+<!-- ACTIVE → RETIRED -->
+<line x1="364" y1="178" x2="240" y2="252" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard3)"/>
+<text x="288" y="238" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B01B1B">Retirement</text>
+<!-- RETIRED -->
+<rect x="140" y="252" width="140" height="60" rx="10" fill="#B01B1B"/>
+<text x="210" y="278" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#fff">RETIRED</text>
+<text x="210" y="295" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">EOSB settled · terminal</text>
+<!-- SUSPENDED → TERMINATED -->
+<line x1="652" y1="274" x2="530" y2="286" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#ard3)"/>
+<text x="600" y="292" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B01B1B">Misconduct</text>
+<!-- Legend -->
+<rect x="20" y="22" width="330" height="66" rx="6" fill="#fff" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="32" y="40" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96" letter-spacing="0.08em">LEGEND</text>
+<rect x="32" y="48" width="12" height="12" rx="3" fill="#0E7C6A"/>
+<text x="50" y="59" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">ACTIVE — all modules on</text>
+<rect x="170" y="48" width="12" height="12" rx="3" fill="#B01B1B"/>
+<text x="188" y="59" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Terminal — no outgoing</text>
+<rect x="32" y="66" width="12" height="12" rx="3" fill="#EAF0FD" stroke="#90AADE" stroke-width="1"/>
+<text x="50" y="77" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Modules locked</text>
+<rect x="170" y="66" width="12" height="12" rx="3" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1"/>
+<text x="188" y="77" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Restricted access</text>
+</svg>
+  </div>
+</div>
+
+<!-- ════ SECTION 6 — SCREEN MOCKUPS ════════════════════════════════ -->
+<div class="sec" id="s6">
+  <div class="sec-lbl">Section 6</div>
+  <div class="sec-title">Screen Mockups — Key Onboarding Screens</div>
+  <div class="sec-desc">Three annotated UI mockups showing the exact AVANIIS HR screens HR Admins use during onboarding. The navy topbar and sidebar are always present. Active nav item shows a gold left border.</div>
+
+  <!-- Mockup A: New Person Drawer -->
+  <div style="font-size:12px;font-weight:700;color:var(--n);margin-bottom:8px">Mockup A — /persons/new — New Employee Hire Drawer</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 Search employees, positions…</div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">3</div></div>
+        <div class="mf-ico">⚙️</div>
+        <div class="mf-av">FA</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">Core HR</div>
+        <div class="sb-item active">👥 People<span class="sb-badge-g">+New</span></div>
+        <div class="sb-item">🏢 Org Chart</div>
+        <div class="sb-sec">Operations</div>
+        <div class="sb-item">📅 Absence</div>
+        <div class="sb-item">💰 Payroll</div>
+        <div class="sb-item">⏱ Timesheets</div>
+        <div class="sb-sec">Admin</div>
+        <div class="sb-item">🗂 Master Data</div>
+        <div class="sb-item">✅ Approvals<span class="sb-badge">5</span></div>
+        <div class="sb-item">📊 Reports</div>
+        <div class="sb-item">⚙️ Settings</div>
+      </div>
+      <div class="mf-main">
+        <div class="mf-overlay"></div>
+        <div class="drawer">
+          <div class="dr-hdr">
+            <h3>New Employee — Standard Hire</h3>
+            <p>Create person record and worker assignment</p>
+          </div>
+          <div class="dr-body">
+            <div class="dr-sec">Identity</div>
+            <div class="frow-2">
+              <div class="frow" style="margin-bottom:0">
+                <label>Full Name (English) <span class="req">*</span></label>
+                <div class="fld focus">Ahmed Al Mansoori</div>
+              </div>
+              <div class="frow" style="margin-bottom:0">
+                <label>الاسم الكامل (Arabic) <span class="req">*</span></label>
+                <div class="fld">أحمد المنصوري</div>
+              </div>
+            </div>
+            <div class="frow" style="margin-top:10px">
+              <label>Emirates ID 🔒 <span class="req">*</span></label>
+              <div class="fld">784-1990-XXXXXXX-X</div>
+              <div class="fhint">AES-256-GCM encrypted at rest · formatted 784-YYYY-XXXXXXX-X</div>
+            </div>
+            <div class="frow-2">
+              <div class="frow" style="margin-bottom:0">
+                <label>Passport Number 🔒</label>
+                <div class="fld">AE-XXXXXXX</div>
+              </div>
+              <div class="frow" style="margin-bottom:0">
+                <label>Nationality</label>
+                <div class="fld">🇦🇪 UAE National</div>
+              </div>
+            </div>
+            <div class="dr-sec">Assignment</div>
+            <div class="frow">
+              <label>Position <span class="req">*</span></label>
+              <div class="fld">Senior Project Manager — Development Division</div>
+            </div>
+            <div class="frow-2">
+              <div class="frow" style="margin-bottom:0">
+                <label>Hire Date <span class="req">*</span></label>
+                <div class="fld">2026-06-01</div>
+              </div>
+              <div class="frow" style="margin-bottom:0">
+                <label>Grade</label>
+                <div class="fld focus">Grade 8 — Band AED 25,000–35,000</div>
+              </div>
+            </div>
+            <div class="vbar vbar-ok" style="margin-top:6px">✓ Grade 8 salary band defined — AED 25,000 min · AED 35,000 max</div>
+          </div>
+          <div class="dr-foot">
+            <button class="btn btn-gold">Create Employee</button>
+            <button class="btn btn-g">Save Draft</button>
+            <button class="btn btn-g">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item">
+      <span class="ann-num">①</span>
+      <div><span class="ann-t">Bilingual Name Fields</span>name_en and name_ar are both mandatory. Submitting with only one language blocks the form with a validation error.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">②</span>
+      <div><span class="ann-t">Emirates ID Encryption</span>The 🔒 icon indicates AES-256-GCM encryption. The value is masked in the UI; the system stores only the cipher-text.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">③</span>
+      <div><span class="ann-t">Grade Salary Band Validation</span>The green bar confirms the grade has a defined salary range. If the band is missing, the bar shows red and submission is blocked.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">④</span>
+      <div><span class="ann-t">Three Action Buttons</span>"Create Employee" triggers the hire workflow. "Save Draft" preserves partial data as PENDING_HIRE. "Cancel" discards changes.</div>
+    </div>
+  </div>
+
+  <!-- Mockup B: Person Profile -->
+  <div style="font-size:12px;font-weight:700;color:var(--n);margin:24px 0 8px">Mockup B — /persons/[id] — Employee Profile Page</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 Search employees, positions…</div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">3</div></div>
+        <div class="mf-ico">⚙️</div>
+        <div class="mf-av">SA</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">Core HR</div>
+        <div class="sb-item active">👥 People</div>
+        <div class="sb-item">🏢 Org Chart</div>
+        <div class="sb-sec">Operations</div>
+        <div class="sb-item">📅 Absence</div>
+        <div class="sb-item">💰 Payroll</div>
+        <div class="sb-item">⏱ Timesheets</div>
+        <div class="sb-sec">Admin</div>
+        <div class="sb-item">🗂 Master Data</div>
+        <div class="sb-item">✅ Approvals<span class="sb-badge">5</span></div>
+        <div class="sb-item">📊 Reports</div>
+        <div class="sb-item">⚙️ Settings</div>
+      </div>
+      <div class="mf-main">
+        <div style="background:#fff;border-radius:10px;padding:14px 16px;border:1px solid var(--bd);margin-bottom:12px">
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <div style="width:52px;height:52px;border-radius:50%;background:#0E7C6A;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:700;flex-shrink:0">AM</div>
+            <div style="flex:1">
+              <div style="font-size:16px;font-weight:700;color:var(--n)">Ahmed Al Mansoori · أحمد المنصوري</div>
+              <div style="font-size:11px;color:var(--mu);margin-bottom:6px">EMP-10042 · Senior Project Manager · Development Division</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <span class="sp sp-te">ACTIVE</span>
+                <span class="sp" style="background:var(--am-bg);color:var(--am)">IN PROBATION</span>
+                <span class="sp" style="background:var(--lt);color:var(--mu)">Grade 8</span>
+                <span class="sp" style="background:var(--lt);color:var(--mu)">Avaniis LLC</span>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-p" style="height:30px;font-size:11px">Edit Profile</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab-row">
+          <div class="tab active">Overview</div>
+          <div class="tab">Assignments</div>
+          <div class="tab">Documents</div>
+          <div class="tab">Audit Trail</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:12px">
+            <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;margin-bottom:8px">Personal Details</div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Nationality</span><span style="font-weight:600">🇦🇪 UAE National</span></div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Hire Date</span><span style="font-weight:600">01 Jun 2026</span></div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Probation Ends</span><span style="font-weight:600;color:var(--am)">30 Nov 2026</span></div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--mu)">Employee ID</span><span style="font-weight:600;font-family:monospace">EMP-10042</span></div>
+          </div>
+          <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:12px">
+            <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;margin-bottom:8px">Leave Balances</div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Annual Leave</span><span style="font-weight:600;color:var(--gr)">30 days</span></div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Sick Leave</span><span style="font-weight:600">15 days</span></div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Used This Year</span><span style="font-weight:600">0 days</span></div>
+            <div style="font-size:12px;display:flex;justify-content:space-between;padding:4px 0"><span style="color:var(--mu)">Entitlement Rule</span><span class="br-pill">BR-LV-001</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item">
+      <span class="ann-num">①</span>
+      <div><span class="ann-t">Status Badge Strip</span>ACTIVE status plus IN PROBATION badge appear together. Both update automatically — ACTIVE when hire confirmed, probation badge removed when confirmed.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">②</span>
+      <div><span class="ann-t">Four Profile Tabs</span>Overview shows summary, Assignments shows full worker_assignments history, Documents shows uploads, Audit Trail shows every change with actor and timestamp.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">③</span>
+      <div><span class="ann-t">Probation End Date Alert</span>Amber colour indicates upcoming probation end. Cron job fires 7 days before, placing a confirm/extend/fail decision in HR Admin's /approvals inbox.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">④</span>
+      <div><span class="ann-t">Leave Balance Auto-Creation</span>BR-LV-001 (30 calendar days annual leave) is applied automatically on ACTIVE. Balances appear immediately in this panel and in ESS /me/leave.</div>
+    </div>
+  </div>
+
+  <!-- Mockup C: Assignment Status Panel -->
+  <div style="font-size:12px;font-weight:700;color:var(--n);margin:24px 0 8px">Mockup C — /persons/[id] → Assignments Tab — Assignment History Panel</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 Search employees, positions…</div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">3</div></div>
+        <div class="mf-ico">⚙️</div>
+        <div class="mf-av">FA</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">Core HR</div>
+        <div class="sb-item active">👥 People</div>
+        <div class="sb-item">🏢 Org Chart</div>
+        <div class="sb-sec">Operations</div>
+        <div class="sb-item">📅 Absence</div>
+        <div class="sb-item">💰 Payroll</div>
+        <div class="sb-item">⏱ Timesheets</div>
+        <div class="sb-sec">Admin</div>
+        <div class="sb-item">🗂 Master Data</div>
+        <div class="sb-item">✅ Approvals<span class="sb-badge">5</span></div>
+        <div class="sb-item">📊 Reports</div>
+        <div class="sb-item">⚙️ Settings</div>
+      </div>
+      <div class="mf-main">
+        <div class="tab-row">
+          <div class="tab">Overview</div>
+          <div class="tab active">Assignments</div>
+          <div class="tab">Documents</div>
+          <div class="tab">Audit Trail</div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <div style="font-size:13px;font-weight:700;color:var(--n)">Current Active Assignment</div>
+            <span class="sp sp-te">ACTIVE</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+            <div style="background:var(--off);border-radius:7px;padding:10px 12px">
+              <div style="font-size:10px;color:var(--mu);margin-bottom:3px">Position</div>
+              <div style="font-size:12px;font-weight:700;color:var(--n)">Senior Project Manager</div>
+              <div style="font-size:10px;color:var(--mu)">Development Division</div>
+            </div>
+            <div style="background:var(--off);border-radius:7px;padding:10px 12px">
+              <div style="font-size:10px;color:var(--mu);margin-bottom:3px">Grade &amp; Salary Band</div>
+              <div style="font-size:12px;font-weight:700;color:var(--n)">Grade 8</div>
+              <div style="font-size:10px;color:var(--mu)">AED 25,000 – 35,000</div>
+            </div>
+            <div style="background:var(--off);border-radius:7px;padding:10px 12px">
+              <div style="font-size:10px;color:var(--mu);margin-bottom:3px">Effective From</div>
+              <div style="font-size:12px;font-weight:700;color:var(--n)">01 Jun 2026</div>
+              <div style="font-size:10px;color:var(--mu)">No end date (open)</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid var(--bd);border-radius:10px;padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--n);margin-bottom:10px">Assignment History (effective-date pattern)</div>
+          <table class="inbox-tbl" style="font-size:11px">
+            <thead><tr><th>From</th><th>To</th><th>Position</th><th>Grade</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>01 Jun 2026</td><td>—</td><td>Senior Project Manager</td><td>Grade 8</td><td><span class="sp sp-te">ACTIVE</span></td></tr>
+            </tbody>
+          </table>
+          <div class="callout callout-i" style="margin-top:10px">ℹ️ Records are never deleted. Every assignment change creates a new row and end-dates the previous record at effective_date − 1 day (effective-date pattern).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item">
+      <span class="ann-num">①</span>
+      <div><span class="ann-t">Current Assignment Card</span>Shows the live position, grade, and salary band in a three-column layout. Blank end-date means the assignment is open-ended (currently active).</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">②</span>
+      <div><span class="ann-t">Effective-Date History Table</span>Every transfer, promotion, or grade change adds a row here. Old rows have their effective_end_date set. Nothing is deleted — full history is always visible.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">③</span>
+      <div><span class="ann-t">Assignment Tabs</span>Assignments tab is active (gold underline). Switching to Audit Trail shows every DB write with actor_id, action, old_values, new_values from audit_log.</div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">④</span>
+      <div><span class="ann-t">No-Delete Rule Callout</span>The info callout reminds HR Admins that closing an assignment requires submitting a transfer or termination — direct deletion is blocked by the system.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SECTION 7 — PROBATION GUIDE ══════════════════════════════ -->
+<div class="sec" id="s7">
+  <div class="sec-lbl">Section 7</div>
+  <div class="sec-title">Probation Guide &amp; Navigation Reference</div>
+  <div class="sec-desc">UAE FDL 33/2021 Art. 9 caps probation at 6 months maximum. AVANIIS HR enforces this with a BR-PROB-001 block on any third extension attempt. Cron alerts fire 7 days before end date, routing a 3-button decision to HR Admin's approvals inbox.</div>
+
+  <!-- Probation State Machine SVG -->
+  <div class="sm-wrap" style="margin-bottom:20px">
+    <div class="sm-hdr">⏱ Probation Status State Machine — probation_status field in worker_assignments</div>
+<svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block;padding:8px">
+<title>Probation State Machine</title>
+<desc>States: IN_PROBATION can transition to CONFIRMED, EXTENDED (max 2), or FAILED. EXTENDED can transition to CONFIRMED or FAILED. Both CONFIRMED and FAILED are terminal.</desc>
+<defs>
+  <marker id="ag4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="agold4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ate4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ard4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="210" fill="#F5F6F8" rx="8"/>
+<!-- IN_PROBATION -->
+<rect x="20" y="74" width="152" height="64" rx="10" fill="#FEF3E2" stroke="#F4B86A" stroke-width="2"/>
+<text x="96" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#B45C00">IN_PROBATION</text>
+<text x="96" y="118" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="#B45C00">Cron alert: 7 days before end</text>
+<text x="96" y="131" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">BR-PROB-001: max 6 months</text>
+<!-- IN_PROBATION → CONFIRMED (top) -->
+<line x1="172" y1="90" x2="370" y2="54" stroke="#0E7C6A" stroke-width="2" fill="none" marker-end="url(#ate4)"/>
+<text x="268" y="63" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#0E7C6A">Manager confirms satisfactory</text>
+<!-- IN_PROBATION → EXTENDED -->
+<line x1="172" y1="106" x2="326" y2="106" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold4)"/>
+<text x="250" y="98" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#A8863A">Manager requests extension</text>
+<!-- IN_PROBATION → FAILED -->
+<line x1="172" y1="122" x2="370" y2="162" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard4)"/>
+<text x="268" y="158" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Performance failure</text>
+<!-- EXTENDED -->
+<rect x="328" y="74" width="160" height="64" rx="10" fill="#FEF3E2" stroke="#B45C00" stroke-width="2"/>
+<text x="408" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#B45C00">EXTENDED</text>
+<text x="408" y="117" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="#B45C00">Max 2× — total ≤6 months</text>
+<text x="408" y="131" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">3rd attempt = system block</text>
+<!-- EXTENDED → CONFIRMED -->
+<line x1="488" y1="90" x2="530" y2="54" stroke="#0E7C6A" stroke-width="2" fill="none" marker-end="url(#ate4)"/>
+<!-- EXTENDED → FAILED -->
+<line x1="488" y1="122" x2="530" y2="158" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard4)"/>
+<!-- CONFIRMED -->
+<rect x="532" y="22" width="130" height="58" rx="10" fill="#1A6B3C"/>
+<text x="597" y="48" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#fff">CONFIRMED</text>
+<text x="597" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="rgba(255,255,255,0.7)">Probation badge removed</text>
+<!-- FAILED -->
+<rect x="532" y="148" width="130" height="58" rx="10" fill="#B01B1B"/>
+<text x="597" y="174" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#fff">FAILED</text>
+<text x="597" y="192" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9.5" fill="rgba(255,255,255,0.7)">Termination flow initiated</text>
+</svg>
+  </div>
+
+  <div class="guide-grid">
+    <div class="guide-card">
+      <div class="guide-title">⏰ SLA &amp; Cron Rules</div>
+      <div class="sla-grid" style="margin-bottom:12px">
+        <div class="sla-tile warn">
+          <div class="sla-label">Probation Alert</div>
+          <div class="sla-num">7</div>
+          <div class="sla-sub">days before end date</div>
+        </div>
+        <div class="sla-tile">
+          <div class="sla-label">Decision SLA</div>
+          <div class="sla-num">5</div>
+          <div class="sla-sub">business days to decide</div>
+        </div>
+        <div class="sla-tile warn">
+          <div class="sla-label">Max Probation</div>
+          <div class="sla-num">6</div>
+          <div class="sla-sub">calendar months total</div>
+        </div>
+      </div>
+      <div class="callout callout-w">⚠ If HR Admin misses the 5-day SLA, the system escalates to HR Director at /approvals with URGENT flag. ARIA also surfaces it at /aria dashboard.</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-title">🧭 Navigation — How to Reach This Module</div>
+      <div class="guide-row"><span class="guide-key">HR Admin</span><span class="guide-val">Sidebar → People → [Person] → Overview tab → Probation panel</span></div>
+      <div class="guide-row"><span class="guide-key">Manager</span><span class="guide-val">Sidebar → Approvals → filter: Probation</span></div>
+      <div class="guide-row"><span class="guide-key">HR Director</span><span class="guide-val">Sidebar → Approvals → filter: Escalated</span></div>
+      <div class="guide-row"><span class="guide-key">Cron trigger</span><span class="guide-val">/api/cron/probation — runs daily at 08:00 UAE time</span></div>
+      <div class="callout callout-t" style="margin-top:10px">💡 ARIA can surface probation decisions: ask "Who needs probation decisions this week?" at /aria</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-title">⚙️ Probation Configuration</div>
+      <div class="guide-row"><span class="guide-key">Default period</span><span class="guide-val">3 months (configurable per grade)</span></div>
+      <div class="guide-row"><span class="guide-key">Max extensions</span><span class="guide-val">2 (BR-PROB-001 — FDL Art. 9)</span></div>
+      <div class="guide-row"><span class="guide-key">Alert cron</span><span class="guide-val">/api/cron at 08:00 — checks probation_end_date</span></div>
+      <div class="guide-row"><span class="guide-key">Delegation</span><span class="guide-val">/settings/delegations — delegate probation decisions</span></div>
+      <div class="callout callout-r" style="margin-top:10px">🚫 A third extension attempt returns BR-PROB-001 inline error. Inform employee within 24 hours of failed probation per FDL 33/2021 Art. 9.</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-title">✅ 3-Button Decision Panel (BR-29)</div>
+      <div style="background:var(--off);border-radius:8px;padding:12px;margin-bottom:10px">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px">Probation Decision — Ahmed Al Mansoori · ends 30 Nov 2026 · 5 days remaining</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-gold" style="height:32px;font-size:11px">✓ Confirm</button>
+          <button class="btn" style="height:32px;font-size:11px;background:var(--am-bg);color:var(--am);border:1.5px solid var(--am-bd)">⏱ Extend</button>
+          <button class="btn" style="height:32px;font-size:11px;background:var(--rd-bg);color:var(--rd);border:1.5px solid var(--rd-bd)">✗ Fail</button>
+        </div>
+      </div>
+      <div class="guide-row"><span class="guide-key">Confirm</span><span class="guide-val">Removes IN_PROBATION badge; status → CONFIRMED</span></div>
+      <div class="guide-row"><span class="guide-key">Extend</span><span class="guide-val">Extends by 1–3 months; max total 6 months</span></div>
+      <div class="guide-row"><span class="guide-key">Fail</span><span class="guide-val">Routes to termination workflow; status → FAILED</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SECTION 8 — OPERATIONAL SCENARIOS ════════════════════════ -->
+<div class="sec" id="s8">
+  <div class="sec-lbl">Section 8</div>
+  <div class="sec-title">Operational Scenarios</div>
+  <div class="sec-desc">Four real-world onboarding scenarios drawn from Avaniis / Avaniis operations. Each scenario shows exact steps and highlights the compliance rule at stake.</div>
+  <div class="sc-grid">
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--bl-bg)">
+        <div class="sc-num" style="background:var(--bl)">A</div>
+        <div class="sc-title">Position Not in Master Data Yet</div>
+      </div>
+      <div class="sc-body">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px">Sara Al Hamad joins AVANIIS Real Estate as Head of Sustainability — a new role not yet in positions master data.</div>
+        <div class="sc-step"><div class="sc-n">1</div><span>Navigate to /master-data/positions → Create New Position</span></div>
+        <div class="sc-step"><div class="sc-n">2</div><span>Set title_en: "Head of Sustainability" and title_ar: "رئيسة الاستدامة"</span></div>
+        <div class="sc-step"><div class="sc-n">3</div><span>Link to department (AVANIIS Real Estate → Sustainability) and assign Grade 9</span></div>
+        <div class="sc-step"><div class="sc-n">4</div><span>Verify Grade 9 has salary band at /master-data/grades — add if missing</span></div>
+        <div class="sc-step"><div class="sc-n">5</div><span>Return to /persons/new — position now appears in dropdown</span></div>
+        <div class="sc-step"><div class="sc-n">6</div><span>Complete hire form and submit — standard approval chain proceeds</span></div>
+        <div class="sc-warn">⚠ Never create the employee before the position exists. The system will block assignment creation with "Position not found" error.</div>
+        <div class="sc-rule">Refs: positions.title_en · positions.title_ar · grades.min_salary · grades.max_salary</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--rd-bg)">
+        <div class="sc-num" style="background:var(--rd)">B</div>
+        <div class="sc-title">Duplicate Emirates ID Detected</div>
+      </div>
+      <div class="sc-body">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px">HR Admin attempts to hire Omar Al Rashidi but the system returns "Emirates ID already exists" — Omar may have worked for a related Avaniis entity.</div>
+        <div class="sc-step"><div class="sc-n">1</div><span>Click the link in the error: "View existing record" — opens persons/[id] for the matching Emirates ID</span></div>
+        <div class="sc-step"><div class="sc-n">2</div><span>Check assignment_status: if TERMINATED, verify EOSB was settled before rehire</span></div>
+        <div class="sc-step"><div class="sc-n">3</div><span>If a genuine rehire: use Rehire hire type (preserves service history linkage)</span></div>
+        <div class="sc-step"><div class="sc-n">4</div><span>If a data error (different person, same ID): contact SUPER_ADMIN — ID correction requires audit justification</span></div>
+        <div class="sc-step"><div class="sc-n">5</div><span>SUPER_ADMIN updates emirates_id via /users → Person Edit with justification note</span></div>
+        <div class="sc-step"><div class="sc-n">6</div><span>Retry the hire — system re-validates uniqueness before accepting</span></div>
+        <div class="sc-warn">⚠ Never create a duplicate person record to bypass the block. Duplicate persons break org chart, payroll reporting, and ARIA lookups.</div>
+        <div class="sc-rule">Refs: persons.emirates_id (AES-256-GCM) · BR-AUDIT-001 · /users (SUPER_ADMIN only)</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--am-bg)">
+        <div class="sc-num" style="background:var(--am)">C</div>
+        <div class="sc-title">Hire Date 45 Days in the Past</div>
+      </div>
+      <div class="sc-body">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px">Mohammed Al Kaabi started work 45 days ago but was not entered in AVANIIS HR until now. Standard hire form blocks — backdated hire workflow required.</div>
+        <div class="sc-step"><div class="sc-n">1</div><span>On /persons/new, select hire type: "Backdated Hire (&gt;30 days)" — not Standard Hire</span></div>
+        <div class="sc-step"><div class="sc-n">2</div><span>Enter hire date 45 days ago; system shows BR-WF-010 warning: dual approval required</span></div>
+        <div class="sc-step"><div class="sc-n">3</div><span>Complete person and assignment fields; enter justification reason in the required text field</span></div>
+        <div class="sc-step"><div class="sc-n">4</div><span>Submit — routes to Manager's /approvals inbox as step 1 (Approve / Reject / Delegate)</span></div>
+        <div class="sc-step"><div class="sc-n">5</div><span>After Manager approves, automatically routes to HR Director inbox for step 2 sign-off</span></div>
+        <div class="sc-step"><div class="sc-n">6</div><span>HR Director approves — system creates employee record with backdated hire_date; payroll generates retroactive adjustment</span></div>
+        <div class="sc-warn">⚠ Both Manager AND HR Director must approve. If either rejects, the request is REJECTED and HR Admin must resubmit with a new justification.</div>
+        <div class="sc-rule">Refs: BR-WF-010 · workflow_instances · approval_steps · BR-AUDIT-001</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--te-bg)">
+        <div class="sc-num" style="background:var(--te)">D</div>
+        <div class="sc-title">Employee Created But Not in Payroll</div>
+      </div>
+      <div class="sc-body">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:8px">Fatima Al Zaabi appears in /persons but her name is missing from the current payroll run. HR Admin investigates the root cause.</div>
+        <div class="sc-step"><div class="sc-n">1</div><span>Check Fatima's assignment_status at /persons/[id] → Assignments — if PENDING_HIRE, payroll enrolment has not triggered</span></div>
+        <div class="sc-step"><div class="sc-n">2</div><span>PENDING_HIRE means the hire workflow is incomplete or approval is outstanding — check /approvals for a pending step</span></div>
+        <div class="sc-step"><div class="sc-n">3</div><span>If hire workflow is complete but status is still PENDING_HIRE: check the hire_date — payroll only picks up ACTIVE employees</span></div>
+        <div class="sc-step"><div class="sc-n">4</div><span>If hire_date is in the future: employee will auto-activate on that date; payroll picks up in the next run after activation</span></div>
+        <div class="sc-step"><div class="sc-n">5</div><span>If hire_date is past and status is still PENDING_HIRE: check audit_log for workflow failure or system error</span></div>
+        <div class="sc-step"><div class="sc-n">6</div><span>If payroll entity mismatch: go to /payroll → Settings and map Fatima's legal entity to the payroll run template</span></div>
+        <div class="sc-warn">⚠ Never manually add an employee to a payroll run. Fix the assignment_status root cause — the system will include them in the next run automatically.</div>
+        <div class="sc-rule">Refs: worker_assignments.assignment_status · payroll_runs · persons.legal_entity_id · audit_log</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 9 — TROUBLESHOOTING ══════════════════════════════ -->
+<div class="sec" id="s9">
+  <div class="sec-lbl">Section 9</div>
+  <div class="sec-title">Troubleshooting Knowledge Base</div>
+  <div class="sec-desc">Four common onboarding problems, each with a problem description, root cause, and exact fix steps. Always check audit_log first — every system action leaves an immutable record.</div>
+  <div class="ts-grid">
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">🏢 Employee Not Appearing in Org Chart</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Ahmed was hired 2 days ago but is not visible in /org-chart</div>
+          <div class="ts-c">Cause: assignment_status is PENDING_HIRE (workflow not fully approved) or org chart filter is hiding the status</div>
+          <div class="ts-f">Fix: Go to /persons/[id] → Assignments. If status is PENDING_HIRE, check /approvals for any outstanding approval step. If ACTIVE but not on chart, refresh /org-chart and check "Show All Statuses" filter toggle.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Employee shows on org chart but under the wrong manager</div>
+          <div class="ts-c">Cause: line_manager_id was set incorrectly at hire or the manager's assignment has since changed</div>
+          <div class="ts-f">Fix: Submit a Lateral Transfer at /persons/[id] → Actions → Transfer. Set same position but correct line_manager_id. Effective today.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Position shows as VACANT despite employee being hired</div>
+          <div class="ts-c">Cause: worker_assignments was not linked to the correct position_id during hire</div>
+          <div class="ts-f">Fix: Check /persons/[id] → Assignments → position column. If mislinked, contact SUPER_ADMIN to correct position assignment via /users console with audit justification.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🔁 Emirates ID Already Exists Error</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Problem: "Emirates ID already exists" on a brand-new hire</div>
+          <div class="ts-c">Cause: The employee previously worked for another Avaniis entity and their record exists in AVANIIS HR with TERMINATED status</div>
+          <div class="ts-f">Fix: Click "View existing record" in the error. Check their status and EOSB history. Use the Rehire hire type — this links the new assignment to their existing persons record, preserving service continuity.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Emirates ID collision — two different people, same ID number</div>
+          <div class="ts-c">Cause: Data entry error on a previous hire — wrong ID was entered and passed uniqueness check</div>
+          <div class="ts-f">Fix: Escalate to SUPER_ADMIN. Navigate to /users → Person Record → Edit PII with justification note. Both changes are logged in audit_log with actor_id and timestamp.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Encrypted ID comparison failing for a known employee</div>
+          <div class="ts-c">Cause: FIELD_ENCRYPTION_KEY environment variable mismatch between environments (dev vs. prod)</div>
+          <div class="ts-f">Fix: This is a SUPER_ADMIN / DevOps issue. Verify FIELD_ENCRYPTION_KEY in Vercel environment variables matches the key used when the record was created. Do not re-encrypt without proper key rotation procedure.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⏱ Probation Alert Not Firing</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Probation ends in 3 days — no alert in /approvals inbox</div>
+          <div class="ts-c">Cause: Cron job /api/cron/probation is not running or the CRON_SECRET environment variable is incorrect</div>
+          <div class="ts-f">Fix: SUPER_ADMIN checks Vercel Functions logs for /api/cron. Verify CRON_SECRET matches vercel.json cron configuration. Test manually by calling the endpoint with the correct secret header. Alternatively, manually create the probation decision at /persons/[id] → Probation.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Cron fires but the decision goes to wrong person's inbox</div>
+          <div class="ts-c">Cause: workflow_instances approver_id is set to a previous manager before a recent transfer</div>
+          <div class="ts-f">Fix: Update the workflow template to dynamically resolve the approver from the current worker_assignments.line_manager_id at /settings/workflows. Recall the stale workflow at /approvals → Withdraw and resubmit.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: ARIA is not flagging upcoming probation decisions</div>
+          <div class="ts-c">Cause: ANTHROPIC_API_KEY missing or expired in Vercel environment, or ARIA context does not include probation intents</div>
+          <div class="ts-f">Fix: Check /aria for the error banner. If API key is valid, ask ARIA directly: "Show all employees with probation ending this month" — if this fails, check server logs at Vercel dashboard.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--gr-bg);color:var(--gr)">📊 Grade Not Appearing in Dropdown</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Grade 7 does not appear in the grade dropdown on the hire form</div>
+          <div class="ts-c">Cause: Grade 7 exists in the grades table but has no salary band (min_salary / max_salary) — blocked by pre-condition check</div>
+          <div class="ts-f">Fix: Go to /master-data/grades → Grade 7 → Edit. Enter min_salary and max_salary values. Save. Return to /persons/new — Grade 7 will now appear in the dropdown.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Grade exists in master data but is greyed out on the hire form</div>
+          <div class="ts-c">Cause: The grade's legal_entity_id does not match the employee's target entity, or the grade has is_active = false</div>
+          <div class="ts-f">Fix: Check the grade record at /master-data/grades. Verify it is linked to the correct legal entity and that is_active is true. If the grade should be used across entities, consult HR Director before making it global.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Problem: Salary entered is outside the grade band — system rejects</div>
+          <div class="ts-c">Cause: Proposed salary is below min_salary or above max_salary for the selected grade (salary band validation)</div>
+          <div class="ts-f">Fix: Either adjust the offered salary to fit within the band, or request a grade band update from HR Director at /master-data/grades → Edit (HR_DIRECTOR permission required). All band changes are audited.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 10 — ARIA INTELLIGENCE ══════════════════════════ -->
+<div class="sec" id="s10">
+  <div class="sec-lbl">Section 10</div>
+  <div class="sec-title">ARIA Intelligence — Onboarding Queries</div>
+  <div class="sec-desc">Eight representative ARIA queries for the Onboarding module. Each shows the exact tables and fields ARIA checks, and the plain-language response it surfaces. Access ARIA at /aria (HR Admin+) or /me/aria (Employee).</div>
+  <div class="aria-wrap">
+    <div class="aria-hdr">
+      <div class="aria-badge">ARIA</div>
+      <div>
+        <div class="aria-title">ARIA — Onboarding &amp; Core HR Intelligence</div>
+        <div class="aria-sub">8 representative queries · Claude API · RAG over HR records · bilingual</div>
+      </div>
+    </div>
+    <div class="aria-grid">
+
+      <div class="aria-card">
+        <div class="aria-q">"I need to create Ahmed — he actually joined last month. How do I do this?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Calculates days between today and stated hire date</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>If &gt;30 days: identifies BR-WF-010 dual-approval trigger</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Checks workflow_instances for any active backdated hire templates</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Looks up Manager and HR Director from org structure for approver chain</div>
+        </div>
+        <div class="aria-response">"Since Ahmed's hire date is more than 30 days ago, this requires a Backdated Hire with dual approval (BR-WF-010). Go to /persons/new, select 'Backdated Hire', enter his actual hire date and a justification. The request will go to his Manager first, then HR Director. Both must approve before the record is created."</div>
+        <div class="aria-rule">BR-WF-010 · workflow_instances · approval_steps (2 steps)</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Why can't I find Fatima in the org chart? She was hired last week."</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Searches persons WHERE name_en ILIKE '%Fatima%'</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Checks worker_assignments.assignment_status for Fatima's record</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Checks workflow_instances for any pending hire approval steps</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Checks positions.position_id linkage in worker_assignments</div>
+        </div>
+        <div class="aria-response">"Fatima's assignment status is PENDING_HIRE — her hire workflow has an outstanding approval step. Go to /approvals, filter by 'Hire Requests', and find the pending step for Fatima Al Zaabi. Once all approvers sign off, her status will update to ACTIVE and she will appear on the org chart automatically."</div>
+        <div class="aria-rule">worker_assignments.assignment_status · workflow_instances · /org-chart filter</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Ahmed's probation ends next week — what should I do?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Queries worker_assignments WHERE probation_end_date BETWEEN today AND today+14</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Checks if a probation decision task already exists in workflow_instances</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Counts prior extensions for this employee (max 2 allowed)</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Retrieves line_manager_id for the 3-button decision routing</div>
+        </div>
+        <div class="aria-response">"Ahmed Al Mansoori's probation ends in 6 days. You have three options at /approvals → Probation Decisions: Confirm (performance satisfactory — removes probation badge), Extend (adds up to 3 months; he has 0 extensions so far — max 2 allowed per BR-PROB-001), or Fail (initiates termination workflow). The cron alert should already be in your inbox."</div>
+        <div class="aria-rule">BR-PROB-001 · worker_assignments.probation_end_date · FDL 33/2021 Art. 9</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"How many employees are currently in probation?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Queries worker_assignments WHERE probation_status = 'IN_PROBATION'</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Filters by assignment_status = 'ACTIVE' to exclude PENDING_HIRE</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Groups by legal_entity_id for entity breakdown</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Orders by probation_end_date ASC to highlight most urgent</div>
+        </div>
+        <div class="aria-response">"There are currently 12 employees in probation across Avaniis entities: 7 at Avaniis, 3 at Avaniis Development, 2 at Avaniis Holdings. 3 have probation ending within 14 days. I've linked directly to /approvals → Probation Decisions so you can act on the urgent ones."</div>
+        <div class="aria-rule">worker_assignments.probation_status = IN_PROBATION · grouped by legal_entity_id</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"What fields in AVANIIS HR are encrypted? What's the encryption method?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>References lib/encryption.ts configuration in system context</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Lists PII fields marked with (enc) in schema documentation</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Confirms which roles can view decrypted values in the UI</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>References FIELD_ENCRYPTION_KEY environment variable handling</div>
+        </div>
+        <div class="aria-response">"Three fields are AES-256-GCM encrypted at rest: persons.emirates_id, persons.passport_number, and persons.iban. They are stored as cipher-text in PostgreSQL and decrypted only on the server side for HR_ADMIN and SUPER_ADMIN roles. The encryption key is FIELD_ENCRYPTION_KEY (32-byte hex) stored in Vercel environment — never committed to source code."</div>
+        <div class="aria-rule">lib/encryption.ts · persons.emirates_id(enc) · persons.passport_number(enc) · persons.iban(enc)</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Show me employees hired in the last 30 days."</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Queries persons WHERE hire_date &gt;= CURRENT_DATE - INTERVAL '30 days'</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Joins worker_assignments to get current position and status</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Filters out PENDING_HIRE records to show only active hires</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Returns name_en, hire_date, position, department, probation_end_date</div>
+        </div>
+        <div class="aria-response">"8 employees were hired in the last 30 days: Ahmed Al Mansoori (01 Jun), Sara Al Hamad (28 May), Omar Al Rashidi (22 May), and 5 others. All 8 are currently ACTIVE and IN_PROBATION. I've prepared a filtered view at /reports → New Hires if you need to export this list."</div>
+        <div class="aria-rule">persons.hire_date · worker_assignments.assignment_status · worker_assignments.probation_status</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Sara was hired 2 weeks ago but she's not receiving her payslip. Why?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Checks worker_assignments.assignment_status for Sara (must be ACTIVE)</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Checks payroll_runs for the current period — status and legal_entity_id match</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Verifies Sara's persons.legal_entity_id maps to a payroll run template</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Checks payroll run period dates — hire date must fall within the run period</div>
+        </div>
+        <div class="aria-response">"Sara's assignment is ACTIVE, so that's not the block. However, her hire date (28 May) falls before the current payroll run period start (01 Jun). She will be included in the next payroll run. If you need a manual payslip for May, go to /payroll → Adjustments → Off-cycle Run. Also verify Sara's legal entity is mapped in /payroll → Settings."</div>
+        <div class="aria-rule">payroll_runs.period_start · payroll_runs.period_end · worker_assignments.assignment_status · persons.legal_entity_id</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"What happens when a hire date is 45 days in the past?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Calculates days difference: CURRENT_DATE - hire_date = 45 &gt; 30 threshold</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Identifies BR-WF-010: backdated hire &gt;30 days requires dual approval</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Checks workflow template for BACKDATED_HIRE type with 2-step approver chain</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Flags payroll retroactive adjustment requirement for the missed period</div>
+        </div>
+        <div class="aria-response">"A hire date 45 days ago triggers BR-WF-010 — dual approval is required (Manager + HR Director). The standard hire form will reject the submission and route to the Backdated Hire workflow automatically. After both approvals, the employee is created with the backdated hire_date and payroll generates a retroactive adjustment for the 45-day gap. All steps are recorded in audit_log."</div>
+        <div class="aria-rule">BR-WF-010 · approval_steps (2-step chain) · payroll retroactive · BR-AUDIT-001</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="page-footer">
+  AVANIIS HR · Training Module M1: Employee Onboarding &amp; Core HR · v3.0 Enterprise Edition · May 2026<br>
+  Avaniis / Avaniis · Internal Use Only · UAE Federal Decree-Law No. 33 of 2021 and amendments
+</div>
+
+<script>
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  hd:  ['s1','s2','s4','s7','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

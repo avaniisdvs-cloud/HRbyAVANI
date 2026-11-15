@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>G1 — Employee Transfers &amp; Promotions | AVANIIS HR v3.0</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+    --lane-mgr:#7B68EE;
+    --lane-hd:#7B2FBE;
+    --lane-fi:#E87040;
+    --aria-bg1:#0A2E35;
+    --aria-bg2:#0A2228;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Header ── */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* ── Sticky Nav ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* ── Role Filter ── */
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+
+/* ── Content ── */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+
+/* ── Preconditions ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+
+/* ── Blocking conditions ── */
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:140px}
+.block-reason{color:var(--rd)}
+
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+
+/* ── State Machines ── */
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+
+/* ── Mockups ── */
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+
+/* ── Inbox mockup ── */
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+
+/* ── Org chart node pair ── */
+.node-pair{display:flex;gap:24px;flex-wrap:wrap}
+.oc-node{width:220px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:12px 14px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:10px}
+.oc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12.5px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:10px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:7px 14px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 14px 9px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--mu)}
+.acting-bar{background:var(--am);padding:5px 14px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.oc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+
+/* ── ARIA ── */
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* ── SLA timers ── */
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+
+/* ── Callouts ── */
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+
+/* ── Footer ── */
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+
+/* ── Print ── */
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════════════════════════════════════════════════════ -->
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Module G1 · v3.0 Enterprise</div>
+  <div class="ph-title">Employee Transfers &amp; Promotions</div>
+  <div class="ph-sub">نقل وترقية الموظفين · Complete Operational Guide · Navigation · Workflows · State Machines · Mockups · Scenarios · Troubleshooting · ARIA Intelligence</div>
+  <div class="ph-pills">
+    <span class="pill g">HR ADMIN</span><span class="pill g">HR DIRECTOR</span>
+    <span class="pill">MANAGER</span><span class="pill">PAYROLL ADMIN</span>
+    <span class="pill">UAE Labour Law</span><span class="pill">v3.0 · May 2026</span>
+  </div>
+</div>
+
+<!-- ════ STICKY NAV ═════════════════════════════════════════════════ -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <a href="#s1" class="ni" data-section="s1">Overview</a>
+    <a href="#s2" class="ni" data-section="s2">Dependency Map</a>
+    <a href="#s3" class="ni" data-section="s3">Transfer Types</a>
+    <a href="#s4" class="ni" data-section="s4">Step-by-Step</a>
+    <a href="#s5" class="ni" data-section="s5">State Machines</a>
+    <a href="#s6" class="ni" data-section="s6">Screen Mockups</a>
+    <a href="#s7" class="ni" data-section="s7">Approvals Guide</a>
+    <a href="#s8" class="ni" data-section="s8">Scenarios</a>
+    <a href="#s9" class="ni" data-section="s9">Troubleshooting</a>
+    <a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a>
+  </div>
+</div>
+
+<!-- ════ ROLE FILTER ════════════════════════════════════════════════ -->
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'pay')">Payroll Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+</div>
+
+<main class="content">
+
+<!-- ════ SECTION 1 — OVERVIEW & PRECONDITIONS ═══════════════════════ -->
+<div class="sec" id="s1">
+  <div class="sec-lbl">Section 1</div>
+  <div class="sec-title">Module Overview &amp; Preconditions</div>
+  <div class="sec-desc">Every position change in AVANIIS HR uses the effective-date pattern — old records are closed, new records are opened. Nothing is deleted. Every action produces an immutable audit entry.</div>
+
+  <!-- Preconditions checklist -->
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions Checklist — All must be true before initiating any transfer</div>
+    <div class="pre-grid">
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Employee has ACTIVE assignment</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/persons/[id] → Assignments</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Target position exists and is not frozen</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/positions</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Target department exists under correct legal entity</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/departments</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Target grade has a defined salary band</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/grades</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Approval workflow is configured</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/workflows</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">For cross-entity: target legal entity exists</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/legal-entities</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">For promotion: Finance approver role is assigned</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/users → role = FINANCE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blocking conditions -->
+  <div class="block-panel">
+    <div class="block-title">🚫 Blocking Conditions — System will refuse to proceed</div>
+    <div class="block-row"><span class="block-label">PENDING_HIRE status</span><span class="block-reason">Cannot initiate transfer — employee not yet active. Activate the assignment first at <code>/persons/[id] → Assignments</code>.</span></div>
+    <div class="block-row"><span class="block-label">is_frozen = true</span><span class="block-reason">Target position is frozen (budget hold). Unfreeze at Master Data → Positions, or choose a different position.</span></div>
+    <div class="block-row"><span class="block-label">Payroll LOCKED</span><span class="block-reason">A payroll run is in LOCKED or APPROVAL_PENDING status. Finance approval step is frozen until payroll closes.</span></div>
+    <div class="block-row"><span class="block-label">Employee on ACTIVE leave</span><span class="block-reason">Effective date must be set to on or after the employee's expected return date.</span></div>
+    <div class="block-row" style="margin-bottom:0"><span class="block-label">Grade rank not higher (Promotion)</span><span class="block-reason">For promotions, new_grade rank must strictly exceed current grade rank. Equal or lower grade = system block.</span></div>
+  </div>
+</div>
+
+<!-- ════ SECTION 2 — DEPENDENCY MAP ════════════════════════════════ -->
+<div class="sec" id="s2">
+  <div class="sec-lbl">Section 2</div>
+  <div class="sec-title">Dependency Map</div>
+  <div class="sec-desc">Three chains: what must be true before a transfer executes, what changes after, and the cross-entity EOSB flow. Every node shows the exact field it represents.</div>
+  <div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Dependency Map — Employee Transfers and Promotions</title>
+<desc>Three chains: pre-conditions, post-execution changes, cross-entity EOSB.</desc>
+<defs>
+  <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="agold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="ard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+<!-- Chain A label -->
+<rect x="14" y="14" width="218" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — PRE-CONDITIONS</text>
+<!-- A1 Active Assignment -->
+<rect x="14" y="44" width="122" height="58" rx="7" fill="#0A1628"/>
+<text x="75" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">Active</text>
+<text x="75" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">Assignment</text>
+<text x="75" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">status = ACTIVE</text>
+<line x1="136" y1="73" x2="156" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A2 Position Unfrozen -->
+<rect x="158" y="44" width="122" height="58" rx="7" fill="#0E7C6A"/>
+<text x="219" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Position</text>
+<text x="219" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Unfrozen</text>
+<text x="219" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">is_frozen = false</text>
+<line x1="280" y1="73" x2="300" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A3 Department Confirmed -->
+<rect x="302" y="44" width="122" height="58" rx="7" fill="#0E7C6A"/>
+<text x="363" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Department</text>
+<text x="363" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Confirmed</text>
+<text x="363" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">departments.is_active</text>
+<line x1="424" y1="73" x2="444" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A4 Workflow Approved -->
+<rect x="446" y="44" width="122" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="507" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#7A3E00">Workflow</text>
+<text x="507" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#7A3E00">Approved</text>
+<text x="507" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">workflow_instances</text>
+<line x1="568" y1="73" x2="588" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- A5 Effective Date Set -->
+<rect x="590" y="44" width="122" height="58" rx="7" fill="#0E7C6A"/>
+<text x="651" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Effective</text>
+<text x="651" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Date Set</text>
+<text x="651" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">effective_date</text>
+<line x1="712" y1="73" x2="732" y2="73" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+<!-- A6 Transfer Executes -->
+<rect x="734" y="44" width="148" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="808" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">Transfer</text>
+<text x="808" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">Executes</text>
+<text x="808" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">on effective_date</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Chain B label -->
+<rect x="14" y="124" width="238" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — AFTER EXECUTION</text>
+<!-- B1 -->
+<rect x="14" y="158" width="130" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="79" y="182" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Transfer</text>
+<text x="79" y="197" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Executes</text>
+<text x="79" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">effective_date reached</text>
+<line x1="144" y1="187" x2="164" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B2 -->
+<rect x="166" y="158" width="146" height="58" rx="7" fill="#0E7C6A"/>
+<text x="239" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Assignment</text>
+<text x="239" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Record Updated</text>
+<text x="239" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">new record, old end-dated</text>
+<line x1="312" y1="187" x2="332" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B3 -->
+<rect x="334" y="158" width="146" height="58" rx="7" fill="#0E7C6A"/>
+<text x="407" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Org Chart Moves</text>
+<text x="407" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">&amp; Manager Set</text>
+<text x="407" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">line_manager_id updated</text>
+<line x1="480" y1="187" x2="500" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B4 -->
+<rect x="502" y="158" width="146" height="58" rx="7" fill="#0E7C6A"/>
+<text x="575" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">GL / Payroll</text>
+<text x="575" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Updated</text>
+<text x="575" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">cost_centre next run</text>
+<line x1="648" y1="187" x2="668" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<!-- B5 -->
+<rect x="670" y="158" width="148" height="58" rx="7" fill="#1A6B3C"/>
+<text x="744" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Leave Balance</text>
+<text x="744" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Carries Forward</text>
+<text x="744" y="210" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">absence_balances kept</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Chain C label -->
+<rect x="14" y="238" width="310" height="22" rx="4" fill="#5B2D9E"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — CROSS-ENTITY TRANSFER (EOSB)</text>
+<!-- C1 -->
+<rect x="14" y="270" width="138" height="58" rx="7" fill="#5B2D9E"/>
+<text x="83" y="293" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Cross-Entity</text>
+<text x="83" y="309" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Transfer</text>
+<text x="83" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">CROSS_ENTITY type</text>
+<line x1="152" y1="299" x2="172" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C2 -->
+<rect x="174" y="270" width="148" height="58" rx="7" fill="#0E7C6A"/>
+<text x="248" y="292" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">EOSB Calculated</text>
+<text x="248" y="308" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Automatically</text>
+<text x="248" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">hire_date to eff. date</text>
+<line x1="322" y1="299" x2="342" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C3 -->
+<rect x="344" y="270" width="148" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="418" y="289" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">HR Decision:</text>
+<text x="418" y="305" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Pay Out or</text>
+<text x="418" y="321" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" fill="#B45C00">Carry Forward</text>
+<line x1="492" y1="299" x2="512" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+<!-- C4 -->
+<rect x="514" y="270" width="148" height="58" rx="7" fill="#0E7C6A"/>
+<text x="588" y="292" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">New Contract</text>
+<text x="588" y="308" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Created</text>
+<text x="588" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">target legal entity</text>
+<line x1="662" y1="299" x2="682" y2="299" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard)"/>
+<!-- C5 -->
+<rect x="684" y="270" width="148" height="58" rx="7" fill="#B01B1B"/>
+<text x="758" y="292" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Service Start</text>
+<text x="758" y="308" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Resets</text>
+<text x="758" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">hire_date = eff. date</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<!-- Legend -->
+<rect x="14" y="350" width="420" height="118" rx="8" fill="#fff" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="368" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96" letter-spacing="0.08em">LEGEND</text>
+<rect x="26" y="375" width="13" height="13" rx="3" fill="#0A1628"/>
+<text x="45" y="386" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Trigger / Outcome (HR-initiated)</text>
+<rect x="216" y="375" width="13" height="13" rx="3" fill="#0E7C6A"/>
+<text x="235" y="386" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System auto-action</text>
+<rect x="26" y="397" width="13" height="13" rx="3" fill="#FEF3E2" stroke="#B45C00" stroke-width="1"/>
+<text x="45" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Decision point (HR must act)</text>
+<rect x="216" y="397" width="13" height="13" rx="3" fill="#B01B1B"/>
+<text x="235" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Irreversible / service reset</text>
+<rect x="26" y="419" width="13" height="13" rx="3" fill="#5B2D9E"/>
+<text x="45" y="430" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Cross-entity scope</text>
+<rect x="216" y="419" width="13" height="13" rx="3" fill="#1A6B3C"/>
+<text x="235" y="430" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Preservation / continuity</text>
+<line x1="26" y1="447" x2="38" y2="447" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+<text x="45" y="451" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Critical transition</text>
+<line x1="216" y1="447" x2="228" y2="447" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+<text x="235" y="451" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Auto-propagation</text>
+<line x1="26" y1="462" x2="398" y2="462" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="474" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00" font-style="italic">FDL 33/2021: EOSB must be settled or documented before cross-entity transfer executes (BR-CE-001)</text>
+<!-- Blocking panel -->
+<rect x="444" y="350" width="442" height="118" rx="8" fill="#FDEAEA" stroke="#B01B1B" stroke-width="1"/>
+<text x="456" y="368" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B" letter-spacing="0.07em">BLOCKING CONDITIONS</text>
+<text x="456" y="388" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">PENDING_HIRE</text>
+<text x="546" y="388" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— activate assignment first</text>
+<text x="456" y="406" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">is_frozen = true</text>
+<text x="546" y="406" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— unfreeze position or choose another</text>
+<text x="456" y="424" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Payroll LOCKED</text>
+<text x="546" y="424" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— Finance step frozen until close</text>
+<text x="456" y="442" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Employee on ACTIVE leave</text>
+<text x="614" y="442" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— eff. date must follow return</text>
+<text x="456" y="460" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Grade rank not higher (Promo)</text>
+<text x="651" y="460" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— must exceed current</text>
+<text x="456" y="474" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B" font-style="italic">All blocks surface as red inline errors with the BR-xx rule code.</text>
+</svg>
+  </div>
+</div>
+
+<!-- ════ SECTION 3 — SIX TRANSFER TYPES ════════════════════════════ -->
+<div class="sec" id="s3">
+  <div class="sec-lbl">Section 3</div>
+  <div class="sec-title">Six Transfer &amp; Promotion Types</div>
+  <div class="sec-desc">Choose the correct type first — it determines the approval chain, compensation rules, and system behaviour.</div>
+  <div class="type-grid">
+
+    <div class="type-card" style="border-color:#90AADE">
+      <div class="type-head" style="background:#EAF0FD">
+        <div class="type-icon" style="background:#1A4FBA;color:#fff">↔</div>
+        <div><div class="type-name">Lateral Transfer</div><div class="type-sub">Same level · Different dept</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Grade</span><span class="tv">No change</span></div>
+        <div class="tr"><span class="tk">Salary</span><span class="tv-r">Not allowed to change</span></div>
+        <div class="tr"><span class="tk">Approvals</span><span class="tv">Manager + HR Admin</span></div>
+        <div class="tr"><span class="tk">Min. notice</span><span class="tv">14 days</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-TR-001</span></div>
+        <div class="mistake">⚠ Common mistake: trying to change salary on a lateral — system blocks this immediately.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#7BC4A0">
+      <div class="type-head" style="background:#E6F5EE">
+        <div class="type-icon" style="background:#1A6B3C;color:#fff">↑</div>
+        <div><div class="type-name">Promotion</div><div class="type-sub">Higher grade · Salary increase</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Grade</span><span class="tv-g">Increases (required)</span></div>
+        <div class="tr"><span class="tk">Salary</span><span class="tv-g">Mandatory increase</span></div>
+        <div class="tr"><span class="tk">Approvals</span><span class="tv">Manager + HR + Finance</span></div>
+        <div class="tr"><span class="tk">Finance sign-off</span><span class="tv">Required</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-PR-001</span></div>
+        <div class="mistake">⚠ Common mistake: initiating before Finance approver is assigned to a user — workflow stalls with no approver.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#F4B86A">
+      <div class="type-head" style="background:#FEF3E2">
+        <div class="type-icon" style="background:#B45C00;color:#fff">⟲</div>
+        <div><div class="type-name">Acting Assignment</div><div class="type-sub">Temporary cover · Max 6 months</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Duration</span><span class="tv">Max 6 months (UAE Law)</span></div>
+        <div class="tr"><span class="tk">Allowance</span><span class="tv-a">Optional acting pay</span></div>
+        <div class="tr"><span class="tk">Org chart</span><span class="tv">🟡 Amber strip shown</span></div>
+        <div class="tr"><span class="tk">Approvals</span><span class="tv">Manager + HR Admin</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-AC-001</span> <span class="br-pill">BR-AC-002</span></div>
+        <div class="mistake">⚠ Common mistake: forgetting acting_end_date — ARIA flags this daily until corrected.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#C4ADEE">
+      <div class="type-head" style="background:#F0EAFB">
+        <div class="type-icon" style="background:#5B2D9E;color:#fff">⇄</div>
+        <div><div class="type-name">Cross-Entity Transfer</div><div class="type-sub">Different Avaniis entity · EOSB triggered</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">EOSB</span><span class="tv-r">Settled or carried forward</span></div>
+        <div class="tr"><span class="tk">Contract</span><span class="tv">New contract required</span></div>
+        <div class="tr"><span class="tk">Approvals</span><span class="tv">4 levels inc. Legal</span></div>
+        <div class="tr"><span class="tk">Min. notice</span><span class="tv">30 days</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-CE-001</span></div>
+        <div class="mistake">⚠ Common mistake: assuming service continuity — new entity = service clock resets unless carry-forward is documented.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#F4A0A0">
+      <div class="type-head" style="background:#FDEAEA">
+        <div class="type-icon" style="background:#B01B1B;color:#fff">↓</div>
+        <div><div class="type-name">Demotion</div><div class="type-sub">Lower grade · Employee consent mandatory</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Consent</span><span class="tv-r">Written consent required</span></div>
+        <div class="tr"><span class="tk">Salary</span><span class="tv-a">May reduce (voluntary only)</span></div>
+        <div class="tr"><span class="tk">Notification</span><span class="tv">30 days prior</span></div>
+        <div class="tr"><span class="tk">HR Director</span><span class="tv">Must sign off</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-DM-001</span></div>
+        <div class="mistake">⚠ Common mistake: skipping employee consent — UAE Labour Law (FDL 33/2021) requires written consent for demotion.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#9FD8CF">
+      <div class="type-head" style="background:#E0F4F0">
+        <div class="type-icon" style="background:#0E7C6A;color:#fff">↕</div>
+        <div><div class="type-name">Secondment</div><div class="type-sub">Loaned to another dept · Home held</div></div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Home position</span><span class="tv-g">Kept open</span></div>
+        <div class="tr"><span class="tk">Max duration</span><span class="tv">12 months</span></div>
+        <div class="tr"><span class="tk">Approvals</span><span class="tv">Both managers + HR</span></div>
+        <div class="tr"><span class="tk">GL split</span><span class="tv">Both entities</span></div>
+        <div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-SE-001</span></div>
+        <div class="mistake">⚠ Common mistake: not splitting GL — payroll charges only the home entity if cost centre isn't updated.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 4 — STEP-BY-STEP PROCESS FLOWS ════════════════════ -->
+<div class="sec" id="s4">
+  <div class="sec-lbl">Section 4</div>
+  <div class="sec-title">Step-by-Step Process Flows</div>
+  <div class="sec-desc">Two complete workflows rendered as role-lane swimlanes. Every step shows the route, the fields, and what the system does automatically.</div>
+
+  <!-- FLOW A: Lateral Transfer -->
+  <div class="swimlane">
+    <div class="sw-head">Flow A — Lateral Transfer <span class="sw-stag">BR-TR-001 · 4 STAGES</span></div>
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR<br>ADMIN</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Initiate Request</span>
+          <span class="sb-sub">/persons/[id] → Assignments → New Transfer</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Fill Form</span>
+          <span class="sb-sub">Type · Dept · Position · Eff. date · Reason ≥20 chars</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Submit</span>
+          <span class="sb-sub">Status → PENDING_APPROVAL</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto">
+          <span class="sb-title">Validate</span>
+          <span class="sb-sub">Status=ACTIVE · Position unfrozen · No payroll lock</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Route</span>
+          <span class="sb-sub">Workflow engine creates instance · Email + in-app to Manager</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">SLA Timer</span>
+          <span class="sb-sub">48h countdown starts</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Review &amp; Decide</span>
+          <span class="sb-sub">/approvals → Approve / Reject / Delegate (BR-29)</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn">
+          <span class="sb-title">SLA Breach?</span>
+          <span class="sb-sub">48h → auto-escalates to HR Director</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM<br>EXECUTE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">New Assignment</span>
+          <span class="sb-sub">Old record end-dated · New record from eff. date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Org Chart</span>
+          <span class="sb-sub">Node moves to new dept live</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Payroll GL</span>
+          <span class="sb-sub">New cost centre next run</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-term">
+          <span class="sb-title" style="color:var(--g2)">Audit Log</span>
+          <span class="sb-sub" style="color:rgba(255,255,255,.6)">Immutable · INSERT-only</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl em">EMPLOYEE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Notified</span>
+          <span class="sb-sub">Email + in-app: new dept, new manager, eff. date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Profile Updated</span>
+          <span class="sb-sub">/me/profile shows new assignment from eff. date</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLA Timers -->
+  <div class="card" style="margin-bottom:20px">
+    <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">⏱ SLA Timers — Flow A</div>
+    <div class="sla-grid">
+      <div class="sla-tile"><div class="sla-label">Manager decision</div><div class="sla-num">48 hrs</div><div class="sla-sub">Auto-escalates on breach</div></div>
+      <div class="sla-tile"><div class="sla-label">HR Admin review</div><div class="sla-num">72 hrs</div><div class="sla-sub">Payroll cutoff aware</div></div>
+      <div class="sla-tile sla-tile warn"><div class="sla-label">⚠ Maximum total</div><div class="sla-num">7 days</div><div class="sla-sub">Breach → ARIA alert to HR Director</div></div>
+    </div>
+  </div>
+
+  <!-- FLOW B: Promotion -->
+  <div class="swimlane">
+    <div class="sw-head">Flow B — Promotion <span class="sw-stag">BR-PR-001 · 5 APPROVAL STAGES</span></div>
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR<br>ADMIN</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Initiate Promotion</span>
+          <span class="sb-sub">/org-chart → [···] → Request Promotion</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Fill Form</span>
+          <span class="sb-sub">New grade · New salary · Eff. date · Justification ≥50 chars</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Salary Validated</span>
+          <span class="sb-sub">Must be within grade band min/max</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto">
+          <span class="sb-title">Validate</span>
+          <span class="sb-sub">Grade rank &gt; current · Salary in band · Finance approver exists</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Create Workflow</span>
+          <span class="sb-sub">5-step instance: Mgr → HR Admin → HR Director → Finance</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Step 1 Approval</span>
+          <span class="sb-sub">Approve / Reject / Delegate · 48h SLA</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl hd">HR<br>DIRECTOR</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Step 2 Approval</span>
+          <span class="sb-sub">Grade-band exceptions here · 48h SLA</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl fi">FINANCE</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Budget Check</span>
+          <span class="sb-sub">Validates salary impact on headcount budget</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act">
+          <span class="sb-title">GL Code</span>
+          <span class="sb-sub">Maps to Oracle ERP cost centre</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn">
+          <span class="sb-title">REJECTED?</span>
+          <span class="sb-sub">Terminal — no reopen. Create new request.</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM<br>EXECUTE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Grade Updated</span>
+          <span class="sb-sub">New grade_id on eff. date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Salary Updated</span>
+          <span class="sb-sub">Payroll element from next run</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Org Chart</span>
+          <span class="sb-sub">Title updated live</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-term">
+          <span class="sb-title" style="color:var(--g2)">Audit</span>
+          <span class="sb-sub" style="color:rgba(255,255,255,.6)">Field-level diff</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SECTION 5 — STATE MACHINES ════════════════════════════════ -->
+<div class="sec" id="s5">
+  <div class="sec-lbl">Section 5</div>
+  <div class="sec-title">State Machines</div>
+  <div class="sec-desc">Three node-edge diagrams showing every possible status transition. Arrows show what triggers each change and which module is affected.</div>
+
+  <!-- SM1: Worker Assignment Status -->
+  <div class="sm-wrap" style="margin-bottom:16px">
+    <div class="sm-hdr">⬤ State Machine 1 — Worker Assignment Status</div>
+    <div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Worker Assignment Status State Machine</title>
+<desc>Shows all status transitions for worker_assignments: PENDING_HIRE to ACTIVE and from ACTIVE to terminal states.</desc>
+<defs>
+  <marker id="sm1a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm1b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="310" fill="#F5F6F8"/>
+<!-- PENDING_HIRE -->
+<rect x="230" y="14" width="200" height="50" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="330" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#444441">PENDING_HIRE</text>
+<text x="330" y="53" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Awaiting hire confirmation</text>
+<!-- Arrow PENDING→ACTIVE -->
+<line x1="330" y1="64" x2="330" y2="112" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<text x="338" y="92" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Hire confirmed</text>
+<!-- ACTIVE (central, teal, larger) -->
+<rect x="190" y="114" width="280" height="66" rx="8" fill="#0E7C6A" stroke="#085041" stroke-width="2"/>
+<text x="330" y="140" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="15" font-weight="700" fill="#fff">ACTIVE</text>
+<text x="330" y="157" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.75)">All modules enabled · Transfers · Payroll · Leave · ARIA</text>
+<text x="330" y="172" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.55)">assignment_status = ACTIVE</text>
+<!-- Arrow ACTIVE→ON_LEAVE -->
+<line x1="470" y1="150" x2="502" y2="150" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#sm1b)"/>
+<!-- Arrow ON_LEAVE→ACTIVE return -->
+<line x1="502" y1="164" x2="470" y2="164" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<!-- ON_LEAVE -->
+<rect x="504" y="124" width="160" height="50" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="584" y="145" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A4FBA">ON_LEAVE</text>
+<text x="584" y="162" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#1A4FBA">Leave module active</text>
+<text x="510" y="148" font-family="-apple-system,sans-serif" font-size="9" fill="#0E7C6A">Leave starts</text>
+<text x="508" y="175" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Returns</text>
+<!-- Arrows from ACTIVE to terminal states (bottom) -->
+<!-- ACTIVE→TERMINATED -->
+<line x1="290" y1="180" x2="270" y2="244" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<text x="248" y="218" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Resigned/dismissed</text>
+<!-- ACTIVE→SUSPENDED -->
+<line x1="400" y1="180" x2="484" y2="244" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<text x="436" y="220" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Disciplinary</text>
+<!-- ACTIVE→RETIRED -->
+<line x1="220" y1="180" x2="110" y2="244" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+<text x="120" y="222" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Retirement</text>
+<!-- Terminal states -->
+<rect x="20" y="246" width="140" height="50" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="90" y="267" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">RETIRED</text>
+<text x="90" y="283" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Read-only</text>
+<rect x="200" y="246" width="160" height="50" rx="8" fill="#FCEBEB" stroke="#F09595" stroke-width="1.5"/>
+<text x="280" y="267" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#A32D2D">TERMINATED</text>
+<text x="280" y="283" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#A32D2D">All modules closed</text>
+<rect x="400" y="246" width="160" height="50" rx="8" fill="#FAEEDA" stroke="#FAC775" stroke-width="1.5"/>
+<text x="480" y="267" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">SUSPENDED</text>
+<text x="480" y="283" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#633806">Payroll paused</text>
+<!-- BLOCKED annotation -->
+<rect x="572" y="252" width="96" height="38" rx="6" fill="#FCEBEB" stroke="#F09595" stroke-width="1"/>
+<text x="620" y="267" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#A32D2D">🚫 BLOCKED</text>
+<text x="620" y="280" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#A32D2D">Transfers disabled</text>
+</svg>
+    </div>
+  </div>
+
+  <!-- SM2: Transfer/Promotion Request -->
+  <div class="sm-wrap" style="margin-bottom:16px">
+    <div class="sm-hdr">⬤ State Machine 2 — Transfer / Promotion Request Lifecycle</div>
+    <div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 290" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Transfer Request Lifecycle State Machine</title>
+<desc>Shows transfer_requests status transitions from DRAFT to EXECUTED and branch states REJECTED, WITHDRAWN, RECALLED.</desc>
+<defs>
+  <marker id="sm2a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="290" fill="#F5F6F8"/>
+<!-- Main flow row -->
+<!-- DRAFT -->
+<rect x="14" y="94" width="120" height="52" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="74" y="115" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">DRAFT</text>
+<text x="74" y="133" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Form saved</text>
+<line x1="134" y1="120" x2="154" y2="120" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+<!-- SUBMITTED -->
+<rect x="156" y="94" width="130" height="52" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="221" y="115" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A4FBA">SUBMITTED</text>
+<text x="221" y="133" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#1A4FBA">Awaiting approval</text>
+<line x1="286" y1="120" x2="306" y2="120" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+<!-- APPROVED -->
+<rect x="308" y="94" width="130" height="52" rx="8" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+<text x="373" y="115" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#0E7C6A">APPROVED</text>
+<text x="373" y="133" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#0E7C6A">All approvers signed</text>
+<line x1="438" y1="120" x2="458" y2="120" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm2g)"/>
+<!-- EXECUTED -->
+<rect x="460" y="94" width="130" height="52" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="525" y="115" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A6B3C">EXECUTED</text>
+<text x="525" y="133" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#1A6B3C">Assignment updated</text>
+<!-- Branch: SUBMITTED → REJECTED -->
+<line x1="200" y1="146" x2="200" y2="214" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm2r)"/>
+<text x="208" y="185" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Any approver rejects</text>
+<!-- Branch: SUBMITTED → WITHDRAWN -->
+<path d="M170 146 L170 200 L80 200 L80 214" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+<text x="88" y="195" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">HR cancels</text>
+<!-- Branch: APPROVED → RECALLED -->
+<line x1="373" y1="146" x2="373" y2="214" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+<text x="381" y="185" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Before eff. date only</text>
+<!-- Branch states -->
+<rect x="14" y="216" width="130" height="52" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="79" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">WITHDRAWN</text>
+<text x="79" y="254" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Cancelled by HR</text>
+<rect x="156" y="216" width="130" height="52" rx="8" fill="#FCEBEB" stroke="#F09595" stroke-width="1.5"/>
+<text x="221" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#A32D2D">REJECTED</text>
+<text x="221" y="252" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#A32D2D">Terminal — no reopen</text>
+<rect x="308" y="216" width="130" height="52" rx="8" fill="#FAEEDA" stroke="#FAC775" stroke-width="1.5"/>
+<text x="373" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">RECALLED</text>
+<text x="373" y="252" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#633806">APPROVED only, pre-eff.</text>
+<!-- Terminal badges -->
+<text x="221" y="276" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#A32D2D" font-style="italic">Create new request to retry</text>
+<!-- Labels -->
+<text x="340" y="88" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Submit</text>
+<text x="406" y="88" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">All approved</text>
+<text x="74" y="88" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">HR drafts</text>
+</svg>
+    </div>
+  </div>
+
+  <!-- SM3: Acting Assignment -->
+  <div class="sm-wrap">
+    <div class="sm-hdr">⬤ State Machine 3 — Acting Assignment Lifecycle</div>
+    <div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 290" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Acting Assignment State Machine</title>
+<desc>Shows acting assignment transitions from INITIATED through PENDING_APPROVAL to ACTIVE and branch outcomes.</desc>
+<defs>
+  <marker id="sm3a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm3am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm3g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm3r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="290" fill="#F5F6F8"/>
+<!-- INITIATED -->
+<rect x="14" y="94" width="120" height="52" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="74" y="115" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">INITIATED</text>
+<text x="74" y="131" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">HR creates record</text>
+<line x1="134" y1="120" x2="154" y2="120" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm3a)"/>
+<!-- PENDING -->
+<rect x="156" y="94" width="140" height="52" rx="8" fill="#FAEEDA" stroke="#FAC775" stroke-width="1.5"/>
+<text x="226" y="114" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">PENDING</text>
+<text x="226" y="130" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#633806">APPROVAL</text>
+<line x1="296" y1="120" x2="316" y2="120" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#sm3am)"/>
+<!-- ACTIVE (amber, central) -->
+<rect x="318" y="78" width="150" height="84" rx="8" fill="#FEF3E2" stroke="#B45C00" stroke-width="2"/>
+<text x="393" y="108" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#7A3E00">ACTIVE</text>
+<text x="393" y="126" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#B45C00">is_acting = true</text>
+<text x="393" y="142" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(180,92,0,0.7)">Amber strip on org chart</text>
+<text x="393" y="155" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(180,92,0,0.7)">acting_end_date required</text>
+<!-- ACTIVE→EXPIRED -->
+<line x1="468" y1="120" x2="540" y2="120" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm3a)"/>
+<text x="500" y="113" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">End date reached</text>
+<!-- EXPIRED -->
+<rect x="542" y="94" width="120" height="52" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="602" y="115" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">EXPIRED</text>
+<text x="602" y="131" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Reverts to home role</text>
+<!-- PENDING→REJECTED -->
+<line x1="226" y1="146" x2="226" y2="214" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm3r)"/>
+<text x="234" y="185" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Rejected by approver</text>
+<!-- ACTIVE→EXTENDED -->
+<line x1="370" y1="162" x2="320" y2="214" stroke="#1A4FBA" stroke-width="1.5" fill="none" marker-end="url(#sm3a)"/>
+<text x="298" y="196" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">New end date set</text>
+<!-- ACTIVE→CONVERTED -->
+<line x1="430" y1="162" x2="488" y2="214" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm3g)"/>
+<text x="452" y="203" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">&gt;6 months</text>
+<!-- Branch states -->
+<rect x="156" y="216" width="130" height="52" rx="8" fill="#FCEBEB" stroke="#F09595" stroke-width="1.5"/>
+<text x="221" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#A32D2D">REJECTED</text>
+<text x="221" y="253" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#A32D2D">No acting assigned</text>
+<rect x="300" y="216" width="120" height="52" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="360" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A4FBA">EXTENDED</text>
+<text x="360" y="253" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#1A4FBA">New end date</text>
+<rect x="440" y="216" width="220" height="52" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="550" y="235" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A6B3C">CONVERTED TO</text>
+<text x="550" y="251" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A6B3C">PROMOTION</text>
+<text x="550" y="265" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#1A6B3C">UAE Law: &gt;6 months = substantive</text>
+<!-- UAE law note -->
+<rect x="14" y="14" width="660" height="22" rx="4" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1"/>
+<text x="340" y="29" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00" font-weight="700">⚠ UAE Labour Law (BR-AC-001): Acting assignment exceeding 6 months = substantive appointment. System flags HR Admin 5 days before limit.</text>
+</svg>
+    </div>
+  </div>
+</div>
+
+<!-- ════ SECTION 6 — SCREEN MOCKUPS ════════════════════════════════ -->
+<div class="sec" id="s6">
+  <div class="sec-lbl">Section 6</div>
+  <div class="sec-title">Simulated Screen Mockups</div>
+  <div class="sec-desc">Three annotated UI representations showing exactly what users see and click. Built to match the actual AVANIIS HR interface.</div>
+
+  <!-- MOCKUP A: Transfer Request Drawer -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — Transfer Request Drawer</div>
+  <div class="mockup-frame" style="margin-bottom:8px">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 <span>Search employees, modules...</span></div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">3</div></div>
+        <div class="mf-ico">✅<div class="mf-badge" style="background:var(--am)">5</div></div>
+        <div class="mf-ico">🤖</div>
+        <div class="mf-av">DK</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">Main</div>
+        <div class="sb-item">🏠 Dashboard</div>
+        <div class="sb-item active">👤 Employees</div>
+        <div class="sb-item">🏢 Org Chart</div>
+        <div class="sb-item">✅ Approvals <span class="sb-badge">5</span></div>
+        <div class="sb-sec">HR Operations</div>
+        <div class="sb-item">📅 Leave &amp; Absence</div>
+        <div class="sb-item">💰 Payroll</div>
+        <div class="sb-sec">Admin</div>
+        <div class="sb-item">⚙️ Master Data</div>
+        <div class="sb-item">🤖 ARIA Console <span class="sb-badge-g sb-badge">AI</span></div>
+      </div>
+      <div class="mf-main">
+        <div class="mf-overlay"></div>
+        <div class="drawer">
+          <div class="dr-hdr">
+            <h3>New Transfer Request <span style="font-size:11px;opacity:.6">①</span></h3>
+            <p>Ahmed Al-Rashidi · Software Engineer · Grade G5 · IT</p>
+          </div>
+          <div class="dr-body">
+            <div class="dr-sec">Transfer Details</div>
+            <div class="frow">
+              <label>Transfer Type <span class="req">*</span> <span style="font-size:10px;color:var(--mu)">(②)</span></label>
+              <div class="fld focus">LATERAL — Same grade, no salary change ▾</div>
+            </div>
+            <div class="frow">
+              <label>Target Department <span class="req">*</span></label>
+              <div class="fld">Operations ▾</div>
+            </div>
+            <div class="frow">
+              <label>Target Position <span class="req">*</span> <span style="font-size:10px;color:var(--mu)">(③)</span></label>
+              <div class="fld">Systems Analyst ▾</div>
+              <div class="fhint">⚠ 2 positions in this dept are frozen and not shown</div>
+            </div>
+            <div class="frow">
+              <label>Effective Date <span class="req">*</span></label>
+              <div class="fld err">2024-03-01</div>
+              <div class="ferr">Date cannot be in the past. Use today or a future date. For backdated transfers &gt;30 days, a dual-approval workflow triggers automatically.</div>
+            </div>
+            <div class="dr-sec">Reason &amp; Notes</div>
+            <div class="frow">
+              <label>Reason <span class="req">*</span> <span style="font-size:10px;color:var(--mu)">(④)</span></label>
+              <div class="fld" style="min-height:52px;padding:7px 10px;font-size:12px;color:var(--tx)">Operational requirement — Operations headcount gap requires a lateral...</div>
+              <div class="fhint">47 / 500 characters · minimum 20</div>
+            </div>
+            <div class="frow">
+              <label>Notes <span style="font-size:10px;color:var(--mu)">(optional)</span></label>
+              <div class="fld" style="min-height:38px"></div>
+            </div>
+            <div class="vbar vbar-warn">ℹ No payroll run is currently active for this period ✓</div>
+          </div>
+          <div class="dr-foot">
+            <button class="btn btn-g" style="flex:1">Cancel</button>
+            <button class="btn btn-p" style="flex:2">Submit Transfer →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item"><span class="ann-num">①</span><div><span class="ann-t">Drawer Header</span>Pre-filled with employee name, current title, grade, and department. Read-only — confirms you are acting on the right person.</div></div>
+    <div class="ann-item"><span class="ann-num">②</span><div><span class="ann-t">Transfer Type</span>Select LATERAL, PROMOTION, SECONDMENT, or CROSS_ENTITY. The form adapts — salary fields only appear for Promotion.</div></div>
+    <div class="ann-item"><span class="ann-num">③</span><div><span class="ann-t">Position Picker Warning</span>Frozen positions are excluded automatically. The hint shows how many are hidden so HR can investigate if needed.</div></div>
+    <div class="ann-item"><span class="ann-num">④</span><div><span class="ann-t">Reason Field</span>Minimum 20 characters required. The live character counter prevents submission errors. Reason is stored permanently in the audit log.</div></div>
+  </div>
+
+  <!-- MOCKUP B: Approvals Inbox -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin:28px 0 8px">Mockup B — Approvals Inbox</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 <span>Search...</span></div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">3</div></div>
+        <div class="mf-ico">✅<div class="mf-badge" style="background:var(--am)">5</div></div>
+        <div class="mf-av">DK</div>
+      </div>
+    </div>
+    <div style="padding:16px 20px 0;background:#fff;border-bottom:1px solid var(--bd)">
+      <div style="font-size:18px;font-weight:700;color:var(--n);margin-bottom:4px">Approvals Inbox <span style="font-size:13px;background:var(--rd-bg);color:var(--rd);padding:2px 10px;border-radius:12px;font-weight:700">5 pending</span></div>
+      <div style="font-size:12px;color:var(--mu);margin-bottom:12px">Items waiting for your decision. SLA tracked in UAE business days.</div>
+      <div style="display:flex;gap:0;border-bottom:1px solid var(--bd)">
+        <div style="padding:8px 16px;font-size:12px;color:var(--mu);cursor:pointer">All (5)</div>
+        <div style="padding:8px 16px;font-size:12px;color:var(--mu);cursor:pointer">Leave (1)</div>
+        <div style="padding:8px 16px;font-size:12px;font-weight:700;color:var(--n);border-bottom:2.5px solid var(--g);margin-bottom:-1px;cursor:pointer">Transfers (3)</div>
+        <div style="padding:8px 16px;font-size:12px;color:var(--mu);cursor:pointer">Promotions (1)</div>
+      </div>
+    </div>
+    <div style="background:#fff;overflow-x:auto">
+      <table class="inbox-tbl">
+        <thead><tr><th>Employee</th><th>Type</th><th>From → To</th><th>Submitted</th><th>SLA Remaining</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div style="font-weight:700;font-size:13px">Ahmed Al Rashidi</div><div style="font-size:10px;color:var(--mu)">Finance · Grade G6</div></td>
+            <td><span class="sp sp-p">Lateral</span></td>
+            <td style="font-size:12px">Finance → Operations</td>
+            <td style="font-size:12px;color:var(--mu)">2 days ago</td>
+            <td><span style="color:var(--am);font-weight:700;font-size:12px">🟡 22 hrs</span></td>
+            <td><span class="sp sp-p">PENDING</span></td>
+            <td><div class="act-btns"><button class="act-btn ab-ok">✓ Approve</button><button class="act-btn ab-no">✗ Reject</button><button class="act-btn ab-dl">→ Delegate</button></div></td>
+          </tr>
+          <tr class="urgent">
+            <td><div style="font-weight:700;font-size:13px">Sara Johnson</div><div style="font-size:10px;color:var(--mu)">IT · Grade G5</div></td>
+            <td><span class="sp sp-ok">Promotion</span></td>
+            <td style="font-size:12px">Grade G5 → Grade G7</td>
+            <td style="font-size:12px;color:var(--mu)">4 hours ago</td>
+            <td><span style="color:var(--rd);font-weight:700;font-size:12px">🔴 SLA BREACH</span></td>
+            <td><span class="sp sp-u">URGENT</span></td>
+            <td><div class="act-btns"><button class="act-btn ab-ok">✓ Approve</button><button class="act-btn ab-no">✗ Reject</button><button class="act-btn ab-dl">→ Delegate</button></div></td>
+          </tr>
+          <tr>
+            <td><div style="font-weight:700;font-size:13px">Mohammed Hassan</div><div style="font-size:10px;color:var(--mu)">IT · Grade G7</div></td>
+            <td><span class="sp sp-p" style="background:var(--am-bg);color:var(--am)">Acting</span></td>
+            <td style="font-size:12px">IT Manager (Acting)</td>
+            <td style="font-size:12px;color:var(--mu)">1 day ago</td>
+            <td><span style="color:var(--gr);font-weight:700;font-size:12px">🟢 38 hrs</span></td>
+            <td><span class="sp sp-p">PENDING</span></td>
+            <td><div class="act-btns"><button class="act-btn ab-ok">✓ Approve</button><button class="act-btn ab-no">✗ Reject</button><button class="act-btn ab-dl">→ Delegate</button></div></td>
+          </tr>
+          <tr>
+            <td><div style="font-weight:700;font-size:13px">Fatima Al Zaabi</div><div style="font-size:10px;color:var(--mu)">Avaniis RE · Grade G8</div></td>
+            <td><span class="sp sp-p" style="background:var(--pu-bg);color:var(--pu)">Cross-Entity</span></td>
+            <td style="font-size:12px">Avaniis RE → Avaniis Construction</td>
+            <td style="font-size:12px;color:var(--mu)">3 days ago</td>
+            <td><span style="color:var(--pu);font-weight:700;font-size:12px">🔴 ESCALATED</span></td>
+            <td><span class="sp sp-esc">ESCALATED</span></td>
+            <td><div class="act-btns"><button class="act-btn ab-dl">👁 View</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="callout callout-r" style="margin-top:8px">⚠ Row 2 (Sara Johnson) has breached the 48-hour SLA. The request has been auto-escalated to the HR Director. Acting immediately prevents further breach penalties.</div>
+
+  <!-- MOCKUP C: Org Chart Node States -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin:28px 0 8px">Mockup C — Org Chart Node: Normal vs Acting Assignment</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--mu);margin-bottom:16px">The same employee card — before and after an acting assignment is approved.</div>
+    <div class="node-pair">
+      <!-- Normal node -->
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Normal — Active Employee</div>
+        <div class="oc-node">
+          <div class="oc-strip" style="background:var(--te)"></div>
+          <div class="oc-inner">
+            <div class="oc-row">
+              <div class="oc-av" style="background:#1A4FBA">MH</div>
+              <div style="min-width:0">
+                <div class="oc-name">Mohammed Hassan</div>
+                <div class="oc-title">IT Manager</div>
+                <div class="oc-dept">Information Technology</div>
+              </div>
+            </div>
+          </div>
+          <div class="oc-divider"></div>
+          <div class="oc-footer">
+            <div class="oc-reports oc-status"><span style="color:var(--gr);font-size:12px">●</span> Active · 8 reports</div>
+            <div class="oc-menu">···</div>
+          </div>
+        </div>
+      </div>
+      <!-- Acting node -->
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--am);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Acting Assignment — Amber Indicators</div>
+        <div class="oc-node acting">
+          <div class="oc-strip" style="background:var(--am)"></div>
+          <div class="oc-inner">
+            <div class="oc-row">
+              <div class="oc-av" style="background:var(--am3,#A8863A)">OH</div>
+              <div style="min-width:0">
+                <div class="oc-name">Omar Hassan</div>
+                <div class="oc-title" style="color:var(--am);font-weight:600">⟲ Acting IT Manager</div>
+                <div class="oc-dept">Information Technology</div>
+              </div>
+            </div>
+          </div>
+          <div class="oc-divider"></div>
+          <div class="acting-bar">
+            <span>ACTING</span>
+            <span>ends 30 Jun 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout callout-t" style="margin-top:14px">ℹ The amber strip and "ACTING" badge appear automatically when an acting assignment is approved — no manual org chart update needed. The badge disappears automatically on the acting_end_date.</div>
+  </div>
+</div>
+
+<!-- ════ SECTION 7 — APPROVAL GUIDE ════════════════════════════════ -->
+<div class="sec" id="s7">
+  <div class="sec-lbl">Section 7</div>
+  <div class="sec-title">Approval Inbox Guide</div>
+  <div class="sec-desc">Two paths to the same decision. Every approval also enforces BR-29 — three buttons, always: Approve · Reject · Delegate.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">Path A — In-App</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">① Open <strong>Approvals</strong> in sidebar — badge shows count</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">② Find the request — sort by SLA Remaining to prioritise</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">③ Click the row — review full details in the expanded panel</div>
+        <div style="background:var(--gr-bg);border-radius:7px;padding:8px 12px;color:var(--gr)">④ Click <strong>Approve / Reject / Delegate</strong> — decision recorded immediately</div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">Path B — Email One-Click</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">① Receive email notification with request summary</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">② Click the Approve / Reject / Delegate link in the email</div>
+        <div style="background:var(--lt);border-radius:7px;padding:8px 12px">③ Browser opens a confirmation page — no login required</div>
+        <div style="background:var(--gr-bg);border-radius:7px;padding:8px 12px;color:var(--gr)">④ Decision recorded. JWT token consumed (single-use, expires 7 days)</div>
+      </div>
+      <div class="callout callout-i" style="margin-top:8px">ℹ Tokens are single-use. If the link says "already actioned", check the in-app inbox for current status.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:14px">SLA Rules &amp; Delegation</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px">
+      <div>
+        <div style="font-weight:700;color:var(--n);margin-bottom:8px">SLA Timers</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Default window</span><span style="font-weight:700">48–72 hours</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Calendar basis</span><span style="font-weight:700">UAE business days</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Breach action</span><span style="font-weight:700;color:var(--am)">Auto-escalate</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 0"><span>Cron job</span><span class="br-pill">/api/cron/workflow-sla</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--n);margin-bottom:8px">Setting Up Delegation</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:12px">
+          <div style="padding:4px 0;border-bottom:1px solid var(--lt)">Route: <span class="br-pill">/settings/delegations</span></div>
+          <div style="padding:4px 0;border-bottom:1px solid var(--lt)">Fields: Delegator · Delegate · From Date · To Date</div>
+          <div style="padding:4px 0;border-bottom:1px solid var(--lt)">Scope: All workflows or specific types</div>
+          <div style="padding:4px 0">Set before going on leave — not retroactively</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout callout-w" style="margin-top:12px">⚠ BR-29 rule: Every approval screen must show exactly three buttons — Approve, Reject, Delegate. Reject requires a reason comment (minimum 10 characters). This is non-negotiable.</div>
+  </div>
+</div>
+
+<!-- ════ SECTION 8 — OPERATIONAL SCENARIOS ═════════════════════════ -->
+<div class="sec" id="s8">
+  <div class="sec-lbl">Section 8</div>
+  <div class="sec-title">Operational Scenarios</div>
+  <div class="sec-desc">Four real-world cases. Each shows the exact resolution path, the rule reference, and the compliance risk if steps are missed.</div>
+  <div class="sc-grid">
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">A</div><div class="sc-title">Employee transferred mid-payroll month</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>HR sets effective_date = 15th of current month</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>System detects open payroll run for this period (status DRAFT or CALCULATED)</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>Payroll auto-splits: old cost centre days 1–14 · new cost centre days 15–month end</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>GL journals posted to both entities for respective day ranges</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>HR verifies split at Payroll → Runs → [current run] → review entries</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>Payroll run proceeds normally — no manual adjustment needed</div></div>
+        <div class="sc-warn">⚠ If payroll is already LOCKED, the effective date must move to the next month. The system enforces this — the submit button is blocked with an explanation.</div>
+        <div class="sc-rule">BR-TR-001 · effective_date pattern · pro-rata cost allocation</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">Manager on leave — urgent acting assignment</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>HR Admin: Org Chart → click ··· on manager's card → Assign Acting Manager</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>Search and select the acting person from the drawer</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>Set start = today · end = manager's expected return date</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>System triggers acting approval — HR Director (expedited, 4-hour SLA for urgent)</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>On approval: amber strip shows on org chart · is_acting = true recorded</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>Set delegation at Settings → Delegations so acting person receives approval notifications</div></div>
+        <div class="sc-warn">⚠ If acting will exceed 6 months — UAE Labour Law requires a substantive promotion. ARIA will alert HR Admin 5 days before the 6-month limit.</div>
+        <div class="sc-rule">BR-AC-001 · is_acting = true · acting_end_date required</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">C</div><div class="sc-title">Promotion rejected by Finance — what to do</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>Finance rejects with mandatory reason (min 10 chars)</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>Status → REJECTED (terminal — this workflow instance cannot be reopened)</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>HR Admin reviews rejection reason at /approvals → Completed Requests</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>Three options: (a) Revise salary to fit the band — create a NEW request. (b) Request a grade-band exception — escalate to HR Director. (c) Cancel the promotion entirely.</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>New submission creates a new workflow_instance — audit trail from both requests preserved</div></div>
+        <div class="sc-warn">⚠ Do not attempt to reopen a REJECTED workflow — the system does not support workflow reopen. Always create a new request.</div>
+        <div class="sc-rule">BR-29 · REJECTED is terminal · create new request to retry</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Cross-entity transfer — EOSB must be settled</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>HR initiates cross-entity transfer — 4-level approval chain (Manager → HR Dir → Finance → Legal)</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>System calculates EOSB from hire_date to effective_date using employee's nationality scheme</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>HR presents EOSB amount to employee — two options: (a) Pay out before transfer. (b) Carry forward with written inter-entity agreement.</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>Decision is documented and attached to the transfer record as a mandatory attachment</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>New contract created under target legal entity — service start date resets</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>Payroll switches to new entity's structure from effective date</div></div>
+        <div class="sc-warn">⚠ UAE Labour Law (FDL 33/2021): EOSB documentation must be completed BEFORE the transfer executes. Missing documentation is a compliance violation.</div>
+        <div class="sc-rule">BR-CE-001 · BR-EOSB-001 · FDL 33/2021</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 9 — TROUBLESHOOTING ════════════════════════════════ -->
+<div class="sec" id="s9">
+  <div class="sec-lbl">Section 9</div>
+  <div class="sec-title">Troubleshooting Knowledge Base</div>
+  <div class="sec-desc">Every problem has three layers: what the user sees, what caused it, and exactly how to fix it.</div>
+  <div class="ts-grid">
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚫 Request Won't Submit</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Submit button is greyed out</div>
+          <div class="ts-c">One or more required fields are empty, or assignment_status ≠ ACTIVE</div>
+          <div class="ts-f">→ Check all fields marked *. Verify assignment status at /persons/[id] → Assignments tab.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">"Target position is frozen" error</div>
+          <div class="ts-c">is_frozen = true on the selected position</div>
+          <div class="ts-f">→ Choose a different position OR unfreeze at Master Data → Positions (requires HR Director approval).</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">"Effective date is in the past"</div>
+          <div class="ts-c">Backdated transfers &gt; 30 days require a dual-approval workflow (BR-WF-010)</div>
+          <div class="ts-f">→ Use a future date OR accept the dual-approval flow that triggers for past dates &gt; 30 days.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⏳ Approval Is Stuck</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Request pending 48+ hours with no action</div>
+          <div class="ts-c">SLA has been breached</div>
+          <div class="ts-f">→ System auto-escalates. HR Admin can also manually escalate from /approvals → find request → Escalate.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Approver is on leave with no delegate set</div>
+          <div class="ts-c">No delegation rule configured for this approver</div>
+          <div class="ts-f">→ HR Admin: Settings → Delegations → Add Rule. Or manually reassign from /workflows/[instanceId].</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">Finance step frozen / not moving</div>
+          <div class="ts-c">Payroll run is in LOCKED or APPROVAL_PENDING status</div>
+          <div class="ts-f">→ Wait for payroll to close (1–2 business days). Finance approver is auto-notified when the lock clears.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">🔍 Employee Missing from Org Chart</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">New hire not visible on org chart</div>
+          <div class="ts-c">assignment_status = PENDING_HIRE — not yet ACTIVE</div>
+          <div class="ts-f">→ /persons/[id] → Assignments → confirm assignment → set to ACTIVE.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Employee visible in wrong department</div>
+          <div class="ts-c">Transfer was approved but effective_date is in the future</div>
+          <div class="ts-f">→ Expected behaviour. Org chart reflects current effective assignment. Node moves automatically on effective_date.</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">Employee not visible after a filter change</div>
+          <div class="ts-c">A department or status filter is hiding the node</div>
+          <div class="ts-f">→ Click "Clear Filters" in the filter panel (⚙️ icon in org chart top bar).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">⟲ Acting Assignment Issues</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Amber strip not showing on org chart</div>
+          <div class="ts-c">Acting assignment is PENDING_APPROVAL — not yet ACTIVE</div>
+          <div class="ts-f">→ Check /approvals. Approve the acting assignment. Amber strip appears immediately — no page refresh needed.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Acting person not receiving team's approval notifications</div>
+          <div class="ts-c">Delegation was not set up alongside the acting assignment</div>
+          <div class="ts-f">→ Settings → Delegations → Add Rule — set original manager as delegator, acting person as delegate, matching dates.</div>
+        </div>
+        <div class="ts-prob" style="margin-bottom:0">
+          <div class="ts-p">ARIA alerts "acting approaching 6-month limit"</div>
+          <div class="ts-c">is_acting = true AND acting_end_date is within 5 days of the 6-month mark</div>
+          <div class="ts-f">→ Initiate a promotion workflow immediately OR formally extend with HR Director sign-off. Do not simply update acting_end_date — that bypasses UAE Labour Law (BR-AC-001 · BR-AC-002).</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ SECTION 10 — ARIA INTELLIGENCE ════════════════════════════ -->
+<div class="sec" id="s10">
+  <div class="sec-lbl">Section 10</div>
+  <div class="sec-title">ARIA Intelligence Notes</div>
+  <div class="sec-desc">Eight documented ARIA queries — each showing the dependency-check sequence and response logic. This is ARIA's reasoning layer for the Transfers &amp; Promotions module.</div>
+
+  <div class="aria-wrap">
+    <div class="aria-hdr">
+      <span class="aria-badge">ARIA</span>
+      <div>
+        <div class="aria-title">Adaptive Resource Intelligence Agent — Transfer &amp; Promotion Dependency Logic</div>
+        <div class="aria-sub">Access from /aria or from the org chart chat panel (🤖 button, HR Admin and above only)</div>
+      </div>
+    </div>
+
+    <div class="aria-grid">
+
+      <div class="aria-card">
+        <div class="aria-q">"Why hasn't Ahmed's transfer been processed?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Does a transfer_request exist for Ahmed where status ≠ DRAFT?</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Query workflow_instances WHERE resource_id = transfer_request.id</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Find approval_steps WHERE status = PENDING → identify current approver</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Compare created_at + SLA_hours vs current timestamp → breach check</div>
+        </div>
+        <div class="aria-response">"Ahmed's transfer is at Step 2 — pending approval from [approver]. Waiting 26 hours against a 48-hour SLA. No breach yet. If no action by [timestamp], it auto-escalates to HR Director."</div>
+        <div class="aria-rule">workflow_instances · approval_steps · SLA timer</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Is Sara eligible for promotion to Grade 7?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Sara's current grade_id → grades.rank</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Grade 7 rank &gt; Sara's current grade rank? (must be true)</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Sara's current salary vs grade_salary_ranges for Grade 7 (min/max)</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Open disciplinary records? → blocks promotion if yes</div>
+          <div class="aria-check"><span class="aria-ci">5.</span>Is a Finance approver assigned to any user? → stalls workflow if not</div>
+        </div>
+        <div class="aria-response">"Sara is eligible for Grade 7 promotion. Her Grade 5 salary of AED X falls within the G7 band (AED Y–Z). No open disciplinary records. Finance approver is assigned. You may proceed."</div>
+        <div class="aria-rule">BR-PR-001 · grades · grade_salary_ranges · worker_assignments</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"What happens to EOSB if I transfer Ahmed to Avaniis Construction?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Is target entity different from Ahmed's current legal_entity_id? → YES = cross-entity</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Apply BR-CE-001: cross-entity transfer requires EOSB settlement</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Calculate EOSB from persons.hire_date to proposed effective_date using nationality_category</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Check jurisdiction: TRADITIONAL scheme vs DEWS vs VSS</div>
+        </div>
+        <div class="aria-response">"This is a cross-entity transfer. Ahmed's EOSB of approximately AED [calculated] must be settled or formally carried forward before the transfer executes. This is a UAE Labour Law requirement (FDL 33/2021)."</div>
+        <div class="aria-rule">BR-CE-001 · BR-EOSB-001 · FDL 33/2021 · persons.hire_date</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Show me all acting assignments expiring this month"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>worker_assignments WHERE is_acting = true AND acting_end_date BETWEEN today AND last_day_of_month</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>For each: calculate days from assignment start to acting_end_date</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Flag any where total duration exceeds 150 days (approaching 6-month UAE Law limit)</div>
+        </div>
+        <div class="aria-response">Returns structured list: employee, position, start date, end date, days remaining. Acting assignments over 5 months are flagged in amber with a promotion workflow recommendation.</div>
+        <div class="aria-rule">BR-AC-001 · worker_assignments.is_acting · acting_end_date</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Why is the transfer form blocked for me?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>What is the user's role? EMPLOYEE = no transfer initiation rights (ESS only)</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>If HR_ADMIN: is employee's assignment_status = ACTIVE?</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Is target position is_frozen = true?</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Is payroll_runs.status = LOCKED or APPROVAL_PENDING for this entity?</div>
+        </div>
+        <div class="aria-response">ARIA diagnoses the specific blocker and links directly to the resolution. Example: "The target position [name] is frozen. Unfreeze it at Master Data → Positions, or choose a different position."</div>
+        <div class="aria-rule">Role permissions · worker_assignments · positions.is_frozen · payroll_runs.status</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Who is covering for the Finance Manager while she's on leave?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Find Finance Manager's position_id from worker_assignments WHERE assignment_status = ON_LEAVE</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Query worker_assignments WHERE is_acting = true AND position_id matches AND effective_start_date &lt;= today AND (acting_end_date IS NULL OR acting_end_date &gt;= today)</div>
+        </div>
+        <div class="aria-response">"[Acting person name] is covering as Acting Finance Manager from [start] to [acting_end_date]. [X] days remaining."</div>
+        <div class="aria-rule">worker_assignments.is_acting · acting_end_date · position_id</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"I approved a transfer by email 2 days ago but nothing changed"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Find the workflow instance for this transfer</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Was the email JWT token consumed? (single-use — check token log)</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Is this a multi-step workflow? Is there a next step now pending?</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Has the effective_date been reached yet? (system applies ON the date, not on approval)</div>
+        </div>
+        <div class="aria-response">"Your approval was recorded on [date]. The request is now at Step 3 — pending Finance approval. The org chart will update on [effective_date], not today."</div>
+        <div class="aria-rule">workflow_instances · JWT token · effective_date pattern</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Can I undo an approved transfer?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>What is the current transfer status?</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>If APPROVED and effective_date is in the future → RECALL is possible (HR Admin or HR Director only)</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>If EXECUTED (effective_date passed) → cannot undo; new transfer request required to reverse</div>
+        </div>
+        <div class="aria-response">"If the effective date has not passed, the transfer can be recalled from /approvals. If it has already taken effect, create a new transfer request to reverse it. All changes are in the audit log."</div>
+        <div class="aria-rule">effective_date pattern · RECALLED status · audit_log (BR-AUDIT-001)</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="page-footer">
+  AVANIIS HR · Training Module G1: Employee Transfers &amp; Promotions · v3.0 Enterprise Edition · May 2026<br>
+  Avaniis / Avaniis · Internal Use Only · UAE Federal Decree-Law No. 33 of 2021 and amendments
+</div>
+
+<script>
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  pay: ['s1','s2','s4','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

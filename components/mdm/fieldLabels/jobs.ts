@@ -1,0 +1,16 @@
+export const JOB_FIELD_LABELS: Record<string, string> = {
+  legalEntityId:        'Legal Entity',
+  jobCode:              'Job Code',
+  jobTitleEn:           'Job Title (English)',
+  jobTitleAr:           'Job Title (Arabic)',
+  jobFamily:            'Job Family',
+  jobFunction:          'Job Function',
+  minGradeId:           'Min Grade',
+  maxGradeId:           'Max Grade',
+  isExemptFromOvertime: 'Overtime Exempt',
+  isEmiratisationTarget:'Emiratisation Target',
+  isManagementRole:     'Management Role',
+  jobDescriptionEn:     'Description (English)',
+  jobDescriptionAr:     'Description (Arabic)',
+  isActive:             'Status',
+}

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>G3 — Reporting & Analytics | AVANIIS HR</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+    --lane-mgr:#7B68EE;
+    --lane-hd:#7B2FBE;
+    --lane-fi:#E87040;
+    --aria-bg1:#0A2E35;
+    --aria-bg2:#0A2228;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Header ── */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* ── Sticky Nav ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* ── Role Filter ── */
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+
+/* ── Content ── */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+
+/* ── Preconditions ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+
+/* ── Blocking conditions ── */
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:140px}
+.block-reason{color:var(--rd)}
+
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+
+/* ── State Machines ── */
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+
+/* ── Mockups ── */
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+
+/* ── Inbox mockup ── */
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+
+/* ── Org chart node pair ── */
+.node-pair{display:flex;gap:24px;flex-wrap:wrap}
+.oc-node{width:220px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:12px 14px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:10px}
+.oc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12.5px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:10px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:7px 14px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 14px 9px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--mu)}
+.acting-bar{background:var(--am);padding:5px 14px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.oc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+
+/* ── ARIA ── */
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* ── SLA timers ── */
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+
+/* ── Callouts ── */
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+
+/* ── Footer ── */
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+
+/* ── Print ── */
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+
+/* ── Mockup shell ── */
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr;min-height:340px}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.mf-main{background:var(--off);padding:16px;position:relative}
+/* ── ARIA dark cards ── */
+.aria-wrap{background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+/* ── SM ── */
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+/* ── pre-items ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-chk{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-rt{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-lbl{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:#7A1A1A}
+/* ── Print + mobile ── */
+@media print{.nav-wrap,.rf-bar{display:none!important}.sec{page-break-inside:avoid}body{background:#fff}.card,.swimlane,.sm-wrap,.sc-card,.ts-card{box-shadow:none!important;border:1px solid #ccc!important}}
+@media(max-width:640px){.ph{padding:20px 18px}.content{padding:20px 14px}.nav-inner{padding:0 16px}.rf-bar{padding:8px 16px}.mf-body{grid-template-columns:1fr}.mf-sidebar{display:none}.sc-grid,.ts-grid,.type-grid,.pre-grid{grid-template-columns:1fr}.aria-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Manual · G3 — Reporting & Analytics</div>
+  <div class="ph-title">Reporting &amp; Analytics</div>
+  <div class="ph-sub">التقارير والتحليلات · Headcount · Leave · Payroll · Custom Builder · Scheduled Exports · ARIA Analytics</div>
+  <div class="ph-pills"><span class="pill  g">HR_ADMIN</span><span class="pill  g">HR_DIRECTOR</span><span class="pill">SUPER_ADMIN</span><span class="pill">MANAGER (limited)</span><span class="pill">/reports · /reports/custom</span><span class="pill">v1.0 · May 2026</span></div>
+</div>
+<div class="nav-wrap"><div class="nav-inner"><a href="#s1" class="ni" data-section="s1">Overview</a><a href="#s2" class="ni" data-section="s2">Dependency Map</a><a href="#s3" class="ni" data-section="s3">Report Types</a><a href="#s4" class="ni" data-section="s4">Report Builder</a><a href="#s5" class="ni" data-section="s5">Scheduled Reports</a><a href="#s6" class="ni" data-section="s6">Screen Mockups</a><a href="#s7" class="ni" data-section="s7">Export Guide</a><a href="#s8" class="ni" data-section="s8">Scenarios</a><a href="#s9" class="ni" data-section="s9">Troubleshooting</a><a href="#s10" class="ni" data-section="s10">ARIA Analytics</a></div></div>
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+</div>
+<main class="content">
+
+<div class="sec" id="s1">
+<div class="sec-lbl">Section 1</div>
+<div class="sec-title">Module Overview &amp; Preconditions</div>
+<div class="sec-desc">The Reporting &amp; Analytics module at <code>/reports</code> gives HR Admins and Super Admins access to real-time workforce analytics, custom report builders, scheduled export jobs, and ARIA-powered natural language insights. All reports are role-scoped — managers only see their team data, HR Admins see all.</div>
+<div class="card" style="margin-bottom:16px">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions for Reporting</div>
+<div class="pre-grid">
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">HR Admin or Super Admin role</div><div class="pre-where">Full reports at <span class="pre-rt">/reports</span> require HR_ADMIN minimum</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">At least one active employee in system</div><div class="pre-where">Required for any headcount or leave report</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Payroll module live for payroll reports (M3)</div><div class="pre-where">Required at <span class="pre-rt">/reports → Payroll</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Leave rules configured (M2)</div><div class="pre-where">Required for leave utilisation reports</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">SMTP configured for scheduled reports</div><div class="pre-where">Configure: <span class="pre-rt">/settings/notifications</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">ARIA enabled for natural language queries</div><div class="pre-where">Configure: <span class="pre-rt">/settings/aria → Active ON</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Oracle ERP sync active (for payroll GL reports)</div><div class="pre-where">Configure: <span class="pre-rt">/settings/integrations → Oracle ERP</span></div></div></div>
+</div>
+</div>
+<div class="block-panel">
+<div class="block-title">🚫 Blocking Conditions</div>
+<div class="block-row"><span class="block-lbl">EMPLOYEE role</span><span class="block-reason">/reports is fully blocked — employees cannot access any reports. Redirect to /me/payslips for personal data.</span></div>
+<div class="block-row"><span class="block-lbl">No data exists</span><span class="block-reason">Report builder will return empty results if no records match the filter criteria. This is not an error.</span></div>
+<div class="block-row"><span class="block-lbl">Cross-entity filter</span><span class="block-reason">Managers can only filter by their own legal_entity_id. Cross-entity reports require HR_ADMIN or SA.</span></div>
+<div class="block-row"><span class="block-lbl">Scheduled export fails</span><span class="block-reason">SMTP misconfiguration silently drops scheduled report emails — always test delivery after setup.</span></div>
+</div>
+</div>
+
+<div class="sec" id="s2">
+<div class="sec-lbl">Section 2</div>
+<div class="sec-title">Dependency Map</div>
+<div class="sec-desc">Three chains: reporting access prerequisites, the report generation flow, and the scheduled export pipeline.</div>
+<div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Reporting Dependency Map — Three Chains</title>
+<desc>Chain A: reporting access prerequisites. Chain B: report generation flow. Chain C: scheduled export pipeline.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+<rect x="14" y="14" width="250" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — REPORTING ACCESS PREREQUISITES</text>
+<rect x="14" y="44" width="118" height="56" rx="7" fill="#0A1628"/>
+<text x="73" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">HR_ADMIN</text>
+<text x="73" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Role Assigned</text>
+<text x="73" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">minimum required</text>
+<line x1="132" y1="72" x2="152" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Employees</text>
+<text x="213" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">in System</text>
+<text x="213" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">data to report on</text>
+<line x1="272" y1="72" x2="292" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Module Data</text>
+<text x="353" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Available</text>
+<text x="353" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">payroll/leave/transfers</text>
+<line x1="412" y1="72" x2="432" y2="72" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="434" y="44" width="148" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="508" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Reports Live</text>
+<text x="508" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">&amp; Queryable</text>
+<text x="508" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">/reports + ARIA</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="124" width="240" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — REPORT GENERATION FLOW</text>
+<rect x="14" y="158" width="118" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="73" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Select Report</text>
+<text x="73" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">type + filters</text>
+<line x1="132" y1="186" x2="152" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="154" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Apply Filters</text>
+<text x="213" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">dept · entity · date</text>
+<line x1="272" y1="186" x2="292" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="294" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Live Query</text>
+<text x="353" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">real-time DB data</text>
+<line x1="412" y1="186" x2="432" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="434" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="493" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Render Chart</text>
+<text x="493" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">table + visual</text>
+<line x1="552" y1="186" x2="572" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="574" y="158" width="138" height="56" rx="7" fill="#1A6B3C"/>
+<text x="643" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Export</text>
+<text x="643" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">CSV · PDF · Excel</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="238" width="260" height="22" rx="4" fill="#1A4FBA"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — SCHEDULED EXPORT PIPELINE</text>
+<rect x="14" y="270" width="118" height="56" rx="7" fill="#0A1628"/>
+<text x="73" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">HR Admin</text>
+<text x="73" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Configures</text>
+<text x="73" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">report + schedule</text>
+<line x1="132" y1="298" x2="152" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="270" width="118" height="56" rx="7" fill="#1A4FBA"/>
+<text x="213" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Cron Triggers</text>
+<text x="213" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">on Schedule</text>
+<text x="213" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.7)">daily/weekly/monthly</text>
+<line x1="272" y1="298" x2="292" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="270" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Report</text>
+<text x="353" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Generated</text>
+<text x="353" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">live data snapshot</text>
+<line x1="412" y1="298" x2="432" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="434" y="270" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="493" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Email Sent</text>
+<text x="493" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">+ Archived</text>
+<text x="493" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">SMTP · /reports/history</text>
+<line x1="552" y1="298" x2="572" y2="298" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="574" y="270" width="138" height="56" rx="7" fill="#1A6B3C"/>
+<text x="643" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Notification</text>
+<text x="643" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Delivered</text>
+<text x="643" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">audit logged</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="352" width="400" height="110" rx="8" fill="#fff" stroke="#D4D8E2"/>
+<text x="26" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96">LEGEND</text>
+<rect x="26" y="378" width="13" height="13" rx="3" fill="#0A1628"/><text x="45" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Role / configuration</text>
+<rect x="200" y="378" width="13" height="13" rx="3" fill="#0E7C6A"/><text x="219" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System processing step</text>
+<rect x="26" y="400" width="13" height="13" rx="3" fill="#1A4FBA"/><text x="45" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Automated schedule trigger</text>
+<rect x="200" y="400" width="13" height="13" rx="3" fill="#1A6B3C"/><text x="219" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Delivery / completion</text>
+<rect x="414" y="352" width="462" height="110" rx="8" fill="#FDEAEA" stroke="#F4A0A0"/>
+<text x="426" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">BLOCKING CONDITIONS</text>
+<text x="426" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">EMPLOYEE role</text><text x="510" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — /reports fully blocked for employees</text>
+<text x="426" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Payroll not live</text><text x="516" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — payroll reports return empty results</text>
+<text x="426" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">SMTP not configured</text><text x="560" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — scheduled reports silently fail delivery</text>
+<text x="426" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Cross-entity (Manager)</text><text x="564" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — managers limited to own entity only</text>
+</svg>
+</div>
+</div>
+
+<div class="sec" id="s3">
+<div class="sec-lbl">Section 3</div>
+<div class="sec-title">Six Report Categories</div>
+<div class="sec-desc">All six reporting categories with available sub-reports, required data prerequisites, and common mistakes.</div>
+<div class="type-grid">
+<div class="type-card" style="border-color:var(--bl-bd)"><div style="background:var(--bl-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--bl);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">👥</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Headcount &amp; Workforce</div><div style="font-size:10px;color:var(--mu)">/reports/headcount</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Active headcount by dept</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Turnover rate</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Hires vs exits trend</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Nationality breakdown</span><span class="tv-a">HR Admin only</span></div><div class="mistake">⚠ Common: headcount report shows 0 — ensure all employees have ACTIVE assignment status, not PENDING_HIRE.</div></div></div>
+<div class="type-card" style="border-color:var(--te-bd)"><div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📅</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Leave &amp; Absence</div><div style="font-size:10px;color:var(--mu)">/reports/leave</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Leave utilisation by type</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Balance remaining</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Absenteeism rate</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Requires M2</span><span class="tv-a">Leave rules needed</span></div><div class="mistake">⚠ Common: leave utilisation % shows wrong — check that all leave types are correctly mapped in /master-data/leave-rules.</div></div></div>
+<div class="type-card" style="border-color:var(--am-bd)"><div style="background:var(--am-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--am);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">💰</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Payroll &amp; Compensation</div><div style="font-size:10px;color:var(--mu)">/reports/payroll</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Payroll run summary</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Cost centre breakdown</span><span class="tv-g">Yes ✓ (Oracle GL sync)</span></div><div class="tr"><span class="tk">EOSB liability report</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Requires M3 + payroll PAID</span><span class="tv-a">PAID run needed</span></div><div class="mistake">⚠ Common: payroll report empty — must have at least one payroll run in PAID status before any payroll reports render.</div></div></div>
+<div class="type-card" style="border-color:#C9A84C"><div style="background:#FEF9EE;padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:#A8863A;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">↔</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Transfers &amp; Mobility</div><div style="font-size:10px;color:var(--mu)">/reports/mobility</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Internal transfers</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Promotion pipeline</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Acting assignments</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Grade movement</span><span class="tv-g">Yes ✓</span></div><div class="mistake">⚠ Common: acting assignment count is zero — check that is_acting=true records exist in worker_assignments and are not COMPLETED.</div></div></div>
+<div class="type-card" style="border-color:var(--pu-bd,#C4ADEE)"><div style="background:var(--pu-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--pu);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">✅</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Approvals &amp; Workflows</div><div style="font-size:10px;color:var(--mu)">/reports/approvals</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Pending approval backlog</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">SLA compliance rate</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Delegation frequency</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Requires M5</span><span class="tv-a">Workflow module live</span></div><div class="mistake">⚠ Common: SLA compliance shows 0% — check that SLA timers are configured in /settings/workflows → SLA tab.</div></div></div>
+<div class="type-card" style="border-color:var(--gr-bd)"><div style="background:var(--gr-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--gr);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📊</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Custom Report Builder</div><div style="font-size:10px;color:var(--mu)">/reports/custom</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Select any data fields</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Multiple filter criteria</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Save as template</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Schedule for delivery</span><span class="tv-g">Yes ✓</span></div><div class="mistake">⚠ Common: custom report takes too long — adding salary fields to large headcount reports is DB-intensive. Use department filters to limit scope.</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s4">
+<div class="sec-lbl">Section 4</div>
+<div class="sec-title">Report Builder Process Flow</div>
+<div class="sec-desc">Step-by-step guide to building a custom report and scheduling it for delivery.</div>
+<div class="swimlane"><div class="sw-head">Flow A — Building and Running a Custom Report <span class="sw-stag">HR_ADMIN ONLY · REAL-TIME DATA</span></div>
+<div class="sw-row"><div class="sw-lbl hr">HR ADMIN</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Open /reports/custom</span><span class="sb-sub">Sidebar → Reports → Custom Builder</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Select Fields</span><span class="sb-sub">Employee data · leave · payroll · mobility</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">3</span><span class="sb-title">Set Filters</span><span class="sb-sub">Dept · Entity · Grade · Date range</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">Validate Scope</span><span class="sb-sub">Role-scoped · PII fields masked</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">Execute Query</span><span class="sb-sub">Live DB · joins across modules</span></div><span class="sw-arr">→</span><div class="sb sb-ok"><span class="sb-title">Render Results</span><span class="sb-sub">Table + chart · export ready</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl hr">HR ADMIN</div><div class="sw-steps"><div class="sb sb-warn" style="position:relative"><span class="sn">4</span><span class="sb-title">Export or Schedule</span><span class="sb-sub">CSV · PDF · Excel · or recurring</span></div><span class="sw-arr">→</span><div class="sb sb-ok"><span class="sb-title">Save Template</span><span class="sb-sub">Named template → reusable</span></div></div></div>
+</div>
+<div class="swimlane"><div class="sw-head">Flow B — Scheduling a Recurring Report <span class="sw-stag">CRON-BASED · SMTP DELIVERY</span></div>
+<div class="sw-row"><div class="sw-lbl hr">HR ADMIN</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Run report once</span><span class="sb-sub">Verify results are correct</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Click Schedule</span><span class="sb-sub">Set: frequency · format · recipients</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">Cron Job Created</span><span class="sb-sub">Daily / Weekly / Monthly</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">Report Generated</span><span class="sb-sub">Live snapshot at trigger time</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">Email Delivered</span><span class="sb-sub">SMTP · attachment · /reports/history</span></div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s5">
+<div class="sec-lbl">Section 5</div>
+<div class="sec-title">Scheduled Reports &amp; Export Formats</div>
+<div class="sec-desc">Scheduled reports run automatically at configured intervals. Three export formats are available — choose based on downstream use.</div>
+<div class="sm-wrap"><div class="sm-hdr">⬤ Scheduled Report States</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 190" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Scheduled Report State Machine</title>
+<desc>Scheduled reports move through ACTIVE, RUNNING, DELIVERED, and FAILED states.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="190" fill="#F5F6F8"/>
+<rect x="14" y="72" width="110" height="48" rx="8" fill="#EEF0F5" stroke="#D4D8E2" stroke-width="1.5"/>
+<text x="69" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#6B7A96">CONFIGURED</text>
+<text x="69" y="108" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Schedule saved</text>
+<line x1="124" y1="96" x2="144" y2="96" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="146" y="56" width="130" height="80" rx="8" fill="#0E7C6A" stroke="#085041" stroke-width="2"/>
+<text x="211" y="89" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">ACTIVE</text>
+<text x="211" y="105" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,.8)">Cron waiting</text>
+<text x="211" y="120" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,.7)">Next run shown</text>
+<line x1="276" y1="80" x2="308" y2="65" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<line x1="276" y1="118" x2="308" y2="133" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="310" y="44" width="110" height="48" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="365" y="64" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">RUNNING</text>
+<text x="365" y="80" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Generating now</text>
+<line x1="420" y1="68" x2="450" y2="68" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="452" y="44" width="110" height="48" rx="7" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="507" y="64" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A6B3C">DELIVERED</text>
+<text x="507" y="80" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Email sent + archived</text>
+<rect x="310" y="112" width="110" height="48" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="365" y="132" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B01B1B">FAILED</text>
+<text x="365" y="148" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">SMTP error or timeout</text>
+<rect x="14" y="162" width="652" height="22" rx="5" fill="#FEF3E2" stroke="#F4B86A"/>
+<text x="340" y="177" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00" font-weight="700">⚠ FAILED reports do NOT retry automatically. HR Admin must manually re-run at /reports/history → Retry. Check SMTP config at /settings/notifications.</text>
+</svg>
+</div>
+</div>
+<div class="sm-wrap" style="margin-top:16px"><div class="sm-hdr">⬤ Export Format Comparison</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Report Export Format Comparison</title>
+<desc>Compares CSV, PDF, and Excel export formats — use case, features, and limitations.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="140" fill="#F5F6F8"/>
+<rect x="14" y="14" width="196" height="112" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="112" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A6B3C">CSV — Data Exchange</text>
+<text x="26" y="54" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Best for: Excel pivot analysis</text>
+<text x="26" y="70" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">All fields included</text>
+<text x="26" y="86" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">UTF-8 encoding (Arabic ✓)</text>
+<text x="26" y="102" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">No formatting / charts</text>
+<text x="26" y="118" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">⟶ Finance / Oracle ERP feeds</text>
+<rect x="224" y="14" width="196" height="112" rx="8" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="322" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B01B1B">PDF — Presentation</text>
+<text x="236" y="54" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Best for: board / audit reports</text>
+<text x="236" y="70" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Includes charts + branding</text>
+<text x="236" y="86" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Read-only · tamper-evident</text>
+<text x="236" y="102" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Large file size on big reports</text>
+<text x="236" y="118" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">⟶ HR Director review packages</text>
+<rect x="434" y="14" width="232" height="112" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="550" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A4FBA">XLSX — Best of Both</text>
+<text x="446" y="54" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Best for: management review</text>
+<text x="446" y="70" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Multiple sheets per module</text>
+<text x="446" y="86" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Charts + raw data included</text>
+<text x="446" y="102" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Editable (note the risk)</text>
+<text x="446" y="118" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">⟶ Monthly HR management packs</text>
+</svg>
+</div>
+</div>
+</div>
+
+<div class="sec" id="s6">
+<div class="sec-lbl">Section 6</div>
+<div class="sec-title">Screen Mockups</div>
+<div class="sec-desc">Three annotated reporting screens: the reports dashboard, the custom builder, and scheduled report configuration.</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — Reports Dashboard (/reports)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.1);margin-bottom:8px">
+<div class="mf-topbar"><div class="mf-logo">AVANIIS <span>HR</span></div><div class="mf-search">🔍 <span>Search reports...</span></div><div style="margin-left:auto"><div class="mf-av">HR</div></div></div>
+<div class="mf-body">
+<div class="mf-sidebar"><div class="sb-sec">Analytics</div><div class="sb-item active">📊 Reports</div><div class="sb-item">👥 Headcount</div><div class="sb-item">📅 Leave</div><div class="sb-item">💰 Payroll</div><div class="sb-item">↔ Mobility</div><div class="sb-item">🔧 Custom Builder</div></div>
+<div class="mf-main">
+<div style="font-size:16px;font-weight:700;color:var(--n);margin-bottom:14px">Analytics Overview</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px">
+<div style="background:var(--bl-bg);border:1px solid var(--bl-bd);border-radius:9px;padding:10px 12px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--bl)">148</div><div style="font-size:9px;color:var(--bl);font-weight:600">Total Employees</div></div>
+<div style="background:var(--te-bg);border:1px solid var(--te-bd);border-radius:9px;padding:10px 12px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--te)">63%</div><div style="font-size:9px;color:var(--te);font-weight:600">Leave Utilised</div></div>
+<div style="background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:9px;padding:10px 12px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--gr)">12</div><div style="font-size:9px;color:var(--gr);font-weight:600">Open Positions</div></div>
+<div style="background:var(--am-bg);border:1px solid var(--am-bd);border-radius:9px;padding:10px 12px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--am)">7</div><div style="font-size:9px;color:var(--am);font-weight:600">Acting Roles</div></div>
+</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button style="background:var(--n);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer">+ Custom Report</button>
+<button style="background:var(--lt);color:var(--tx);border:1px solid var(--bd);border-radius:7px;padding:7px 14px;font-size:12px;cursor:pointer">⏱ Scheduled Reports (4)</button>
+<button style="background:var(--lt);color:var(--tx);border:1px solid var(--bd);border-radius:7px;padding:7px 14px;font-size:12px;cursor:pointer">📥 Export All</button>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:24px">
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">①</div><div><strong style="display:block;font-size:11px">KPI cards</strong>Live totals — headcount, leave utilisation, open positions, acting roles</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">②</div><div><strong style="display:block;font-size:11px">Sidebar navigation</strong>Each report category is a separate route with its own filters</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">③</div><div><strong style="display:block;font-size:11px">Scheduled Reports badge</strong>Shows count of active recurring report jobs</div></div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup B — Custom Report Builder (/reports/custom)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08);margin-bottom:24px">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between"><div style="font-size:16px;font-weight:700;color:var(--n)">Custom Report Builder</div><div style="display:flex;gap:8px"><button style="background:var(--te);color:#fff;border:none;border-radius:7px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">▶ Run Report</button><button style="background:var(--lt);color:var(--tx);border:1px solid var(--bd);border-radius:7px;padding:7px 14px;font-size:12px;cursor:pointer">⏱ Schedule</button></div></div>
+<div style="padding:16px 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+<div><div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:6px">DATA SOURCE</div><div style="display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:14px;height:14px;border-radius:3px;background:var(--bl);display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:700;flex-shrink:0">✓</div>Employees</div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:14px;height:14px;border-radius:3px;background:var(--bl);display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;font-weight:700;flex-shrink:0">✓</div>Leave Balances</div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:14px;height:14px;border-radius:3px;background:var(--bd);flex-shrink:0"></div>Payroll</div>
+</div></div>
+<div><div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:6px">FILTERS</div>
+<div style="background:var(--off);border-radius:7px;padding:8px 10px;font-size:11.5px;display:flex;flex-direction:column;gap:6px">
+<div><div style="font-size:10px;color:var(--mu)">Department</div><div style="font-weight:700">IT, Finance, Operations</div></div>
+<div><div style="font-size:10px;color:var(--mu)">Date range</div><div style="font-weight:700">Jan 2026 – May 2026</div></div>
+</div></div>
+<div><div style="font-size:11px;font-weight:700;color:var(--mu);margin-bottom:6px">OUTPUT</div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:14px;height:14px;border-radius:50%;background:var(--gr);flex-shrink:0"></div>Table view</div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12px"><div style="width:14px;height:14px;border-radius:50%;border:2px solid var(--bd);flex-shrink:0"></div>Chart view</div>
+<div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mu)">Export: CSV · PDF · XLSX</div>
+</div></div>
+</div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup C — Scheduled Report Configuration</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08)">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd)"><div style="font-size:14px;font-weight:700;color:var(--n)">Schedule: Monthly Headcount Report</div></div>
+<div style="padding:14px 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px">
+<div><div style="font-size:10px;color:var(--mu);margin-bottom:3px">Frequency</div><div style="font-weight:700">Monthly — 1st of each month</div></div>
+<div><div style="font-size:10px;color:var(--mu);margin-bottom:3px">Format</div><div style="font-weight:700">XLSX (multi-sheet)</div></div>
+<div><div style="font-size:10px;color:var(--mu);margin-bottom:3px">Recipients</div><div style="font-weight:700">hr.director@avaniis.ae · cfo@avaniis.ae</div></div>
+<div><div style="font-size:10px;color:var(--mu);margin-bottom:3px">Next run</div><div style="font-weight:700;color:var(--te)">1 June 2026, 07:00 GST</div></div>
+<div><div style="font-size:10px;color:var(--mu);margin-bottom:3px">Status</div><div><span style="background:var(--gr-bg);color:var(--gr);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700">ACTIVE</span></div></div>
+<div><div style="font-size:10px;color:var(--mu);margin-bottom:3px">Last run</div><div style="font-weight:700">1 May 2026 — DELIVERED ✓</div></div>
+</div>
+</div>
+</div>
+
+<div class="sec" id="s7">
+<div class="sec-lbl">Section 7</div>
+<div class="sec-title">Export Guide &amp; Format Selection</div>
+<div class="sec-desc">Choose the right export format and understand the limitations of each for downstream use.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">Format Selection Guide</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Oracle ERP / SAP feed</span><span style="font-weight:700">CSV always</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Audit submission</span><span style="font-weight:700">PDF (tamper-evident)</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Board pack / HR Director</span><span style="font-weight:700">XLSX (multi-sheet)</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Large dataset (&gt;10K rows)</span><span style="font-weight:700">CSV (smallest file)</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">Scheduled email delivery</span><span style="font-weight:700">XLSX or PDF (not CSV)</span></div>
+</div>
+</div>
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">UAE Compliance Notes</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">UAE nationals report</span><span style="font-weight:700">HR_ADMIN only</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">EOSB liability export</span><span style="font-weight:700">PDF for audit trail</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Payroll GL export</span><span style="font-weight:700">CSV → Oracle ERP</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Data retention</span><span style="font-weight:700">7 years (UAE law)</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">Report history</span><span style="font-weight:700">/reports/history</span></div>
+</div>
+<div style="background:var(--am-bg);border:1px solid var(--am-bd);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--am)">⚠ All report exports containing employee personal data must comply with UAE Data Protection regulations — restrict distribution appropriately.</div>
+</div>
+</div>
+</div>
+
+
+<div class="sm-wrap" style="margin-top:14px">
+<div class="sm-hdr">⬤ Reports Access by Role</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Reports Access by Role</title>
+<desc>What each role can access in the Reporting module — employee, manager, HR admin, and super admin.</desc>
+<defs><marker id="ra1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="140" fill="#F5F6F8"/>
+<rect x="14" y="14" width="142" height="112" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="85" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">EMPLOYEE</text>
+<text x="85" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ /reports blocked</text>
+<text x="85" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Use /me/payslips</text>
+<text x="85" y="82" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Use /me/leave</text>
+<text x="85" y="98" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">ARIA for own data</text>
+<rect x="170" y="14" width="152" height="112" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="246" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A4FBA">MANAGER</text>
+<text x="246" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ /reports blocked</text>
+<text x="246" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ /manager/analytics</text>
+<text x="246" y="82" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ ARIA team queries</text>
+<text x="246" y="98" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Scope: own team only</text>
+<rect x="336" y="14" width="162" height="112" rx="7" fill="#FEF9EE" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="417" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#A8863A">HR_ADMIN</text>
+<text x="417" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ /reports full access</text>
+<text x="417" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Custom builder
+<text x="417" y="82" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Schedule reports</text>
+<text x="417" y="98" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Delete schedules</text>
+<text x="417" y="114" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#A8863A">Scope: all employees</text>
+<rect x="512" y="14" width="154" height="112" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="589" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C">SUPER_ADMIN</text>
+<text x="589" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Everything above</text>
+<text x="589" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Delete schedules</text>
+<text x="589" y="82" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ All entities</text>
+<text x="589" y="98" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">✓ Audit export</text>
+<text x="589" y="114" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,.5)">Full scope</text>
+</svg>
+</div>
+</div>
+
+<div class="sec" id="s8">
+<div class="sec-lbl">Section 8</div>
+<div class="sec-title">Operational Scenarios</div>
+<div class="sec-desc">Four real-world reporting situations with step-by-step resolution.</div>
+<div class="sc-grid">
+<div class="sc-card"><div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">A</div><div class="sc-title">HR Director needs monthly headcount for board pack</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>/reports → Headcount → filter by legal entity, current month</div></div><div class="sc-step"><div class="sc-n">2</div><div>Set breakdown: by department, grade, and employment status</div></div><div class="sc-step"><div class="sc-n">3</div><div>Run report — verify totals against previous month for sanity check</div></div><div class="sc-step"><div class="sc-n">4</div><div>Export as XLSX — includes headcount by dept + trend chart on separate sheets</div></div><div class="sc-step"><div class="sc-n">5</div><div>Schedule monthly delivery: /reports/custom → Schedule → 1st of month → XLSX → to HR Director email</div></div><div class="sc-rule">HR_ADMIN scope · /reports/headcount · XLSX export · monthly cron</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">Scheduled report not being received</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Admin notices monthly report didn't arrive this month</div></div><div class="sc-step"><div class="sc-n">2</div><div>/reports/history → find the scheduled job → check status</div></div><div class="sc-step"><div class="sc-n">3</div><div>Status = FAILED → expand to see error: "SMTP connection refused"</div></div><div class="sc-step"><div class="sc-n">4</div><div>Check /settings/notifications → SMTP configuration → test connection</div></div><div class="sc-step"><div class="sc-n">5</div><div>Fix SMTP → go back to /reports/history → click Retry on the failed job</div></div><div class="sc-warn">⚠ FAILED scheduled reports do not auto-retry — manual Retry required from /reports/history.</div><div class="sc-rule">scheduled_reports · SMTP · /reports/history → Retry</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">C</div><div class="sc-title">Payroll report shows zero for a department</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>/reports/payroll → filter by IT Department → payroll summary shows AED 0</div></div><div class="sc-step"><div class="sc-n">2</div><div>Check: is there a payroll run with status=PAID that includes IT employees?</div></div><div class="sc-step"><div class="sc-n">3</div><div>If all runs show CALCULATED — payroll is not complete. Report will only show PAID runs.</div></div><div class="sc-step"><div class="sc-n">4</div><div>Alternative: check that IT employees have the correct legal_entity_id matching the payroll run</div></div><div class="sc-step"><div class="sc-n">5</div><div>Cross-entity employees may appear in a different payroll run — check the entity filter</div></div><div class="sc-rule">payroll_runs.status=PAID · legal_entity_id · entity filter</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Auditor requests EOSB liability for all employees</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>/reports → Payroll → EOSB Liability Report</div></div><div class="sc-step"><div class="sc-n">2</div><div>Set date range: from inception to today. No other filters — all employees.</div></div><div class="sc-step"><div class="sc-n">3</div><div>Run report — shows each employee's calculated EOSB based on hire_date and current salary</div></div><div class="sc-step"><div class="sc-n">4</div><div>Export as PDF for audit submission — includes AVANIIS HR letterhead and report timestamp</div></div><div class="sc-step"><div class="sc-n">5</div><div>Note: cross-entity transfers show EOSB reset date — auditors should check transfer dates</div></div><div class="sc-rule">EOSB calculation · hire_date · salary_elements · PDF export</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s9">
+<div class="sec-lbl">Section 9</div>
+<div class="sec-title">Troubleshooting</div>
+<div class="sec-desc">Common reporting issues — cause and exact resolution.</div>
+<div class="ts-grid">
+<div class="ts-card"><div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚫 Reports Not Loading</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">/reports shows "Access denied"</div><div class="ts-c">User has EMPLOYEE or MANAGER role — only HR_ADMIN and SA can access /reports</div><div class="ts-f">→ SUPER_ADMIN: /users → find user → assign HR_ADMIN role. Managers can use ARIA for team analytics.</div></div><div class="ts-prob"><div class="ts-p">Headcount report shows 0</div><div class="ts-c">No employees with ACTIVE assignment_status</div><div class="ts-f">→ Check /persons — all employees must have ACTIVE worker_assignments. PENDING_HIRE employees are excluded from headcount.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Report loads but no data in date range</div><div class="ts-c">Selected date range has no records</div><div class="ts-f">→ Expected behaviour — no error. Widen the date range or remove filters. Check if records exist at /persons for the period.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">📅 Leave &amp; Payroll Reports</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Leave utilisation shows incorrect %</div><div class="ts-c">Leave type rules not correctly configured (M2)</div><div class="ts-f">→ /master-data/leave-rules → verify each leave type has correct annual_entitlement. Incorrect entitlements affect % calculations.</div></div><div class="ts-prob"><div class="ts-p">Payroll report empty</div><div class="ts-c">No payroll run with PAID status</div><div class="ts-f">→ Run payroll first. At least one run must reach PAID status before payroll reports render any data.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">EOSB figure looks wrong</div><div class="ts-c">Cross-entity transfer — service reset date may apply</div><div class="ts-f">→ Check worker_assignments for any cross-entity transfers. EOSB resets at cross-entity transfer date unless carry-forward agreement exists.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">📊 Custom Builder Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Report times out or is very slow</div><div class="ts-c">Too many fields + no filters = large DB join</div><div class="ts-f">→ Add department or entity filter to reduce rows. Salary fields are expensive — only include if needed. Schedule large reports to run off-peak.</div></div><div class="ts-prob"><div class="ts-p">Cannot save report as template</div><div class="ts-c">Template name already exists</div><div class="ts-f">→ Use a unique name. Check /reports/templates for existing saved reports — rename or overwrite the existing one.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Arabic names not showing correctly in CSV</div><div class="ts-c">CSV encoding not UTF-8 in Excel</div><div class="ts-f">→ When opening CSV in Excel: Data → From Text/CSV → set encoding to UTF-8. AVANIIS exports are always UTF-8 encoded.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">⏱ Scheduled Report Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Scheduled report not sent</div><div class="ts-c">SMTP misconfiguration or recipient email invalid</div><div class="ts-f">→ /reports/history → check status. If FAILED → check /settings/notifications → SMTP. Test SMTP connection before retry.</div></div><div class="ts-prob"><div class="ts-p">Report was sent but contains old data</div><div class="ts-c">Report snapshot time — cron runs at configured time</div><div class="ts-f">→ Expected. Scheduled reports are snapshots at the trigger time. For real-time data, run manually at /reports.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Cannot delete a scheduled report</div><div class="ts-c">SUPER_ADMIN only can delete scheduled jobs</div><div class="ts-f">→ /reports/scheduled → find the job → Actions → Delete. Requires SUPER_ADMIN role. HR_ADMIN can only pause/resume.</div></div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s10">
+<div class="sec-lbl">Section 10</div>
+<div class="sec-title">ARIA Analytics Intelligence</div>
+<div class="sec-desc">What HR Admins and managers can ask ARIA to generate instant analytics without building a manual report.</div>
+<div class="aria-wrap">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:14px;font-weight:600">Reporting &amp; Analytics — Query Reference</span></div>
+<div class="aria-grid">
+<div class="aria-card"><div class="aria-q">"What is our current headcount by department?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Role = HR_ADMIN → all departments in scope</div><div class="aria-check"><span class="aria-ci">2.</span>worker_assignments WHERE status=ACTIVE → GROUP BY department_id</div><div class="aria-check"><span class="aria-ci">3.</span>Return ranked list with totals</div></div><div class="aria-response">"Current headcount: IT 42 · Finance 28 · Operations 35 · HR 12 · Legal 8 · Other 23. Total: <strong>148 active employees</strong>. 12 positions currently vacant."</div><div class="aria-rule">worker_assignments · departments · status=ACTIVE · HR_ADMIN scope</div></div>
+<div class="aria-card"><div class="aria-q">"Which department has the highest leave utilisation?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>absence_requests WHERE status in [APPROVED,COMPLETED] YTD</div><div class="aria-check"><span class="aria-ci">2.</span>Calculate % used against entitlement per department</div><div class="aria-check"><span class="aria-ci">3.</span>Sort DESC → surface top and bottom performers</div></div><div class="aria-response">"Operations has the highest leave utilisation at 78% YTD. Finance is lowest at 41%. Team-wide average: 63%. Operations team may benefit from staggered leave planning to avoid coverage gaps in Q3."</div><div class="aria-rule">absence_requests · absence_balances · dept breakdown · YTD</div></div>
+<div class="aria-card"><div class="aria-q">"How many employees are up for promotion review this quarter?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>worker_assignments WHERE time_in_current_grade ≥ 12 months</div><div class="aria-check"><span class="aria-ci">2.</span>Exclude those with open disciplinary records</div><div class="aria-check"><span class="aria-ci">3.</span>Check no pending promotion already in workflow</div></div><div class="aria-response">"<strong>14 employees</strong> meet the minimum tenure criterion for promotion review this quarter. Of these, 3 have active promotion requests already in workflow. 11 could be nominated. Would you like the full list?"</div><div class="aria-rule">worker_assignments · time_in_grade · promotion pipeline</div></div>
+<div class="aria-card"><div class="aria-q">"Show me the EOSB liability for all Finance department employees"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Role = HR_ADMIN → salary data accessible</div><div class="aria-check"><span class="aria-ci">2.</span>persons WHERE dept=Finance → calculate EOSB per FDL 33/2021</div><div class="aria-check"><span class="aria-ci">3.</span>Sum individual EOSB → total liability</div></div><div class="aria-response">"Finance department total EOSB liability: <strong>AED 2,847,000</strong> across 28 employees. Highest individual: Sara Al-Zaabi (14.5 years service). For the full breakdown, go to /reports → Payroll → EOSB Liability."</div><div class="aria-rule">HR_ADMIN scope · payroll · EOSB · FDL 33/2021</div></div>
+<div class="aria-card"><div class="aria-q">"What is the average time to fill open positions?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>positions WHERE vacancy=true → check created_at</div><div class="aria-check"><span class="aria-ci">2.</span>positions WHERE recently filled → calculate days from vacant to filled</div><div class="aria-check"><span class="aria-ci">3.</span>Return average and worst/best performers</div></div><div class="aria-response">"Average time to fill: <strong>37 days</strong> across the last 12 months. Fastest: Operations (18 days avg). Slowest: Legal (68 days avg). 12 positions currently open — oldest has been vacant for 94 days."</div><div class="aria-rule">positions · vacancy · created_at · department comparison</div></div>
+<div class="aria-card"><div class="aria-q">"Which managers have the most SLA breaches this month?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>workflow_instances WHERE SLA_breached=true AND month=current</div><div class="aria-check"><span class="aria-ci">2.</span>Group by assigned_to (manager) → COUNT breaches</div></div><div class="aria-response">"Top SLA breaches this month: Khalid Al-Mansoori (IT) — 4 breaches, Mohammed Al-Rashidi (Ops) — 2 breaches. These managers have pending items in /approvals. Would you like to send a reminder?"</div><div class="aria-rule">workflow_instances · SLA_breached · manager scope</div></div>
+<div class="aria-card"><div class="aria-q">"Compare this month's headcount to last month"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Snapshot headcount at start of this month vs last month</div><div class="aria-check"><span class="aria-ci">2.</span>Calculate net change: hires − exits</div><div class="aria-check"><span class="aria-ci">3.</span>Break down by type: new hires, terminations, transfers</div></div><div class="aria-response">"This month vs last: net +3. New hires: 5 (IT: 2, Finance: 1, Ops: 2). Exits: 2 (both voluntary resignation). One cross-entity transfer from AVANIIS to Avaniis Construction. Current total: 148."</div><div class="aria-rule">persons · hire_date · termination_date · MoM comparison</div></div>
+<div class="aria-card"><div class="aria-q">"How many acting assignments are over 5 months?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>worker_assignments WHERE is_acting=true AND acting_start_date &lt; today-150days</div><div class="aria-check"><span class="aria-ci">2.</span>Check each against 6-month UAE Labour Law threshold</div></div><div class="aria-response">"<strong>2 acting assignments</strong> are over 5 months old. ⚠ Khalid Al-Mansoori (Finance Manager) has been acting for 5 months 20 days — UAE Labour Law requires substantive appointment within 6 months (BR-AC-001). Recommend initiating promotion workflow."</div><div class="aria-rule">worker_assignments · is_acting · BR-AC-001 · UAE Labour Law</div></div>
+</div>
+</div>
+</div>
+
+</main>
+<div class="page-footer">
+  AVANIIS HR · Reporting &amp; Analytics · v1.0 · May 2026 · Avaniis / Avaniis · Internal Use Only
+</div>
+<script>var ROLE_MAP = {
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  hr: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s8','s9','s10'],
+  emp: ['s1','s9','s10'],
+  sa: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+};
+
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  pay: ['s1','s2','s4','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+export const LOCATION_FIELD_LABELS: Record<string, string> = {
+  legalEntityId: 'Legal Entity',
+  code:          'Location Code',
+  nameEn:        'Name (English)',
+  nameAr:        'Name (Arabic)',
+  addressLine1:  'Address Line 1',
+  addressLine2:  'Address Line 2',
+  city:          'City',
+  emirate:       'Emirate',
+  country:       'Country',
+  poBox:         'PO Box',
+  phone:         'Phone',
+  timezone:      'Timezone',
+  isActive:      'Status',
+}

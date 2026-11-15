@@ -1,0 +1,122 @@
+CREATE TABLE IF NOT EXISTS "aria_agent_config" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"tenant_id" uuid DEFAULT '00000000-0000-0000-0000-000000000001' NOT NULL,
+	"agent_name" varchar(100) DEFAULT 'ARIA' NOT NULL,
+	"agent_role" varchar(100) DEFAULT 'HR Intelligence Assistant' NOT NULL,
+	"agent_tone" varchar(50) DEFAULT 'professional' NOT NULL,
+	"avatar_url" varchar(500),
+	"is_active" boolean DEFAULT true NOT NULL,
+	"created_by" uuid NOT NULL,
+	"created_by_name" varchar(200) NOT NULL,
+	"created_date" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_by" uuid,
+	"updated_by_name" varchar(200),
+	"last_updated_date" timestamp with time zone,
+	"updated_date" timestamp with time zone
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "aria_behaviour_config" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"tenant_id" uuid DEFAULT '00000000-0000-0000-0000-000000000001' NOT NULL,
+	"system_prompt_override" text,
+	"prompt_mode" varchar(20) DEFAULT 'prepend' NOT NULL,
+	"authority_level" varchar(30) DEFAULT 'advisory' NOT NULL,
+	"enabled_data_sources" jsonb DEFAULT '["hr","absence","compliance"]'::jsonb NOT NULL,
+	"rag_enabled" boolean DEFAULT true NOT NULL,
+	"rag_max_chunks" integer DEFAULT 5 NOT NULL,
+	"anomaly_detection" boolean DEFAULT true NOT NULL,
+	"predictive_insights" boolean DEFAULT false NOT NULL,
+	"sla_monitoring" boolean DEFAULT true NOT NULL,
+	"conversation_retention_days" integer DEFAULT 90 NOT NULL,
+	"context_depth_messages" integer DEFAULT 20 NOT NULL,
+	"personalization_enabled" boolean DEFAULT true NOT NULL,
+	"is_active" boolean DEFAULT true NOT NULL,
+	"created_by" uuid NOT NULL,
+	"created_by_name" varchar(200) NOT NULL,
+	"created_date" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_by" uuid,
+	"updated_by_name" varchar(200),
+	"last_updated_date" timestamp with time zone,
+	"updated_date" timestamp with time zone
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "aria_knowledge_sources" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"tenant_id" uuid DEFAULT '00000000-0000-0000-0000-000000000001' NOT NULL,
+	"source_name" varchar(200) NOT NULL,
+	"source_type" varchar(30) NOT NULL,
+	"storage_key" varchar(500),
+	"file_size_bytes" integer,
+	"mime_type" varchar(100),
+	"vector_status" varchar(30) DEFAULT 'pending' NOT NULL,
+	"chunk_count" integer,
+	"last_indexed_at" timestamp with time zone,
+	"tags" jsonb DEFAULT '[]'::jsonb,
+	"is_active" boolean DEFAULT true NOT NULL,
+	"created_by" uuid NOT NULL,
+	"created_by_name" varchar(200) NOT NULL,
+	"created_date" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_by" uuid,
+	"updated_by_name" varchar(200),
+	"last_updated_date" timestamp with time zone,
+	"updated_date" timestamp with time zone
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "aria_model_config" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"tenant_id" uuid DEFAULT '00000000-0000-0000-0000-000000000001' NOT NULL,
+	"provider" varchar(50) DEFAULT 'anthropic' NOT NULL,
+	"model_id" varchar(100) DEFAULT 'claude-sonnet-4-6' NOT NULL,
+	"api_key_encrypted" varchar(1000),
+	"api_endpoint" varchar(500),
+	"temperature" numeric(3, 2) DEFAULT '0.3' NOT NULL,
+	"max_tokens" integer DEFAULT 1000 NOT NULL,
+	"fallback_provider" varchar(50),
+	"fallback_model_id" varchar(100),
+	"fallback_api_key_encrypted" varchar(1000),
+	"is_active" boolean DEFAULT true NOT NULL,
+	"created_by" uuid NOT NULL,
+	"created_by_name" varchar(200) NOT NULL,
+	"created_date" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_by" uuid,
+	"updated_by_name" varchar(200),
+	"last_updated_date" timestamp with time zone,
+	"updated_date" timestamp with time zone
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "feature_permissions" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"feature_key" varchar(80) NOT NULL,
+	"feature_label" varchar(200) NOT NULL,
+	"feature_group" varchar(80) NOT NULL,
+	"employee_perms" jsonb NOT NULL,
+	"manager_perms" jsonb NOT NULL,
+	"hr_admin_perms" jsonb NOT NULL,
+	"is_system_locked" boolean DEFAULT false NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "page_personalization" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"entity_id" uuid,
+	"top_banner_text" text DEFAULT 'AI Driven HR System' NOT NULL,
+	"top_banner_visible" boolean DEFAULT true NOT NULL,
+	"ticker_text" text DEFAULT 'AVANIIS Stock Price 100$ · Founder — Visionary Leader — Mr. Talal Al Gaddah' NOT NULL,
+	"ticker_visible" boolean DEFAULT true NOT NULL,
+	"ticker_speed" integer DEFAULT 30 NOT NULL,
+	"carousel_images" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"logo_url" text,
+	"carousel_height_pct" integer DEFAULT 70 NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_by" uuid
+);
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "page_personalization" ADD CONSTRAINT "page_personalization_entity_id_legal_entities_id_fk" FOREIGN KEY ("entity_id") REFERENCES "public"."legal_entities"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "page_personalization_entity_unique" ON "page_personalization" ("entity_id");

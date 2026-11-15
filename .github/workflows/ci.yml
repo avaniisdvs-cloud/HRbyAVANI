@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel any in-progress run on the same branch when a new commit lands.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      # Auth.js requires these at build/import time. Tests don't hit a real DB.
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/avaniis_hr_test
+      NEXTAUTH_SECRET: ci-build-only-secret-not-used-at-runtime
+      NEXTAUTH_URL: http://localhost:3000
+      FIELD_ENCRYPTION_KEY: ci-build-only-32-byte-aes-key!!
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.4.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify all 11 module skeletons present
+        run: |
+          set -e
+          for m in core-hr absence payroll workflow notification auth audit config compliance timesheets aria; do
+            for f in index.ts schema.ts actions.ts services.ts types.ts validations.ts; do
+              test -f "modules/$m/$f" || { echo "::error::Missing modules/$m/$f"; exit 1; }
+            done
+          done
+          echo "All 11 modules x 6 files present."
+
+      - name: Verify migrations are clean (drizzle-kit detects no drift)
+        run: |
+          set -e
+          # `drizzle-kit generate` writes a new migration if schema differs from
+          # the latest snapshot. We expect no new file in CI — if one appears,
+          # the committer forgot to run `pnpm db:generate` locally.
+          before=$(ls drizzle/migrations/*.sql 2>/dev/null | wc -l)
+          pnpm drizzle-kit generate --name=ci_drift_check >/dev/null 2>&1 || true
+          after=$(ls drizzle/migrations/*.sql 2>/dev/null | wc -l)
+          if [ "$before" -ne "$after" ]; then
+            echo "::error::Schema drift — uncommitted migration(s) detected. Run 'pnpm db:generate' locally and commit."
+            ls -la drizzle/migrations/
+            exit 1
+          fi
+          echo "No schema drift."
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Check React style conflicts
+        run: pnpm check:styles
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build

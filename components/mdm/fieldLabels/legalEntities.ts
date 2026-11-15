@@ -1,0 +1,16 @@
+export const LEGAL_ENTITY_FIELD_LABELS: Record<string, string> = {
+  entityCode:           'Entity Code',
+  nameEn:               'Name (English)',
+  nameAr:               'Name (Arabic)',
+  entityType:           'Entity Type',
+  jurisdiction:         'Jurisdiction',
+  eosbScheme:           'EOSB Scheme',
+  tradeLicenceNumber:   'Trade Licence Number',
+  tradeLicenceExpiry:   'Trade Licence Expiry',
+  registrationNumber:   'Registration Number',
+  wpsEmployerCode:      'WPS Employer Code',
+  mohreEstablishmentId: 'MOHRE Establishment ID',
+  defaultCurrency:      'Default Currency',
+  defaultLanguage:      'Default Language',
+  isActive:             'Status',
+}

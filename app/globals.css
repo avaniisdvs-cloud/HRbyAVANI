@@ -1,0 +1,489 @@
+@import '@xyflow/react/dist/style.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── React Flow token overrides ──────────────────────────────────────────── */
+.react-flow__node {
+  font-family: var(--font-sans) !important;
+}
+.react-flow__controls button {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--ink-2) !important;
+}
+.react-flow__controls button:hover {
+  background: var(--surface) !important;
+  color: var(--accent) !important;
+}
+.react-flow__minimap {
+  background: var(--card) !important;
+}
+[data-dark='true'] .react-flow__background {
+  background: var(--bg) !important;
+}
+
+/* ============================================================
+   AVANIIS HR — Design Tokens
+   Source of truth: DESIGN_SYSTEM.md + LoginPage.html (approved).
+   Do not modify token names or values without updating both.
+   ============================================================ */
+
+:root {
+  /* ── Accent scale (default: Teal) ── */
+  --accent-050: #EDF5EA;
+  --accent-100: #DFEBD9;
+  --accent-200: #BED3B5;
+  --accent-500: #438A35;
+  --accent:     #17212B; /* primary brand colour */
+  --accent-700: #2F6B32;
+  --accent-900: #17212B;
+
+  /* ── Neutral ink scale ── */
+  --ink-1: #17212B; /* primary text */
+  --ink-2: #3E4855; /* secondary text */
+  --ink-3: #606E7A; /* muted / placeholder — darkened from #6E7885 for WCAG AA ≥4.5:1 (P6F) */
+  --ink-4: #68756D; /* disabled / hairline */
+
+  /* ── Surfaces ── */
+  --card:    #FFFFFF;
+  --surface: #F5F2EC;
+  --bg:      #F9F6F0;
+  --border:  #E6E2DB;
+
+  /* ── Navigation sidebar ── */
+  --nav-bg:        #17212B;
+  --nav-fg:        #A8BFC6;
+  --nav-fg-dim:    #6D8990;
+  --nav-fg-strong: #FFFFFF;
+  --nav-border:    rgba(255, 255, 255, 0.06);
+  --nav-active-bg: rgba(255, 255, 255, 0.08);
+  --nav-active-fg: #FFFFFF;
+
+  /* ── Density ── */
+  --density: 1;
+
+  /* ── Status palette (DESIGN_SYSTEM.md §A.2.2) ──
+     Used by warning/info/success surfaces (e.g. cert-required panels).
+     Hard Rule 7: components must use these tokens, never raw hex. */
+  --status-warning:        #F29900;            /* amber/orange dot */
+  --status-warning-bg:     #FEF6E4;            /* PILL_TONES.pending.bg */
+  --status-warning-fg:     #8A5A0B;            /* PILL_TONES.pending.fg */
+  --status-warning-border: #E5C896;            /* accent-amber-200 reuse */
+  --status-info:           #1A73E8;
+  --status-success:        #1E7E34;
+
+  /* ── Full status pill palette (DESIGN_SYSTEM.md §A.2.2) ── */
+  --status-pending-bg:   #FEF6E4;  --status-pending-fg:   #8A5A0B;  --status-pending-dot:   #D98A00;
+  --status-approved-bg:  #E8F3ED;  --status-approved-fg:  #1E5B38;  --status-approved-dot:  #2E8B57;
+  --status-rejected-bg:  #FBE9E9;  --status-rejected-fg:  #8A1F1F;  --status-rejected-dot:  #C0392B;
+  --status-draft-bg:     #EEF1F4;  --status-draft-fg:     #4A5565;  --status-draft-dot:     #8A94A3;
+  --status-taken-bg:     #DBEAFE;  --status-taken-fg:     #1D4ED8;  --status-taken-dot:     #2563EB;
+  --status-success-bg:   #F0FDF4;  --status-success-fg:   #15803D;  --status-success-border: #86EFAC;
+  --status-step-done:    #22C55E;
+  --status-step-rejected: #EF4444;
+
+  /* ── Org chart node status colours (DESIGN_SYSTEM.md + ORG_CHART_BUILD_PLAN.md) ── */
+  --org-acting:      #F59E0B;   /* acting manager strip — amber */
+  --org-contractor:  #3B82F6;   /* contractor strip — blue */
+  --org-vacant:      #EF4444;   /* vacant position strip — red */
+  --org-frozen:      #F59E0B;   /* frozen position strip — amber (same as acting) */
+  --org-error:       #EF4444;   /* error state text */
+  --org-vacant-badge-bg:     #FEE2E2;
+  --org-vacant-badge-fg:     #B91C1C;
+  --org-frozen-badge-bg:     #FEF3C7;
+  --org-frozen-badge-fg:     #92400E;
+  --org-overloaded:          #F97316;   /* overloaded manager ring — orange */
+  --org-under-supervised:    #808899; /* under-supervised ring — dedicated value ≥3:1 SC 1.4.11 (P6F) */
+
+  /* ── Avatar palette (used in employee/user list avatars) ── */
+  --avatar-1: #17212B;  --avatar-2: #6B3458;  --avatar-3: #B56B45;  --avatar-4: #2E8B57;
+  --avatar-5: #4A6741;  --avatar-6: #7A6B3A;  --avatar-7: #3A5F8B;  --avatar-8: #8B3A5F;
+  --avatar-9: #5F3A8B;  --avatar-10: #8B6B3A;
+
+  /* ── shadcn/ui bridge tokens (alias to brand tokens above) ──
+     shadcn components reference these names; we map them to AVANIIS brand
+     so Hard Rule 7 holds (no raw hex in components). */
+  --primary:                 var(--accent);
+  --primary-foreground:      #FFFFFF;
+  --secondary:               var(--surface);
+  --secondary-foreground:    var(--ink-1);
+  --muted:                   var(--surface);
+  --muted-foreground:        var(--ink-3);
+  --popover:                 var(--card);
+  --popover-foreground:      var(--ink-1);
+  --card-foreground:         var(--ink-1);
+  --destructive:             #B33A3A;          /* PILL_TONES.rejected.dot */
+  --destructive-foreground:  #FFFFFF;
+  --background:              var(--bg);
+  --foreground:              var(--ink-1);
+  --input:                   var(--border);
+  --ring:                    var(--accent-200);
+
+  /* ── Workspace Rail tokens (Phase 1 redesign — §1 shell scaffold) ──
+     Used exclusively by WorkspaceRail + WorkspaceSecondaryNav.
+     Separate from --nav-* so EmployeeSidebar is unaffected. */
+  --rail-bg:          #0D1117;
+  --rail-bg-hover:    rgba(255, 255, 255, 0.06);
+  --rail-active-bg:   rgba(255, 255, 255, 0.11);
+  --rail-fg:          #BFC8D2;
+  --rail-fg-mute:     #7B8FA0; /* brightened from #5E7080 for WCAG AA ≥4.5:1 on #0D1117 (P6F) */
+  --rail-divider:     rgba(255, 255, 255, 0.08);
+  --rail-width-exp:   208px;
+  --rail-width-cmp:   60px;
+  --secnav-width:     232px;
+}
+
+/* ── Density variant ── */
+[data-density="compact"] { --density: 0.85; }
+
+/* ============================================================
+   Seven accent themes — applied via [data-accent="..."] on <body>
+   ============================================================ */
+
+[data-accent="forest"] {
+  --accent-050: #EEF4EE;
+  --accent-100: #D5E5D7;
+  --accent-200: #AFCBB2;
+  --accent-500: #3F7A45;
+  --accent:     #2F5D36;
+  --accent-700: #1F4425;
+  --accent-900: #0F2816;
+}
+
+[data-accent="midnight"] {
+  --accent-050: #EEF1FA;
+  --accent-100: #D5DDEF;
+  --accent-200: #AABAE0;
+  --accent-500: #3D5EAA;
+  --accent:     #2B4890;
+  --accent-700: #1C3270;
+  --accent-900: #0E1E48;
+}
+
+[data-accent="plum"] {
+  --accent-050: #F6F1F5;
+  --accent-100: #EADDE7;
+  --accent-200: #D5BBCE;
+  --accent-500: #85466F;
+  --accent:     #6B3458;
+  --accent-700: #4C2440;
+  --accent-900: #2E1527;
+}
+
+[data-accent="amber"] {
+  --accent-050: #FAF3EA;
+  --accent-100: #F2E3C9;
+  --accent-200: #E5C896;
+  --accent-500: #B07A28;
+  --accent:     #8E5E18;
+  --accent-700: #6B4510;
+  --accent-900: #3E2707;
+}
+
+[data-accent="rose"] {
+  --accent-050: #FDF0F4;
+  --accent-100: #F8D8E4;
+  --accent-200: #F0B0C8;
+  --accent-500: #C05080;
+  --accent:     #A03868;
+  --accent-700: #742650;
+  --accent-900: #481430;
+}
+
+[data-accent="slate"] {
+  --accent-050: #EFF2F6;
+  --accent-100: #D8E0EB;
+  --accent-200: #B0C2D8;
+  --accent-500: #4A6E90;
+  --accent:     #365578;
+  --accent-700: #243D58;
+  --accent-900: #12253A;
+}
+
+/* ============================================================
+   Dark mode — applied via [data-dark="true"] on <body>
+   ============================================================ */
+
+[data-dark="true"] {
+  --card:    #1C2333;
+  --surface: #151D2B;
+  --bg:      #0F1623;
+  --border:  #2A3548;
+  --ink-1:   #EEF2F7;
+  --ink-2:   #C0CAD8;
+  --ink-3:   #7A8CA0;
+  --ink-4:   #3D4E60;
+  --nav-bg:  #080E1A;
+  --nav-border: rgba(255, 255, 255, 0.07);
+
+  /* shadcn bridge tokens re-resolve via the redefined brand tokens above */
+  --destructive:             #C95C5C;          /* lighter red for dark contrast */
+  --ring:                    var(--accent-500);
+
+  /* FIX 14 — rail foreground in dark mode (brighter to compensate for #060C17 bg) */
+  --rail-fg: #D0D9E3;
+
+  /* Status palette — dark variant (lighter surfaces, brighter borders). */
+  --status-warning:          #F2B33C;
+  --status-warning-bg:       #2E2515;
+  --status-warning-fg:       #F2D38E;
+  --status-warning-border:   #5A4218;
+  --status-taken-bg:         #1E2F52;  --status-taken-fg:     #93C5FD;  --status-taken-dot:     #60A5FA;
+  --status-success-bg:       #052E16;  --status-success-fg:   #86EFAC;  --status-success-border: #166534;
+  --status-step-done:        #4ADE80;
+  --status-step-rejected:    #F87171;
+}
+
+/* ============================================================
+   Document base
+   ============================================================ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink-1);
+  -webkit-font-smoothing: antialiased;
+}
+
+input::placeholder, textarea::placeholder { color: var(--ink-4); }
+input[type=date] { font-family: var(--font-sans); color: var(--ink-1); }
+
+/* ============================================================
+   Login page form field
+   ============================================================ */
+
+.login-field {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  font-family: var(--font-sans);
+  background: var(--card);
+  color: var(--ink-1);
+  border: 1px solid var(--border);
+}
+.login-field:focus {
+  box-shadow: 0 0 0 3px var(--accent-100);
+  border-color: var(--accent) !important;
+}
+[data-dark="true"] .login-field:focus {
+  box-shadow: 0 0 0 3px rgba(100, 160, 200, 0.20);
+}
+
+/* ============================================================
+   Animations — Ken Burns carousel + page transitions
+   ============================================================ */
+
+@keyframes kenBurns0 {
+  from { transform: scale(1)    translate(0, 0); }
+  to   { transform: scale(1.09) translate(-1.5%, -1%); }
+}
+@keyframes kenBurns1 {
+  from { transform: scale(1.06) translate(1.5%, 0.5%); }
+  to   { transform: scale(1)    translate(0, 1%); }
+}
+@keyframes kenBurns2 {
+  from { transform: scale(1)    translate(-1%, 1.5%); }
+  to   { transform: scale(1.07) translate(1%, -0.5%); }
+}
+
+@keyframes fadeIn       { from { opacity: 0 } to { opacity: 1 } }
+@keyframes modalIn      { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(12px); }            to { opacity: 1; transform: none; } }
+/* FIX 13 — bottom-up sheet animation */
+@keyframes slideInUp    { from { opacity: 0; transform: translateY(16px); }            to { opacity: 1; transform: none; } }
+@keyframes spin         { to   { transform: rotate(360deg); } }
+
+.page-in { animation: slideInRight .22s ease; }
+
+/* Arabic / RTL — explicit Noto Sans Arabic font for consistent cross-platform rendering */
+:lang(ar),
+[lang="ar"],
+[dir="rtl"] .arabic-text {
+  font-family: var(--font-arabic), 'Noto Sans Arabic', 'Arial Unicode MS', system-ui, sans-serif;
+}
+
+/* Mobile bottom nav — hidden on wide screens, always present on narrow */
+@media (min-width: 1025px) {
+  .mobile-bottom-bar { display: none !important; }
+}
+
+/* FIX 8 — pad content above the fixed mobile nav bar on all narrow devices.
+   Breakpoint 1024px covers phones in landscape (844px) and small tablets. */
+@media (max-width: 1024px) {
+  .admin-main {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* ============================================================
+   Scrollbar — enterprise-grade, visible in light + dark themes
+   ============================================================ */
+
+/* Firefox */
+* {
+  scrollbar-color: var(--ink-4) var(--surface);
+  scrollbar-width: thin;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+::-webkit-scrollbar              { width: 10px; height: 10px; }
+::-webkit-scrollbar-track        {
+  background:    var(--surface);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb        {
+  background:    var(--ink-4);   /* #A2A9B3 — visible against --bg #F9F6F0 */
+  border-radius: 6px;
+  border:        2px solid var(--surface);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover  {
+  background:    var(--ink-3);   /* #6E7885 — clearly darker on hover */
+  border:        2px solid var(--surface);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:active {
+  background:    var(--ink-2);   /* #3E4855 — strong press feedback */
+  border:        2px solid var(--surface);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-corner       { background: var(--surface); }
+
+/* Approved AVANIIS foundation — shared by all workspaces and portal content. */
+:root {
+  --text-caption: 0.8125rem;
+  --text-body: 0.875rem;
+  --text-lead: 1rem;
+  --brand-ivory: #F9F6F0;
+  --brand-navy: #17212B;
+  --brand-leaf: #438A35;
+  --brand-active: #2F6B32;
+  --brand-gold: #E9A028;
+  --nav-bg: var(--card);
+  --nav-fg: var(--ink-2);
+  --nav-fg-dim: var(--ink-3);
+  --nav-fg-strong: var(--ink-1);
+  --nav-border: var(--border);
+  --nav-active-bg: var(--accent-050);
+  --nav-active-fg: var(--brand-active);
+  --rail-bg: var(--card);
+  --rail-bg-hover: var(--accent-050);
+  --rail-active-bg: var(--accent-050);
+  --rail-fg: var(--ink-2);
+  --rail-fg-mute: var(--ink-3);
+  --rail-divider: var(--border);
+  --scroll-thumb: #8A918B;
+  --scroll-track: var(--surface);
+}
+[data-dark="true"] {
+  color-scheme: dark;
+  --brand-active: #A9D79A;
+  --ink-3: #ADB9C8;
+  --ink-4: #8896A8;
+  --scroll-thumb: #748297;
+  --nav-bg: var(--card);
+  --nav-active-bg: #263C30;
+  --rail-active-bg: #263C30;
+  --rail-bg-hover: #263C30;
+}
+body { font-size: var(--text-body); line-height: 1.5; }
+button, input, select, textarea { font-family: inherit; }
+input, select, textarea { font-size: max(1em, 0.875rem); }
+h1, h2, h3, h4 { line-height: 1.25; text-wrap: balance; }
+main h1 { font-size: clamp(1.5rem, 2.2vw, 1.875rem) !important; }
+.text-xs { font-size: var(--text-caption); line-height: 1.5; }
+:lang(ar) { --font-serif: var(--font-arabic); }
+td, th, .tabular-nums { font-variant-numeric: tabular-nums; }
+* { scrollbar-color: var(--scroll-thumb) var(--scroll-track); scrollbar-width: thin; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: var(--scroll-track); }
+::-webkit-scrollbar-thumb { background-color: var(--scroll-thumb); border-color: var(--scroll-track); }
+::-webkit-scrollbar-thumb:hover { background-color: var(--ink-3); border-color: var(--scroll-track); }
+:focus-visible { outline: 2px solid var(--brand-active); outline-offset: 3px; }
+.skip-link { position: fixed; inset-inline-start: 12px; top: -100px; z-index: 100; background: var(--card); color: var(--ink-1); padding: 12px 16px; border: 2px solid var(--brand-active); border-radius: 8px; }
+.skip-link:focus { top: 12px; }
+main { min-width: 0; }
+main > * { min-width: 0; max-width: 100%; }
+.ui-demo-label { font: 500 var(--text-caption)/1.5 var(--font-sans); color: var(--ink-3); padding: 4px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+@media (max-width: 1024px) {
+  .workspace-rail, .workspace-secondary-nav, .role-sidebar { display: none !important; }
+  .admin-main { padding-inline: 16px !important; }
+  main { padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important; }
+  .app-topbar { padding-inline: 12px !important; gap: 8px !important; }
+  .app-topbar > * { min-width: 0; }
+  .app-topbar input { width: 100% !important; min-width: 0 !important; }
+  .app-topbar .global-search { flex: 1; min-width: 0; }
+  .aria-launcher { bottom: calc(76px + env(safe-area-inset-bottom)) !important; inset-inline-end: 12px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+@media (max-width: 1200px) { .people-master-detail { grid-template-columns: minmax(0, 1fr) !important; } }
+.people-master-detail > * { min-width: 0; }
+
+/* Semantic data-table containment and readable shared controls. */
+[role="tabpanel"] { min-width: 0; }
+[role="tablist"] { scrollbar-gutter: stable; }
+input::placeholder, textarea::placeholder { color: var(--ink-3); opacity: 1; }
+@media (max-width: 640px) {
+ .app-topbar { flex-wrap: wrap; height: auto !important; min-height: 56px; padding-block: 8px !important; }
+ .people-master-detail { gap: 12px !important; }
+}
+.text-accent, .text-accent-700 { color: var(--brand-active); }
+@media (max-width: 1024px) { [data-responsive-grid] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+@media (max-width: 640px) { [data-responsive-grid] { grid-template-columns: minmax(0, 1fr) !important; } }
+[data-responsive-grid] > * { min-width: 0; }
+
+.table-scroll { width: 100%; max-width: 100%; min-width: 0; overflow: auto; overscroll-behavior-inline: contain; scrollbar-gutter: stable; }
+.mobile-brand-header { display: none; }
+@media (max-width: 1024px) { .mobile-brand-header { display: flex; align-items: center; gap: 10px; padding: 8px 16px; background: var(--brand-ivory); color: var(--brand-navy); border-bottom: 1px solid var(--border); font-size: 16px; font-weight: 700; flex-shrink: 0; } }
+
+[data-dark="true"] {
+  --accent-050: #263C30;
+  --accent-100: #304B38;
+  --accent-200: #4A6B50;
+}
+
+@media (max-width: 640px) {
+ .department-bar-row { display: grid !important; grid-template-columns: minmax(0, 1fr) auto 16px; gap: 8px !important; }
+ .department-bar-row > :first-child { grid-column: 1 / -1; width: auto !important; white-space: normal !important; }
+ .department-bar-row > :nth-child(4) { grid-column: 1 / -1; min-width: 0 !important; text-align: start !important; }
+}
+@media (max-width: 1024px) {
+ button.aria-launcher { width: 48px !important; height: 48px; padding: 7px !important; justify-content: center; left: auto !important; top: auto !important; }
+ .aria-launcher-label { display: none !important; }
+ div.aria-launcher { max-width: calc(100vw - 24px); height: min(600px, calc(100dvh - 160px)) !important; max-height: calc(100dvh - 160px) !important; left: auto !important; top: auto !important; }
+}
+
+@media (max-width: 1024px) { .dashboard-columns { flex-direction: column; } .dashboard-columns > * { width: 100% !important; flex: auto !important; } }
+/* Resolve semantic aliases on the theme owner so portals and native controls
+   inherit the same dark palette as the surrounding workspace. */
+[data-dark="true"] {
+  --scroll-track: var(--surface);
+  --nav-fg: var(--ink-2);
+  --nav-fg-dim: var(--ink-3);
+  --nav-fg-strong: var(--ink-1);
+  --nav-border: var(--border);
+  --rail-bg: var(--card);
+  --rail-fg: var(--ink-2);
+  --rail-fg-mute: var(--ink-3);
+  --rail-divider: var(--border);
+  --secondary: var(--surface);
+  --secondary-foreground: var(--ink-1);
+  --muted: var(--surface);
+  --muted-foreground: var(--ink-3);
+  --popover: var(--card);
+  --popover-foreground: var(--ink-1);
+  --card-foreground: var(--ink-1);
+  --background: var(--bg);
+  --foreground: var(--ink-1);
+  --input: var(--border);
+}

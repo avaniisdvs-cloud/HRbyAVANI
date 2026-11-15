@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Official ARIA Administration Handbook | AVANIIS HCM</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* Header */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* Sticky nav */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 14px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* Content */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 120px}
+.sec{margin-bottom:52px;scroll-margin-top:60px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px;margin-bottom:14px}
+h4{font-size:14px;color:var(--n);margin:16px 0 8px}
+p{margin-bottom:10px}
+ul{margin:0 0 10px 20px}
+li{margin-bottom:4px}
+code{font-family:'JetBrains Mono',ui-monospace,monospace;background:var(--lt);padding:1px 6px;border-radius:4px;font-size:12px;color:var(--n3)}
+pre{background:var(--n);color:#E6EAF2;border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:12px;line-height:1.5;margin-bottom:14px;font-family:'JetBrains Mono',ui-monospace,monospace}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:14px;background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+th{background:var(--n);color:rgba(255,255,255,.9);padding:9px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.03em}
+td{padding:9px 12px;border-bottom:1px solid var(--lt);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--off)}
+
+/* Badges */
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.03em}
+.b-ok{background:var(--gr-bg);color:var(--gr)}
+.b-warn{background:var(--am-bg);color:var(--am)}
+.b-no{background:var(--rd-bg);color:var(--rd)}
+.b-info{background:var(--bl-bg);color:var(--bl)}
+.b-g{background:rgba(201,168,76,.18);color:var(--g3);border:1px solid var(--g)}
+
+/* Callouts */
+.callout{border-radius:10px;padding:13px 16px;margin-bottom:14px;font-size:12.5px;display:flex;gap:10px}
+.callout .ico{font-size:15px;flex-shrink:0}
+.c-rule{background:var(--te-bg);border:1px solid var(--te-bd);color:#0A4A40}
+.c-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:#7A3E00}
+.c-stop{background:var(--rd-bg);border:1px solid var(--rd-bd);color:#7A1A1A}
+.c-tip{background:var(--bl-bg);border:1px solid var(--bl-bd);color:#10357A}
+
+/* Type/feature cards grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.tcard{background:#fff;border:2px solid var(--bd);border-radius:10px;padding:14px 16px}
+.tcard h5{font-size:13px;color:var(--n);margin-bottom:6px}
+.tr{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}.tv{font-weight:600;color:var(--n)}
+
+/* Dark ARIA governance panel */
+.aria-wrap{background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px;margin-bottom:14px}
+.aria-wrap h4{color:var(--g2)}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px;margin-bottom:10px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:8px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.25);border-radius:6px;padding:8px 11px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.4);font-family:monospace;margin-top:6px}
+
+/* Back to top */
+.totop{position:fixed;right:22px;bottom:22px;width:44px;height:44px;border-radius:50%;background:var(--n);color:var(--g2);border:1.5px solid var(--g);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;z-index:200}
+.totop.show{opacity:1;pointer-events:auto}
+
+@media print{.nav-wrap,.totop{display:none!important}.sec{page-break-inside:avoid}body{background:#fff}.card,.tcard,table{box-shadow:none!important}}
+@media(max-width:640px){.ph{padding:20px 18px}.content{padding:20px 14px}.nav-inner{padding:0 16px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="ph">
+  <div class="ph-tag">AVANIIS HCM · Official Product Documentation · Single Source of Truth</div>
+  <div class="ph-title">ARIA Administration Handbook</div>
+  <div class="ph-sub">دليل إدارة آريا · The AI Operating Layer of AVANIIS HCM · Provider-Independent · Governance-Preserving</div>
+  <div class="ph-pills">
+    <span class="pill g">SUPER_ADMIN</span><span class="pill g">HR_ADMIN</span>
+    <span class="pill">Support</span><span class="pill">Architects</span><span class="pill">Auditors</span>
+    <span class="pill">Settings → AI Agent · /settings/ai-agent</span><span class="pill">v1.0 · Quarterly review</span>
+  </div>
+</div>
+
+<div class="nav-wrap"><div class="nav-inner">
+  <a href="#s0" class="ni" data-section="s0">Summary</a>
+  <a href="#s1" class="ni" data-section="s1">Overview</a>
+  <a href="#s2" class="ni" data-section="s2">Architecture</a>
+  <a href="#s3" class="ni" data-section="s3">Identity</a>
+  <a href="#s4" class="ni" data-section="s4">Branding</a>
+  <a href="#s5" class="ni" data-section="s5">AI Model</a>
+  <a href="#s6" class="ni" data-section="s6">Behaviour</a>
+  <a href="#s7" class="ni" data-section="s7">Knowledge Base</a>
+  <a href="#s8" class="ni" data-section="s8">Connection Test</a>
+  <a href="#s9" class="ni" data-section="s9">Providers</a>
+  <a href="#s10" class="ni" data-section="s10">Capabilities</a>
+  <a href="#s11" class="ni" data-section="s11">Governance</a>
+  <a href="#s12" class="ni" data-section="s12">Operations</a>
+  <a href="#s13" class="ni" data-section="s13">Troubleshooting</a>
+  <a href="#s14" class="ni" data-section="s14">FAQ</a>
+  <a href="#s15" class="ni" data-section="s15">Roadmap</a>
+  <a href="#s16" class="ni" data-section="s16">Appendix</a>
+</div></div>
+
+<div class="content">
+
+<section class="sec" id="s0">
+  <div class="sec-lbl">Orientation</div>
+  <div class="sec-title">Executive Summary</div>
+  <div class="sec-desc">One-page orientation for leadership.</div>
+  <div class="card">
+    <p>ARIA is the <b>AI Operating Layer</b> of AVANIIS HCM — a provider-independent control plane that lets employees, managers, and HR operate the platform by natural-language intent (English/Arabic, text or voice), while <b>every consequential action still flows through the platform's own Workflow, RBAC, Audit, and Approval engines.</b></p>
+    <div class="callout c-rule"><span class="ico">①</span><div><b>AI is never the source of truth.</b> The database and engines are. If every AI provider vanished tomorrow, AVANIIS HCM keeps running.</div></div>
+    <div class="callout c-rule"><span class="ico">②</span><div><b>AI cannot bypass governance.</b> ARIA reads, classifies, drafts, explains. It never approves, executes, routes, or escalates.</div></div>
+    <div class="callout c-rule"><span class="ico">③</span><div><b>The provider is configuration, not code.</b> Anthropic, OpenAI, Azure OpenAI (and future providers) are selected from configuration via a single abstraction layer (<code>lib/aria/llm/</code>). Switching providers requires no business-logic change.</div></div>
+  </div>
+</section>
+
+<section class="sec" id="s1">
+  <div class="sec-lbl">Chapter 1</div>
+  <div class="sec-title">ARIA Overview</div>
+  <div class="sec-desc">What ARIA is, is not, and how it relates to the engines.</div>
+  <div class="grid">
+    <div class="tcard"><h5>✅ What ARIA Is</h5>
+      <p><b>Executive:</b> the conversational, intelligent front door to AVANIIS HCM.</p>
+      <p><b>Technical:</b> a stateless control plane that <b>understands</b> (intent), <b>orchestrates</b> (governed capability + draft), <b>explains</b>, and <b>coordinates</b>. The LLM is purely an interpreter behind a provider-neutral boundary.</p>
+    </div>
+    <div class="tcard"><h5>🚫 What ARIA Is Not</h5>
+      <ul>
+        <li>Not a chatbot, not "an LLM", not OpenAI/Anthropic</li>
+        <li>Not a source of truth</li>
+        <li>Not an approver / executor / privilege-holder / data owner</li>
+        <li>Not database-aware — operates via <b>capabilities</b>, never raw schema</li>
+      </ul>
+    </div>
+  </div>
+  <h4>Relationship to the engines</h4>
+  <table>
+    <tr><th>Engine</th><th>ARIA's relationship</th></tr>
+    <tr><td><b>Workflow Engine</b> <code>lib/workflow-engine.ts</code></td><td>System of record. ARIA submits drafts <i>through</i> it; never bypasses it.</td></tr>
+    <tr><td><b>RBAC Engine</b> <code>lib/auth.ts</code></td><td>Every capability RBAC-gated; identity re-derived server-side, never trusted from client.</td></tr>
+    <tr><td><b>Audit Engine</b> <code>lib/audit.ts</code></td><td>Every turn writes an INSERT-only <code>ARIA.QUERY</code> row in the same transaction.</td></tr>
+    <tr><td><b>Approval Engine</b></td><td>Human approval at the confirmation gate and every workflow step. AI never approves.</td></tr>
+    <tr><td><b>Database</b></td><td>Reached only via governed capability functions.</td></tr>
+    <tr><td><b>AI Providers</b></td><td>Pluggable interpreters behind <code>lib/aria/llm/</code>, selected by configuration.</td></tr>
+  </table>
+</section>
+
+<section class="sec" id="s2">
+  <div class="sec-lbl">Chapter 2</div>
+  <div class="sec-title">ARIA Architecture</div>
+  <div class="sec-desc">Control Plane · Provider Layer · Capability Registry · Governance · System of Record.</div>
+  <pre>User (text / voice, EN / AR)
+        │ intent
+        ▼
+ARIA CONTROL PLANE  (modules/aria/, provider-blind)
+  understand → orchestrate → explain → coordinate
+  + Hard-Rule-7 confirmation gate + audit
+        │ interpret (LLM)                 │ act (capability)
+        ▼                                 ▼
+PROVIDER LAYER  lib/aria/llm/        CAPABILITY CONTRACT (Registry)
+  getLlmClient(config)               RBAC-tagged · audited · versioned
+  ├─ anthropic                       getMyManager · getLeaveBalance
+  ├─ openai                          draftLeaveRequest · submitLeaveRequest…
+  └─ azure_openai (+future)                    │ (no bypass)
+   provider = config row                       ▼
+                          SYSTEM OF RECORD
+                          DB · Workflow · RBAC · Audit · Approval</pre>
+  <div class="grid">
+    <div class="tcard"><h5>Example — "Who is my manager?"</h5><p>Classify → <code>ORG_CHART_QUERY</code> → <code>getMyManager()</code> (self-service, requires person) → deterministic DB read → response card. <b>No LLM required; no write.</b></p></div>
+    <div class="tcard"><h5>Example — "Apply leave 10–15 Jul"</h5><p>Classify → <code>draftLeaveRequest()</code> (no write) → user confirms (Hard Rule 7) → <code>submitLeaveRequest()</code> through the <b>workflow engine</b> in a transaction + audit. The model never writes.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="s3">
+  <div class="sec-lbl">Chapter 3</div>
+  <div class="sec-title">Identity Configuration</div>
+  <div class="sec-desc">Backed by <code>ariaAgentConfig</code> · Settings → AI Agent → Identity.</div>
+  <table>
+    <tr><th>Field</th><th>Purpose</th><th>Recommended</th><th>Common mistake</th></tr>
+    <tr><td><code>agentName</code></td><td>Display name in chat</td><td><code>ARIA</code></td><td>Changing per-environment</td></tr>
+    <tr><td><code>agentRole</code></td><td>One-line role shaping tone/scope</td><td><code>HR Intelligence Assistant</code></td><td>Overloading with instructions (use System Prompt)</td></tr>
+    <tr><td><code>agentTone</code></td><td>Persona register</td><td><code>professional</code></td><td><code>strict</code> feels cold in self-service</td></tr>
+    <tr><td><code>isActive</code></td><td>Marks the active record</td><td>Exactly one active row</td><td>Multiple active rows</td></tr>
+  </table>
+  <p>Allowed tones: <code>professional</code> · <code>friendly</code> · <code>analytical</code> · <code>executive</code> · <code>strict</code>. Always test in both EN and AR.</p>
+</section>
+
+<section class="sec" id="s4">
+  <div class="sec-lbl">Chapter 4</div>
+  <div class="sec-title">Branding Configuration</div>
+  <div class="sec-desc">Persona branding (Identity) + visual branding (design system).</div>
+  <table>
+    <tr><th>Option</th><th>Purpose</th><th>Recommendation</th></tr>
+    <tr><td>Agent name/role/tone</td><td>Conversational brand</td><td>Consistent with corporate voice</td></tr>
+    <tr><td>Bilingual phrasing (EN/AR)</td><td>UAE compliance</td><td>Mandatory — every string EN + AR</td></tr>
+    <tr><td>Design tokens (<code>var(--accent)</code>…)</td><td>Visual chrome</td><td>CSS tokens only; never raw hex</td></tr>
+    <tr><td>Greeting / quick-replies</td><td>First impression</td><td>Short, action-oriented, bilingual</td></tr>
+  </table>
+  <div class="callout c-tip"><span class="ico">💡</span><div>Brand the <b>persona</b> via Identity; brand the <b>visuals</b> via design tokens. Never embed business logic or data in branding text.</div></div>
+</section>
+
+<section class="sec" id="s5">
+  <div class="sec-lbl">Chapter 5 · Most consequential</div>
+  <div class="sec-title">AI Model Configuration</div>
+  <div class="sec-desc">Backed by <code>ariaModelConfig</code> · Settings → AI Agent → AI Model.</div>
+
+  <h4>5.1 Provider</h4>
+  <table>
+    <tr><th>Provider</th><th>When to use</th><th>Pros</th><th>Cons</th></tr>
+    <tr><td><code>anthropic</code></td><td>Default & fallback</td><td>Strong instruction-following; baseline</td><td>US residency</td></tr>
+    <tr><td><code>openai</code> (GPT-4.1)</td><td>UAT / cost flexibility</td><td>Native structured outputs</td><td>US residency</td></tr>
+    <tr><td><code>azure_openai</code></td><td><b>Production residency</b> (UAE/EU)</td><td>GPT-4.1 + DPA + regional hosting</td><td>Needs endpoint + deployment name</td></tr>
+    <tr><td>Future (deepseek/gemini/mistral/internal)</td><td>As needed</td><td>Choice/cost/residency</td><td>DeepSeek hosted API not approved for PII — self-host only</td></tr>
+  </table>
+
+  <h4>5.2 Model</h4>
+  <table>
+    <tr><th>Model</th><th>Quality</th><th>Speed</th><th>Cost</th><th>Use case</th></tr>
+    <tr><td>GPT-4.1</td><td>High</td><td>Med</td><td>Higher</td><td>Response generation</td></tr>
+    <tr><td>GPT-4.1 Mini</td><td>Good</td><td>Fast</td><td>Low</td><td>Classification, briefings</td></tr>
+    <tr><td>Claude Sonnet <code>claude-sonnet-4-6</code></td><td>High</td><td>Med</td><td>Higher</td><td>Default responses</td></tr>
+    <tr><td>Claude Haiku <code>claude-haiku-4-5</code></td><td>Good</td><td>Fast</td><td>Low</td><td>Cheap/fast tasks</td></tr>
+  </table>
+
+  <div class="grid">
+    <div class="tcard"><h5>5.3 API Keys</h5><ul><li>Encrypted at rest (AES-256-GCM) in <code>apiKeyEncrypted</code></li><li>Provider-aware env fallback</li><li>Masked on read; never logged</li><li>Rotate quarterly / on exposure</li></ul></div>
+    <div class="tcard"><h5>5.4 Temperature</h5>
+      <div class="tr"><span class="tk">0.0</span><span class="tv">Deterministic — classification</span></div>
+      <div class="tr"><span class="tk">0.3</span><span class="tv">Recommended for HR</span></div>
+      <div class="tr"><span class="tk">0.7</span><span class="tv">Creative — rare in HR</span></div>
+      <div class="tr"><span class="tk">1.0</span><span class="tv">Highly variable — avoid</span></div>
+    </div>
+    <div class="tcard"><h5>5.5 Max Tokens</h5><p>Max response length (1 token ≈ ¾ word). Too low → truncation; too high → slow/costly. ARIA uses small per-call budgets (~256 classify, ~300 format). Keep the ceiling modest.</p></div>
+  </div>
+
+  <div class="grid">
+    <div class="tcard"><h5>5.6 Fallback Provider</h5><p>Business continuity. On primary <code>connection</code>/<code>rate_limit</code> error → retry once on fallback. Example: primary <code>openai/gpt-4.1</code>, fallback <code>anthropic/claude-sonnet-4-6</code>. Prefer a <b>different vendor</b> to survive vendor-wide outages.</p></div>
+    <div class="tcard"><h5>5.7 Fallback Model</h5><p>Comparable model on the fallback provider. <b>Live single-retry failover</b> on <code>connection/rate_limit/timeout/not_configured/unknown</code> (not <code>bad_request</code>); audited (<code>fallbackUsed</code>); returns to primary next request.</p></div>
+  </div>
+
+  <h4>5.8 API Endpoint — editable for every provider</h4>
+  <table>
+    <tr><th>Provider</th><th>Endpoint</th></tr>
+    <tr><td>Anthropic</td><td>Optional — blank = SDK default; or custom base/proxy</td></tr>
+    <tr><td>OpenAI</td><td>Optional — blank = <code>https://api.openai.com/v1</code>; or any OpenAI-compatible base URL</td></tr>
+    <tr><td>Azure OpenAI</td><td><b>Required</b> — the resource base URL</td></tr>
+  </table>
+  <p>Saved in <code>ariaModelConfig.apiEndpoint</code>; loaded into the form; used by the runtime adapter and Connection Test.</p>
+
+  <h4>5.9 How the request URL is built — and the two Azure surfaces</h4>
+  <table>
+    <tr><th>Provider</th><th>URL built</th><th>Auth</th><th>Model in</th></tr>
+    <tr><td><code>anthropic</code></td><td>Anthropic SDK (endpoint → baseURL)</td><td>SDK</td><td>call</td></tr>
+    <tr><td><code>openai</code></td><td><code>(endpoint or api.openai.com/v1) + /chat/completions</code></td><td>Bearer</td><td><b>body</b></td></tr>
+    <tr><td><code>azure_openai</code></td><td><code>base + /openai/deployments/&lt;model&gt;/chat/completions?api-version=&lt;ver&gt;</code></td><td><code>api-key</code></td><td><b>path</b> (deployment)</td></tr>
+  </table>
+  <div class="callout c-tip"><span class="ico">🅰️</span><div><b>Classic Azure</b> (<code>https://&lt;res&gt;.openai.azure.com</code> / <code>…services.ai.azure.com</code>): select <b>Azure OpenAI</b>; Model = <b>deployment name</b>; api-version default <code>2024-10-21</code>, override via <code>?api-version=YYYY-MM-DD</code> on the endpoint.</div></div>
+  <div class="callout c-tip"><span class="ico">🅱️</span><div><b>New Azure "v1" (OpenAI-compatible)</b> (<code>https://&lt;res&gt;.openai.azure.com/openai/v1</code>): select <b>OpenAI</b> and paste the full <code>/openai/v1</code> URL; Model = <code>gpt-4.1</code>. The adapter appends <code>/chat/completions</code> with Bearer auth + model-in-body — matches Azure's v1 curl/C# samples exactly.</div></div>
+  <div class="callout c-warn"><span class="ico">⚠</span><div>The adapter sends <code>max_tokens</code>. Some newer models on the v1 surface expect <code>max_completion_tokens</code>; a 400 about that field = a one-line adapter change.</div></div>
+</section>
+
+<section class="sec" id="s6">
+  <div class="sec-lbl">Chapter 6</div>
+  <div class="sec-title">Behaviour & Intelligence</div>
+  <div class="sec-desc">Backed by <code>ariaBehaviourConfig</code>.</div>
+
+  <h4>6.1 System Prompt (<code>promptMode</code> + <code>systemPromptOverride</code>)</h4>
+  <table>
+    <tr><th>Mode</th><th>Effect</th><th>Use when</th></tr>
+    <tr><td><code>prepend</code> (default)</td><td>Override before default</td><td>Add emphasis, keep guardrails</td></tr>
+    <tr><td><code>append</code></td><td>Override after default</td><td>Add closing instructions</td></tr>
+    <tr><td><code>replace</code></td><td>Override replaces default</td><td><span class="badge b-warn">Advanced</span> you own all guardrails</td></tr>
+  </table>
+  <div class="callout c-warn"><span class="ico">⚠</span><div>Never put business rules or data in the prompt. Prefer <code>prepend</code>/<code>append</code>.</div></div>
+
+  <h4>6.2 Authority Level (<code>authorityLevel</code>)</h4>
+  <table>
+    <tr><th>Level</th><th>Meaning</th><th>Status</th></tr>
+    <tr><td><code>advisory</code> (default)</td><td>Informs and drafts only</td><td><span class="badge b-ok">Recommended</span></td></tr>
+    <tr><td><code>recommend_approve</code></td><td>May surface recommendations; human still approves</td><td>Use with training</td></tr>
+    <tr><td><code>full_execution</code></td><td>(Reserved) autonomous execution</td><td><span class="badge b-no">Keep OFF — no governed path yet</span></td></tr>
+  </table>
+
+  <h4>6.3 Data Sources (<code>enabledDataSources</code>)</h4>
+  <table>
+    <tr><th>Source</th><th>Reads</th><th>Best practice</th></tr>
+    <tr><td><code>hr</code></td><td>Org/person/department</td><td>Keep on (RBAC-gated)</td></tr>
+    <tr><td><code>absence</code></td><td>Leave balances/requests</td><td>Keep on (self-scoped)</td></tr>
+    <tr><td><code>compliance</code></td><td>Emiratisation/expiry</td><td>On for HR/admin</td></tr>
+  </table>
+  <p>Other toggles: <code>ragEnabled</code>, <code>ragMaxChunks</code>, <code>anomalyDetection</code>, <code>predictiveInsights</code>, <code>slaMonitoring</code> — enable progressively after validation.</p>
+</section>
+
+<section class="sec" id="s7">
+  <div class="sec-lbl">Chapter 7</div>
+  <div class="sec-title">Knowledge Base</div>
+  <div class="sec-desc">RAG configuration & governance.</div>
+  <div class="card">
+    <p><b>Purpose:</b> give ARIA read-only policy/document context so it can <b>explain</b> policy — never to <b>enforce</b> it (enforcement stays in the rules engine).</p>
+    <p><b>Config:</b> <code>ragEnabled</code> on/off · <code>ragMaxChunks</code> (default 5).</p>
+    <div class="callout c-rule"><span class="ico">🔒</span><div><b>Governance:</b> RAG is read-only, for explanation only. It must never become authoritative HR data or override the database.</div></div>
+    <p><b>Example:</b> "What is the annual leave policy?" → ARIA retrieves and explains the policy text; it does <b>not</b> compute a specific entitlement from RAG (that comes from <code>getLeaveBalance()</code>).</p>
+  </div>
+</section>
+
+<section class="sec" id="s8">
+  <div class="sec-lbl">Chapter 8</div>
+  <div class="sec-title">Connection Test</div>
+  <div class="sec-desc">Settings → AI Agent → Test Connection (<code>testAriaConnection</code>, SUPER_ADMIN).</div>
+  <div class="callout c-tip"><span class="ico">🔎</span><div><b>Pre-flight validation:</b> the tab shows what it will use (<code>provider → endpoint · api-version</code>) and validates before the live call — Azure <b>requires</b> an endpoint; any endpoint must be a valid <code>https://</code> URL; non-standard Azure hosts are flagged ⚠ (still testable). The Test button is <b>disabled on invalid config</b> and fails fast with a clear message. Same checks run server-side (defense in depth).</div></div>
+  <p><b>What is tested:</b> a minimal live call to the <b>currently configured provider</b> (provider-aware dispatch), validating key/endpoint/model and measuring latency. <b>Displayed summary:</b> Provider · Model/Deployment · Endpoint · API Version · Temperature · Max Tokens (refreshes after save). <b>Expected:</b> <code>success: true</code> + latency.</p>
+  <table>
+    <tr><th>Result</th><th>Likely cause</th></tr>
+    <tr><td>"No API key configured"</td><td>Missing key in config and env</td></tr>
+    <tr><td>"Failed to decrypt API key"</td><td>Corrupt/rotated encryption key</td></tr>
+    <tr><td><span class="badge b-no">auth / 401</span></td><td>Wrong/expired key</td></tr>
+    <tr><td><span class="badge b-warn">rate_limit / 429</span></td><td>Quota exhausted</td></tr>
+    <tr><td><span class="badge b-no">connection</span></td><td>Network/endpoint unreachable (check Azure endpoint)</td></tr>
+    <tr><td>400 "credit balance too low"</td><td>Provider account unfunded</td></tr>
+  </table>
+</section>
+
+<section class="sec" id="s9">
+  <div class="sec-lbl">Chapter 9</div>
+  <div class="sec-title">Provider Administration</div>
+  <div class="sec-desc">Configure · switch · failover · onboard.</div>
+  <div class="grid">
+    <div class="tcard"><h5>Anthropic (default)</h5><ul><li>Provider <code>anthropic</code>; Model <code>claude-sonnet-4-6</code></li><li>Key or env <code>ARIA_API_KEY</code>/<code>ANTHROPIC_API_KEY</code></li><li>Save → Test</li></ul></div>
+    <div class="tcard"><h5>OpenAI (GPT-4.1 — UAT)</h5><ul><li>Provider <code>openai</code>; Model <code>gpt-4.1</code></li><li>Endpoint optional (blank = api.openai.com/v1)</li><li>Key or env <code>OPENAI_API_KEY</code> · Save → Test</li></ul></div>
+    <div class="tcard"><h5>Azure — A. Classic</h5><ul><li>Provider <code>azure_openai</code>; Model = <b>deployment name</b></li><li>Endpoint <code>https://&lt;res&gt;.openai.azure.com</code></li><li>Builds <code>/openai/deployments/…?api-version=</code> + <code>api-key</code></li></ul></div>
+    <div class="tcard"><h5>Azure — B. v1 (OpenAI-compatible)</h5><ul><li>Provider <b><code>openai</code></b> (not azure_openai)</li><li>Endpoint <code>https://&lt;res&gt;.openai.azure.com/openai/v1</code></li><li>Model <code>gpt-4.1</code>; Bearer auth + model-in-body — matches Azure v1 samples</li></ul></div>
+  </div>
+  <div class="callout c-tip"><span class="ico">🔁</span><div><b>Switch providers:</b> change the active <code>ariaModelConfig.provider/modelId</code> (+ key) and Save. No code change, no redeploy — effective next request. <b>Rollback = flip the row back.</b></div></div>
+  <p><b>Onboard a future provider:</b> engineering adds one adapter file in <code>lib/aria/llm/adapters/</code> + one line in <code>ADAPTER_REGISTRY</code>; admins then select it from config. No business-logic / RBAC / workflow / audit change.</p>
+</section>
+
+<section class="sec" id="s10">
+  <div class="sec-lbl">Chapter 10</div>
+  <div class="sec-title">Capability Registry</div>
+  <div class="sec-desc">The capability contract — <code>lib/aria/capabilities/registry.ts</code>.</div>
+  <div class="callout c-rule"><span class="ico">🧩</span><div>ARIA operates through <b>named capabilities</b>, never schema. Bad: "query worker_assignments". Good: <code>getMyManager()</code>. This blocks schema leakage and means schema changes never affect ARIA.</div></div>
+  <table>
+    <tr><th>Capability</th><th>Intent</th><th>Kind</th><th>RBAC</th><th>Workflow</th></tr>
+    <tr><td><code>getMyManager()</code></td><td>ORG_CHART_QUERY</td><td>read</td><td>self-service, requires person</td><td>no</td></tr>
+    <tr><td><code>getLeaveBalance()</code></td><td>LEAVE_BALANCE_QUERY</td><td>read</td><td>self-service</td><td>no</td></tr>
+    <tr><td><code>getLeaveRequestStatus()</code></td><td>LEAVE_REQUEST_STATUS</td><td>read</td><td>self-service</td><td>no</td></tr>
+    <tr><td><code>draftLeaveRequest()</code></td><td>LEAVE_REQUEST_DRAFT</td><td>draft</td><td>self-service</td><td>no (draft only)</td></tr>
+    <tr><td><code>submitLeaveRequest()</code></td><td>LEAVE_REQUEST_CONFIRM</td><td><span class="badge b-no">write</span></td><td>self-service</td><td><span class="badge b-ok">yes</span></td></tr>
+    <tr><td><code>listDepartments()</code></td><td>DEPARTMENT_QUERY</td><td>read</td><td>any auth</td><td>no</td></tr>
+    <tr><td><code>getHeadcount()</code></td><td>HEADCOUNT_QUERY</td><td>read</td><td>any auth</td><td>no</td></tr>
+    <tr><td><code>getCompliance()</code></td><td>COMPLIANCE_QUERY</td><td>read</td><td>HR/admin</td><td>no</td></tr>
+    <tr><td><code>getWorkflows()</code></td><td>WORKFLOW_QUERY</td><td>read</td><td>manager+</td><td>no</td></tr>
+    <tr><td><code>getTeam()</code></td><td>TEAM_QUERY</td><td>read</td><td>manager+</td><td>no</td></tr>
+    <tr><td><code>getPolicy()</code></td><td>POLICY_QUERY</td><td>read</td><td>any auth</td><td>no</td></tr>
+  </table>
+  <p><b>Encoded in code & tests:</b> only <code>write</code> capabilities set <code>workflowRequired:true</code>; reads never do. <code>submitLeaveRequest</code> is the sole state-changing capability, workflow + audit gated.</p>
+</section>
+
+<section class="sec" id="s11">
+  <div class="sec-lbl">Chapter 11</div>
+  <div class="sec-title">Governance & Security</div>
+  <div class="sec-desc">RBAC · Workflow · Approvals · Audit · Provider Security · Data Privacy.</div>
+  <div class="aria-wrap">
+    <h4>Mandatory AI Governance Rules</h4>
+    <div class="aria-card"><div class="aria-q">"Can the model just approve this?"</div><div class="aria-response">No. ARIA may read/draft/explain. It never approves, executes, routes, or escalates. State changes route through the workflow engine + human confirmation.</div><div class="aria-rule">Rule 1 · AI is never the source of truth · Rule 2 · No governance bypass</div></div>
+    <div class="aria-card"><div class="aria-q">"What about our PII?"</div><div class="aria-response">No decrypted PII (Emirates ID, passport, IBAN, salary) enters prompts. User message + recent history are sent to the provider — choose region/DPA accordingly. Prefer Azure OpenAI (UAE/EU).</div><div class="aria-rule">Keys encrypted at rest · masked on read · redacted from logs</div></div>
+  </div>
+  <table>
+    <tr><th>Control</th><th>How it's enforced</th></tr>
+    <tr><td>RBAC</td><td>Per-capability gates; identity re-derived server-side (<code>safeCtx</code>); forged context inert</td></tr>
+    <tr><td>Workflow</td><td>All writes via <code>workflow-engine</code> in <code>db.transaction</code> + advisory lock — same as human UI</td></tr>
+    <tr><td>Approvals</td><td>Human at confirmation gate (Hard Rule 7) + every workflow step</td></tr>
+    <tr><td>Audit</td><td>INSERT-only <code>ARIA.QUERY</code> per turn; enrich with provider/model/tokens/fallbackUsed</td></tr>
+  </table>
+</section>
+
+<section class="sec" id="s12">
+  <div class="sec-lbl">Chapter 12</div>
+  <div class="sec-title">Operations Guide</div>
+  <div class="sec-desc">Cadence of administrative tasks.</div>
+  <table>
+    <tr><th>Cadence</th><th>Tasks</th></tr>
+    <tr><td><b>Daily</b></td><td>Connection Test green; scan <code>[ARIA]</code> error logs; confirm fallback not chronically firing</td></tr>
+    <tr><td><b>Weekly</b></td><td>Token/cost trend; sample conversation quality; verify audit rows writing</td></tr>
+    <tr><td><b>Monthly</b></td><td>Reconcile spend vs budget; review RBAC/capability access; confirm key validity</td></tr>
+    <tr><td><b>Quarterly</b></td><td>Rotate keys; review this handbook; review DPA/residency; review authority level; re-validate after model version updates</td></tr>
+  </table>
+  <p><b>Monitoring:</b> latency + error-kind per provider · token cost by purpose · end-to-end response time · synthetic "Who is my manager?" probe (deterministic) for pipeline health.</p>
+</section>
+
+<section class="sec" id="s13">
+  <div class="sec-lbl">Chapter 13</div>
+  <div class="sec-title">Troubleshooting Guide</div>
+  <div class="sec-desc">Symptom → cause → fix.</div>
+  <table>
+    <tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr>
+    <tr><td>Agent name not updating</td><td>Multiple/inactive identity rows; cache</td><td>One <code>isActive</code> row; reload config</td></tr>
+    <tr><td>Provider not connecting</td><td>Wrong key/endpoint; no credits</td><td>Verify provider/model/key; Azure endpoint+deployment; check credits; Test</td></tr>
+    <tr><td>API key issues</td><td>Expired/rotated/undecryptable</td><td>Re-enter key; rotate; verify encryption key intact</td></tr>
+    <tr><td>Fallback keeps activating</td><td>Primary outage/quota</td><td>Check primary status + credits; confirm fallback config</td></tr>
+    <tr><td>Knowledge Base issues</td><td>RAG off; stale corpus</td><td>Enable <code>ragEnabled</code>; refresh docs; check <code>ragMaxChunks</code></td></tr>
+    <tr><td>Response quality</td><td>Wrong model/temp; replace-mode missing guardrails</td><td>Flagship model; temp 0.3; revert to prepend/append</td></tr>
+    <tr><td>Model selection</td><td>Model id mismatch (Azure deployment name)</td><td>Match model id to provider; Azure uses deployment name</td></tr>
+    <tr><td>Performance</td><td>Large max tokens; flagship for cheap calls</td><td>Lower tokens; route classify to mini/haiku</td></tr>
+    <tr><td>Generic "having trouble" message</td><td>Unhandled provider error</td><td>Check server logs for <code>[ARIA]</code> + <code>LlmError.kind</code> — real cause logged, never shown to user</td></tr>
+  </table>
+</section>
+
+<section class="sec" id="s14">
+  <div class="sec-lbl">Chapter 14</div>
+  <div class="sec-title">Frequently Asked Questions</div>
+  <div class="sec-desc">Business · Administrator · Support · Developer · Architecture.</div>
+  <div class="grid">
+    <div class="tcard"><h5>Business</h5><p><b>Can ARIA approve leave?</b> No — it drafts; humans approve via the workflow engine.</p><p><b>Is our data safe?</b> RBAC-gated, audited, no PII in prompts; choose Azure region + DPA.</p></div>
+    <div class="tcard"><h5>Administrator</h5><p><b>Switch to GPT-4.1?</b> Set provider/model/key in Settings → AI Agent → AI Model; Test. No deploy.</p><p><b>More concise?</b> Lower max tokens; prepend guidance.</p></div>
+    <div class="tcard"><h5>Support</h5><p><b>"ARIA having trouble"?</b> Check <code>[ARIA]</code> logs for <code>LlmError.kind</code> — usually key/credit.</p><p><b>Manager lookup fails (pilot)?</b> Likely no <code>lineManagerId</code> linked → data task, not a bug.</p></div>
+    <div class="tcard"><h5>Developer</h5><p><b>Add a provider?</b> One adapter in <code>lib/aria/llm/adapters/</code> + register. Never call a vendor SDK outside an adapter.</p><p><b>Business logic?</b> In <code>modules/aria/</code> + engines — never in prompts.</p></div>
+    <div class="tcard"><h5>Architecture</h5><p><b>Permanent asset?</b> The Capability Contract + deterministic spine. Models are replaceable infrastructure.</p><p><b>Can ARIA bypass workflow?</b> No — it has no write path; only <code>submitLeaveRequest</code> reaches the engine, after confirmation.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="s15">
+  <div class="sec-lbl">Chapter 15</div>
+  <div class="sec-title">Future Roadmap</div>
+  <div class="sec-desc">Where ARIA is heading.</div>
+  <table>
+    <tr><th>Initiative</th><th>Status</th></tr>
+    <tr><td>Provider Independence (<code>lib/aria/llm/</code> + adapters + fallback)</td><td><span class="badge b-ok">Shipped</span></td></tr>
+    <tr><td>Capability Registry (governed contract)</td><td><span class="badge b-ok">Initiated</span> — next: drive dispatch + RBAC from registry</td></tr>
+    <tr><td>AI Control Plane (per-purpose model routing, budgets, telemetry)</td><td><span class="badge b-info">In progress</span></td></tr>
+    <tr><td>Voice (server STT via Azure Speech / gpt-4o-transcribe → same adapter; then TTS)</td><td><span class="badge b-info">Roadmap</span></td></tr>
+    <tr><td>Agentic Operations (plan→tool→observe, gated by authorityLevel)</td><td><span class="badge b-warn">Future, gated</span></td></tr>
+    <tr><td>Future provider onboarding (DeepSeek self-host, Gemini, Mistral, internal)</td><td><span class="badge b-info">Adapter + config each</span></td></tr>
+  </table>
+</section>
+
+<section class="sec" id="s16">
+  <div class="sec-lbl">Appendix</div>
+  <div class="sec-title">Reference</div>
+  <div class="sec-desc">Field reference · glossary · SOP index · source locations.</div>
+  <h4>A. Configuration field reference (DB tables = source of truth)</h4>
+  <ul>
+    <li><b><code>ariaAgentConfig</code></b> — agentName, agentRole, agentTone, isActive</li>
+    <li><b><code>ariaModelConfig</code></b> — provider, modelId, apiKeyEncrypted, apiEndpoint, temperature, maxTokens, fallbackProvider, fallbackModelId, fallbackApiKeyEncrypted, isActive</li>
+    <li><b><code>ariaBehaviourConfig</code></b> — authorityLevel, promptMode, systemPromptOverride, enabledDataSources, ragEnabled, ragMaxChunks, anomalyDetection, predictiveInsights, slaMonitoring, isActive</li>
+  </ul>
+  <h4>B. Glossary</h4>
+  <p><b>Control Plane</b> — ARIA's provider-blind orchestration · <b>Provider Layer</b> — <code>lib/aria/llm/</code> single AI entry point · <b>Capability</b> — a governed function ARIA may invoke · <b>System of Record</b> — DB + engines · <b>LlmError</b> — neutral error taxonomy (rate_limit/connection/auth/bad_request/not_configured/timeout/unknown) · <b>Hard Rule 7</b> — explicit human confirmation before submission.</p>
+  <h4>C. SOP index</h4>
+  <p>Configuration SOP → Ch.3–7,9 · Operations SOP → Ch.12 · Governance SOP → Ch.11 · Troubleshooting SOP → Ch.13.</p>
+  <h4>D. Key source locations</h4>
+  <p><code>lib/aria/llm/</code> · <code>lib/aria/capabilities/registry.ts</code> · <code>lib/aria/config-loader.ts</code> · <code>modules/aria/services.ts</code> · <code>modules/aria/actions.ts</code> · <code>lib/workflow-engine.ts</code> · <code>lib/auth.ts</code> · <code>lib/audit.ts</code> · <code>lib/encryption.ts</code></p>
+  <div class="callout c-tip" style="margin-top:18px"><span class="ico">📌</span><div>Treat this as the SSOT. Update via change-controlled review each quarter.</div></div>
+</section>
+
+</div>
+
+<button class="totop" id="totop" title="Back to top">↑</button>
+
+<script>
+// Scrollspy — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link){ link.classList.add('active'); link.scrollIntoView({block:'nearest',inline:'center'}); }
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px', threshold: 0 });
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+
+// Back to top
+var totop = document.getElementById('totop');
+window.addEventListener('scroll', function(){
+  if(window.scrollY > 400) totop.classList.add('show'); else totop.classList.remove('show');
+});
+totop.addEventListener('click', function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+</script>
+</body>
+</html>

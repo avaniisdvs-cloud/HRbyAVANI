@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M7 — Org Chart &amp; ARIA AI Assistant | AVANIIS HR v3.0</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+  --lane-mgr:#5B2D9E;
+  --lane-hd:#3D1A78;
+  --lane-fi:#D15B00;
+  --aria-bg1:#0A2E22;
+  --aria-bg2:#071422;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:190px}
+.block-reason{color:var(--rd)}
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:145px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+.oc-node{width:210px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-node.vacant{border-color:var(--rd);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:10px 12px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:8px}
+.oc-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:9.5px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:6px 12px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 12px 8px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--n);font-weight:700}
+.acting-bar{background:var(--am);padding:4px 12px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.vacant-bar{background:var(--rd);padding:4px 12px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.ctx-menu{background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:4px 0;min-width:200px;font-size:12px}
+.ctx-item{padding:7px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--tx)}
+.ctx-div{height:1px;background:var(--lt);margin:3px 0}
+.ctx-item.danger{color:var(--rd)}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.kpi-card{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
+.kpi-label{font-size:10px;color:var(--mu);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em}
+.kpi-val{font-size:26px;font-weight:700;color:var(--n);line-height:1}
+.kpi-sub{font-size:10px;color:var(--mu);margin-top:2px}
+.kpi-hi{color:var(--gr);font-size:10px;font-weight:700}
+.kpi-lo{color:var(--rd);font-size:10px;font-weight:700}
+.chat-hdr{background:var(--n2);padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.chat-title{font-size:13px;font-weight:700;color:#fff}
+.chat-status{font-size:10px;background:var(--gr-bg);color:var(--gr);border-radius:10px;padding:2px 8px;font-weight:600;margin-left:auto}
+.chat-body{padding:14px 16px;background:#fff}
+.chat-msg{margin-bottom:10px}
+.chat-bubble-user{background:var(--n);color:#fff;border-radius:10px 10px 2px 10px;padding:8px 12px;font-size:12px;display:inline-block;max-width:360px;float:right}
+.chat-bubble-aria{background:var(--off);border:1px solid var(--bd);border-radius:10px 10px 10px 2px;padding:10px 14px;font-size:12px;max-width:420px}
+.chat-aria-av{width:26px;height:26px;border-radius:50%;background:var(--n);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--g);flex-shrink:0;vertical-align:top;margin-right:6px}
+.node-pair{display:flex;gap:18px;flex-wrap:wrap}
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ═══════════════════════════════════════════ -->
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Module M7 · v3.0 Enterprise</div>
+  <div class="ph-title">Org Chart &amp; ARIA AI Assistant</div>
+  <div class="ph-sub">مخطط المؤسسة والمساعد الذكي ARIA · Complete Operational Guide · Navigation · Workflows · State Machines · Mockups · Scenarios · Troubleshooting · ARIA Intelligence</div>
+  <div class="ph-pills">
+    <span class="pill g">HR ADMIN</span>
+    <span class="pill g">SUPER ADMIN</span>
+    <span class="pill">MANAGER</span>
+    <span class="pill">EMPLOYEE (read)</span>
+    <span class="pill">UAE Labour Law</span>
+    <span class="pill">v3.0 · May 2026</span>
+  </div>
+</div>
+
+<!-- ════ STICKY NAV ════════════════════════════════════════ -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <a href="#s1" class="ni" data-section="s1">Overview</a>
+    <a href="#s2" class="ni" data-section="s2">Dependency Map</a>
+    <a href="#s3" class="ni" data-section="s3">Feature Cards</a>
+    <a href="#s4" class="ni" data-section="s4">Swimlanes</a>
+    <a href="#s5" class="ni" data-section="s5">State Machines</a>
+    <a href="#s6" class="ni" data-section="s6">Screen Mockups</a>
+    <a href="#s7" class="ni" data-section="s7">Navigation Guide</a>
+    <a href="#s8" class="ni" data-section="s8">Scenarios</a>
+    <a href="#s9" class="ni" data-section="s9">Troubleshooting</a>
+    <a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a>
+  </div>
+</div>
+
+<!-- ════ ROLE FILTER ══════════════════════════════════════ -->
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+</div>
+
+<main class="content">
+
+<!-- ════ S1 — OVERVIEW & PRECONDITIONS ════════════════════ -->
+<div class="sec" id="s1">
+  <div class="sec-lbl">Section 1</div>
+  <div class="sec-title">Module Overview &amp; Preconditions</div>
+  <div class="sec-desc">The Org Chart renders the live Avaniis / AVANIIS Real Estate employee hierarchy from worker_assignments using a recursive CTE in PostgreSQL. ARIA (Adaptive Resource Intelligence Agent) answers natural-language HR queries by detecting intent, executing targeted DB queries, masking PII fields, and returning bilingual structured responses. HR Admins can initiate acting assignments, transfers, and hiring requests directly from org chart node menus. All other roles have read-only access.</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions Checklist — All must be true before org chart renders and ARIA is available</div>
+    <div class="pre-grid">
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Employees have ACTIVE worker assignments</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/persons/[id] → Assignments → status = ACTIVE</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Department hierarchy configured in master data</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/departments</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">ANTHROPIC_API_KEY set in environment config</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/configuration → AI Settings</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Org chart role permissions defined per role</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/permissions → Org Chart Module</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Acting assignment workflow template active</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/workflows → Acting Assignment</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Hiring request workflow template active</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/workflows → Hiring Request</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Export PDF/PNG — A3 landscape print CSS enabled</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/configuration → Export Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block-panel">
+    <div class="block-title">🚫 Blocking Conditions — System will refuse to render or respond</div>
+    <div class="block-row"><span class="block-label">No ACTIVE assignment</span><span class="block-reason">Employee node will not appear on any org chart view. Activate at /persons/[id] → Assignments tab → set assignment_status = ACTIVE.</span></div>
+    <div class="block-row"><span class="block-label">ANTHROPIC_API_KEY missing</span><span class="block-reason">ARIA chat panel shows "AI assistant unavailable". No queries are processed. RateLimitError and APIConnectionError return bilingual AriaResponse — no crashes.</span></div>
+    <div class="block-row"><span class="block-label">is_confidential = true on position</span><span class="block-reason">Node hidden from MANAGER and EMPLOYEE roles. HR_ADMIN and SUPER_ADMIN can see all nodes including confidential positions.</span></div>
+  </div>
+</div>
+
+<!-- ════ S2 — DEPENDENCY MAP ══════════════════════════════ -->
+<div class="sec" id="s2">
+  <div class="sec-lbl">Section 2</div>
+  <div class="sec-title">Dependency Map</div>
+  <div class="sec-desc">Three chains: what drives org chart rendering from the database, how ARIA processes a natural-language query, and how an org chart action feeds back into the workflow engine.</div>
+  <div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Dependency Map — Org Chart and ARIA AI Assistant</title>
+<desc>Three chains: Chain A shows org chart data rendering, Chain B shows ARIA query pipeline, Chain C shows action-to-workflow feedback loop.</desc>
+<defs>
+  <marker id="d1ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="d1gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="d1te" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="d1rd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+
+<!-- CHAIN A label -->
+<rect x="14" y="14" width="250" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — ORG CHART DATA FLOW</text>
+<!-- A1 worker_assignments -->
+<rect x="14" y="44" width="126" height="58" rx="7" fill="#0A1628"/>
+<text x="77" y="67" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">worker_</text>
+<text x="77" y="83" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">assignments</text>
+<text x="77" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">status = ACTIVE</text>
+<line x1="140" y1="73" x2="160" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#d1ag)"/>
+<!-- A2 Org Chart Renders -->
+<rect x="162" y="44" width="130" height="58" rx="7" fill="#0E7C6A"/>
+<text x="227" y="67" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Org Chart</text>
+<text x="227" y="83" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Renders</text>
+<text x="227" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">recursive CTE</text>
+<line x1="292" y1="73" x2="312" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#d1ag)"/>
+<!-- A3 Node Colours Applied -->
+<rect x="314" y="44" width="136" height="58" rx="7" fill="#0E7C6A"/>
+<text x="382" y="67" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Node Colours</text>
+<text x="382" y="83" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Applied</text>
+<text x="382" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">5 status types</text>
+<line x1="450" y1="73" x2="470" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#d1ag)"/>
+<!-- A4 Acting Strips Shown -->
+<rect x="472" y="44" width="128" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="536" y="67" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Acting Strips</text>
+<text x="536" y="83" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Shown</text>
+<text x="536" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">is_acting = true</text>
+<line x1="600" y1="73" x2="620" y2="73" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#d1gold)"/>
+<!-- A5 Vacancy Indicators -->
+<rect x="622" y="44" width="148" height="58" rx="7" fill="#B01B1B"/>
+<text x="696" y="67" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Vacancy</text>
+<text x="696" y="83" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Indicators</text>
+<text x="696" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">vacancy_start_date</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+
+<!-- CHAIN B label -->
+<rect x="14" y="124" width="270" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — ARIA QUERY PROCESSING</text>
+<!-- B1 User Query -->
+<rect x="14" y="158" width="106" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="67" y="182" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">User</text>
+<text x="67" y="198" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Query</text>
+<text x="67" y="211" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">natural language</text>
+<line x1="120" y1="187" x2="140" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#d1te)"/>
+<!-- B2 ARIA Intent -->
+<rect x="142" y="158" width="120" height="58" rx="7" fill="#0E7C6A"/>
+<text x="202" y="182" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">ARIA Intent</text>
+<text x="202" y="198" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Detected</text>
+<text x="202" y="211" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">4 intent types</text>
+<line x1="262" y1="187" x2="282" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#d1te)"/>
+<!-- B3 Confidence Check -->
+<rect x="284" y="158" width="130" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="349" y="178" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Confidence</text>
+<text x="349" y="194" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">≥ 0.7 Check</text>
+<text x="349" y="211" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">threshold gate</text>
+<line x1="414" y1="187" x2="434" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#d1te)"/>
+<!-- B4 DB Query -->
+<rect x="436" y="158" width="108" height="58" rx="7" fill="#0E7C6A"/>
+<text x="490" y="182" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">DB Query</text>
+<text x="490" y="198" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Executed</text>
+<text x="490" y="211" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">Drizzle ORM</text>
+<line x1="544" y1="187" x2="564" y2="187" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#d1te)"/>
+<!-- B5 PII Masked -->
+<rect x="566" y="158" width="108" height="58" rx="7" fill="#0E7C6A"/>
+<text x="620" y="182" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">PII</text>
+<text x="620" y="198" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Masked</text>
+<text x="620" y="211" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">emirates_id hidden</text>
+<line x1="674" y1="187" x2="694" y2="187" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#d1gold)"/>
+<!-- B6 Response + Action -->
+<rect x="696" y="158" width="152" height="58" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="772" y="182" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Response +</text>
+<text x="772" y="198" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Action Offered</text>
+<text x="772" y="211" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">bilingual AriaResponse</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+
+<!-- CHAIN C label -->
+<rect x="14" y="238" width="348" height="22" rx="4" fill="#5B2D9E"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — ORG CHART ACTION → WORKFLOW LOOP</text>
+<!-- C1 Org Chart Action -->
+<rect x="14" y="270" width="128" height="58" rx="7" fill="#5B2D9E"/>
+<text x="78" y="293" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Org Chart</text>
+<text x="78" y="309" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">··· Action</text>
+<text x="78" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">HR Admin clicks node</text>
+<line x1="142" y1="299" x2="162" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#d1ag)"/>
+<!-- C2 Drawer Opens -->
+<rect x="164" y="270" width="122" height="58" rx="7" fill="#0E7C6A"/>
+<text x="225" y="293" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Drawer</text>
+<text x="225" y="309" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Opens</text>
+<text x="225" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">pre-filled form</text>
+<line x1="286" y1="299" x2="306" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#d1ag)"/>
+<!-- C3 Request Submitted -->
+<rect x="308" y="270" width="130" height="58" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="373" y="293" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Request</text>
+<text x="373" y="309" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Submitted</text>
+<text x="373" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">PENDING_APPROVAL</text>
+<line x1="438" y1="299" x2="458" y2="299" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#d1ag)"/>
+<!-- C4 Workflow Created -->
+<rect x="460" y="270" width="130" height="58" rx="7" fill="#0E7C6A"/>
+<text x="525" y="293" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Workflow</text>
+<text x="525" y="309" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Created</text>
+<text x="525" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">workflow_instances</text>
+<line x1="590" y1="299" x2="610" y2="299" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#d1rd)"/>
+<!-- C5 Org Chart Updates -->
+<rect x="612" y="270" width="158" height="58" rx="7" fill="#B01B1B"/>
+<text x="691" y="293" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Org Chart</text>
+<text x="691" y="309" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Updates on Approval</text>
+<text x="691" y="322" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.65)">live revalidation</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+
+<!-- Legend -->
+<rect x="14" y="350" width="420" height="118" rx="8" fill="#fff" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="368" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96" letter-spacing="0.08em">LEGEND</text>
+<rect x="26" y="375" width="13" height="13" rx="3" fill="#0A1628"/>
+<text x="45" y="386" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Trigger / HR-initiated action</text>
+<rect x="216" y="375" width="13" height="13" rx="3" fill="#0E7C6A"/>
+<text x="235" y="386" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System auto-action</text>
+<rect x="26" y="397" width="13" height="13" rx="3" fill="#FEF3E2" stroke="#B45C00" stroke-width="1"/>
+<text x="45" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Decision / threshold gate</text>
+<rect x="216" y="397" width="13" height="13" rx="3" fill="#B01B1B"/>
+<text x="235" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Irreversible / live update</text>
+<rect x="26" y="419" width="13" height="13" rx="3" fill="#5B2D9E"/>
+<text x="45" y="430" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Org chart action scope</text>
+<line x1="26" y1="447" x2="38" y2="447" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#d1gold)"/>
+<text x="45" y="451" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Critical transition</text>
+<line x1="216" y1="447" x2="228" y2="447" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#d1te)"/>
+<text x="235" y="451" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System propagation</text>
+<line x1="26" y1="462" x2="398" y2="462" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="474" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00" font-style="italic">ARIA errors (RateLimitError, AuthenticationError, APIConnectionError) return bilingual AriaResponse — no crashes (BR-AUDIT-001).</text>
+
+<!-- Blocking panel -->
+<rect x="444" y="350" width="442" height="118" rx="8" fill="#FDEAEA" stroke="#B01B1B" stroke-width="1"/>
+<text x="456" y="368" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B" letter-spacing="0.07em">BLOCKING CONDITIONS</text>
+<text x="456" y="388" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">No ACTIVE assignment</text>
+<text x="580" y="388" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— employee invisible on chart</text>
+<text x="456" y="406" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">ANTHROPIC_API_KEY missing</text>
+<text x="614" y="406" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— ARIA panel disabled</text>
+<text x="456" y="424" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">is_confidential = true</text>
+<text x="568" y="424" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— hidden from Manager/Employee</text>
+<text x="456" y="442" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Confidence &lt; 0.7</text>
+<text x="543" y="442" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— ARIA offers escalation only</text>
+<text x="456" y="460" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">PENDING_APPROVAL acting</text>
+<text x="622" y="460" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">— strip not yet visible</text>
+<text x="456" y="474" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B" font-style="italic">All blocks surface as inline errors or bilingual ARIA responses with BR-xx rule codes.</text>
+</svg>
+  </div>
+</div>
+
+<!-- ════ S3 — SIX FEATURE CARDS ════════════════════════════ -->
+<div class="sec" id="s3">
+  <div class="sec-lbl">Section 3</div>
+  <div class="sec-title">Six Org Chart &amp; ARIA Feature Cards</div>
+  <div class="sec-desc">Six distinct capabilities built into the org chart module. Each has specific prerequisites, node behaviour, and common failure modes HR Admins should know.</div>
+  <div class="type-grid">
+
+    <div class="type-card" style="border-color:#90AADE">
+      <div class="type-head" style="background:#EAF0FD">
+        <div class="type-icon" style="background:#1A4FBA;color:#fff">🏢</div>
+        <div>
+          <div class="type-name">Three View Modes</div>
+          <div class="type-sub">Full Org / My Team / By Department</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Full Org</span><span class="tv">Complete Avaniis tree</span></div>
+        <div class="tr"><span class="tk">My Team</span><span class="tv">Direct + indirect reports only</span></div>
+        <div class="tr"><span class="tk">By Dept</span><span class="tv">Single department subtree</span></div>
+        <div class="tr"><span class="tk">Data source</span><span class="tv-g">worker_assignments CTE</span></div>
+        <div class="tr"><span class="tk">Route</span><span class="br-pill">/org-chart</span></div>
+        <div class="mistake">⚠ Common mistake: switching to My Team view as Super Admin shows only your own reports — expected, not a bug.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#9FD8CF">
+      <div class="type-head" style="background:#E0F4F0">
+        <div class="type-icon" style="background:#0E7C6A;color:#fff">🎨</div>
+        <div>
+          <div class="type-name">Five Node Types</div>
+          <div class="type-sub">Colour-coded status indicators</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Green (active)</span><span class="tv-g">Standard active employee</span></div>
+        <div class="tr"><span class="tk">Amber (acting)</span><span class="tv-a">is_acting = true</span></div>
+        <div class="tr"><span class="tk">Amber (frozen)</span><span class="tv-a">positions.is_frozen</span></div>
+        <div class="tr"><span class="tk">Red (vacant)</span><span class="tv-r">vacancy_start_date IS NOT NULL</span></div>
+        <div class="tr"><span class="tk">Blue (contractor)</span><span class="tv">nationality_category = CONTRACT</span></div>
+        <div class="mistake">⚠ Common mistake: acting strip not showing — assignment still PENDING_APPROVAL, not ACTIVE yet. Check /approvals.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#F4B86A">
+      <div class="type-head" style="background:#FEF3E2">
+        <div class="type-icon" style="background:#B45C00;color:#fff">⋯</div>
+        <div>
+          <div class="type-name">··· Action Menu</div>
+          <div class="type-sub">HR Admin actions from any node</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Assign Acting</span><span class="tv">Opens acting drawer</span></div>
+        <div class="tr"><span class="tk">Request Transfer</span><span class="tv">Opens transfer form</span></div>
+        <div class="tr"><span class="tk">Raise Hiring Request</span><span class="tv">For vacant nodes</span></div>
+        <div class="tr"><span class="tk">View Profile</span><span class="tv">Links to /persons/[id]</span></div>
+        <div class="tr"><span class="tk">Permission</span><span class="br-pill">HR_ADMIN only</span></div>
+        <div class="mistake">⚠ Common mistake: ··· menu not visible — you are logged in as MANAGER or EMPLOYEE. Actions require HR_ADMIN role minimum.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#7BC4A0">
+      <div class="type-head" style="background:#E6F5EE">
+        <div class="type-icon" style="background:#1A6B3C;color:#fff">📊</div>
+        <div>
+          <div class="type-name">Analytics Panel</div>
+          <div class="type-sub">Real-time org health KPIs</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Headcount</span><span class="tv">Total ACTIVE assignments</span></div>
+        <div class="tr"><span class="tk">Span of control</span><span class="tv">Avg direct reports per manager</span></div>
+        <div class="tr"><span class="tk">Vacancy rate</span><span class="tv">positions with vacancy_start_date</span></div>
+        <div class="tr"><span class="tk">Emiratisation %</span><span class="tv">nationality_category count / total</span></div>
+        <div class="tr"><span class="tk">Access</span><span class="br-pill">HR_ADMIN+</span></div>
+        <div class="mistake">⚠ Common mistake: Emiratisation % is lower than expected — contractors are counted in denominator. Filter to PERMANENT only for the official metric.</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#D4D8E2">
+      <div class="type-head" style="background:#EEF0F5">
+        <div class="type-icon" style="background:#6B7A96;color:#fff">⚙️</div>
+        <div>
+          <div class="type-name">Filter Panel</div>
+          <div class="type-sub">Dept · Status · Level · Search</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">By department</span><span class="tv">Single subtree focus</span></div>
+        <div class="tr"><span class="tk">By status</span><span class="tv">Active / Acting / Vacant</span></div>
+        <div class="tr"><span class="tk">By level</span><span class="tv">Grade G1–G12 range filter</span></div>
+        <div class="tr"><span class="tk">Name search</span><span class="tv">Highlights matching nodes</span></div>
+        <div class="tr"><span class="tk">Persist</span><span class="tv">Filter survives page refresh</span></div>
+        <div class="mistake">⚠ Common mistake: employee appears missing — an active status filter is hiding them. Click "Clear Filters" (⚙️ icon top-right of canvas).</div>
+      </div>
+    </div>
+
+    <div class="type-card" style="border-color:#F4A0A0">
+      <div class="type-head" style="background:#FDEAEA">
+        <div class="type-icon" style="background:#B01B1B;color:#fff">⬇️</div>
+        <div>
+          <div class="type-name">Export PNG / PDF</div>
+          <div class="type-sub">A3 landscape · Full tree snapshot</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">PNG export</span><span class="tv">html-to-image library</span></div>
+        <div class="tr"><span class="tk">PDF export</span><span class="tv">jsPDF 4.2.1 · A3 landscape</span></div>
+        <div class="tr"><span class="tk">Scope</span><span class="tv">Current view (filtered or full)</span></div>
+        <div class="tr"><span class="tk">Max nodes</span><span class="tv">≤ 200 recommended</span></div>
+        <div class="tr"><span class="tk">Access</span><span class="br-pill">HR_ADMIN+</span></div>
+        <div class="mistake">⚠ Common mistake: export produces blank pages — too many nodes (>200) overflow the A3 canvas. Apply department filter before exporting.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ S4 — SWIMLANE PROCESS FLOWS ══════════════════════ -->
+<div class="sec" id="s4">
+  <div class="sec-lbl">Section 4</div>
+  <div class="sec-title">Step-by-Step Process Flows</div>
+  <div class="sec-desc">Two complete workflows triggered directly from the org chart ··· node menu. Each swimlane shows who does what, in what order, and what the system handles automatically.</div>
+
+  <!-- FLOW A: Assign Acting Manager -->
+  <div class="swimlane">
+    <div class="sw-head">Flow A — Assign Acting Manager from Org Chart <span class="sw-stag">BR-AC-001 · 4 STAGES</span></div>
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR<br>ADMIN</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Open Node Menu</span>
+          <span class="sb-sub">/org-chart → click ··· on manager's node</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Select Acting</span>
+          <span class="sb-sub">Choose "Assign Acting Manager" from menu</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Fill Drawer</span>
+          <span class="sb-sub">Acting person · Start · End date · Allowance?</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">4</span>
+          <span class="sb-title">Submit</span>
+          <span class="sb-sub">Status → PENDING_APPROVAL</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto">
+          <span class="sb-title">Validate</span>
+          <span class="sb-sub">End date required · Max 6 months check (BR-AC-001)</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Route Workflow</span>
+          <span class="sb-sub">Manager + HR Director approval created</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">SLA Timer</span>
+          <span class="sb-sub">48h for urgent (4h if same-day urgent flag)</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Review &amp; Decide</span>
+          <span class="sb-sub">/approvals → Approve / Reject / Delegate (BR-29)</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn">
+          <span class="sb-title">SLA Breach?</span>
+          <span class="sb-sub">48h → auto-escalates to HR Director</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM<br>EXECUTE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">is_acting = true</span>
+          <span class="sb-sub">worker_assignments updated immediately</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Amber Strip</span>
+          <span class="sb-sub">Org chart node shows amber bar live</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">6-Month Alert</span>
+          <span class="sb-sub">ARIA monitors acting_end_date daily</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-term">
+          <span class="sb-title" style="color:var(--g2)">Audit Log</span>
+          <span class="sb-sub" style="color:rgba(255,255,255,.6)">INSERT-only · BR-AUDIT-001</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl em">EMPLOYEE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Notified</span>
+          <span class="sb-sub">Email + in-app: acting role, start, end date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Profile Updated</span>
+          <span class="sb-sub">/me/profile shows "Acting [Title]"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">⏱ SLA Timers — Flow A</div>
+    <div class="sla-grid">
+      <div class="sla-tile"><div class="sla-label">Default approval window</div><div class="sla-num">48 hrs</div><div class="sla-sub">UAE business days</div></div>
+      <div class="sla-tile"><div class="sla-label">Urgent flag (same-day)</div><div class="sla-num">4 hrs</div><div class="sla-sub">HR Director notified immediately</div></div>
+      <div class="sla-tile warn"><div class="sla-label">⚠ Maximum acting period</div><div class="sla-num">6 mo</div><div class="sla-sub">ARIA alerts HR Admin 5 days before</div></div>
+    </div>
+  </div>
+
+  <!-- FLOW B: Request Transfer from org chart -->
+  <div class="swimlane">
+    <div class="sw-head">Flow B — Request Transfer from Org Chart Node <span class="sw-stag">BR-TR-001 · 5 STAGES</span></div>
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR<br>ADMIN</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">1</span>
+          <span class="sb-title">Open Node Menu</span>
+          <span class="sb-sub">/org-chart → ··· → Request Transfer</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-act" style="position:relative">
+          <span class="sn">2</span>
+          <span class="sb-title">Fill Transfer Form</span>
+          <span class="sb-sub">Type · Target dept · Position · Eff. date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="position:relative">
+          <span class="sn">3</span>
+          <span class="sb-title">Submit</span>
+          <span class="sb-sub">Reason ≥20 chars required</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto">
+          <span class="sb-title">Validate</span>
+          <span class="sb-sub">Status=ACTIVE · Position unfrozen · No payroll lock</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">Create Workflow</span>
+          <span class="sb-sub">Transfer: Mgr + HR Admin · Promo adds Finance step</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto">
+          <span class="sb-title">SLA Timer</span>
+          <span class="sb-sub">48h countdown · Email + in-app to approvers</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Step 1 Approval</span>
+          <span class="sb-sub">Approve / Reject / Delegate (BR-29)</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn">
+          <span class="sb-title">48h SLA</span>
+          <span class="sb-sub">Breach → auto-escalate to HR Director</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl hd">HR<br>DIRECTOR</div>
+      <div class="sw-steps">
+        <div class="sb sb-act">
+          <span class="sb-title">Step 2 Final</span>
+          <span class="sb-sub">Final sign-off · 72h SLA for cross-dept</span>
+        </div>
+      </div>
+    </div>
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM<br>EXECUTE</div>
+      <div class="sw-steps">
+        <div class="sb sb-ok">
+          <span class="sb-title">Assignment Updated</span>
+          <span class="sb-sub">Old end-dated · New from effective_date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Org Chart Moves</span>
+          <span class="sb-sub">Node moves to new dept on effective date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok">
+          <span class="sb-title">Payroll GL</span>
+          <span class="sb-sub">New cost centre next run</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-term">
+          <span class="sb-title" style="color:var(--g2)">Audit</span>
+          <span class="sb-sub" style="color:rgba(255,255,255,.6)">Field-level diff</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ S5 — STATE MACHINES ══════════════════════════════ -->
+<div class="sec" id="s5">
+  <div class="sec-lbl">Section 5</div>
+  <div class="sec-title">State Machines</div>
+  <div class="sec-desc">Two node-edge diagrams: the ARIA intent processing lifecycle, and the org chart node status machine. Arrows show triggers and the modules affected.</div>
+
+  <!-- SM1: ARIA Intent State Machine -->
+  <div class="sm-wrap" style="margin-bottom:16px">
+    <div class="sm-hdr">⬤ State Machine 1 — ARIA Intent Processing Lifecycle</div>
+    <div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 820 380" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ARIA Intent Processing State Machine</title>
+<desc>Shows ARIA query lifecycle from RECEIVED through INTENT_DETECTED and CONFIDENCE_CHECKED, branching to DB_QUERY-RESPONSE-LOGGED path or ESCALATION_OFFERED. Injection path leads to BLOCKED and ALERT.</desc>
+<defs>
+  <marker id="sm1ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm1te" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm1am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm1rd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="820" height="380" fill="#F5F6F8"/>
+
+<!-- Title strip: 4 intent types -->
+<rect x="14" y="14" width="790" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C" letter-spacing="0.06em">4 INTENT TYPES:</text>
+<text x="134" y="29" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)">ORG_QUERY</text>
+<text x="228" y="29" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">·</text>
+<text x="240" y="29" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)">HR_ACTION</text>
+<text x="326" y="29" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">·</text>
+<text x="338" y="29" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)">DIAGNOSTIC</text>
+<text x="436" y="29" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)">·</text>
+<text x="448" y="29" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)">COMPLIANCE</text>
+
+<!-- Main flow row at y=90 -->
+<!-- RECEIVED -->
+<rect x="14" y="78" width="120" height="52" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="74" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">RECEIVED</text>
+<text x="74" y="117" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">User types query</text>
+<line x1="134" y1="104" x2="154" y2="104" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1ag)"/>
+
+<!-- INTENT_DETECTED (teal, central) -->
+<rect x="156" y="68" width="160" height="72" rx="8" fill="#0E7C6A" stroke="#085041" stroke-width="2"/>
+<text x="236" y="96" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#fff">INTENT_DETECTED</text>
+<text x="236" y="114" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.75)">Classified into 4 types</text>
+<text x="236" y="130" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.55)">confidence score assigned</text>
+
+<!-- Arrow to CONFIDENCE_CHECKED -->
+<line x1="316" y1="104" x2="336" y2="104" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#sm1te)"/>
+
+<!-- CONFIDENCE_CHECKED (amber decision, larger) -->
+<rect x="338" y="68" width="170" height="72" rx="8" fill="#FEF3E2" stroke="#B45C00" stroke-width="2"/>
+<text x="423" y="94" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#7A3E00">CONFIDENCE</text>
+<text x="423" y="110" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#7A3E00">CHECKED</text>
+<text x="423" y="128" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#B45C00">threshold ≥ 0.7 required</text>
+
+<!-- Arrow CONFIDENCE → DB_QUERY (≥0.7 path) -->
+<line x1="508" y1="104" x2="528" y2="104" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#sm1te)"/>
+<text x="518" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#0E7C6A">≥ 0.7</text>
+
+<!-- DB_QUERY -->
+<rect x="530" y="78" width="120" height="52" rx="8" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+<text x="590" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#0E7C6A">DB_QUERY</text>
+<text x="590" y="117" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#0E7C6A">Drizzle · PII masked</text>
+<line x1="650" y1="104" x2="670" y2="104" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#sm1te)"/>
+
+<!-- RESPONSE -->
+<rect x="672" y="78" width="120" height="52" rx="8" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+<text x="732" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#0E7C6A">RESPONSE</text>
+<text x="732" y="117" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#0E7C6A">bilingual · action offered</text>
+
+<!-- RESPONSE → LOGGED arrow (down) -->
+<line x1="732" y1="130" x2="732" y2="172" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm1te)"/>
+
+<!-- LOGGED (terminal green) -->
+<rect x="672" y="174" width="120" height="52" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="732" y="196" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A6B3C">LOGGED</text>
+<text x="732" y="213" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#1A6B3C">audit_log INSERT</text>
+
+<!-- CONFIDENCE → ESCALATION_OFFERED (<0.7 path, downward) -->
+<line x1="423" y1="140" x2="423" y2="184" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#sm1am)"/>
+<text x="431" y="168" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">&lt; 0.7</text>
+
+<!-- ESCALATION_OFFERED -->
+<rect x="340" y="186" width="166" height="52" rx="8" fill="#FAEEDA" stroke="#FAC775" stroke-width="1.5"/>
+<text x="423" y="207" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">ESCALATION</text>
+<text x="423" y="223" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#633806">OFFERED</text>
+
+<!-- INTENT_DETECTED → BLOCKED (injection path) -->
+<line x1="200" y1="140" x2="200" y2="196" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm1rd)"/>
+<text x="208" y="174" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">INJECTION</text>
+<text x="208" y="184" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">detected</text>
+
+<!-- BLOCKED -->
+<rect x="130" y="198" width="120" height="52" rx="8" fill="#FCEBEB" stroke="#F09595" stroke-width="1.5"/>
+<text x="190" y="220" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#A32D2D">BLOCKED</text>
+<text x="190" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#A32D2D">Query discarded</text>
+<line x1="250" y1="224" x2="270" y2="224" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm1rd)"/>
+
+<!-- ALERT (terminal red) -->
+<rect x="272" y="198" width="120" height="52" rx="8" fill="#B01B1B"/>
+<text x="332" y="220" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">ALERT</text>
+<text x="332" y="237" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.75)">SUPER_ADMIN notified</text>
+
+<!-- Label: RECEIVED at left -->
+<text x="74" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Initial</text>
+<!-- Label: arrow RECEIVED→INTENT -->
+<text x="144" y="98" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">submit</text>
+
+<!-- Bottom legend bar -->
+<rect x="14" y="285" width="792" height="84" rx="8" fill="#fff" stroke="#D4D8E2" stroke-width="0.5"/>
+<text x="26" y="303" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96" letter-spacing="0.07em">TERMINAL STATES &amp; NOTES</text>
+<rect x="26" y="310" width="10" height="10" rx="2" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1"/>
+<text x="42" y="320" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">LOGGED — Query answered, result stored in audit_log (INSERT-only)</text>
+<rect x="26" y="328" width="10" height="10" rx="2" fill="#B01B1B"/>
+<text x="42" y="338" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">ALERT — Injection attempt blocked, SUPER_ADMIN notified, query permanently discarded</text>
+<rect x="26" y="346" width="10" height="10" rx="2" fill="#FAEEDA" stroke="#FAC775" stroke-width="1"/>
+<text x="42" y="356" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">ESCALATION OFFERED — Confidence too low; ARIA suggests contacting HR Admin directly</text>
+<text x="440" y="303" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00" font-style="italic" font-weight="700">⚠ All API failures (RateLimitError, AuthenticationError, APIConnectionError) return bilingual AriaResponse — never crash.</text>
+</svg>
+    </div>
+  </div>
+
+  <!-- SM2: Org Chart Node Status Machine -->
+  <div class="sm-wrap">
+    <div class="sm-hdr">⬤ State Machine 2 — Org Chart Node Status (worker_assignments)</div>
+    <div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Org Chart Node Status State Machine</title>
+<desc>Shows worker_assignment status transitions that change an org chart node's visual appearance, from PENDING_HIRE to ACTIVE and then to acting, vacant, or terminal states.</desc>
+<defs>
+  <marker id="sm2ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2te" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="sm2rd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="300" fill="#F5F6F8"/>
+
+<!-- PENDING_HIRE (top, grey) -->
+<rect x="230" y="14" width="200" height="50" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="330" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="13" font-weight="700" fill="#444441">PENDING_HIRE</text>
+<text x="330" y="53" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Node NOT visible on org chart</text>
+<line x1="330" y1="64" x2="330" y2="106" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2ag)"/>
+<text x="338" y="90" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Hire confirmed</text>
+
+<!-- ACTIVE (teal, central large) -->
+<rect x="186" y="108" width="288" height="68" rx="8" fill="#0E7C6A" stroke="#085041" stroke-width="2"/>
+<text x="330" y="134" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="15" font-weight="700" fill="#fff">ACTIVE</text>
+<text x="330" y="152" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="rgba(255,255,255,0.75)">Green node · All modules enabled · ··· menu available</text>
+<text x="330" y="167" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.55)">assignment_status = ACTIVE</text>
+
+<!-- ACTIVE → ACTING (amber, right branch) -->
+<line x1="474" y1="142" x2="506" y2="142" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#sm2am)"/>
+<line x1="506" y1="158" x2="474" y2="158" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2ag)"/>
+<!-- ACTING node -->
+<rect x="508" y="116" width="148" height="52" rx="8" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="582" y="138" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#7A3E00">ACTING</text>
+<text x="582" y="154" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#B45C00">Amber strip shown</text>
+<text x="510" y="142" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">is_acting=true</text>
+<text x="510" y="158" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">end_date reached</text>
+
+<!-- Terminal states at bottom -->
+<!-- ACTIVE → TERMINATED -->
+<line x1="284" y1="176" x2="240" y2="232" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm2rd)"/>
+<text x="228" y="210" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Resigned / dismissed</text>
+<!-- ACTIVE → VACANT (position) -->
+<line x1="330" y1="176" x2="330" y2="232" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2ag)"/>
+<text x="338" y="210" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Position vacated</text>
+<!-- ACTIVE → RETIRED -->
+<line x1="376" y1="176" x2="432" y2="232" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2ag)"/>
+<text x="388" y="213" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Retirement</text>
+
+<!-- Terminal state boxes -->
+<rect x="14" y="234" width="140" height="50" rx="8" fill="#FCEBEB" stroke="#F09595" stroke-width="1.5"/>
+<text x="84" y="256" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#A32D2D">TERMINATED</text>
+<text x="84" y="272" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#A32D2D">Node removed</text>
+<rect x="186" y="234" width="288" height="50" rx="8" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="330" y="255" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#B01B1B">VACANT</text>
+<text x="330" y="271" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#B01B1B">Red node · Raise Hiring Request via ···</text>
+<rect x="490" y="234" width="170" height="50" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="575" y="256" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#444441">RETIRED</text>
+<text x="575" y="272" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5F5E5A">Read-only archive</text>
+</svg>
+    </div>
+  </div>
+</div>
+
+<!-- ════ S6 — SCREEN MOCKUPS ══════════════════════════════ -->
+<div class="sec" id="s6">
+  <div class="sec-lbl">Section 6</div>
+  <div class="sec-title">Simulated Screen Mockups</div>
+  <div class="sec-desc">Three annotated UI representations showing exactly what users see at each stage of org chart interaction and ARIA use. Built to match the actual AVANIIS HR interface at /org-chart and /aria.</div>
+
+  <!-- Mockup A: Full Org Chart -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — Full Org Chart: Filter Panel + Acting Node + Vacant Node + Context Menu</div>
+  <div class="mockup-frame" style="margin-bottom:8px">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 <span>Search employees, departments...</span></div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">2</div></div>
+        <div class="mf-ico">✅<div class="mf-badge" style="background:var(--am)">3</div></div>
+        <div class="mf-ico">🤖</div>
+        <div class="mf-av">DK</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">Main</div>
+        <div class="sb-item">🏠 Dashboard</div>
+        <div class="sb-item">👤 Employees</div>
+        <div class="sb-item active">🏢 Org Chart <span style="margin-left:auto;font-size:9px;color:var(--g2)">①</span></div>
+        <div class="sb-item">✅ Approvals <span class="sb-badge">3</span></div>
+        <div class="sb-sec">HR Operations</div>
+        <div class="sb-item">📅 Leave &amp; Absence</div>
+        <div class="sb-item">💰 Payroll</div>
+        <div class="sb-sec">Admin</div>
+        <div class="sb-item">⚙️ Master Data</div>
+        <div class="sb-item">🤖 ARIA Console <span class="sb-badge-g sb-badge">AI</span></div>
+        <div class="sb-item">📊 Reports</div>
+      </div>
+      <div class="mf-main">
+        <!-- Org chart toolbar -->
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;background:#fff;border:1px solid var(--bd);border-radius:8px;padding:8px 12px">
+          <div style="display:flex;border:1px solid var(--bd);border-radius:6px;overflow:hidden;font-size:11px">
+            <div style="padding:5px 11px;background:var(--n);color:#fff;font-weight:600">Full Org</div>
+            <div style="padding:5px 11px;color:var(--mu);cursor:pointer">My Team</div>
+            <div style="padding:5px 11px;color:var(--mu);cursor:pointer">By Dept</div>
+          </div>
+          <div style="flex:1;background:var(--off);border:1px solid var(--bd);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;font-size:11px;color:var(--mu)">🔍 Search name or ID... <span style="font-size:9px;margin-left:auto;color:var(--g3)">②</span></div>
+          <div style="background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl);border-radius:5px;padding:5px 10px;font-size:11px;font-weight:600;cursor:pointer">⚙️ Filter <span style="background:var(--bl);color:#fff;border-radius:3px;padding:0 4px;margin-left:4px">2</span></div>
+          <div style="background:var(--off);border:1px solid var(--bd);border-radius:5px;padding:5px 10px;font-size:11px;color:var(--mu);cursor:pointer">⬇ Export</div>
+        </div>
+        <!-- Org chart canvas -->
+        <div style="position:relative">
+          <!-- Filter panel (open overlay on left) -->
+          <div style="position:absolute;left:0;top:0;bottom:0;width:210px;background:#fff;border:1px solid var(--bd);border-radius:8px;z-index:3;padding:12px;font-size:11px" >
+            <div style="font-size:11px;font-weight:700;color:var(--n);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">Filters <span style="font-size:10px;color:var(--bl);cursor:pointer">Clear all</span></div>
+            <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Department</div>
+            <div style="border:1px solid var(--bl-bd);border-radius:5px;padding:5px 8px;background:var(--bl-bg);color:var(--bl);margin-bottom:4px">Finance ×</div>
+            <div style="border:1px solid var(--bd);border-radius:5px;padding:5px 8px;color:var(--mu);margin-bottom:10px">IT ×</div>
+            <div style="font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Status</div>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <div style="border:1px solid var(--gr-bd);border-radius:10px;padding:2px 8px;font-size:10px;background:var(--gr-bg);color:var(--gr)">Active</div>
+              <div style="border:1px solid var(--am-bd);border-radius:10px;padding:2px 8px;font-size:10px;background:var(--am-bg);color:var(--am)">Acting</div>
+              <div style="border:1px solid var(--rd-bd);border-radius:10px;padding:2px 8px;font-size:10px;background:var(--rd-bg);color:var(--rd)">Vacant</div>
+            </div>
+            <div style="font-size:9px;color:var(--mu);margin-top:10px;font-style:italic">Showing 47 of 247 nodes</div>
+          </div>
+          <!-- Org nodes (offset right of filter panel) -->
+          <div style="margin-left:220px">
+            <!-- CEO node -->
+            <div style="text-align:center;margin-bottom:14px">
+              <div class="oc-node" style="display:inline-block;text-align:left">
+                <div class="oc-strip" style="background:var(--te)"></div>
+                <div class="oc-inner">
+                  <div class="oc-row">
+                    <div class="oc-av" style="background:#0A1628">KA</div>
+                    <div style="min-width:0">
+                      <div class="oc-name">Khalid Al Mansouri</div>
+                      <div class="oc-title">Chief Executive Officer</div>
+                      <div class="oc-dept">AVANIIS Real Estate</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="oc-divider"></div>
+                <div class="oc-footer">
+                  <div class="oc-reports oc-status"><span style="color:var(--gr);font-size:12px">●</span> Active · 6 reports</div>
+                  <div class="oc-menu">···</div>
+                </div>
+              </div>
+            </div>
+            <!-- Department heads row -->
+            <div class="node-pair" style="justify-content:center">
+              <!-- Acting node (amber) -->
+              <div>
+                <div style="font-size:9px;font-weight:700;color:var(--am);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;text-align:center">③ Acting — Amber Indicators</div>
+                <div class="oc-node acting">
+                  <div class="oc-strip" style="background:var(--am)"></div>
+                  <div class="oc-inner">
+                    <div class="oc-row">
+                      <div class="oc-av" style="background:var(--am3,#A8863A)">SA</div>
+                      <div style="min-width:0">
+                        <div class="oc-name">Sara Al Hammadi</div>
+                        <div class="oc-title" style="color:var(--am);font-weight:600">⟲ Acting Finance Director</div>
+                        <div class="oc-dept">Finance</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="oc-divider"></div>
+                  <div class="acting-bar">
+                    <span>ACTING</span>
+                    <span>ends 31 Jul 2026</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Normal active node with context menu -->
+              <div style="position:relative">
+                <div style="font-size:9px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;text-align:center">Active — ··· Menu Open</div>
+                <div class="oc-node">
+                  <div class="oc-strip" style="background:var(--te)"></div>
+                  <div class="oc-inner">
+                    <div class="oc-row">
+                      <div class="oc-av" style="background:#1A4FBA">OH</div>
+                      <div style="min-width:0">
+                        <div class="oc-name">Omar Hassan</div>
+                        <div class="oc-title">Head of IT</div>
+                        <div class="oc-dept">Information Technology</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="oc-divider"></div>
+                  <div class="oc-footer">
+                    <div class="oc-reports oc-status"><span style="color:var(--gr);font-size:12px">●</span> Active · 9 reports</div>
+                    <div class="oc-menu" style="background:var(--n);color:#fff">···</div>
+                  </div>
+                </div>
+                <!-- Context menu -->
+                <div class="ctx-menu" style="position:absolute;top:82px;right:-12px;z-index:10">
+                  <div class="ctx-item">👤 View Profile</div>
+                  <div class="ctx-item">⟲ Assign Acting Manager</div>
+                  <div class="ctx-item">↔ Request Transfer</div>
+                  <div class="ctx-item">📋 Raise Hiring Request</div>
+                  <div class="ctx-div"></div>
+                  <div class="ctx-item danger">🔒 Mark Confidential</div>
+                </div>
+              </div>
+              <!-- Vacant node (red) -->
+              <div>
+                <div style="font-size:9px;font-weight:700;color:var(--rd);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;text-align:center">④ Vacant — Red Indicator</div>
+                <div class="oc-node vacant">
+                  <div class="oc-strip" style="background:var(--rd)"></div>
+                  <div class="oc-inner">
+                    <div class="oc-row">
+                      <div class="oc-av" style="background:var(--rd)">?</div>
+                      <div style="min-width:0">
+                        <div class="oc-name" style="color:var(--rd)">Position Vacant</div>
+                        <div class="oc-title">Head of Operations</div>
+                        <div class="oc-dept">Operations</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="oc-divider"></div>
+                  <div class="vacant-bar">
+                    <span>VACANT</span>
+                    <span>Since 01 May 2026</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item"><span class="ann-num">①</span><div><span class="ann-t">Active Nav Item</span>Org Chart is highlighted with gold left-border. The module loads the recursive CTE query on every visit — always shows the latest approved assignment data.</div></div>
+    <div class="ann-item"><span class="ann-num">②</span><div><span class="ann-t">Search Box</span>Type any part of a name or employee ID. Matching nodes are highlighted in place — the tree is not filtered, just highlighted. Use Dept filter to narrow the view.</div></div>
+    <div class="ann-item"><span class="ann-num">③</span><div><span class="ann-t">Acting Amber Strip</span>Appears automatically when is_acting = true and assignment_status = ACTIVE. Amber border + acting bar show end date. Disappears automatically on acting_end_date.</div></div>
+    <div class="ann-item"><span class="ann-num">④</span><div><span class="ann-t">Vacant Red Node</span>Shown when positions.vacancy_start_date IS NOT NULL and no ACTIVE assignment exists. ··· menu offers "Raise Hiring Request" directly from this node.</div></div>
+  </div>
+
+  <!-- Mockup B: ARIA Chat Panel -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin:28px 0 8px">Mockup B — ARIA Chat Panel: Org Chart Query + Structured Response + Action Button</div>
+  <div class="mockup-frame" style="margin-bottom:8px">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 <span>Search...</span></div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">2</div></div>
+        <div class="mf-av">DK</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">Main</div>
+        <div class="sb-item">🏠 Dashboard</div>
+        <div class="sb-item">👤 Employees</div>
+        <div class="sb-item">🏢 Org Chart</div>
+        <div class="sb-item">✅ Approvals <span class="sb-badge">3</span></div>
+        <div class="sb-sec">Admin</div>
+        <div class="sb-item active">🤖 ARIA Console <span class="sb-badge-g sb-badge">AI</span></div>
+        <div class="sb-item">📊 Reports</div>
+      </div>
+      <div class="mf-main" style="background:#fff">
+        <!-- ARIA header -->
+        <div class="chat-hdr">
+          <div class="chat-title">🤖 ARIA — Adaptive Resource Intelligence Agent</div>
+          <div class="chat-status">● Online</div>
+        </div>
+        <div class="chat-body" style="padding:16px">
+          <!-- User message -->
+          <div class="chat-msg" style="overflow:hidden">
+            <div class="chat-bubble-user" style="float:right">Find Ahmed Al-Rashidi in the org chart and show me who he reports to</div>
+            <div style="clear:both"></div>
+          </div>
+          <!-- ARIA response -->
+          <div class="chat-msg">
+            <div style="display:flex;gap:8px;align-items:flex-start">
+              <div class="chat-aria-av">AR</div>
+              <div class="chat-bubble-aria">
+                <div style="font-weight:700;font-size:11px;color:var(--n);margin-bottom:6px">ARIA found Ahmed Al-Rashidi — Finance Department</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;font-size:11px">
+                  <div style="background:var(--off);border-radius:5px;padding:6px 9px"><span style="color:var(--mu);display:block;font-size:9px;text-transform:uppercase;letter-spacing:.05em">Name</span>Ahmed Khalid Al-Rashidi</div>
+                  <div style="background:var(--off);border-radius:5px;padding:6px 9px"><span style="color:var(--mu);display:block;font-size:9px;text-transform:uppercase;letter-spacing:.05em">Position</span>Senior Financial Analyst</div>
+                  <div style="background:var(--off);border-radius:5px;padding:6px 9px"><span style="color:var(--mu);display:block;font-size:9px;text-transform:uppercase;letter-spacing:.05em">Reports to</span>Sara Al Hammadi (Acting Finance Director)</div>
+                  <div style="background:var(--off);border-radius:5px;padding:6px 9px"><span style="color:var(--mu);display:block;font-size:9px;text-transform:uppercase;letter-spacing:.05em">Grade</span>G6 · ACTIVE since 12 Feb 2024</div>
+                </div>
+                <div style="display:flex;gap:7px">
+                  <button class="btn btn-p" style="height:28px;font-size:11px;padding:0 12px">🏢 Pan to Node in Org Chart</button>
+                  <button class="btn btn-g" style="height:28px;font-size:11px;padding:0 12px">👤 View Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Second query -->
+          <div class="chat-msg" style="overflow:hidden">
+            <div class="chat-bubble-user" style="float:right">How many vacancies are there in the IT department?</div>
+            <div style="clear:both"></div>
+          </div>
+          <!-- ARIA response 2 -->
+          <div class="chat-msg">
+            <div style="display:flex;gap:8px;align-items:flex-start">
+              <div class="chat-aria-av">AR</div>
+              <div class="chat-bubble-aria">
+                <div style="font-weight:700;font-size:11px;color:var(--n);margin-bottom:6px">IT Department — Vacancy Count</div>
+                <div style="font-size:12px;color:var(--tx);margin-bottom:8px">There are <strong style="color:var(--rd)">4 vacant positions</strong> in Information Technology, open for an average of <strong>23 days</strong>. The longest-open vacancy (Systems Architect) has been open since 01 Apr 2026 — 51 days.</div>
+                <div style="font-size:10px;color:var(--mu);font-family:monospace">positions WHERE department = IT AND vacancy_start_date IS NOT NULL — 4 rows</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item"><span class="ann-num">①</span><div><span class="ann-t">Pan to Node Button</span>ARIA offers a direct action when the query resolves to a specific person or node. Clicking "Pan to Node in Org Chart" navigates to /org-chart and centres the canvas on that node automatically.</div></div>
+    <div class="ann-item"><span class="ann-num">②</span><div><span class="ann-t">Structured Response Format</span>ARIA returns structured data (not free-form text) for person lookups, vacancy counts, and statistics. Emirates ID, passport number, and IBAN are never exposed — masked to show first 3 chars only.</div></div>
+    <div class="ann-item"><span class="ann-num">③</span><div><span class="ann-t">Query Logging</span>Every ARIA query and response is logged to audit_log (action = ARIA_QUERY) even if the answer is a fallback or escalation. This creates a complete audit trail for compliance.</div></div>
+    <div class="ann-item"><span class="ann-num">④</span><div><span class="ann-t">Bilingual Support</span>ARIA understands queries in English and Arabic. Responses are returned in the same language as the query. All field labels in structured responses include both name_en and name_ar values.</div></div>
+  </div>
+
+  <!-- Mockup C: Analytics Panel -->
+  <div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin:28px 0 8px">Mockup C — Org Chart Analytics Panel: Headcount KPIs + Span of Control + Vacancy + Emiratisation</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 <span>Search...</span></div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔</div>
+        <div class="mf-av">DK</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">Main</div>
+        <div class="sb-item active">🏢 Org Chart</div>
+        <div class="sb-item">✅ Approvals</div>
+        <div class="sb-sec">Admin</div>
+        <div class="sb-item">🤖 ARIA Console</div>
+      </div>
+      <div class="mf-main">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:15px;font-weight:700;color:var(--n)">📊 Org Chart Analytics — AVANIIS Real Estate</div>
+          <div style="font-size:11px;color:var(--mu)">Live · Updated 2 min ago</div>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Headcount</div>
+            <div class="kpi-val">247</div>
+            <div class="kpi-sub"><span class="kpi-hi">↑ 3</span> vs last month</div>
+          </div>
+          <div class="kpi-card" style="border-color:var(--am-bd)">
+            <div class="kpi-label">Acting Assignments</div>
+            <div class="kpi-val" style="color:var(--am)">8</div>
+            <div class="kpi-sub">2 approaching 6-month limit</div>
+          </div>
+          <div class="kpi-card" style="border-color:var(--rd-bd)">
+            <div class="kpi-label">Vacant Positions</div>
+            <div class="kpi-val" style="color:var(--rd)">21</div>
+            <div class="kpi-sub"><span class="kpi-lo">8.5%</span> vacancy rate</div>
+          </div>
+          <div class="kpi-card" style="border-color:var(--gr-bd)">
+            <div class="kpi-label">Emiratisation %</div>
+            <div class="kpi-val" style="color:var(--gr)">42.3%</div>
+            <div class="kpi-sub">Target: 40% · On track ✓</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Avg Span of Control</div>
+            <div class="kpi-val">4.2</div>
+            <div class="kpi-sub">Ideal: 4–7 direct reports</div>
+          </div>
+          <div class="kpi-card" style="border-color:var(--am-bd)">
+            <div class="kpi-label">Overloaded Managers</div>
+            <div class="kpi-val" style="color:var(--am)">3</div>
+            <div class="kpi-sub">&gt; 8 direct reports</div>
+          </div>
+        </div>
+        <!-- Dept headcount bar chart (simulated) -->
+        <div class="card" style="padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--n);margin-bottom:10px">Headcount by Department — Top 6</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+              <div style="width:120px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Information Technology</div>
+              <div style="flex:1;background:var(--lt);border-radius:4px;height:18px;position:relative"><div style="width:62%;background:var(--n);height:100%;border-radius:4px"></div></div>
+              <div style="width:30px;text-align:right;font-weight:700;color:var(--n)">62</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+              <div style="width:120px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Finance</div>
+              <div style="flex:1;background:var(--lt);border-radius:4px;height:18px;position:relative"><div style="width:44%;background:var(--n);height:100%;border-radius:4px"></div></div>
+              <div style="width:30px;text-align:right;font-weight:700;color:var(--n)">44</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+              <div style="width:120px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Operations</div>
+              <div style="flex:1;background:var(--lt);border-radius:4px;height:18px;position:relative"><div style="width:39%;background:var(--n);height:100%;border-radius:4px"></div></div>
+              <div style="width:30px;text-align:right;font-weight:700;color:var(--n)">39</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+              <div style="width:120px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Human Resources</div>
+              <div style="flex:1;background:var(--lt);border-radius:4px;height:18px;position:relative"><div style="width:31%;background:var(--te);height:100%;border-radius:4px"></div></div>
+              <div style="width:30px;text-align:right;font-weight:700;color:var(--n)">31</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+              <div style="width:120px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Sales &amp; Leasing</div>
+              <div style="flex:1;background:var(--lt);border-radius:4px;height:18px;position:relative"><div style="width:28%;background:var(--te);height:100%;border-radius:4px"></div></div>
+              <div style="width:30px;text-align:right;font-weight:700;color:var(--n)">28</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+              <div style="width:120px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Legal &amp; Compliance</div>
+              <div style="flex:1;background:var(--lt);border-radius:4px;height:18px;position:relative"><div style="width:19%;background:var(--g);height:100%;border-radius:4px"></div></div>
+              <div style="width:30px;text-align:right;font-weight:700;color:var(--n)">19</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout callout-w" style="margin-top:8px">⚠ Emiratisation % in analytics counts all ACTIVE assignments including contractors. For the official Ministry of HR metric, use Reports → Emiratisation Report which filters to PERMANENT nationality_category only.</div>
+</div>
+
+<!-- ════ S7 — NAVIGATION GUIDE ════════════════════════════ -->
+<div class="sec" id="s7">
+  <div class="sec-lbl">Section 7</div>
+  <div class="sec-title">Navigation &amp; Configuration Guide</div>
+  <div class="sec-desc">How to reach the org chart and ARIA from each role, keyboard and zoom controls, and node colour legend. Also covers mobile navigation behaviour and configuration prerequisites.</div>
+
+  <!-- Node colour legend SVG -->
+  <div class="card" style="margin-bottom:16px;padding:4px 4px 0">
+<svg viewBox="0 0 700 140" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Org Chart Node Colour Reference</title>
+<desc>Five node colour types used in the AVANIIS HR org chart: green for active, amber for acting and frozen, red for vacant, and blue for contractor.</desc>
+<defs>
+  <marker id="s7ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="s7gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="s7te" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="s7rd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="700" height="140" fill="#F5F6F8" rx="8"/>
+<text x="16" y="26" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#6B7A96" letter-spacing="0.08em">NODE COLOUR LEGEND — ORG CHART</text>
+<!-- Green active -->
+<rect x="16" y="36" width="16" height="16" rx="3" fill="#0E7C6A"/>
+<text x="38" y="48" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#0E7C6A">Active Employee</text>
+<text x="38" y="62" font-family="-apple-system,sans-serif" font-size="10" fill="#6B7A96">assignment_status = ACTIVE · is_acting = false</text>
+<!-- Amber acting -->
+<rect x="16" y="72" width="16" height="16" rx="3" fill="#B45C00"/>
+<text x="38" y="84" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B45C00">Acting / Frozen</text>
+<text x="38" y="98" font-family="-apple-system,sans-serif" font-size="10" fill="#6B7A96">is_acting = true (acting strip) OR positions.is_frozen = true (frozen badge)</text>
+<!-- Red vacant -->
+<rect x="340" y="36" width="16" height="16" rx="3" fill="#B01B1B"/>
+<text x="362" y="48" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B01B1B">Vacant Position</text>
+<text x="362" y="62" font-family="-apple-system,sans-serif" font-size="10" fill="#6B7A96">positions.vacancy_start_date IS NOT NULL · no ACTIVE assignment</text>
+<!-- Blue contractor -->
+<rect x="340" y="72" width="16" height="16" rx="3" fill="#1A4FBA"/>
+<text x="362" y="84" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">Contractor</text>
+<text x="362" y="98" font-family="-apple-system,sans-serif" font-size="10" fill="#6B7A96">persons.nationality_category = CONTRACT · Blue left-strip indicator</text>
+<!-- Overloaded orange note -->
+<rect x="16" y="108" width="16" height="16" rx="3" fill="#F97316"/>
+<text x="38" y="120" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#F97316">Overloaded Manager</text>
+<text x="38" y="132" font-family="-apple-system,sans-serif" font-size="10" fill="#6B7A96">Span of control &gt; 8 direct reports · Orange dashed ring indicator</text>
+</svg>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">Navigation by Role</div>
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--off);border-radius:7px">
+          <span class="br-pill">HR_ADMIN</span><span>Sidebar → Org Chart · Full access + ··· menu</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--off);border-radius:7px">
+          <span class="br-pill">HR_DIRECTOR</span><span>Sidebar → Org Chart · Read + ··· menu (all depts)</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--off);border-radius:7px">
+          <span class="br-pill">MANAGER</span><span>Sidebar → Org Chart · My Team view default</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--off);border-radius:7px">
+          <span class="br-pill">EMPLOYEE</span><span>Sidebar (mobile) → Org Chart · Read-only, full view</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--off);border-radius:7px">
+          <span class="br-pill">SUPER_ADMIN</span><span>All roles · can see confidential nodes</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">Zoom, Pan &amp; Keyboard Controls</div>
+      <div style="display:flex;flex-direction:column;gap:5px;font-size:12px">
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Zoom in/out</span><span class="br-pill">Ctrl + scroll</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Fit to screen</span><span class="br-pill">Ctrl + Shift + F</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Pan canvas</span><span class="br-pill">Click + drag</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Pan to node (ARIA)</span><span style="font-size:11px;color:var(--mu)">ARIA action button</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span>Reset zoom</span><span class="br-pill">Home key</span></div>
+        <div style="display:flex;justify-content:space-between;padding:5px 0"><span>Mobile</span><span style="font-size:11px;color:var(--mu)">Pinch-to-zoom · two-finger pan</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">ARIA Navigation Paths &amp; SLA Rules</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px">
+      <div>
+        <div style="font-weight:700;color:var(--n);margin-bottom:8px">Path A — Org Chart ARIA Panel</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="background:var(--lt);border-radius:7px;padding:7px 10px">① Navigate to <strong>/org-chart</strong></div>
+          <div style="background:var(--lt);border-radius:7px;padding:7px 10px">② Click 🤖 icon in top-right of canvas toolbar</div>
+          <div style="background:var(--lt);border-radius:7px;padding:7px 10px">③ ARIA panel slides in from right — full org context</div>
+          <div style="background:var(--gr-bg);border-radius:7px;padding:7px 10px;color:var(--gr)">④ ARIA can pan to nodes directly from this panel</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--n);margin-bottom:8px">Path B — Standalone ARIA Console</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="background:var(--lt);border-radius:7px;padding:7px 10px">① Sidebar → ARIA Console (HR Admin and above)</div>
+          <div style="background:var(--lt);border-radius:7px;padding:7px 10px">② Full-screen chat with query history and export</div>
+          <div style="background:var(--lt);border-radius:7px;padding:7px 10px">③ All 4 intent types available here</div>
+          <div style="background:var(--gr-bg);border-radius:7px;padding:7px 10px;color:var(--gr)">④ Employees use /me/aria (ESS) — limited to personal data</div>
+        </div>
+        <div class="callout callout-i" style="margin-top:8px">ℹ ARIA at /me/aria is Employee Self-Service only. It cannot see other employees' data or initiate HR actions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ S8 — OPERATIONAL SCENARIOS ══════════════════════ -->
+<div class="sec" id="s8">
+  <div class="sec-lbl">Section 8</div>
+  <div class="sec-title">Operational Scenarios</div>
+  <div class="sec-desc">Four real-world situations at Avaniis / AVANIIS Real Estate. Each shows the exact resolution path, the system behaviour, and the compliance risk if steps are skipped.</div>
+  <div class="sc-grid">
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">A</div><div class="sc-title">Large org — find Mohammed Al-Dhaheri without scrolling</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>HR Admin at AVANIIS Real Estate opens /org-chart — 247 nodes visible in Full Org view</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>Type "Mohammed Al-Dhaheri" in the name search box (top toolbar)</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>System highlights all matching nodes in place — tree is not filtered, just highlighted</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>Click the highlighted node — canvas auto-pans and zooms to centre on Mohammed</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>Alternatively: ask ARIA "Find Mohammed Al-Dhaheri" → ARIA offers "Pan to Node" action button</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>Click ··· on Mohammed's node for context menu actions if needed</div></div>
+        <div class="sc-warn">⚠ Search matches on name_en only by default. If employee name is stored primarily in Arabic (name_ar), use the Arabic script in the search box for a correct match.</div>
+        <div class="sc-rule">PAN_TO_NODE intent · name_en / name_ar · worker_assignments.person_id</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">Acting end date wrong — update before 6-month breach</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>ARIA alert arrives: "Fatima Al Zaabi's acting assignment ends 2026-07-01 — 5 days from the 6-month UAE Law limit (BR-AC-001)"</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>HR Admin navigates to /org-chart → finds Fatima's amber-strip node → clicks ···</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>Choose "Edit Acting Assignment" from context menu — drawer opens pre-filled</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>Two options: (a) Update acting_end_date to earlier date — submits acting extension request. (b) Convert to permanent promotion — initiates promotion workflow (BR-PR-001)</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>Promotion workflow triggers 4-step chain: Manager → HR Admin → HR Director → Finance</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>On promotion approval: is_acting = false, amber strip removed, new grade and title applied from effective_date</div></div>
+        <div class="sc-warn">⚠ Simply extending acting_end_date beyond 6 months bypasses UAE Labour Law (BR-AC-001). The system flags this as a compliance risk and requires HR Director sign-off for any extension past 6 months.</div>
+        <div class="sc-rule">BR-AC-001 · BR-AC-002 · acting_end_date · is_acting · FDL 33/2021</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">C</div><div class="sc-title">ARIA wrong answer — confidence fallback and escalation</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>HR Admin asks: "What is the total bonus budget for Q3 2026 across all departments?"</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>ARIA evaluates the query — intent detected as COMPLIANCE but confidence score = 0.58 (below 0.7 threshold)</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>ARIA enters ESCALATION_OFFERED state — responds: "I'm not confident enough to calculate this accurately. This query requires data from the Finance ERP system which I do not have direct access to."</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>ARIA offers: "Would you like me to route this query to the Finance team? Or navigate to Reports → Payroll Analytics for the closest available data?"</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>HR Admin clicks "Navigate to Payroll Analytics" — redirected to /reports/payroll</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>Interaction is logged to audit_log regardless of fallback — action = ARIA_ESCALATION</div></div>
+        <div class="sc-warn">⚠ Never override ARIA's confidence fallback by re-asking in a different way hoping to get a higher score. The 0.7 threshold exists to prevent incorrect data being acted on as authoritative.</div>
+        <div class="sc-rule">CONFIDENCE_CHECKED · threshold 0.7 · ESCALATION_OFFERED · audit_log</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Org chart not reflecting approved transfer — effective date in future</div></div>
+      <div class="sc-body">
+        <div class="sc-step"><div class="sc-n">1</div><div>HR Admin approves Omar Al-Rashidi's transfer from IT to Operations on 2026-05-20 — effective_date = 2026-06-01</div></div>
+        <div class="sc-step"><div class="sc-n">2</div><div>HR Admin checks org chart on 2026-05-22 — Omar still shows under IT department</div></div>
+        <div class="sc-step"><div class="sc-n">3</div><div>This is expected behaviour. Org chart renders the current effective assignment, not the approved future assignment</div></div>
+        <div class="sc-step"><div class="sc-n">4</div><div>To verify the transfer was approved: /approvals → Completed Requests → find Omar's transfer (status = APPROVED)</div></div>
+        <div class="sc-step"><div class="sc-n">5</div><div>On 2026-06-01 at midnight UAE time, the system cron job applies the effective_date change — Omar's node moves to Operations automatically</div></div>
+        <div class="sc-step"><div class="sc-n">6</div><div>ARIA knows the future date: asking "When does Omar move to Operations?" returns "2026-06-01 — approved and scheduled"</div></div>
+        <div class="sc-warn">⚠ This is the intended effective-date pattern — never delete and re-create assignments to "force" an immediate move. The old record must be end-dated, not deleted, to preserve audit history (BR-AUDIT-001).</div>
+        <div class="sc-rule">effective_date pattern · worker_assignments.effective_start_date · BR-AUDIT-001</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ S9 — TROUBLESHOOTING ═════════════════════════════ -->
+<div class="sec" id="s9">
+  <div class="sec-lbl">Section 9</div>
+  <div class="sec-title">Troubleshooting Knowledge Base</div>
+  <div class="sec-desc">Four common issue categories. Every problem has three layers: what the user sees, what caused it, and the exact fix path with field references.</div>
+  <div class="ts-grid">
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">🔍 Employee Missing from Org Chart</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">New hire not visible on any org chart view</div>
+          <div class="ts-c">worker_assignments.assignment_status = PENDING_HIRE — not yet confirmed as ACTIVE</div>
+          <div class="ts-f">→ /persons/[id] → Assignments tab → confirm hire → set status = ACTIVE. Node appears immediately on next chart load.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Employee visible in another user's filter but not mine</div>
+          <div class="ts-c">An active department or status filter is hiding the node from your view</div>
+          <div class="ts-f">→ Click ⚙️ icon in org chart toolbar → "Clear Filters". Or ask ARIA "Show all employees" to reset to Full Org view.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Employee exists in /persons but never appears on org chart</div>
+          <div class="ts-c">positions.is_confidential = true — hidden from your role level</div>
+          <div class="ts-f">→ Requires HR_ADMIN minimum. Check /master-data/positions → [position] → is_confidential field. SUPER_ADMIN can toggle visibility.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⟲ Acting Amber Strip Not Showing</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Assigned acting role — amber strip still not visible on node</div>
+          <div class="ts-c">Acting assignment is in PENDING_APPROVAL — is_acting = true is only set on final approval</div>
+          <div class="ts-f">→ Check /approvals. Find the acting assignment request. Approve it — amber strip appears immediately, no page refresh needed.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Amber strip disappears unexpectedly</div>
+          <div class="ts-c">acting_end_date has been reached — system automatically sets is_acting = false</div>
+          <div class="ts-f">→ Expected behaviour. If acting is still needed, initiate a new acting assignment via ··· menu. Do not manually edit the database record.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Acting person not receiving the manager's approval notifications</div>
+          <div class="ts-c">Delegation rule was not set up — acting assignment ≠ workflow delegation</div>
+          <div class="ts-f">→ /settings/delegations → Add Rule. Delegator = original manager, Delegate = acting person, date range matching acting period. These are separate steps.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🤖 ARIA Not Responding</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">ARIA panel shows "AI assistant unavailable"</div>
+          <div class="ts-c">ANTHROPIC_API_KEY is missing or invalid in environment variables</div>
+          <div class="ts-f">→ SUPER_ADMIN: check /settings/configuration → AI Settings → verify ANTHROPIC_API_KEY is set. Request a new key from Anthropic console if needed.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">ARIA responds with "Rate limit reached, please try again in a moment"</div>
+          <div class="ts-c">Anthropic API rate limit hit — RateLimitError is caught and returns bilingual AriaResponse</div>
+          <div class="ts-f">→ Wait 30–60 seconds and retry. If persistent, check the Anthropic usage dashboard for the API key. Consider upgrading the API tier for high-volume usage.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">ARIA answers but gives a different answer for the same question</div>
+          <div class="ts-c">ARIA queries live database data — if assignments or positions changed, the answer correctly reflects the new state</div>
+          <div class="ts-f">→ This is expected. ARIA is not cached — every query hits the current database. If answers seem inconsistent, check /persons for recent assignment changes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">⬇ PDF Export Blank Pages</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">PDF export produces blank or cut-off pages</div>
+          <div class="ts-c">Too many nodes (>200) overflow the A3 landscape canvas used by jsPDF 4.2.1</div>
+          <div class="ts-f">→ Apply a department filter first to reduce visible nodes to ≤200. Then export. The export captures the current filtered view, not the full org.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">PNG export produces a blank white image</div>
+          <div class="ts-c">html-to-image library timed out before rendering completed — happens with 150+ nodes</div>
+          <div class="ts-f">→ Filter to a single department or team. Wait 3 seconds after the chart fully loads before clicking Export. Avoid exporting immediately after a filter change.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Export missing some nodes that are visible on screen</div>
+          <div class="ts-c">Nodes outside the current viewport are not in the DOM snapshot used by html-to-image</div>
+          <div class="ts-f">→ Use Ctrl+Shift+F to "Fit All" before exporting — this ensures all filtered nodes are in the render viewport. Then export.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ S10 — ARIA INTELLIGENCE ═════════════════════════ -->
+<div class="sec" id="s10">
+  <div class="sec-lbl">Section 10</div>
+  <div class="sec-title">ARIA Intelligence Notes</div>
+  <div class="sec-desc">Eight documented ARIA queries for the Org Chart module — each shows the dependency-check sequence, exact table and field references, and what ARIA actually says in response.</div>
+
+  <div class="aria-wrap">
+    <div class="aria-hdr">
+      <span class="aria-badge">ARIA</span>
+      <div>
+        <div class="aria-title">Adaptive Resource Intelligence Agent — Org Chart &amp; Analytics Query Logic</div>
+        <div class="aria-sub">Access from /aria (HR Admin+) · /me/aria (Employee ESS only) · Org chart 🤖 panel button</div>
+      </div>
+    </div>
+
+    <div class="aria-grid">
+
+      <div class="aria-card">
+        <div class="aria-q">"Show me the Finance department org chart"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = ORG_QUERY · sub-intent = PAN_TO_NODE · target = Finance dept</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Query departments WHERE name_en ILIKE '%Finance%' → get department_id</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Verify at least one ACTIVE worker_assignment in this department exists</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Confidence ≥ 0.7 → proceed · Return dept subtree + action button</div>
+        </div>
+        <div class="aria-response">"Found Finance Department — 44 employees, 1 acting assignment, 3 vacant positions. The department head is Sara Al Hammadi (Acting Finance Director). Clicking below will open the org chart filtered to Finance." <br><em>[Show Finance Department →]</em></div>
+        <div class="aria-rule">departments.name_en · worker_assignments · PAN_TO_NODE intent · vacancy_start_date</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Who reports directly to the CEO?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = ORG_QUERY · sub-intent = DIRECT_REPORTS</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Locate CEO position: positions WHERE title_en ILIKE '%Chief Executive%' → position_id</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>worker_assignments WHERE line_manager_id = CEO.person_id AND assignment_status = ACTIVE</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Mask PII: show name_en, title_en, department only — no emirates_id, no IBAN</div>
+        </div>
+        <div class="aria-response">"Khalid Al Mansouri (CEO) has 6 direct reports: Sara Al Hammadi (Acting Finance Director), Omar Hassan (Head of IT), Fatima Al Zaabi (Head of Legal), Ahmed Al-Rashidi (Operations Manager), Mohammed Hassan (Head of HR), and Rania Al-Sayed (Sales Director)."</div>
+        <div class="aria-rule">worker_assignments.line_manager_id · positions.title_en · DIRECT_REPORTS intent</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Find Ahmed Al-Rashidi in the org chart"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = ORG_QUERY · sub-intent = PERSON_SEARCH</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>persons WHERE name_en ILIKE '%Ahmed Al-Rashidi%' → get person_id and current assignment</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>worker_assignments WHERE person_id = match AND assignment_status = ACTIVE → get position, dept, manager</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Return structured card + "Pan to Node in Org Chart" action button</div>
+        </div>
+        <div class="aria-response">"Ahmed Khalid Al-Rashidi — Senior Financial Analyst, Finance Department, Grade G6. Reports to Sara Al Hammadi. ACTIVE since 12 Feb 2024. [Pan to Node in Org Chart] button offered."</div>
+        <div class="aria-rule">persons.name_en · worker_assignments.position_id · PERSON_SEARCH intent · PAN_TO_NODE action</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"How many vacancies are there in the IT department?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = DIAGNOSTIC · sub-intent = VACANCY_COUNT</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>departments WHERE name_en ILIKE '%IT%' OR name_en ILIKE '%Information Technology%' → department_id</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>positions WHERE department_id = IT AND vacancy_start_date IS NOT NULL → count + dates</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Calculate days open for each vacancy from vacancy_start_date to today</div>
+        </div>
+        <div class="aria-response">"IT Department has 4 vacant positions: Systems Architect (open 51 days), Data Engineer (open 38 days), IT Support Lead (open 22 days), and Network Administrator (open 14 days). Average days open: 31. Consider raising hiring requests for the 2 positions open beyond 30 days."</div>
+        <div class="aria-rule">positions.vacancy_start_date IS NOT NULL · department_id · VACANCY_COUNT intent</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Show acting assignments expiring this month"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = HR_ACTION · sub-intent = ACTING_EXPIRY_REPORT</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>worker_assignments WHERE is_acting = true AND acting_end_date BETWEEN today AND last_day_of_month(today)</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>For each: calculate duration from effective_start_date to acting_end_date in days</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Flag any where total duration ≥ 150 days (approaching 6-month UAE Law limit BR-AC-001)</div>
+        </div>
+        <div class="aria-response">"3 acting assignments expire in May 2026: (1) Sara Al Hammadi — Acting Finance Director, ends 31 May 2026, 148 days total [⚠ APPROACHING 6-MONTH LIMIT]. (2) Mohammed Hassan — Acting IT Manager, ends 20 May 2026, 62 days. (3) Fatima Al Zaabi — Acting Ops Lead, ends 25 May 2026, 44 days."</div>
+        <div class="aria-rule">worker_assignments.is_acting · acting_end_date · BR-AC-001 · 6-month limit flag</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"What is the current Emiratisation percentage?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = COMPLIANCE · sub-intent = EMIRATISATION_METRIC</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>COUNT all ACTIVE worker_assignments → total headcount denominator</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>COUNT persons WHERE nationality_category = 'UAE_NATIONAL' AND assignment_status = ACTIVE</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Return percentage + flag if below UAE Federal target (varies by sector)</div>
+        </div>
+        <div class="aria-response">"Current Emiratisation: 42.3% (104 UAE Nationals out of 247 ACTIVE employees). This includes contractors. For the official Ministry of HR metric, filter to PERMANENT employees only: 45.1% (98/217). Both figures exceed the sector target of 40%. ✓"</div>
+        <div class="aria-rule">persons.nationality_category · worker_assignments.assignment_status · EMIRATISATION_METRIC intent</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Who has the most direct reports in the company?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = ORG_QUERY · sub-intent = SPAN_OF_CONTROL_RANK</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>SELECT line_manager_id, COUNT(*) FROM worker_assignments WHERE assignment_status = ACTIVE GROUP BY line_manager_id ORDER BY COUNT DESC LIMIT 5</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>JOIN persons ON line_manager_id = person_id to get manager names</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Flag managers with &gt; 8 reports as overloaded (org-chart orange ring indicator)</div>
+        </div>
+        <div class="aria-response">"Top 5 by direct reports: (1) Omar Hassan, Head of IT — 9 reports [⚠ Overloaded]. (2) Sara Al Hammadi, Acting Finance Dir — 7 reports. (3) Mohammed Hassan, Head of HR — 6 reports. (4) Fatima Al Zaabi, Head of Legal — 5 reports. (5) Khalid Al Mansouri, CEO — 6 reports. Average span: 4.2."</div>
+        <div class="aria-rule">worker_assignments.line_manager_id GROUP BY · SPAN_OF_CONTROL_RANK intent · overloaded flag &gt;8</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Navigate to the Operations department org chart"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Intent = ORG_QUERY · sub-intent = FILTER_DEPT</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>departments WHERE name_en ILIKE '%Operations%' → department_id + parent hierarchy</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Verify at least 1 ACTIVE assignment in Operations exists before offering navigation</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Return action button: "Show Operations Department" that triggers /org-chart?dept=[id] filter</div>
+        </div>
+        <div class="aria-response">"Operations Department — 39 employees, 4 sub-departments (Facilities, Logistics, Security, Maintenance). Currently 5 vacant positions (12.8% vacancy rate). Head of Operations position is currently VACANT. [Show Operations Department →]"</div>
+        <div class="aria-rule">departments.name_en · FILTER_DEPT intent · /org-chart?dept= · vacancy_start_date</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="page-footer">
+  AVANIIS HR · Training Module M7: Org Chart &amp; ARIA AI Assistant · v3.0 Enterprise Edition · May 2026<br>
+  Avaniis / Avaniis · Internal Use Only · UAE Federal Decree-Law No. 33 of 2021 and amendments
+</div>
+
+<script>
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9'],
+  emp: ['s1','s3','s6','s7'],
+  sa:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

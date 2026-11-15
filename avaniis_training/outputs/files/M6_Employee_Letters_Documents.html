@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M6 — Employee Letters & Document Generation | AVANIIS HR</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+    --lane-mgr:#7B68EE;
+    --lane-hd:#7B2FBE;
+    --lane-fi:#E87040;
+    --aria-bg1:#0A2E35;
+    --aria-bg2:#0A2228;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Header ── */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* ── Sticky Nav ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* ── Role Filter ── */
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+
+/* ── Content ── */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+
+/* ── Preconditions ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+
+/* ── Blocking conditions ── */
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:140px}
+.block-reason{color:var(--rd)}
+
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+
+/* ── State Machines ── */
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+
+/* ── Mockups ── */
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+
+/* ── Inbox mockup ── */
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+
+/* ── Org chart node pair ── */
+.node-pair{display:flex;gap:24px;flex-wrap:wrap}
+.oc-node{width:220px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:12px 14px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:10px}
+.oc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12.5px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:10px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:7px 14px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 14px 9px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--mu)}
+.acting-bar{background:var(--am);padding:5px 14px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.oc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+
+/* ── ARIA ── */
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* ── SLA timers ── */
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+
+/* ── Callouts ── */
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+
+/* ── Footer ── */
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+
+/* ── Print ── */
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+
+/* ── Mockup shell ── */
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr;min-height:340px}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.mf-main{background:var(--off);padding:16px;position:relative}
+/* ── ARIA dark cards ── */
+.aria-wrap{background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+/* ── SM ── */
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+/* ── pre-items ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-chk{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-rt{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-lbl{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:#7A1A1A}
+/* ── Print + mobile ── */
+@media print{.nav-wrap,.rf-bar{display:none!important}.sec{page-break-inside:avoid}body{background:#fff}.card,.swimlane,.sm-wrap,.sc-card,.ts-card{box-shadow:none!important;border:1px solid #ccc!important}}
+@media(max-width:640px){.ph{padding:20px 18px}.content{padding:20px 14px}.nav-inner{padding:0 16px}.rf-bar{padding:8px 16px}.mf-body{grid-template-columns:1fr}.mf-sidebar{display:none}.sc-grid,.ts-grid,.type-grid,.pre-grid{grid-template-columns:1fr}.aria-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Manual · M6 — Employee Letters & Documents</div>
+  <div class="ph-title">Employee Letters &amp; Document Generation</div>
+  <div class="ph-sub">خطابات الموظفين · Salary Certificates · NOC · Promotion Letters · Digital Signing · jspdf 4.2.1</div>
+  <div class="ph-pills"><span class="pill  g">HR_ADMIN</span><span class="pill  g">HR_DIRECTOR</span><span class="pill">EMPLOYEE</span><span class="pill">MANAGER</span><span class="pill">/employee-letters · /me/letters</span><span class="pill">v1.0 · May 2026</span></div>
+</div>
+<div class="nav-wrap"><div class="nav-inner"><a href="#s1" class="ni" data-section="s1">Overview</a><a href="#s2" class="ni" data-section="s2">Dependency Map</a><a href="#s3" class="ni" data-section="s3">Letter Types</a><a href="#s4" class="ni" data-section="s4">Process Flows</a><a href="#s5" class="ni" data-section="s5">Letter Lifecycle</a><a href="#s6" class="ni" data-section="s6">Screen Mockups</a><a href="#s7" class="ni" data-section="s7">Template Guide</a><a href="#s8" class="ni" data-section="s8">Scenarios</a><a href="#s9" class="ni" data-section="s9">Troubleshooting</a><a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a></div></div>
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+</div>
+<main class="content">
+
+<div class="sec" id="s1">
+<div class="sec-lbl">Section 1</div><div class="sec-title">Module Overview &amp; Preconditions</div>
+<div class="sec-desc">Employee Letters &amp; Document Generation allows HR Admins to generate, send, and track official HR documents. Employees receive and digitally sign via a public token URL — no login required for signing.</div>
+<div class="card" style="margin-bottom:16px">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions Checklist</div>
+<div class="pre-grid">
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Employee has ACTIVE assignment</div><div class="pre-where"><span class="pre-rt">/persons/[id] → Assignments</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Letter templates configured</div><div class="pre-where"><span class="pre-rt">/employee-letters → Templates</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Employee email address on file</div><div class="pre-where"><span class="pre-rt">/persons/[id] → Profile</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">PDF generation working (jspdf 4.2.1)</div><div class="pre-where">CVE-patched — upgraded from 2.5.2 (LFI vulnerability)</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">SMTP configured for email delivery</div><div class="pre-where"><span class="pre-rt">/settings/notifications</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">DOMPurify XSS sanitization active</div><div class="pre-where">Sanitizes all merge field values before PDF generation</div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Payroll live for salary letters (M3)</div><div class="pre-where">Salary certificates require payroll_runs.status = PAID</div></div></div>
+</div>
+</div>
+<div class="block-panel">
+<div class="block-title">🚫 Blocking Conditions</div>
+<div class="block-row"><span class="block-lbl">No email on file</span><span class="block-reason">Letter generated but cannot be delivered to employee.</span></div>
+<div class="block-row"><span class="block-lbl">Template merge error</span><span class="block-reason">{{salary}} used but no PAID payroll run exists — generation fails.</span></div>
+<div class="block-row"><span class="block-lbl">Token expired</span><span class="block-reason">JWT signing link valid 30 days. After expiry HR must regenerate.</span></div>
+<div class="block-row"><span class="block-lbl">Already SIGNED</span><span class="block-reason">Recall is impossible after signing — BR-AUDIT-001 makes it permanent.</span></div>
+</div>
+</div>
+
+<div class="sec" id="s2">
+<div class="sec-lbl">Section 2</div><div class="sec-title">Dependency Map</div>
+<div class="sec-desc">Three chains: letter generation prerequisites, the employee signing flow, and the recall path for corrections.</div>
+<div class="card" style="padding:4px 4px 0"><svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Employee Letters Dependency Map</title>
+<desc>Three chains: letter generation prerequisites, signing flow, and recall path.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+<rect x="14" y="14" width="250" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — LETTER GENERATION PREREQUISITES</text>
+<rect x="14" y="44" width="118" height="56" rx="7" fill="#0A1628"/><text x="73" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">ACTIVE</text><text x="73" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Employee</text><text x="73" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">assignment_status</text>
+<line x1="132" y1="72" x2="152" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/><text x="213" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Template</text><text x="213" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Configured</text><text x="213" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">merge fields set</text>
+<line x1="272" y1="72" x2="292" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/><text x="353" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">PDF Generated</text><text x="353" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">jspdf 4.2.1</text><text x="353" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">CVE patched</text>
+<line x1="412" y1="72" x2="432" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="434" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/><text x="493" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">DOMPurify</text><text x="493" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Sanitized</text><text x="493" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">XSS prevented</text>
+<line x1="552" y1="72" x2="572" y2="72" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="574" y="44" width="138" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/><text x="643" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Letter SENT</text><text x="643" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">JWT link emailed</text><text x="643" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">30-day single-use</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="124" width="250" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — EMPLOYEE SIGNING FLOW (NO LOGIN)</text>
+<rect x="14" y="158" width="118" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/><text x="73" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Email</text><text x="73" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">Received</text><text x="73" y="209" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">JWT link inside</text>
+<line x1="132" y1="186" x2="152" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="154" y="158" width="118" height="56" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/><text x="213" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Opens Link</text><text x="213" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">No Login</text><text x="213" y="209" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">/letters/sign/[token]</text>
+<line x1="272" y1="186" x2="292" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="294" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/><text x="353" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Reviews</text><text x="353" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">&amp; Signs</text><text x="353" y="209" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">legally binding</text>
+<line x1="412" y1="186" x2="432" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="434" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/><text x="493" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Token</text><text x="493" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Consumed</text><text x="493" y="209" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">single-use invalidated</text>
+<line x1="552" y1="186" x2="572" y2="186" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="574" y="158" width="138" height="56" rx="7" fill="#1A6B3C"/><text x="643" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">SIGNED &amp;</text><text x="643" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">ARCHIVED</text><text x="643" y="209" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">BR-AUDIT-001</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="238" width="280" height="22" rx="4" fill="#B01B1B"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — RECALL PATH (BEFORE SIGNING ONLY)</text>
+<rect x="14" y="270" width="118" height="56" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/><text x="73" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Letter SENT</text><text x="73" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">not yet signed</text>
+<line x1="132" y1="298" x2="152" y2="298" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="154" y="270" width="138" height="56" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/><text x="223" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B01B1B">HR Admin</text><text x="223" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B01B1B">Recalls Letter</text><text x="223" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B01B1B">Actions → Recall</text>
+<line x1="292" y1="298" x2="312" y2="298" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="314" y="270" width="138" height="56" rx="7" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/><text x="383" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#444">Token</text><text x="383" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#444">Invalidated</text><text x="383" y="320" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#666">old link dead</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="352" width="400" height="110" rx="8" fill="#fff" stroke="#D4D8E2"/>
+<text x="26" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96">LEGEND</text>
+<rect x="26" y="378" width="13" height="13" rx="3" fill="#0A1628"/><text x="45" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Trigger / HR action</text>
+<rect x="200" y="378" width="13" height="13" rx="3" fill="#0E7C6A"/><text x="219" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System auto-action</text>
+<rect x="26" y="400" width="13" height="13" rx="3" fill="#FEF3E2" stroke="#B45C00" stroke-width="1"/><text x="45" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Employee action (public, no auth)</text>
+<rect x="200" y="400" width="13" height="13" rx="3" fill="#B01B1B"/><text x="219" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Recall / irreversible</text>
+<rect x="414" y="352" width="462" height="110" rx="8" fill="#FDEAEA" stroke="#F4A0A0"/>
+<text x="426" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">BLOCKING CONDITIONS</text>
+<text x="426" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">No email on file</text><text x="526" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — letter generated but cannot be delivered</text>
+<text x="426" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Template merge error</font><text x="570" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — {salary} with no PAID payroll run</text>
+<text x="426" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Token expired</text><text x="510" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — 30 days, HR must regenerate link</text>
+<text x="426" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">Already SIGNED</text><text x="520" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — recall impossible after signing</text>
+</svg></div>
+</div>
+
+<div class="sec" id="s3">
+<div class="sec-lbl">Section 3</div><div class="sec-title">Six Letter Types</div>
+<div class="sec-desc">All six official letter types. Choose the correct type — it determines the merge fields, approval requirements, and whether signing is mandatory.</div>
+<div class="sm-wrap" style="margin-bottom:16px"><div class="sm-hdr">⬤ Letter Types — Quick Reference</div><div style="padding:4px 4px 0;background:#fff"><svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Letter Types Overview</title>
+<desc>Six letter types and their key requirements at a glance.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="180" fill="#F5F6F8"/>
+<rect x="14" y="14" width="94" height="60" rx="7" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/><text x="61" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">Salary</text><text x="61" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">Certificate</text><text x="61" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">Needs PAID run</text>
+<rect x="120" y="14" width="94" height="60" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/><text x="167" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A4FBA">NOC</text><text x="167" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A4FBA">No Objection</text><text x="167" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A4FBA">No payroll needed</text>
+<rect x="226" y="14" width="94" height="60" rx="7" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/><text x="273" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#0E7C6A">Employment</text><text x="273" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#0E7C6A">Confirmation</text><text x="273" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#0E7C6A">No payroll needed</text>
+<rect x="332" y="14" width="94" height="60" rx="7" fill="#FEF9EE" stroke="#C9A84C" stroke-width="1.5"/><text x="379" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#A8863A">Promotion</text><text x="379" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#A8863A">Letter</text><text x="379" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#A8863A">Needs EXECUTED</text>
+<rect x="438" y="14" width="94" height="60" rx="7" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/><text x="485" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#0E7C6A">Experience</text><text x="485" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#0E7C6A">Letter</text><text x="485" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#0E7C6A">ACTIVE or TERMINATED</text>
+<rect x="544" y="14" width="94" height="60" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/><text x="591" y="36" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">Warning</text><text x="591" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">Letter</text><text x="591" y="66" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">HR Director approval</text>
+<rect x="14" y="90" width="624" height="74" rx="8" fill="#fff" stroke="#D4D8E2"/>
+<text x="26" y="108" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96">COMMON MERGE FIELDS</text>
+<text x="26" y="126" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA" font-family="monospace">{employee_name}  {employee_name_ar}  {position}  {grade}  {salary}  {hire_date}  {department}  {entity_name}  {date_today}</text>
+<text x="26" y="144" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">⚠ All merge values are DOMPurify-sanitized before PDF generation (XSS prevention)</text>
+<text x="26" y="158" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">⚠ {salary} requires a PAID payroll run · {new_salary} requires EXECUTED promotion status</text>
+</svg></div></div>
+<div class="type-grid">
+<div class="type-card" style="border-color:var(--gr-bd)"><div style="background:var(--gr-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--gr);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">💰</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Salary Certificate</div><div style="font-size:10px;color:var(--mu)">Most requested type</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Key merge fields</span><span class="tv">{{salary}} {{grade}} {{hire_date}}</span></div><div class="tr"><span class="tk">Requires PAID payroll</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Signing required</span><span class="tv-a">Optional</span></div><div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-AUDIT-001</span></div><div class="mistake">⚠ Common: selecting a CALCULATED payroll run — always select PAID to get the correct salary figure.</div></div></div>
+<div class="type-card" style="border-color:var(--bl-bd)"><div style="background:var(--bl-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--bl);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">✈️</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">NOC</div><div style="font-size:10px;color:var(--mu)">No Objection Certificate</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Key merge fields</span><span class="tv">{{purpose}} {{validity_date}}</span></div><div class="tr"><span class="tk">Requires payroll</span><span class="tv-r">No ✗</span></div><div class="tr"><span class="tk">Signing required</span><span class="tv-g">Usually yes</span></div><div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-AUDIT-001</span></div><div class="mistake">⚠ Common: forgetting to set {{purpose}} — generic NOC may be rejected by banks and embassies.</div></div></div>
+<div class="type-card" style="border-color:var(--te-bd)"><div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📋</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Employment Confirmation</div><div style="font-size:10px;color:var(--mu)">Confirms status and duration</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Key merge fields</span><span class="tv">{{position}} {{hire_date}} {{entity_name}}</span></div><div class="tr"><span class="tk">Requires payroll</span><span class="tv-r">No ✗</span></div><div class="tr"><span class="tk">Signing required</span><span class="tv-a">Optional</span></div><div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-AUDIT-001</span></div><div class="mistake">⚠ Common: wrong {{entity_name}} for cross-entity employees — verify legal_entity_id first.</div></div></div>
+<div class="type-card" style="border-color:#C9A84C"><div style="background:#FEF9EE;padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:#A8863A;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🎖️</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Promotion Letter</div><div style="font-size:10px;color:var(--mu)">After promotion is EXECUTED</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Key merge fields</span><span class="tv">{{new_title}} {{new_grade}} {{new_salary}}</span></div><div class="tr"><span class="tk">Requires EXECUTED promotion</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Signing required</span><span class="tv-g">Yes ✓</span></div><div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-PR-001</span></div><div class="mistake">⚠ Common: generating before effective_date — {{new_salary}} will be blank until promotion EXECUTES.</div></div></div>
+<div class="type-card" style="border-color:var(--te-bd)"><div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📜</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Experience Letter</div><div style="font-size:10px;color:var(--mu)">At or after termination</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Key merge fields</span><span class="tv">{{positions_held}} {{service_years}}</span></div><div class="tr"><span class="tk">Status required</span><span class="tv-a">TERMINATED or ACTIVE</span></div><div class="tr"><span class="tk">Signing required</span><span class="tv-r">HR signs, not employee</span></div><div class="tr"><span class="tk">Rule</span><span class="br-pill">BR-AUDIT-001</span></div><div class="mistake">⚠ Common: {{positions_held}} seems to only show current role — system auto-fills full assignment history.</div></div></div>
+<div class="type-card" style="border-color:var(--rd-bd)"><div style="background:var(--rd-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--rd);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">⚠️</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Warning Letter</div><div style="font-size:10px;color:var(--mu)">HR Director approval mandatory</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Key merge fields</span><span class="tv">{{incident_date}} {{violation}}</span></div><div class="tr"><span class="tk">HR Director approval</span><span class="tv-r">Mandatory ✓</span></div><div class="tr"><span class="tk">Signing required</span><span class="tv-g">Employee must sign</span></div><div class="tr"><span class="tk">Rule</span><span class="br-pill">FDL 33/2021 Art.40</span></div><div class="mistake">⚠ Common: issuing without HR Director approval — UAE Labour Law requires documented disciplinary process (FDL 33/2021 Art. 40).</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s4">
+<div class="sec-lbl">Section 4</div><div class="sec-title">Step-by-Step Process Flows</div>
+<div class="sec-desc">Two complete workflows: generating and sending, and the employee signing flow.</div>
+<div class="swimlane"><div class="sw-head">Flow A — HR Admin Generates &amp; Sends Letter <span class="sw-stag">BR-AUDIT-001 · 3 LANES</span></div>
+<div class="sw-row"><div class="sw-lbl hr">HR ADMIN</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Open /employee-letters</span><span class="sb-sub">Sidebar → Employee Letters → New Letter</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Select Template + Employee</span><span class="sb-sub">Pick type · select employee · preview merge fields</span></div><span class="sw-arr">→</span><div class="sb sb-warn" style="position:relative"><span class="sn">3</span><span class="sb-title">Generate &amp; Send</span><span class="sb-sub">PDF created → JWT email sent</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">Sanitize &amp; Merge</span><span class="sb-sub">DOMPurify sanitizes all values</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">PDF Generated</span><span class="sb-sub">jspdf 4.2.1 · status = GENERATED</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">JWT Email Sent</span><span class="sb-sub">30-day token · SMTP · status = SENT</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl em">EMPLOYEE</div><div class="sw-steps"><div class="sb sb-ok"><span class="sb-title">Receives Email</span><span class="sb-sub">Signing link in email</span></div><span class="sw-arr">→</span><div class="sb sb-ok"><span class="sb-title">View at /me/letters</span><span class="sb-sub">Pending Signature badge visible</span></div></div></div>
+</div>
+<div class="swimlane"><div class="sw-head">Flow B — Employee Signs Letter — No Login Required <span class="sw-stag">JWT · SINGLE USE · PUBLIC ROUTE</span></div>
+<div class="sw-row"><div class="sw-lbl em">EMPLOYEE</div><div class="sw-steps"><div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Opens Signing Link</span><span class="sb-sub">/letters/sign/[token] · any browser</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Reads Letter</span><span class="sb-sub">PDF rendered · must read before signing</span></div><span class="sw-arr">→</span><div class="sb sb-act" style="position:relative"><span class="sn">3</span><span class="sb-title">Clicks Sign</span><span class="sb-sub">Legally binding action</span></div></div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps"><div class="sb sb-auto"><span class="sb-title">Validate Token</span><span class="sb-sub">Check expiry · not already used</span></div><span class="sw-arr">→</span><div class="sb sb-auto"><span class="sb-title">Record Signature</span><span class="sb-sub">Timestamp · token consumed</span></div><span class="sw-arr">→</span><div class="sb sb-term"><span class="sb-title" style="color:var(--g2)">SIGNED + Audit</span><span class="sb-sub" style="color:rgba(255,255,255,.6)">BR-AUDIT-001 immutable</span></div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s5">
+<div class="sec-lbl">Section 5</div><div class="sec-title">Letter Lifecycle State Machine</div>
+<div class="sec-desc">Every letter moves through these states. SIGNED is terminal success. RECALLED and EXPIRED require HR action to reissue.</div>
+<div class="sm-wrap"><div class="sm-hdr">⬤ Letter Lifecycle — employee_letters.status</div>
+<div style="padding:4px 4px 0;background:#fff"><svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Letter Lifecycle State Machine</title>
+<desc>Letter status transitions from DRAFT through GENERATED, SENT to SIGNED or RECALLED/EXPIRED.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="220" fill="#F5F6F8"/>
+<rect x="14" y="82" width="80" height="46" rx="7" fill="#EEF0F5" stroke="#D4D8E2" stroke-width="1.5"/><text x="54" y="101" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#6B7A96">DRAFT</text><text x="54" y="117" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Saved</text>
+<line x1="94" y1="105" x2="116" y2="105" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="118" y="82" width="96" height="46" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/><text x="166" y="101" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A4FBA">GENERATED</text><text x="166" y="117" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">PDF ready</text>
+<line x1="214" y1="105" x2="236" y2="105" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="238" y="82" width="86" height="46" rx="7" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/><text x="281" y="101" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B45C00">SENT</text><text x="281" y="117" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">JWT emailed</text>
+<line x1="324" y1="96" x2="356" y2="76" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<line x1="324" y1="114" x2="356" y2="134" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<line x1="324" y1="122" x2="460" y2="170" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="358" y="52" width="100" height="46" rx="7" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/><text x="408" y="71" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A6B3C">SIGNED</text><text x="408" y="87" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Terminal ✓</text>
+<line x1="458" y1="75" x2="504" y2="75" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="506" y="52" width="96" height="46" rx="7" fill="#1A6B3C"/><text x="554" y="71" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">ARCHIVED</text><text x="554" y="87" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Permanent</text>
+<rect x="358" y="116" width="100" height="46" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/><text x="408" y="135" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B01B1B">RECALLED</text><text x="408" y="151" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Before SIGNED only</text>
+<rect x="462" y="158" width="96" height="46" rx="7" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/><text x="510" y="177" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#444">EXPIRED</text><text x="510" y="193" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#666">30d token passed</text>
+</svg></div>
+</div>
+</div>
+
+<div class="sec" id="s6">
+<div class="sec-lbl">Section 6</div><div class="sec-title">Screen Mockups</div>
+<div class="sec-desc">Three annotated screens showing the letters workflow from HR generation to employee signing.</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — Employee Letters (/employee-letters)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.1);margin-bottom:8px">
+<div class="mf-topbar"><div class="mf-logo">AVANIIS <span>HR</span></div><div class="mf-search">🔍 <span>Search employees...</span></div><div style="margin-left:auto;display:flex;gap:8px;align-items:center"><div style="color:rgba(255,255,255,.7);font-size:14px">🔔</div><div class="mf-av">HR</div></div></div>
+<div class="mf-body">
+<div class="mf-sidebar"><div class="sb-sec">HR Ops</div><div class="sb-item active">📄 Employee Letters</div><div class="sb-item">👤 Employees</div><div class="sb-item">✅ Approvals</div></div>
+<div class="mf-main">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div style="font-size:18px;font-weight:700;color:var(--n)">Employee Letters</div><button style="background:var(--n);color:#fff;border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer">+ Generate Letter</button></div>
+<div style="background:#fff;border-radius:10px;border:1px solid var(--bd);overflow:hidden">
+<table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:var(--n)"><th style="padding:9px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:11px">Employee</th><th style="padding:9px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:11px">Type</th><th style="padding:9px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:11px">Sent</th><th style="padding:9px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:11px">Status</th><th style="padding:9px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:11px">Actions</th></tr></thead>
+<tbody>
+<tr><td style="padding:9px 12px;border-bottom:1px solid var(--lt)"><div style="font-weight:700">Ahmed Al-Mansoori</div><div style="font-size:10px;color:var(--mu)">Senior Software Engineer</div></td><td style="padding:9px 12px;border-bottom:1px solid var(--lt)">Promotion Letter</td><td style="padding:9px 12px;border-bottom:1px solid var(--lt);color:var(--mu)">18 May 2026</td><td style="padding:9px 12px;border-bottom:1px solid var(--lt)"><span style="background:var(--am-bg);color:var(--am);padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700">PENDING SIGNATURE</span></td><td style="padding:9px 12px;border-bottom:1px solid var(--lt)"><div style="display:flex;gap:5px"><button style="background:var(--bl-bg);color:var(--bl);border:none;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer">Resend</button><button style="background:var(--rd-bg);color:var(--rd);border:none;border-radius:5px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer">Recall</button></div></td></tr>
+<tr><td style="padding:9px 12px"><div style="font-weight:700">Sara Al-Zaabi</div><div style="font-size:10px;color:var(--mu)">Head of IT Operations</div></td><td style="padding:9px 12px">Salary Certificate</td><td style="padding:9px 12px;color:var(--mu)">12 May 2026</td><td style="padding:9px 12px"><span style="background:var(--gr-bg);color:var(--gr);padding:2px 9px;border-radius:12px;font-size:10px;font-weight:700">SIGNED</span></td><td style="padding:9px 12px"><button style="background:var(--lt);color:var(--mu);border:none;border-radius:5px;padding:3px 9px;font-size:11px;cursor:pointer">Download</button></td></tr>
+</tbody></table>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:24px">
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">①</div><div><strong style="display:block;font-size:11px">Generate Letter</strong>Opens template selector + employee picker with merge field preview</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">②</div><div><strong style="display:block;font-size:11px">Resend Link</strong>Regenerates new JWT token — old one immediately invalidated</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">③</div><div><strong style="display:block;font-size:11px">Recall Button</strong>Only shown when status = SENT (not yet signed). Disappears after signing.</div></div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup B — My Letters (/me/letters)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08);margin-bottom:24px">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between"><div style="font-size:16px;font-weight:700;color:var(--n)">My Letters</div><div style="font-size:12px;color:var(--am);background:var(--am-bg);padding:4px 12px;border-radius:6px;font-weight:600">1 pending signature</div></div>
+<div style="padding:14px 20px;display:flex;flex-direction:column;gap:8px">
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:8px;padding:10px 14px"><div><div style="font-size:13px;font-weight:700;color:var(--n)">Promotion Letter</div><div style="font-size:11px;color:var(--mu)">Issued 18 May 2026 · Expires 17 Jun 2026</div></div><span style="background:var(--am-bg);color:var(--am);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;border:1px solid var(--am-bd)">PENDING</span><button style="background:var(--te);color:#fff;border:none;border-radius:7px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">✍ Sign Now</button></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:var(--off);border-radius:8px;padding:10px 14px"><div><div style="font-size:13px;font-weight:700;color:var(--n)">Salary Certificate</div><div style="font-size:11px;color:var(--mu)">Signed 12 May 2026</div></div><span style="background:var(--gr-bg);color:var(--gr);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700">SIGNED</span><button style="background:var(--lt);color:var(--mu);border:none;border-radius:7px;padding:7px 14px;font-size:12px;cursor:pointer">⬇ Download</button></div>
+</div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup C — Letter Signing Page (/letters/sign/[token]) — No Login Required</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08);max-width:560px">
+<div style="background:var(--n);padding:12px 18px;display:flex;align-items:center;gap:10px"><div class="mf-logo">AVANIIS <span>HR</span></div><div style="margin-left:auto;font-size:11px;color:rgba(255,255,255,.6)">Document Signing Portal</div></div>
+<div style="padding:20px">
+<div style="background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:8px;padding:9px 13px;font-size:12px;color:var(--gr);margin-bottom:14px">🔒 Secure authenticated link · No login required · Legally binding upon signing</div>
+<div style="font-size:16px;font-weight:700;color:var(--n);margin-bottom:2px">Promotion Letter</div>
+<div style="font-size:12px;color:var(--mu);margin-bottom:14px">Ahmed Hassan Al-Mansoori · Issued 20 May 2026 · Expires 19 June 2026</div>
+<div style="background:var(--off);border-radius:8px;padding:14px;font-size:12px;color:var(--tx);line-height:1.7;margin-bottom:14px">Dear Ahmed, we are pleased to inform you of your promotion to <strong>Senior Software Engineer (Grade G6)</strong> effective 1 June 2026...<br><em style="color:var(--mu);font-size:10px">[Scroll to read full letter before signing]</em></div>
+<div style="display:flex;gap:10px"><button style="background:var(--te);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;flex:2">✍ I have read and agree — Sign this Document</button><button style="background:#fff;border:1.5px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:12px;cursor:pointer">⬇ PDF</button></div>
+<div style="font-size:10px;color:var(--mu);text-align:center;margin-top:8px">Single-use token · Expires 19 June 2026 · This action is permanently recorded</div>
+</div>
+</div>
+</div>
+
+<div class="sec" id="s7">
+<div class="sec-lbl">Section 7</div><div class="sec-title">Template Configuration Guide</div>
+<div class="sec-desc">How to configure letter templates, use merge fields correctly, and handle bilingual letters.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">Available Merge Fields</div>
+<div style="background:var(--n);border-radius:8px;padding:12px 14px;font-size:11.5px;color:var(--g2);font-family:monospace;line-height:2.2">{{employee_name}}<br>{{employee_name_ar}}<br>{{position}}<br>{{grade}}<br>{{salary}}<br>{{hire_date}}<br>{{department}}<br>{{entity_name}}<br>{{date_today}}</div>
+<div style="font-size:11px;color:var(--mu);margin-top:8px">All values DOMPurify-sanitized before PDF generation to prevent XSS injection attacks.</div>
+</div>
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">Template Rules &amp; Requirements</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Arabic content</span><span style="font-weight:700">Use {{employee_name_ar}}</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">{{salary}} requires</span><span style="color:var(--rd);font-weight:700">PAID payroll run</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">{{new_salary}} requires</span><span style="color:var(--rd);font-weight:700">EXECUTED promotion</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Warning Letter</span><span style="color:var(--rd);font-weight:700">HR Director approval</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">HTML in templates</span><span style="color:var(--rd);font-weight:700">Stripped by DOMPurify</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">jspdf version</span><span style="font-weight:700">4.2.1 (CVE patched)</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sm-wrap" style="margin-top:14px">
+<div class="sm-hdr">⬤ Merge Field Requirements</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Letter Merge Field Requirements by Category</title>
+<desc>Three categories: always available fields, fields requiring PAID payroll, and fields requiring EXECUTED promotion.</desc>
+<defs><marker id="mf1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="140" fill="#F5F6F8"/>
+<rect x="14" y="14" width="190" height="112" rx="7" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="109" y="30" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">ALWAYS AVAILABLE</text>
+<text x="26" y="48" font-family="monospace" font-size="9" fill="#1A6B3C">{{employee_name}}</text>
+<text x="26" y="64" font-family="monospace" font-size="9" fill="#1A6B3C">{{employee_name_ar}}</text>
+<text x="26" y="80" font-family="monospace" font-size="9" fill="#1A6B3C">{{position}} {{grade}}</text>
+<text x="26" y="96" font-family="monospace" font-size="9" fill="#1A6B3C">{{hire_date}}</text>
+<text x="26" y="112" font-family="monospace" font-size="9" fill="#1A6B3C">{{date_today}} {{entity_name}}</text>
+<rect x="218" y="14" width="210" height="112" rx="7" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+<text x="323" y="30" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B45C00">NEEDS PAID PAYROLL RUN</text>
+<text x="230" y="50" font-family="monospace" font-size="10" fill="#B45C00">{{salary}}</text>
+<text x="230" y="70" font-family="-apple-system,sans-serif" font-size="9" fill="#7A4000">Basic salary from PAID run only.</text>
+<text x="230" y="88" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">CALCULATED run = draft, not final.</text>
+<text x="230" y="108" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B" font-weight="700">Always select PAID status run.</text>
+<rect x="442" y="14" width="224" height="112" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="554" y="30" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">NEEDS EXECUTED PROMOTION</text>
+<text x="454" y="50" font-family="monospace" font-size="10" fill="#B01B1B">{{new_salary}}</text>
+<text x="454" y="66" font-family="monospace" font-size="10" fill="#B01B1B">{{new_grade}}</text>
+<text x="454" y="82" font-family="monospace" font-size="10" fill="#B01B1B">{{new_title}}</text>
+<text x="454" y="100" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Blank until effective_date passes</text>
+<text x="454" y="116" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">and promotion executes.</text>
+</svg>
+</div>
+</div>
+
+
+<div class="sec" id="s8">
+<div class="sec-lbl">Section 8</div><div class="sec-title">Operational Scenarios</div>
+<div class="sec-desc">Four real-world letter scenarios with step-by-step resolution.</div>
+<div class="sc-grid">
+<div class="sc-card"><div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">A</div><div class="sc-title">Salary certificate shows wrong amount</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Employee reports salary figure on certificate is wrong</div></div><div class="sc-step"><div class="sc-n">2</div><div>HR Admin: check which payroll run was selected during generation</div></div><div class="sc-step"><div class="sc-n">3</div><div>If a CALCULATED run was selected, salary may be a draft figure — not final</div></div><div class="sc-step"><div class="sc-n">4</div><div>Recall the letter: /employee-letters → Actions → Recall (only if not yet signed)</div></div><div class="sc-step"><div class="sc-n">5</div><div>Regenerate selecting the correct PAID run → resend to employee</div></div><div class="sc-rule">employee_letters · payroll_runs.status=PAID · recall action</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">Employee signing link expired</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Employee clicks link — "This link has expired or already been used"</div></div><div class="sc-step"><div class="sc-n">2</div><div>HR Admin: /employee-letters → find letter → status = SENT (not SIGNED)</div></div><div class="sc-step"><div class="sc-n">3</div><div>Click Actions → Resend Link — new JWT token, 30-day clock resets</div></div><div class="sc-step"><div class="sc-n">4</div><div>New email sent to employee. Original token permanently invalidated.</div></div><div class="sc-warn">⚠ Resending creates a completely new token. The old email link cannot be reactivated once a new one is issued.</div><div class="sc-rule">JWT expiry · 30 days · Resend action · /employee-letters</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">C</div><div class="sc-title">Warning letter issued without HR Director approval</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Admin attempts to generate warning letter — system prompts for HR Director approval</div></div><div class="sc-step"><div class="sc-n">2</div><div>HR Director receives approval request in /approvals inbox</div></div><div class="sc-step"><div class="sc-n">3</div><div>HR Director reviews incident details and approves or rejects</div></div><div class="sc-step"><div class="sc-n">4</div><div>On approval — HR Admin can now generate and send the warning letter</div></div><div class="sc-warn">⚠ UAE Labour Law (FDL 33/2021 Art. 40): disciplinary letters require documented approval chain. Letters without approval may invalidate the disciplinary process legally.</div><div class="sc-rule">FDL 33/2021 Art.40 · HR Director approval · BR-29</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Promotion letter generated before effective date</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Admin generates promotion letter — {{new_salary}} shows blank</div></div><div class="sc-step"><div class="sc-n">2</div><div>Root cause: promotion approved but effective_date has not arrived yet — not EXECUTED</div></div><div class="sc-step"><div class="sc-n">3</div><div>Recall the letter (status must be SENT, not SIGNED)</div></div><div class="sc-step"><div class="sc-n">4</div><div>Wait for effective_date to pass — system executes promotion and updates salary_elements</div></div><div class="sc-step"><div class="sc-n">5</div><div>Regenerate promotion letter — {{new_salary}} now populates correctly</div></div><div class="sc-rule">effective_date pattern · EXECUTED status · salary_elements</div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s9">
+<div class="sec-lbl">Section 9</div><div class="sec-title">Troubleshooting</div>
+<div class="sec-desc">Common letter module issues — problem, root cause, and exact fix.</div>
+<div class="ts-grid">
+<div class="ts-card"><div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚫 Generation Fails</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">PDF not generating — merge error shown</div><div class="ts-c">Template uses {{salary}} but no PAID payroll run exists</div><div class="ts-f">→ Use a template that doesn't need salary, or wait until payroll run reaches PAID status.</div></div><div class="ts-prob"><div class="ts-p">DOMPurify blocking content</div><div class="ts-c">Template body contains HTML tags or script elements</div><div class="ts-f">→ Use plain text only in templates. HTML is stripped by DOMPurify. Formatting is controlled by the template structure.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">{{new_salary}} shows blank</div><div class="ts-c">Promotion approved but effective_date not yet reached</div><div class="ts-f">→ Wait for effective_date. System auto-executes. Then regenerate the letter.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">📧 Delivery Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Employee not receiving the email</div><div class="ts-c">No email on file / SMTP misconfigured / spam filter</div><div class="ts-f">→ Check notification_log for FAILED status. Verify email at /persons/[id]. Check SMTP at /settings/notifications.</div></div><div class="ts-prob"><div class="ts-p">Email received but link is broken</div><div class="ts-c">Token already consumed or letter was recalled</div><div class="ts-f">→ Check letter status in /employee-letters. If RECALLED, regenerate. If SIGNED, no action needed.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Employee cannot open /letters/sign/[token]</div><div class="ts-c">URL was modified or copied incorrectly</div><div class="ts-f">→ Resend the link fresh from /employee-letters. Confirm employee opens the latest email.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">📋 Status Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Letter stuck in SENT — employee says they signed</div><div class="ts-c">Browser closed / network dropped before confirmation completed</div><div class="ts-f">→ Check audit_log for signature event. If none found, resend — the token is still valid if not consumed.</div></div><div class="ts-prob"><div class="ts-p">Recall button not showing</div><div class="ts-c">Letter is already SIGNED — recall only possible before signing</div><div class="ts-f">→ If content was wrong and already signed, generate a corrected letter and note original is superseded.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Letter has no status badge</div><div class="ts-c">Letter is DRAFT — not yet generated or sent</div><div class="ts-f">→ /employee-letters → find draft → click Send to generate PDF and send JWT link.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">🤖 ARIA Letter Help</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">ARIA says it cannot generate letters</div><div class="ts-c">ARIA at Advisory level guides, does not execute</div><div class="ts-f">→ Expected. HR Admin generates letters at /employee-letters. ARIA provides status and guidance only.</div></div><div class="ts-prob"><div class="ts-p">Employee asks ARIA for a salary certificate</div><div class="ts-c">ARIA cannot generate documents — only check existing ones</div><div class="ts-f">→ ARIA checks /me/letters for existing certificates and guides employee to contact HR Admin if none found.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">ARIA cannot check unsigned letter count</div><div class="ts-c">Letters data source not enabled in Behaviour tab</div><div class="ts-f">→ SUPER_ADMIN: Settings → AI & Access → Behaviour → enable Letters data source.</div></div></div></div>
+</div>
+</div>
+
+<div class="sec" id="s10">
+<div class="sec-lbl">Section 10</div><div class="sec-title">ARIA Intelligence — Letter Queries</div>
+<div class="sec-desc">What HR Admins and employees can ask ARIA about the letters module.</div>
+<div class="aria-wrap">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:14px;font-weight:600">Employee Letters — Query Reference</span></div>
+<div class="aria-grid">
+<div class="aria-card"><div class="aria-q">"Generate a salary certificate for Ahmed"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Requesting user role → HR_ADMIN or above needed</div><div class="aria-check"><span class="aria-ci">2.</span>Ahmed's assignment_status = ACTIVE?</div><div class="aria-check"><span class="aria-ci">3.</span>Authority level → Advisory = guide, not execute</div></div><div class="aria-response">"I can guide you: go to /employee-letters → Generate Letter → Salary Certificate → select Ahmed. Ensure there's a PAID payroll run to populate the salary field."</div><div class="aria-rule">employee_letters · payroll_runs · Authority Level: Advisory</div></div>
+<div class="aria-card"><div class="aria-q">"Has Sara signed her promotion letter?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Requesting user = HR_ADMIN+ (viewing others' letters)</div><div class="aria-check"><span class="aria-ci">2.</span>employee_letters WHERE person_id=Sara AND type=PROMOTION → status</div></div><div class="aria-response">"Sara's promotion letter was sent on 18 May 2026 and is still PENDING her signature. It expires 17 June 2026. You can resend from /employee-letters → Resend Link."</div><div class="aria-rule">employee_letters.status · person_id · token expiry</div></div>
+<div class="aria-card"><div class="aria-q">"Show all unsigned letters this month"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>employee_letters WHERE status=SENT AND sent_at this month</div><div class="aria-check"><span class="aria-ci">2.</span>Check token expiry for each — flag any expiring within 7 days</div></div><div class="aria-response">"3 letters pending signature this month. ⚠ Ahmed's letter expires in 4 days — recommend resending his link today at /employee-letters."</div><div class="aria-rule">employee_letters.status=SENT · token_expiry</div></div>
+<div class="aria-card"><div class="aria-q">"I need a salary certificate" (employee at /me/aria)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Check /me/letters for existing salary certificate → status</div><div class="aria-check"><span class="aria-ci">2.</span>If SIGNED → guide to download. If none → escalate to HR.</div></div><div class="aria-response">"You don't have a current salary certificate. I've flagged a request to your HR Admin — they'll generate one at /employee-letters and send it to your email within 1 business day."</div><div class="aria-rule">employee_letters · /me/letters · HR escalation</div></div>
+<div class="aria-card"><div class="aria-q">"The signing link expired — what do I do?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Find letter WHERE status=SENT for this employee</div><div class="aria-check"><span class="aria-ci">2.</span>Confirm token_expiry has passed</div></div><div class="aria-response">"Your signing link expired (30-day validity). Your HR Admin needs to resend it from /employee-letters → Actions → Resend Link. A new 30-day link generates immediately."</div><div class="aria-rule">JWT expiry · Resend action · /employee-letters</div></div>
+<div class="aria-card"><div class="aria-q">"How long is the signing link valid?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>System config → JWT token validity</div></div><div class="aria-response">"Signing links are valid for 30 days from when the letter was sent. After expiry the link cannot be reactivated — HR Admin must resend. The link is also single-use: once signed it cannot be used again."</div><div class="aria-rule">JWT token · 30-day expiry · single-use</div></div>
+<div class="aria-card"><div class="aria-q">"Can I unsign a letter I already signed?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>employee_letters.status → SIGNED (terminal state)</div><div class="aria-check"><span class="aria-ci">2.</span>BR-AUDIT-001: signature immutably recorded in audit_log</div></div><div class="aria-response">"No — once signed, the signature is permanently recorded (BR-AUDIT-001). If the document content was wrong, HR Admin can issue a new corrected letter and mark the original as superseded."</div><div class="aria-rule">SIGNED terminal · BR-AUDIT-001 · immutable audit_log</div></div>
+<div class="aria-card"><div class="aria-q">"What documents do I need to sign?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>employee_letters WHERE person_id=user AND status=SENT</div><div class="aria-check"><span class="aria-ci">2.</span>Check token expiry — flag urgent</div></div><div class="aria-response">"You have 1 document awaiting signature: <strong>Promotion Letter</strong> (sent 18 May 2026, expires 17 June 2026). Click the link in your email or go to My Letters at /me/letters."</div><div class="aria-rule">employee_letters.status=SENT · /me/letters</div></div>
+</div>
+</div>
+</div>
+
+</main>
+<div class="page-footer">
+  AVANIIS HR · Employee Letters &amp; Document Generation · v1.0 · May 2026 · Avaniis / Avaniis · Internal Use Only
+</div>
+<script>var ROLE_MAP = {
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  hr: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s8','s9','s10'],
+  emp: ['s1','s3','s6','s8','s9','s10'],
+  sa: ['s1','s2','s5','s9'],
+};
+
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  pay: ['s1','s2','s4','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

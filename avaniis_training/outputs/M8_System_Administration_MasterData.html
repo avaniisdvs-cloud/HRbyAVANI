@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>M8 — System Administration &amp; Master Data | AVANIIS HR Training</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+  --lane-mgr:#5B2D9E;
+  --lane-hd:#1A3060;
+  --lane-fi:#B45C00;
+  --aria-bg1:#0A1628;
+  --aria-bg2:#12244A;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--off);color:var(--tx);line-height:1.6}
+a{color:var(--bl);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── Layout ── */
+.shell{display:flex;min-height:100vh}
+.sidebar{width:260px;min-height:100vh;background:var(--n);color:var(--w);position:fixed;top:0;left:0;overflow-y:auto;z-index:100}
+.main{margin-left:260px;flex:1;padding:0 0 60px}
+
+/* ── Sidebar ── */
+.sb-brand{padding:24px 20px 16px;border-bottom:1px solid var(--n3)}
+.sb-brand .logo{font-size:1.3rem;font-weight:700;color:var(--g);letter-spacing:1px}
+.sb-brand .sub{font-size:.72rem;color:var(--mu);margin-top:2px}
+.sb-mod{padding:10px 20px 6px;font-size:.65rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
+.ni{display:flex;align-items:center;gap:8px;padding:8px 20px;font-size:.82rem;color:#8FA5C8;cursor:pointer;transition:all .2s;border-left:3px solid transparent}
+.ni:hover,.ni.active{background:var(--n2);color:var(--w);border-left-color:var(--g)}
+.ni .ic{width:18px;height:18px;flex-shrink:0;opacity:.7}
+.ni.active .ic{opacity:1}
+
+/* ── Top bar ── */
+.topbar{background:var(--w);border-bottom:1px solid var(--bd);padding:14px 36px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-left{display:flex;flex-direction:column}
+.breadcrumb{font-size:.72rem;color:var(--mu)}
+.page-title{font-size:1.35rem;font-weight:700;color:var(--n);margin-top:2px}
+.badge-module{background:var(--n);color:var(--g);font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.5px}
+
+/* ── Role filter ── */
+.role-bar{background:var(--w);border-bottom:1px solid var(--bd);padding:10px 36px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.role-bar label{font-size:.75rem;color:var(--mu);font-weight:600;margin-right:4px}
+.rf-btn{padding:5px 14px;border-radius:20px;border:1px solid var(--bd);background:var(--off);font-size:.75rem;cursor:pointer;transition:all .2s;font-weight:500;color:var(--tx)}
+.rf-btn:hover{border-color:var(--g);color:var(--n)}
+.rf-btn.active{background:var(--n);color:var(--g);border-color:var(--n)}
+
+/* ── Content ── */
+.content{padding:32px 36px}
+.sec{margin-bottom:56px}
+.sec-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--bd)}
+.sec-num{width:44px;height:44px;background:var(--n);color:var(--g);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0}
+.sec-meta h2{font-size:1.18rem;font-weight:700;color:var(--n);margin-bottom:3px}
+.sec-meta p{font-size:.82rem;color:var(--mu)}
+
+/* ── Cards ── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:16px}
+.card{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:20px}
+.card-title{font-size:.9rem;font-weight:700;color:var(--n);margin-bottom:6px}
+.card-body{font-size:.82rem;color:var(--mu)}
+
+/* ── Type cards ── */
+.type-card{background:var(--surf);border:1px solid var(--bd);border-radius:12px;padding:20px 22px;transition:box-shadow .2s}
+.type-card:hover{box-shadow:0 4px 16px rgba(10,22,40,.1)}
+.tc-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:1.2rem}
+.tc-name{font-size:.95rem;font-weight:700;color:var(--n);margin-bottom:4px}
+.tc-route{font-size:.72rem;font-family:monospace;color:var(--bl);background:var(--bl-bg);padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.tc-meta{font-size:.78rem;color:var(--mu);margin-bottom:4px}
+.tc-break{font-size:.75rem;color:var(--rd);background:var(--rd-bg);padding:4px 10px;border-radius:6px;margin-top:8px}
+.tc-perm{font-size:.72rem;color:var(--pu);background:var(--pu-bg);padding:3px 8px;border-radius:4px;display:inline-block;margin-top:6px}
+
+/* ── Precondition list ── */
+.pre-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:16px}
+.pre-item{background:var(--surf);border:1px solid var(--bd);border-radius:8px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.pre-num{width:26px;height:26px;background:var(--n);color:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.pre-text{font-size:.82rem;color:var(--tx)}
+.pre-route{font-size:.72rem;font-family:monospace;color:var(--bl);display:block;margin-top:3px}
+
+/* ── Blocking bar ── */
+.blocking-bar{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:8px;padding:14px 18px;margin-top:20px}
+.blocking-bar h4{font-size:.82rem;font-weight:700;color:var(--rd);margin-bottom:8px}
+.blocking-bar ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.blocking-bar li{font-size:.78rem;color:var(--rd);background:var(--w);border:1px solid var(--rd-bd);border-radius:6px;padding:4px 12px}
+
+/* ── Chain diagram ── */
+.chain-box{background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:16px}
+.chain-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;padding:3px 10px;border-radius:4px;display:inline-block}
+.chain-label.a{background:var(--gr-bg);color:var(--gr)}
+.chain-label.b{background:var(--am-bg);color:var(--am)}
+.chain-label.c{background:var(--bl-bg);color:var(--bl)}
+.chain-nodes{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.cn{background:var(--lt);border:1px solid var(--bd);border-radius:6px;padding:6px 12px;font-size:.78rem;font-weight:600;color:var(--n)}
+.cn.terminal{background:var(--n);color:var(--g)}
+.ca{font-size:1rem;color:var(--mu)}
+
+/* ── Swimlanes ── */
+.swimlane{border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:24px;background:var(--surf)}
+.sw-head{padding:14px 20px;font-weight:700;font-size:.9rem;color:var(--w);display:flex;align-items:center;gap:8px}
+.sw-head.purple{background:var(--lane-mgr)}
+.sw-head.navy{background:var(--lane-hd)}
+.sw-head.amber{background:var(--lane-fi)}
+.sw-head.green{background:var(--te)}
+.sw-lanes{display:grid;grid-template-columns:140px 1fr}
+.sw-lane{display:contents}
+.sw-actor{padding:14px 14px;background:var(--lt);border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);font-size:.75rem;font-weight:700;color:var(--n);display:flex;align-items:flex-start;justify-content:center;text-align:center}
+.sw-steps{padding:12px 16px;border-bottom:1px solid var(--bd)}
+.sw-step{font-size:.8rem;color:var(--tx);padding:5px 0;display:flex;gap:8px;align-items:flex-start}
+.sw-step::before{content:'→';color:var(--g);font-weight:700;flex-shrink:0}
+.sw-note{font-size:.75rem;color:var(--mu);font-style:italic;padding:4px 8px;background:var(--off);border-radius:4px;margin-top:4px}
+
+/* ── State machine ── */
+.state-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+.state-pill{padding:8px 16px;border-radius:20px;font-size:.8rem;font-weight:700;border:2px solid}
+.state-pill.draft{background:var(--lt);border-color:var(--bd);color:var(--mu)}
+.state-pill.active{background:var(--gr-bg);border-color:var(--gr);color:var(--gr)}
+.state-pill.occupied{background:var(--te-bg);border-color:var(--te);color:var(--te)}
+.state-pill.vacant{background:var(--bl-bg);border-color:var(--bl);color:var(--bl)}
+.state-pill.frozen{background:var(--am-bg);border-color:var(--am);color:var(--am)}
+.state-pill.archived{background:var(--rd-bg);border-color:var(--rd);color:var(--rd)}
+
+.trans-list{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.trans-item{background:var(--surf);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;font-size:.8rem;display:flex;gap:8px;align-items:flex-start}
+.trans-arrow{color:var(--g);font-weight:700;flex-shrink:0}
+.trans-rule{font-size:.75rem;color:var(--mu);margin-top:3px}
+
+/* ── Mockups ── */
+.mockup-wrap{background:var(--lt);border-radius:12px;padding:16px;margin-bottom:24px}
+.mockup-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mu);margin-bottom:12px}
+.mockup-shell{background:var(--n);border-radius:10px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.mockup-topbar{background:var(--n2);padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--n3)}
+.mockup-dots{display:flex;gap:5px}
+.mockup-dot{width:10px;height:10px;border-radius:50%}
+.mockup-title-bar{flex:1;text-align:center;font-size:.72rem;color:var(--mu)}
+.mockup-body{display:grid;grid-template-columns:160px 1fr;min-height:320px}
+.mockup-nav{background:var(--n);padding:16px 0;border-right:1px solid var(--n3)}
+.mockup-nav-item{padding:8px 16px;font-size:.72rem;color:#8FA5C8;cursor:default;display:flex;align-items:center;gap:6px}
+.mockup-nav-item.active{background:var(--n2);color:var(--g);border-left:2px solid var(--g)}
+.mockup-content{background:var(--off);padding:20px}
+.mockup-head{font-size:.95rem;font-weight:700;color:var(--n);margin-bottom:14px}
+.entity-row{background:var(--w);border:1px solid var(--bd);border-radius:8px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.entity-name{font-size:.82rem;font-weight:600;color:var(--n)}
+.entity-count{font-size:.75rem;color:var(--mu)}
+.entity-badge{font-size:.68rem;padding:2px 8px;border-radius:10px;font-weight:600}
+.anno-list{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.anno{font-size:.72rem;background:var(--n);color:var(--g);padding:3px 10px;border-radius:4px}
+
+/* Grade editor mockup */
+.grade-form{background:var(--w);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:12px}
+.gf-row{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.gf-field{flex:1;min-width:120px}
+.gf-label{font-size:.68rem;font-weight:600;color:var(--mu);margin-bottom:4px}
+.gf-val{font-size:.82rem;font-weight:600;color:var(--n);background:var(--off);padding:6px 10px;border-radius:5px;border:1px solid var(--bd)}
+.salary-bar{height:24px;background:var(--lt);border-radius:12px;overflow:hidden;position:relative;margin:10px 0}
+.salary-fill{height:100%;background:linear-gradient(90deg,var(--gr-bg),var(--te-bg),var(--am-bg));border-radius:12px}
+.salary-markers{display:flex;justify-content:space-between;font-size:.65rem;color:var(--mu)}
+
+/* Position mockup */
+.pos-header{background:var(--w);border:1px solid var(--bd);border-radius:8px;padding:14px 16px;margin-bottom:10px}
+.pos-title{font-size:1rem;font-weight:700;color:var(--n)}
+.pos-flags{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.pos-flag{font-size:.72rem;padding:3px 10px;border-radius:6px;font-weight:600;border:1px solid}
+.pos-flag.frozen{background:var(--am-bg);color:var(--am);border-color:var(--am-bd)}
+.pos-flag.conf{background:var(--pu-bg);color:var(--pu);border-color:#C4A3E8}
+
+/* ── Scenario cards ── */
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-top:16px}
+.sc-card{background:var(--surf);border:1px solid var(--bd);border-radius:12px;overflow:hidden;transition:box-shadow .2s}
+.sc-card:hover{box-shadow:0 4px 20px rgba(10,22,40,.1)}
+.sc-head{padding:14px 18px;display:flex;align-items:center;gap:10px}
+.sc-head.navy{background:var(--n);color:var(--w)}
+.sc-head.green{background:var(--te-bg);border-bottom:1px solid var(--te-bd)}
+.sc-head.amber{background:var(--am-bg);border-bottom:1px solid var(--am-bd)}
+.sc-head.purple{background:var(--pu-bg);border-bottom:1px solid #C4A3E8}
+.sc-tag{font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.5px}
+.sc-title{font-size:.9rem;font-weight:700}
+.sc-actor{font-size:.75rem;font-style:italic;opacity:.8}
+.sc-body{padding:16px 18px}
+.sc-step{font-size:.8rem;color:var(--tx);padding:5px 0;border-bottom:1px solid var(--lt);display:flex;gap:8px}
+.sc-step:last-child{border-bottom:none}
+.sc-step-num{font-size:.7rem;font-weight:700;color:var(--g);background:var(--n);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.sc-outcome{margin-top:12px;font-size:.78rem;padding:8px 12px;border-radius:6px;background:var(--gr-bg);color:var(--gr);border:1px solid var(--gr-bd)}
+
+/* ── Troubleshooting cards ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:16px}
+.ts-card{background:var(--surf);border:1px solid var(--rd-bd);border-radius:12px;overflow:hidden}
+.ts-card-head{background:var(--rd-bg);padding:12px 16px;display:flex;align-items:center;gap:8px}
+.ts-card-head h4{font-size:.85rem;font-weight:700;color:var(--rd)}
+.ts-body{padding:14px 16px}
+.ts-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);margin-bottom:6px}
+.ts-val{font-size:.8rem;color:var(--tx);margin-bottom:12px}
+.ts-fix{background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:6px;padding:8px 12px;font-size:.78rem;color:var(--gr);margin-top:8px}
+
+/* ── ARIA cards ── */
+.aria-section{background:linear-gradient(135deg,var(--aria-bg1),var(--aria-bg2));border-radius:14px;padding:28px;margin-top:8px}
+.aria-intro{color:#8FA5C8;font-size:.85rem;margin-bottom:20px;line-height:1.7}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.aria-card{background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.25);border-radius:10px;padding:18px;transition:border-color .2s}
+.aria-card:hover{border-color:var(--g)}
+.aria-q{font-size:.82rem;font-weight:600;color:var(--g);margin-bottom:10px;display:flex;gap:8px;align-items:flex-start}
+.aria-q::before{content:'"';font-size:1.4rem;line-height:1;color:rgba(201,168,76,.5);flex-shrink:0}
+.aria-a{font-size:.78rem;color:#C8D5E8;line-height:1.6;margin-bottom:10px}
+.aria-checks{display:flex;flex-direction:column;gap:5px}
+.aria-check{font-size:.72rem;color:#8FA5C8;display:flex;gap:6px;align-items:flex-start}
+.aria-check::before{content:'✓';color:var(--te);font-weight:700;flex-shrink:0}
+
+/* ── User management table ── */
+.role-table-wrap{overflow-x:auto;margin-top:16px}
+.role-table{width:100%;border-collapse:collapse;font-size:.75rem;min-width:600px}
+.role-table th{background:var(--n);color:var(--g);padding:8px 10px;text-align:left;font-weight:600;white-space:nowrap}
+.role-table td{padding:7px 10px;border-bottom:1px solid var(--bd);color:var(--tx)}
+.role-table tr:nth-child(even) td{background:var(--off)}
+.role-check{color:var(--te);font-weight:700;font-size:.85rem}
+.role-cross{color:var(--rd);font-weight:700;font-size:.85rem}
+.role-partial{color:var(--am);font-size:.75rem}
+
+/* ── Dep map ── */
+.dep-svg-wrap{overflow-x:auto;background:var(--surf);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-top:16px}
+
+/* ── Info boxes ── */
+.info-box{border-radius:8px;padding:12px 16px;margin-top:12px;font-size:.8rem;border:1px solid}
+.info-box.tip{background:var(--te-bg);border-color:var(--te-bd);color:var(--te)}
+.info-box.warn{background:var(--am-bg);border-color:var(--am-bd);color:var(--am)}
+.info-box.danger{background:var(--rd-bg);border-color:var(--rd-bd);color:var(--rd)}
+.info-box.note{background:var(--bl-bg);border-color:var(--bl-bd);color:var(--bl)}
+
+/* ── Print ── */
+@media print{
+  .sidebar,.topbar,.role-bar{display:none!important}
+  .main{margin-left:0}
+  .sec{break-inside:avoid;page-break-inside:avoid}
+  body{font-size:11pt}
+  .mockup-shell{box-shadow:none;border:1px solid var(--bd)}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .content{padding:16px}
+  .card-grid,.scenario-grid,.ts-grid,.aria-grid{grid-template-columns:1fr}
+  .sw-lanes{grid-template-columns:80px 1fr}
+  .mockup-body{grid-template-columns:1fr}
+  .mockup-nav{display:none}
+  .pre-list{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══════════════════════════════ SIDEBAR ═══════════════════════════════ -->
+<nav class="sidebar">
+  <div class="sb-brand">
+    <div class="logo">AVANIIS HR</div>
+    <div class="sub">Training Module M8</div>
+  </div>
+  <div class="sb-mod">Module Contents</div>
+  <div class="ni active" data-section="s1">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M6 9h6M6 6h6M6 12h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    S1 Overview &amp; Preconditions
+  </div>
+  <div class="ni" data-section="s2">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M9 3l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    S2 Dependency Map
+  </div>
+  <div class="ni" data-section="s3">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><rect x="2" y="5" width="14" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 5V4a3 3 0 016 0v1" stroke="currentColor" stroke-width="1.5"/></svg>
+    S3 Entity Type Cards
+  </div>
+  <div class="ni" data-section="s4">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><rect x="1" y="4" width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="10" width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>
+    S4 Swimlane Flows
+  </div>
+  <div class="ni" data-section="s5">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 5v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    S5 Position Lifecycle
+  </div>
+  <div class="ni" data-section="s6">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 7h8M5 10h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    S6 Screen Mockups
+  </div>
+  <div class="ni" data-section="s7">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 15c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    S7 User Management
+  </div>
+  <div class="ni" data-section="s8">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><path d="M3 3h5v5H3zM10 3h5v5h-5zM3 10h5v5H3zM10 10h5v5h-5z" stroke="currentColor" stroke-width="1.3"/></svg>
+    S8 Scenarios
+  </div>
+  <div class="ni" data-section="s9">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M9 8v5M9 6v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    S9 Troubleshooting
+  </div>
+  <div class="ni" data-section="s10">
+    <svg class="ic" viewBox="0 0 18 18" fill="none"><path d="M3 4h12M3 8h8M3 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    S10 ARIA Intelligence
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ MAIN ═══════════════════════════════ -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="breadcrumb">AVANIIS HR Training &rsaquo; System Administration</div>
+      <div class="page-title">M8 — System Administration &amp; Master Data</div>
+    </div>
+    <span class="badge-module">MODULE 8</span>
+  </div>
+
+  <!-- Role filter -->
+  <div class="role-bar">
+    <label>View as:</label>
+    <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+    <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+    <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+    <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+    <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  </div>
+
+  <div class="content">
+
+  <!-- ═══ S1 — Overview & Preconditions ═══ -->
+  <section class="sec" id="s1">
+    <div class="sec-header">
+      <div class="sec-num">S1</div>
+      <div class="sec-meta">
+        <h2>Overview &amp; Preconditions</h2>
+        <p>System administration of AVANIIS HR — the master data hierarchy that all other modules depend on. These preconditions must be satisfied before any module can function correctly.</p>
+      </div>
+    </div>
+
+    <div class="info-box note" style="margin-bottom:20px">
+      <strong>Module Purpose:</strong> Master Data Management (MDM) is the foundation layer. Every employee record, leave balance, payroll run, workflow approval, and org chart node traces back to entities configured here. A misconfigured master data hierarchy silently breaks downstream modules — this module teaches you to get it right the first time.
+    </div>
+
+    <ul class="pre-list">
+      <li class="pre-item">
+        <div class="pre-num">1</div>
+        <div class="pre-text">
+          <strong>Super Admin user exists and is logged in</strong> — only SUPER_ADMIN can modify legal entities, custom fields, and SSO settings.
+          <span class="pre-route">/users → assign SUPER_ADMIN role</span>
+        </div>
+      </li>
+      <li class="pre-item">
+        <div class="pre-num">2</div>
+        <div class="pre-text">
+          <strong>Microsoft Entra ID SSO configured</strong> — AZURE_AD_TENANT_ID, AZURE_AD_CLIENT_ID, and AZURE_AD_CLIENT_SECRET must be set. Entra ID is the only supported login method.
+          <span class="pre-route">/settings/sso → verify OIDC redirect URI</span>
+        </div>
+      </li>
+      <li class="pre-item">
+        <div class="pre-num">3</div>
+        <div class="pre-text">
+          <strong>Default tenant_id set</strong> — all tables use a tenant UUID of <code>00000000-0000-0000-0000-000000000001</code>. The environment variable MAG_TENANT_UUID must match.
+          <span class="pre-route">/settings/system → tenant configuration</span>
+        </div>
+      </li>
+      <li class="pre-item">
+        <div class="pre-num">4</div>
+        <div class="pre-text">
+          <strong>At minimum 1 legal entity configured</strong> — the legal_entities table must have at least one active record before any employee can be created or any position can be attached to an entity.
+          <span class="pre-route">/master-data/legal-entities → verify active entities</span>
+        </div>
+      </li>
+      <li class="pre-item">
+        <div class="pre-num">5</div>
+        <div class="pre-text">
+          <strong>Database migrations current</strong> — migration 0026 must be applied. Running an older migration set will cause missing columns for is_frozen, is_confidential, vacancy_start_date, and acting fields.
+          <span class="pre-route">/settings/system → migration status panel</span>
+        </div>
+      </li>
+      <li class="pre-item">
+        <div class="pre-num">6</div>
+        <div class="pre-text">
+          <strong>Cron jobs running</strong> — the Vercel cron at 09:00 UTC handles workflow SLA timers, probation checks, and org snapshots. If CRON_SECRET is missing, all cron endpoints return 401.
+          <span class="pre-route">/api/cron/* — check vercel.json cron schedule</span>
+        </div>
+      </li>
+      <li class="pre-item">
+        <div class="pre-num">7</div>
+        <div class="pre-text">
+          <strong>SMTP configured for notifications</strong> — SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS must all be set. Missing SMTP causes silent notification failures; approval emails never reach approvers.
+          <span class="pre-route">/settings/notifications → SMTP test button</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="blocking-bar">
+      <h4>Blocking Conditions — system will not function correctly until resolved</h4>
+      <ul>
+        <li>No legal entity → cannot create any employee</li>
+        <li>No grade salary band → promotions are blocked</li>
+        <li>SSO misconfigured → no user can log in</li>
+        <li>is_frozen=true on position → all assignments to that position blocked</li>
+        <li>Missing migration 0026 → vacancy_start_date column absent → org chart errors</li>
+        <li>CRON_SECRET absent → workflow SLA timers never fire → approvals stall</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ S2 — Dependency Map ═══ -->
+  <section class="sec" id="s2">
+    <div class="sec-header">
+      <div class="sec-num">S2</div>
+      <div class="sec-meta">
+        <h2>Dependency Map</h2>
+        <p>Three configuration chains govern how master data flows through every module. Understanding these chains prevents silent failures and misconfigured setups.</p>
+      </div>
+    </div>
+
+    <!-- Chain A -->
+    <div class="chain-box">
+      <span class="chain-label a">CHAIN A — Core Employee Hierarchy</span>
+      <div class="chain-nodes">
+        <div class="cn">Legal Entity</div><div class="ca">→</div>
+        <div class="cn">Department</div><div class="ca">→</div>
+        <div class="cn">Grade + Salary Band</div><div class="ca">→</div>
+        <div class="cn">Job</div><div class="ca">→</div>
+        <div class="cn">Position</div><div class="ca">→</div>
+        <div class="cn">Worker Assignment</div><div class="ca">→</div>
+        <div class="cn terminal">All Modules Work</div>
+      </div>
+      <p style="font-size:.78rem;color:var(--mu);margin-top:10px">Every single downstream module — Leave, Payroll, Timesheets, Org Chart, Approvals, ARIA — requires a complete CHAIN A. A break at any node in this chain propagates silently to all modules that depend on it. The legal entity is the root anchor; removing or deactivating a legal entity without migrating its positions and persons first will orphan records across 11 modules.</p>
+    </div>
+
+    <!-- Chain B -->
+    <div class="chain-box">
+      <span class="chain-label b">CHAIN B — Grade Salary Band Propagation</span>
+      <div class="chain-nodes">
+        <div class="cn">Grade salary band update</div><div class="ca">→</div>
+        <div class="cn">Existing positions recheck</div><div class="ca">→</div>
+        <div class="cn">Grade Band Validator updates</div><div class="ca">→</div>
+        <div class="cn">Finance sign-off required if above max</div><div class="ca">→</div>
+        <div class="cn terminal">Payroll module uses new band</div>
+      </div>
+      <p style="font-size:.78rem;color:var(--mu);margin-top:10px">When a grade's salary band (min/mid/max) is updated, the system automatically rechecks all positions linked to that grade. Any employee whose current salary falls outside the new band is flagged. Finance must sign off before those employees can receive a promotion or salary increase. The Grade Band Validator enforces the rule: min &lt; mid &lt; max with no overlap between adjacent grades.</p>
+    </div>
+
+    <!-- Chain C -->
+    <div class="chain-box">
+      <span class="chain-label c">CHAIN C — Workflow Template Configuration</span>
+      <div class="chain-nodes">
+        <div class="cn">Workflow template config</div><div class="ca">→</div>
+        <div class="cn">Approval steps resolve</div><div class="ca">→</div>
+        <div class="cn">SLA timers apply</div><div class="ca">→</div>
+        <div class="cn">Delegation rules apply</div><div class="ca">→</div>
+        <div class="cn terminal">All request types work</div>
+      </div>
+      <p style="font-size:.78rem;color:var(--mu);margin-top:10px">All approval-based request types — leave requests, hiring requests, transfer requests, salary change requests — rely on CHAIN C. A workflow template must be configured for each request type and for each legal entity. SLA timers are enforced by the cron job at /api/cron/workflow-sla. Delegation rules are applied when an approver is on leave. If no workflow template is configured for a request type, new requests enter PENDING_APPROVAL state permanently and can never advance.</p>
+    </div>
+
+    <!-- SVG Dependency diagram -->
+    <div class="dep-svg-wrap">
+      <p style="font-size:.75rem;font-weight:600;color:var(--mu);margin-bottom:12px">Visual: Module Dependency Flow</p>
+      <svg viewBox="0 0 760 200" width="100%" style="max-width:760px;display:block">
+        <defs>
+          <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="agold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="ate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="ard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <!-- Chain A nodes -->
+        <rect x="10" y="80" width="90" height="36" rx="6" fill="#1A3060" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="55" y="103" text-anchor="middle" font-size="10" fill="#C9A84C" font-weight="600">Legal Entity</text>
+        <line x1="100" y1="98" x2="124" y2="98" stroke="#6B7A96" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="124" y="80" width="90" height="36" rx="6" fill="#1A3060" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="169" y="103" text-anchor="middle" font-size="10" fill="#C9A84C" font-weight="600">Department</text>
+        <line x1="214" y1="98" x2="238" y2="98" stroke="#6B7A96" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="238" y="80" width="90" height="36" rx="6" fill="#1A3060" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="283" y="96" text-anchor="middle" font-size="9" fill="#C9A84C" font-weight="600">Grade +</text>
+        <text x="283" y="108" text-anchor="middle" font-size="9" fill="#C9A84C" font-weight="600">Salary Band</text>
+        <line x1="328" y1="98" x2="352" y2="98" stroke="#6B7A96" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="352" y="80" width="70" height="36" rx="6" fill="#1A3060" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="387" y="103" text-anchor="middle" font-size="10" fill="#C9A84C" font-weight="600">Job</text>
+        <line x1="422" y1="98" x2="446" y2="98" stroke="#6B7A96" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="446" y="80" width="80" height="36" rx="6" fill="#1A3060" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="486" y="103" text-anchor="middle" font-size="10" fill="#C9A84C" font-weight="600">Position</text>
+        <line x1="526" y1="98" x2="550" y2="98" stroke="#6B7A96" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="550" y="80" width="90" height="36" rx="6" fill="#1A3060" stroke="#C9A84C" stroke-width="1.5"/>
+        <text x="595" y="96" text-anchor="middle" font-size="9" fill="#C9A84C" font-weight="600">Worker</text>
+        <text x="595" y="108" text-anchor="middle" font-size="9" fill="#C9A84C" font-weight="600">Assignment</text>
+        <line x1="640" y1="98" x2="664" y2="98" stroke="#C9A84C" stroke-width="1.5" marker-end="url(#agold)"/>
+        <rect x="664" y="72" width="86" height="52" rx="6" fill="#C9A84C"/>
+        <text x="707" y="95" text-anchor="middle" font-size="9" fill="#0A1628" font-weight="700">All Modules</text>
+        <text x="707" y="108" text-anchor="middle" font-size="9" fill="#0A1628" font-weight="700">Work ✓</text>
+        <!-- Labels -->
+        <text x="55" y="70" text-anchor="middle" font-size="8" fill="#1A6B3C" font-weight="700">CHAIN A</text>
+      </svg>
+    </div>
+
+    <div class="info-box warn" style="margin-top:16px">
+      <strong>Important:</strong> Chains A, B, and C are not independent. A broken CHAIN A prevents CHAIN B validation from running because there are no positions to validate. Always establish CHAIN A completely before configuring workflow templates (CHAIN C).
+    </div>
+  </section>
+
+  <!-- ═══ S3 — Six Entity Type Cards ═══ -->
+  <section class="sec" id="s3">
+    <div class="sec-header">
+      <div class="sec-num">S3</div>
+      <div class="sec-meta">
+        <h2>Entity Type Cards</h2>
+        <p>Six master data entities form the backbone of the AVANIIS HR system. Each entity has specific access controls, bilingual requirements, and cascading impact on downstream modules.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+
+      <div class="type-card">
+        <div class="tc-icon" style="background:var(--bl-bg)">🏢</div>
+        <div class="tc-name">Legal Entities</div>
+        <div class="tc-route">/master-data/legal-entities</div>
+        <div class="tc-meta"><strong>Edit permission:</strong> SUPER_ADMIN only</div>
+        <div class="tc-meta"><strong>Bilingual:</strong> name_en + name_ar required on every record. The Arabic name appears on payslips and official letters.</div>
+        <div class="tc-meta"><strong>Key fields:</strong> trade_licence_number, legal_type (LLC / FZ / Branch / Holding), incorporation_date, is_active</div>
+        <div class="tc-meta"><strong>Relation:</strong> All departments, positions, and persons must be linked to a legal entity via legal_entity_id. The default tenant UUID is embedded at row level.</div>
+        <div class="tc-break">Breaks if missing: No employee can be created. All HR processes halt at entity validation.</div>
+        <div class="tc-perm">SUPER_ADMIN write · HR_ADMIN read-only</div>
+      </div>
+
+      <div class="type-card">
+        <div class="tc-icon" style="background:var(--te-bg)">🏗️</div>
+        <div class="tc-name">Departments</div>
+        <div class="tc-route">/master-data/departments</div>
+        <div class="tc-meta"><strong>Edit permission:</strong> HR_ADMIN and above</div>
+        <div class="tc-meta"><strong>Bilingual:</strong> name_en + name_ar mandatory. The self-referencing parent_department_id column enables unlimited nested hierarchy (e.g. Avaniis → Technology → Software Engineering).</div>
+        <div class="tc-meta"><strong>Key fields:</strong> department_code, cost_centre, parent_department_id (self-ref FK), head_position_id, is_active</div>
+        <div class="tc-meta"><strong>Relation:</strong> Positions reference departments. The org chart uses the department hierarchy to build the tree. Department reparenting (changing parent_department_id) moves all child departments and their positions.</div>
+        <div class="tc-break">Breaks if missing: Positions have no department home. Org chart cannot render subtrees.</div>
+        <div class="tc-perm">HR_ADMIN write · Manager read-only</div>
+      </div>
+
+      <div class="type-card">
+        <div class="tc-icon" style="background:var(--am-bg)">📊</div>
+        <div class="tc-name">Grades &amp; Salary Bands</div>
+        <div class="tc-route">/master-data/grades</div>
+        <div class="tc-meta"><strong>Edit permission:</strong> HR_ADMIN + Finance sign-off for band changes</div>
+        <div class="tc-meta"><strong>Bilingual:</strong> name_en + name_ar. Grade codes follow the convention G1–G12 by default but are configurable per entity.</div>
+        <div class="tc-meta"><strong>Key fields:</strong> grade_code, rank_order, min_salary, mid_salary, max_salary (all stored in AED). The grade_salary_ranges table stores effective-dated band history.</div>
+        <div class="tc-meta"><strong>Grade Band Validator:</strong> Automatically runs on every save. Enforces min &lt; mid &lt; max. Flags any employee whose current salary is outside the band. Finance is notified via the Postgres outbox.</div>
+        <div class="tc-break">Breaks if missing: All promotion and salary change workflows are blocked. Payroll cannot validate compensation.</div>
+        <div class="tc-perm">HR_ADMIN write · Finance notification · SUPER_ADMIN override</div>
+      </div>
+
+      <div class="type-card">
+        <div class="tc-icon" style="background:var(--gr-bg)">💼</div>
+        <div class="tc-name">Jobs</div>
+        <div class="tc-route">/master-data/jobs</div>
+        <div class="tc-meta"><strong>Edit permission:</strong> HR_ADMIN and above</div>
+        <div class="tc-meta"><strong>Bilingual:</strong> job_title_en + job_title_ar. The Arabic job title is used on official employment contracts and salary certificates.</div>
+        <div class="tc-meta"><strong>Key fields:</strong> job_code (unique per entity), job_family (Engineering / Finance / HR / Operations / Legal / Executive), job_level, is_managerial, typical_grade_id</div>
+        <div class="tc-meta"><strong>Relation:</strong> Positions reference a job_id. The job defines the nature of the work; the position is a specific seat in the org chart. One job may be used by many positions (e.g. "Software Engineer" appears 12 times in Technology).</div>
+        <div class="tc-break">Breaks if missing: No positions can be created. Hiring requests cannot specify a job title.</div>
+        <div class="tc-perm">HR_ADMIN write · All roles read</div>
+      </div>
+
+      <div class="type-card">
+        <div class="tc-icon" style="background:var(--pu-bg)">📍</div>
+        <div class="tc-name">Positions</div>
+        <div class="tc-route">/master-data/positions</div>
+        <div class="tc-meta"><strong>Edit permission:</strong> HR_ADMIN and above</div>
+        <div class="tc-meta"><strong>Special flags:</strong> is_frozen (boolean — budget hold, no assignments allowed), is_confidential (boolean — hidden from public org chart), vacancy_start_date (auto-set when OCCUPIED → VACANT transition occurs)</div>
+        <div class="tc-meta"><strong>Key fields:</strong> position_code, reports_to_position_id (self-ref), department_id, job_id, grade_id, headcount_budget, is_frozen, is_confidential, vacancy_start_date</div>
+        <div class="tc-meta"><strong>Lifecycle:</strong> DRAFT → ACTIVE → OCCUPIED → VACANT → FROZEN → ARCHIVED. See Section 5 for the full state machine with transition rules.</div>
+        <div class="tc-break">Breaks if missing or frozen: All assignments to this position are blocked. Hiring requests cannot be raised against a frozen position.</div>
+        <div class="tc-perm">HR_ADMIN write · Confidential positions hidden from Managers + Employees</div>
+      </div>
+
+      <div class="type-card">
+        <div class="tc-icon" style="background:var(--off)">⚙️</div>
+        <div class="tc-name">Custom Fields</div>
+        <div class="tc-route">/settings/custom-fields</div>
+        <div class="tc-meta"><strong>Edit permission:</strong> SUPER_ADMIN only</div>
+        <div class="tc-meta"><strong>Applies to:</strong> persons table or worker_assignments table. Custom fields allow client-specific data capture without schema changes.</div>
+        <div class="tc-meta"><strong>Field types supported:</strong> TEXT, NUMBER, DATE, BOOLEAN, SELECT (single), MULTI_SELECT, URL. All custom field values are stored as JSONB in the custom_fields column of the target table.</div>
+        <div class="tc-meta"><strong>Bilingual labels:</strong> label_en + label_ar. Labels appear in employee profiles, import templates, and HR reports.</div>
+        <div class="tc-break">Breaks if removed mid-use: Existing data is orphaned in JSONB. Reports that reference the field by key will return null values.</div>
+        <div class="tc-perm">SUPER_ADMIN only — HR_ADMIN cannot modify field schema</div>
+      </div>
+
+    </div>
+
+    <div class="info-box tip" style="margin-top:20px">
+      <strong>Setup order matters:</strong> Always create entities in CHAIN A order — Legal Entity first, then Departments, then Grades, then Jobs, then Positions. Creating a Position before its Department exists will produce a foreign key violation that rolls back the entire transaction.
+    </div>
+  </section>
+
+  <!-- ═══ S4 — Swimlane Flows ═══ -->
+  <section class="sec" id="s4">
+    <div class="sec-header">
+      <div class="sec-num">S4</div>
+      <div class="sec-meta">
+        <h2>Swimlane Flows</h2>
+        <p>Two end-to-end configuration flows showing the exact sequence of actions across roles: full legal entity hierarchy setup, and grade salary band adjustment.</p>
+      </div>
+    </div>
+
+    <!-- Flow A -->
+    <h3 style="font-size:.9rem;font-weight:700;color:var(--n);margin-bottom:12px">Flow A — New Legal Entity Setup: Full Hierarchy from Scratch</h3>
+    <div class="swimlane">
+      <div class="sw-head purple">
+        <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><circle cx="9" cy="6" r="3" stroke="white" stroke-width="1.5"/><path d="M3 15c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Flow A — New Legal Entity Setup: Full Hierarchy from Scratch
+      </div>
+      <div class="sw-lanes">
+        <div class="sw-lane">
+          <div class="sw-actor">SUPER_ADMIN</div>
+          <div class="sw-steps">
+            <div class="sw-step">Navigate to /master-data/legal-entities → click "New Entity"</div>
+            <div class="sw-step">Enter name_en (English), name_ar (Arabic), trade licence number, legal type (LLC / FZ / Branch)</div>
+            <div class="sw-step">Set incorporation date, assign primary contact email, confirm tenant_id is 00000000-0000-0000-0000-000000000001</div>
+            <div class="sw-step">Click Save — entity record created with is_active=true</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">SYSTEM</div>
+          <div class="sw-steps">
+            <div class="sw-step">Validates tenant_id default · Checks trade_licence_number uniqueness within tenant</div>
+            <div class="sw-step">Creates legal_entity record in Drizzle transaction · Writes audit_log entry (action: CREATE_LEGAL_ENTITY)</div>
+            <div class="sw-step">Triggers notification to SUPER_ADMIN confirming entity activation</div>
+            <div class="sw-note">No Kafka / Redis — notification goes to Postgres outbox → cron picks up within 60 seconds</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">HR_ADMIN</div>
+          <div class="sw-steps">
+            <div class="sw-step">Navigate to /master-data/departments → link department to new entity via legal_entity_id</div>
+            <div class="sw-step">Create root department (e.g. "Corporate") with no parent_department_id → create child departments</div>
+            <div class="sw-step">Navigate to /master-data/jobs → create job codes for entity-specific roles</div>
+            <div class="sw-step">Navigate to /master-data/grades → define grade codes G1–G12, enter min/mid/max AED salary for each</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">SYSTEM</div>
+          <div class="sw-steps">
+            <div class="sw-step">Grade Band Validator runs on each grade save · Enforces min &lt; mid &lt; max</div>
+            <div class="sw-step">Checks no overlap with adjacent grades by rank_order</div>
+            <div class="sw-step">Writes grade_salary_ranges with effective_from = today (effective-date pattern — never DELETE)</div>
+            <div class="sw-step">Writes audit_log entries for each grade created</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">HR_ADMIN</div>
+          <div class="sw-steps">
+            <div class="sw-step">Navigate to /master-data/positions → create positions linked to departments + jobs + grades</div>
+            <div class="sw-step">Set reports_to_position_id to establish org hierarchy (position self-reference)</div>
+            <div class="sw-step">Leave is_frozen=false, is_confidential=false for standard positions</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">SYSTEM</div>
+          <div class="sw-steps">
+            <div class="sw-step">Positions created with status = DRAFT initially</div>
+            <div class="sw-step">HR_ADMIN activates each position → status transitions DRAFT → ACTIVE</div>
+            <div class="sw-step">vacancy_start_date auto-set on ACTIVE positions with no assignment</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">HR_ADMIN</div>
+          <div class="sw-steps">
+            <div class="sw-step">Navigate to /configuration/workflows → assign workflow templates for new entity (leave, hiring, transfer, salary change)</div>
+            <div class="sw-step">Test approval chain with a dummy leave request against the new entity</div>
+            <div class="sw-step">Verify SLA timers fire correctly via /settings/system cron monitor</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">SYSTEM</div>
+          <div class="sw-steps">
+            <div class="sw-step">All modules (Leave, Payroll, Timesheets, Org Chart, ARIA, Approvals) now available for the new entity</div>
+            <div class="sw-step">CHAIN A fully established → employees can be created under this entity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flow B -->
+    <h3 style="font-size:.9rem;font-weight:700;color:var(--n);margin-bottom:12px;margin-top:28px">Flow B — New Grade Addition: Salary Band Impact Assessment</h3>
+    <div class="swimlane">
+      <div class="sw-head navy">
+        <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><rect x="2" y="12" width="4" height="4" rx="1" fill="white" opacity=".8"/><rect x="7" y="8" width="4" height="8" rx="1" fill="white" opacity=".8"/><rect x="12" y="4" width="4" height="12" rx="1" fill="white"/></svg>
+        Flow B — New Grade Addition: Salary Band Impact Assessment
+      </div>
+      <div class="sw-lanes">
+        <div class="sw-lane">
+          <div class="sw-actor">HR_ADMIN</div>
+          <div class="sw-steps">
+            <div class="sw-step">Navigate to /master-data/grades → click "Add Grade"</div>
+            <div class="sw-step">Enter grade_code (e.g. G8), name_en "Senior Director", name_ar, rank_order=8</div>
+            <div class="sw-step">Set min_salary=AED 55,000 / mid_salary=AED 67,500 / max_salary=AED 82,000</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">SYSTEM</div>
+          <div class="sw-steps">
+            <div class="sw-step">Grade Band Validator: checks min(55,000) &lt; mid(67,500) &lt; max(82,000) — PASS</div>
+            <div class="sw-step">Checks adjacent grades: G7 max must be ≤ G8 min; G9 min must be ≥ G8 max</div>
+            <div class="sw-step">If overlap found → validation error displayed inline → HR must adjust bands before save</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">SYSTEM</div>
+          <div class="sw-steps">
+            <div class="sw-step">Finance notified via outbox if any existing employee salary falls outside new band or adjacent grade bands shift</div>
+            <div class="sw-step">Notification includes employee list, current salary, and variance from new band midpoint</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">HR_ADMIN</div>
+          <div class="sw-steps">
+            <div class="sw-step">Link any existing positions to new grade via /master-data/positions → edit → change grade_id to G8</div>
+            <div class="sw-step">Review impact: each position change triggers a re-check of the worker_assignment salary range</div>
+          </div>
+        </div>
+        <div class="sw-lane">
+          <div class="sw-actor">SYSTEM</div>
+          <div class="sw-steps">
+            <div class="sw-step">Rechecks all positions with updated grade → revalidates assignment records against new band</div>
+            <div class="sw-step">Writes effective-dated grade_salary_ranges record (effective_from = today)</div>
+            <div class="sw-step">Writes audit_log entries for all affected positions and assignments</div>
+            <div class="sw-step">All payroll runs for employees in G8 now use new salary band for compliance checks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S5 — Position Lifecycle ═══ -->
+  <section class="sec" id="s5">
+    <div class="sec-header">
+      <div class="sec-num">S5</div>
+      <div class="sec-meta">
+        <h2>Position Lifecycle State Machine</h2>
+        <p>Every position in AVANIIS HR moves through a defined set of states. Understanding these transitions is critical for org chart integrity, hiring, and budget management.</p>
+      </div>
+    </div>
+
+    <div class="state-grid">
+      <div class="state-pill draft">DRAFT</div>
+      <div style="font-size:1.2rem;color:var(--mu);align-self:center">→</div>
+      <div class="state-pill active">ACTIVE</div>
+      <div style="font-size:1.2rem;color:var(--mu);align-self:center">→</div>
+      <div class="state-pill occupied">OCCUPIED</div>
+      <div style="font-size:1.2rem;color:var(--mu);align-self:center">→</div>
+      <div class="state-pill vacant">VACANT</div>
+      <div style="font-size:1.2rem;color:var(--mu);align-self:center">→</div>
+      <div class="state-pill frozen">FROZEN</div>
+      <div style="font-size:1.2rem;color:var(--mu);align-self:center">→</div>
+      <div class="state-pill archived">ARCHIVED</div>
+    </div>
+
+    <!-- State descriptions -->
+    <div class="card-grid" style="margin-top:20px">
+      <div class="card">
+        <div class="card-title" style="color:var(--mu)">DRAFT</div>
+        <div class="card-body">Position just created. Not yet visible in the public org chart. No assignments allowed. HR_ADMIN is configuring the position details (reports_to, grade, job code). The position exists in the database but vacancy_start_date is null.</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--gr)">ACTIVE</div>
+        <div class="card-body">Position is open and available for assignment. vacancy_start_date is auto-set to the activation date. The position appears in the org chart as a vacant node (red indicator in the org chart canvas). Hiring requests can be raised against ACTIVE positions.</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--te)">OCCUPIED</div>
+        <div class="card-body">A worker_assignment record links a person to this position. The position appears in the org chart with the employee's name and photo. is_acting=true on the assignment indicates an acting (temporary) occupant. vacancy_start_date is null while occupied.</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--bl)">VACANT</div>
+        <div class="card-body">The previous occupant has departed or been transferred. vacancy_start_date is auto-set by the system when the assignment is end-dated. The position shows in the org chart as vacant. ARIA can report "positions vacant for &gt;90 days" using vacancy_start_date.</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--am)">FROZEN</div>
+        <div class="card-body">is_frozen=true is set by an HR Director or SUPER_ADMIN — typically during budget freezes or restructuring. No new assignments are allowed. No hiring requests can be raised. The position shows an amber warning banner in the org chart. A freeze_reason text field captures the business rationale.</div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--rd)">ARCHIVED</div>
+        <div class="card-body">Position is decommissioned. Cannot be reactivated. Historical assignments remain in the database for audit purposes (records are never deleted — effective-date pattern). is_confidential=true positions may be archived when confidential roles are dissolved.</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:.88rem;font-weight:700;color:var(--n);margin-top:24px;margin-bottom:12px">State Transitions &amp; Rules</h3>
+    <div class="trans-list">
+      <div class="trans-item">
+        <div class="trans-arrow">→</div>
+        <div>
+          <strong style="font-size:.82rem">DRAFT → ACTIVE</strong>
+          <div class="trans-rule">HR_ADMIN explicitly activates the position. System sets vacancy_start_date = today. Position becomes visible in org chart as a vacant node.</div>
+        </div>
+      </div>
+      <div class="trans-item">
+        <div class="trans-arrow">→</div>
+        <div>
+          <strong style="font-size:.82rem">ACTIVE → OCCUPIED</strong>
+          <div class="trans-rule">A worker_assignment record is created linking person_id and position_id. vacancy_start_date is set to null. The org chart node transitions from red (vacant) to the employee card.</div>
+        </div>
+      </div>
+      <div class="trans-item">
+        <div class="trans-arrow">→</div>
+        <div>
+          <strong style="font-size:.82rem">OCCUPIED → VACANT</strong>
+          <div class="trans-rule">Assignment is end-dated (departure, transfer, or role elimination). System auto-sets vacancy_start_date. Position returns to the org chart as a vacant node. The previous assignment record is preserved with effective_to date set.</div>
+        </div>
+      </div>
+      <div class="trans-item">
+        <div class="trans-arrow">→</div>
+        <div>
+          <strong style="font-size:.82rem">VACANT → FROZEN</strong>
+          <div class="trans-rule">HR Director sets is_frozen=true with a freeze_reason. No hiring requests can now be raised. The position displays an amber FROZEN badge in the org chart. Finance is notified via outbox.</div>
+        </div>
+      </div>
+      <div class="trans-item">
+        <div class="trans-arrow">→</div>
+        <div>
+          <strong style="font-size:.82rem">FROZEN → ACTIVE</strong>
+          <div class="trans-rule">HR Director sets is_frozen=false (unfreeze). Requires a workflow approval step with Finance sign-off. The position returns to ACTIVE (VACANT) status and can accept hiring requests again.</div>
+        </div>
+      </div>
+      <div class="trans-item">
+        <div class="trans-arrow">→</div>
+        <div>
+          <strong style="font-size:.82rem">ACTIVE → ARCHIVED</strong>
+          <div class="trans-rule">Position is decommissioned by SUPER_ADMIN. Only possible when position is ACTIVE (no current occupant). All historical assignment records are retained with is_archived=true on the position record.</div>
+        </div>
+      </div>
+      <div class="trans-item">
+        <div class="trans-arrow">→</div>
+        <div>
+          <strong style="font-size:.82rem">VACANT → ACTIVE (re-list)</strong>
+          <div class="trans-rule">A vacant position can be explicitly re-listed for hiring even if it was previously OCCUPIED and then became VACANT. This is equivalent to re-opening a seat that was temporarily closed. HR_ADMIN triggers this from the position record.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- State machine SVG -->
+    <div class="dep-svg-wrap" style="margin-top:20px">
+      <p style="font-size:.75rem;font-weight:600;color:var(--mu);margin-bottom:12px">Visual: Position State Transition Diagram</p>
+      <svg viewBox="0 0 700 160" width="100%" style="max-width:700px;display:block">
+        <defs>
+          <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="agold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="ate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="ard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <rect x="10" y="60" width="70" height="36" rx="6" fill="#EEF0F5" stroke="#D4D8E2" stroke-width="1.5"/>
+        <text x="45" y="83" text-anchor="middle" font-size="10" fill="#6B7A96" font-weight="600">DRAFT</text>
+        <line x1="80" y1="78" x2="104" y2="78" stroke="#6B7A96" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="104" y="60" width="70" height="36" rx="6" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+        <text x="139" y="83" text-anchor="middle" font-size="10" fill="#1A6B3C" font-weight="600">ACTIVE</text>
+        <line x1="174" y1="78" x2="198" y2="78" stroke="#1A6B3C" stroke-width="1.5" marker-end="url(#ate)"/>
+        <rect x="198" y="60" width="80" height="36" rx="6" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+        <text x="238" y="83" text-anchor="middle" font-size="10" fill="#0E7C6A" font-weight="600">OCCUPIED</text>
+        <line x1="278" y1="78" x2="302" y2="78" stroke="#0E7C6A" stroke-width="1.5" marker-end="url(#ate)"/>
+        <rect x="302" y="60" width="70" height="36" rx="6" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+        <text x="337" y="83" text-anchor="middle" font-size="10" fill="#1A4FBA" font-weight="600">VACANT</text>
+        <line x1="372" y1="78" x2="396" y2="78" stroke="#1A4FBA" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="396" y="60" width="70" height="36" rx="6" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+        <text x="431" y="83" text-anchor="middle" font-size="10" fill="#B45C00" font-weight="600">FROZEN</text>
+        <line x1="466" y1="78" x2="490" y2="78" stroke="#B45C00" stroke-width="1.5" marker-end="url(#ag)"/>
+        <rect x="490" y="60" width="80" height="36" rx="6" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+        <text x="530" y="83" text-anchor="middle" font-size="10" fill="#B01B1B" font-weight="600">ARCHIVED</text>
+        <!-- Frozen back to Active arrow -->
+        <path d="M431 60 Q431 28 337 28 Q243 28 139 60" fill="none" stroke="#B45C00" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#ag)"/>
+        <text x="285" y="18" text-anchor="middle" font-size="8" fill="#B45C00">unfreeze (Finance approval)</text>
+        <!-- Vacant back to Active -->
+        <path d="M337 96 Q337 130 239 130 Q141 130 139 96" fill="none" stroke="#1A4FBA" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#ag)"/>
+        <text x="238" y="148" text-anchor="middle" font-size="8" fill="#1A4FBA">re-list for hire</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ═══ S6 — Screen Mockups ═══ -->
+  <section class="sec" id="s6">
+    <div class="sec-header">
+      <div class="sec-num">S6</div>
+      <div class="sec-meta">
+        <h2>Screen Mockups</h2>
+        <p>Three annotated screen mockups of the master data administration interface. Navigation path: Settings &rsaquo; Master Data (sidebar).</p>
+      </div>
+    </div>
+
+    <!-- Mockup A -->
+    <div class="mockup-wrap">
+      <div class="mockup-label">Mockup A — /master-data Navigation Page</div>
+      <div class="mockup-shell">
+        <div class="mockup-topbar">
+          <div class="mockup-dots">
+            <div class="mockup-dot" style="background:#FF5F57"></div>
+            <div class="mockup-dot" style="background:#FEBC2E"></div>
+            <div class="mockup-dot" style="background:#28C840"></div>
+          </div>
+          <div class="mockup-title-bar">avaniishcm.vercel.app/master-data</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-nav">
+            <div class="mockup-nav-item">Dashboard</div>
+            <div class="mockup-nav-item">Persons</div>
+            <div class="mockup-nav-item">Org Chart</div>
+            <div class="mockup-nav-item active">Master Data ①</div>
+            <div class="mockup-nav-item">Leave</div>
+            <div class="mockup-nav-item">Payroll</div>
+            <div class="mockup-nav-item">Settings</div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-head">Master Data — Entity Registry</div>
+            <div class="entity-row">
+              <div><div class="entity-name">Legal Entities</div><div class="entity-count">Last updated: 2026-05-20</div></div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="entity-badge" style="background:var(--bl-bg);color:var(--bl)">3 entities ②</span><button style="font-size:.7rem;padding:3px 10px;background:var(--n);color:var(--g);border:none;border-radius:5px;cursor:default">+ New ③</button></div>
+            </div>
+            <div class="entity-row">
+              <div><div class="entity-name">Departments</div><div class="entity-count">Last updated: 2026-05-18</div></div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="entity-badge" style="background:var(--te-bg);color:var(--te)">18 depts ②</span><button style="font-size:.7rem;padding:3px 10px;background:var(--n);color:var(--g);border:none;border-radius:5px;cursor:default">+ New ③</button></div>
+            </div>
+            <div class="entity-row">
+              <div><div class="entity-name">Grades &amp; Salary Bands</div><div class="entity-count">Last updated: 2026-05-15</div></div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="entity-badge" style="background:var(--am-bg);color:var(--am)">12 grades ②</span><button style="font-size:.7rem;padding:3px 10px;background:var(--n);color:var(--g);border:none;border-radius:5px;cursor:default">+ New ③</button></div>
+            </div>
+            <div class="entity-row">
+              <div><div class="entity-name">Jobs</div><div class="entity-count">Last updated: 2026-05-12</div></div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="entity-badge" style="background:var(--gr-bg);color:var(--gr)">47 jobs ②</span><button style="font-size:.7rem;padding:3px 10px;background:var(--n);color:var(--g);border:none;border-radius:5px;cursor:default">+ New ③</button></div>
+            </div>
+            <div class="entity-row">
+              <div><div class="entity-name">Positions</div><div class="entity-count">Last updated: 2026-05-22</div></div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="entity-badge" style="background:var(--pu-bg);color:var(--pu)">143 positions ②</span><button style="font-size:.7rem;padding:3px 10px;background:var(--n);color:var(--g);border:none;border-radius:5px;cursor:default">+ New ③</button></div>
+            </div>
+            <div class="entity-row">
+              <div><div class="entity-name">Custom Fields</div><div class="entity-count">Last updated: 2026-04-30</div></div>
+              <div style="display:flex;align-items:center;gap:10px"><span class="entity-badge" style="background:var(--off);color:var(--mu)">7 fields ②</span><a href="#" style="font-size:.7rem;padding:3px 10px;background:var(--lt);color:var(--mu);border:none;border-radius:5px;cursor:default;text-decoration:none">Audit Trail ④</a></div>
+            </div>
+            <div class="anno-list">
+              <span class="anno">① Entity type cards</span>
+              <span class="anno">② Counts &amp; last-updated</span>
+              <span class="anno">③ Quick-add button</span>
+              <span class="anno">④ Audit trail link</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup B -->
+    <div class="mockup-wrap">
+      <div class="mockup-label">Mockup B — Grade Editor: Salary Band with Min/Mid/Max</div>
+      <div class="mockup-shell">
+        <div class="mockup-topbar">
+          <div class="mockup-dots">
+            <div class="mockup-dot" style="background:#FF5F57"></div>
+            <div class="mockup-dot" style="background:#FEBC2E"></div>
+            <div class="mockup-dot" style="background:#28C840"></div>
+          </div>
+          <div class="mockup-title-bar">avaniishcm.vercel.app/master-data/grades/G7</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-nav">
+            <div class="mockup-nav-item">Dashboard</div>
+            <div class="mockup-nav-item">Persons</div>
+            <div class="mockup-nav-item active">Master Data</div>
+            <div class="mockup-nav-item" style="padding-left:28px;font-size:.68rem;color:var(--g)">↳ Grades ①</div>
+            <div class="mockup-nav-item">Leave</div>
+            <div class="mockup-nav-item">Payroll</div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-head">Edit Grade — G7 Senior Manager</div>
+            <div class="grade-form">
+              <div class="gf-row">
+                <div class="gf-field">
+                  <div class="gf-label">Grade Code ①</div>
+                  <div class="gf-val">G7</div>
+                </div>
+                <div class="gf-field">
+                  <div class="gf-label">Name (English)</div>
+                  <div class="gf-val">Senior Manager</div>
+                </div>
+                <div class="gf-field">
+                  <div class="gf-label">Name (Arabic)</div>
+                  <div class="gf-val" style="font-family:sans-serif">مدير أول</div>
+                </div>
+              </div>
+              <div class="gf-row">
+                <div class="gf-field">
+                  <div class="gf-label">Min Salary (AED) ②</div>
+                  <div class="gf-val" style="color:var(--gr)">35,000</div>
+                </div>
+                <div class="gf-field">
+                  <div class="gf-label">Mid Salary (AED) ②</div>
+                  <div class="gf-val" style="color:var(--am)">42,500</div>
+                </div>
+                <div class="gf-field">
+                  <div class="gf-label">Max Salary (AED) ②</div>
+                  <div class="gf-val" style="color:var(--rd)">52,000</div>
+                </div>
+              </div>
+              <div class="gf-label" style="margin-top:8px">Salary Band Range ②</div>
+              <div class="salary-bar">
+                <div class="salary-fill" style="width:100%"></div>
+              </div>
+              <div class="salary-markers">
+                <span>AED 35,000 (min)</span>
+                <span>AED 42,500 (mid)</span>
+                <span>AED 52,000 (max)</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:10px">
+              <div class="card" style="flex:1;min-width:180px;padding:12px">
+                <div class="card-title" style="font-size:.78rem">Position Usage ③</div>
+                <div class="card-body" style="font-size:.75rem;margin-top:4px">14 positions use this grade<br/>3 employees currently above midpoint</div>
+              </div>
+              <div class="card" style="flex:1;min-width:180px;padding:12px">
+                <div class="card-title" style="font-size:.78rem">Finance Notification ④</div>
+                <div style="display:flex;align-items:center;gap:6px;margin-top:6px"><div style="width:28px;height:16px;background:var(--te);border-radius:8px;position:relative"><div style="width:12px;height:12px;background:white;border-radius:50%;position:absolute;top:2px;right:2px"></div></div><span style="font-size:.72rem;color:var(--mu)">Notify Finance on band change</span></div>
+              </div>
+            </div>
+            <div class="anno-list" style="margin-top:10px">
+              <span class="anno">① Grade code field</span>
+              <span class="anno">② Salary band sliders</span>
+              <span class="anno">③ Employee distribution</span>
+              <span class="anno">④ Finance notification toggle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup C -->
+    <div class="mockup-wrap">
+      <div class="mockup-label">Mockup C — Position Record: Frozen &amp; Confidential Toggles</div>
+      <div class="mockup-shell">
+        <div class="mockup-topbar">
+          <div class="mockup-dots">
+            <div class="mockup-dot" style="background:#FF5F57"></div>
+            <div class="mockup-dot" style="background:#FEBC2E"></div>
+            <div class="mockup-dot" style="background:#28C840"></div>
+          </div>
+          <div class="mockup-title-bar">avaniishcm.vercel.app/master-data/positions/CSO-001</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-nav">
+            <div class="mockup-nav-item">Dashboard</div>
+            <div class="mockup-nav-item">Persons</div>
+            <div class="mockup-nav-item active">Master Data</div>
+            <div class="mockup-nav-item" style="padding-left:28px;font-size:.68rem;color:var(--g)">↳ Positions</div>
+            <div class="mockup-nav-item">Leave</div>
+            <div class="mockup-nav-item">Payroll</div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-head">Position Record — CSO-001</div>
+            <div class="pos-header">
+              <div class="pos-title">Chief Strategy Officer</div>
+              <div class="pos-flags">
+                <div class="pos-flag frozen">⚠ FROZEN ① — Budget Hold since 2026-04-01</div>
+                <div class="pos-flag conf">🔒 CONFIDENTIAL ②</div>
+              </div>
+            </div>
+            <div class="grade-form">
+              <div class="gf-row">
+                <div class="gf-field">
+                  <div class="gf-label">Vacancy Start Date ③</div>
+                  <div class="gf-val" style="color:var(--rd)">2026-03-01 (85 days vacant)</div>
+                </div>
+                <div class="gf-field">
+                  <div class="gf-label">Grade</div>
+                  <div class="gf-val">G11 — Executive Director</div>
+                </div>
+                <div class="gf-field">
+                  <div class="gf-label">Department</div>
+                  <div class="gf-val">Corporate Strategy</div>
+                </div>
+              </div>
+              <div class="gf-row">
+                <div class="gf-field" style="flex:2">
+                  <div class="gf-label">Freeze Reason</div>
+                  <div class="gf-val" style="color:var(--am)">FY2026 headcount review — awaiting board approval for executive hire</div>
+                </div>
+              </div>
+              <div style="margin-top:12px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+                <span style="font-size:.78rem;color:var(--am)"><strong>Unfreeze requires HR Director approval ④</strong> — submit via workflow to proceed</span>
+                <button style="font-size:.72rem;padding:5px 14px;background:var(--am);color:var(--w);border:none;border-radius:6px;cursor:default">Request Unfreeze ④</button>
+              </div>
+            </div>
+            <div class="anno-list" style="margin-top:10px">
+              <span class="anno">① is_frozen toggle + warning</span>
+              <span class="anno">② is_confidential badge</span>
+              <span class="anno">③ vacancy_start_date</span>
+              <span class="anno">④ HR Director approval button</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S7 — User Management ═══ -->
+  <section class="sec" id="s7">
+    <div class="sec-header">
+      <div class="sec-num">S7</div>
+      <div class="sec-meta">
+        <h2>User Management Guide</h2>
+        <p>Navigation path: Settings &rsaquo; Users (/users) — SUPER_ADMIN only. Role assignment, SSO configuration, and SLA rule management.</p>
+      </div>
+    </div>
+
+    <div class="info-box danger" style="margin-bottom:20px">
+      <strong>Access restriction:</strong> The /users page is exclusively accessible to SUPER_ADMIN. Any attempt by HR_ADMIN, MANAGER, or EMPLOYEE to navigate to /users will be intercepted by the middleware.ts auth guard and redirected to /dashboard.
+    </div>
+
+    <h3 style="font-size:.88rem;font-weight:700;color:var(--n);margin-bottom:12px">Role Assignment Matrix — 7 Roles × Key Modules</h3>
+    <div class="role-table-wrap">
+      <table class="role-table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Dashboard</th>
+            <th>Persons</th>
+            <th>Master Data</th>
+            <th>Leave Admin</th>
+            <th>Payroll</th>
+            <th>Org Chart</th>
+            <th>ARIA OS</th>
+            <th>Settings</th>
+            <th>Users</th>
+            <th>Reports</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SUPER_ADMIN</strong></td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓ Write</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓ Full</td>
+            <td class="role-check">✓ Full</td>
+            <td class="role-check">✓</td>
+          </tr>
+          <tr>
+            <td><strong>HR_ADMIN</strong></td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Read + Dept/Job/Grade</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-cross">✗</td>
+            <td class="role-check">✓</td>
+          </tr>
+          <tr>
+            <td><strong>FINANCE</strong></td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-partial">Grade bands only</td>
+            <td class="role-cross">✗</td>
+            <td class="role-check">✓ Full</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-cross">✗</td>
+            <td class="role-cross">✗</td>
+            <td class="role-cross">✗</td>
+            <td class="role-check">✓</td>
+          </tr>
+          <tr>
+            <td><strong>MANAGER</strong></td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Direct reports</td>
+            <td class="role-cross">✗</td>
+            <td class="role-partial">Own team</td>
+            <td class="role-cross">✗</td>
+            <td class="role-partial">Own subtree</td>
+            <td class="role-partial">Basic</td>
+            <td class="role-cross">✗</td>
+            <td class="role-cross">✗</td>
+            <td class="role-partial">Own team</td>
+          </tr>
+          <tr>
+            <td><strong>HR_DIRECTOR</strong></td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Read + Freeze</td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-check">✓</td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-cross">✗</td>
+            <td class="role-check">✓</td>
+          </tr>
+          <tr>
+            <td><strong>EMPLOYEE</strong></td>
+            <td class="role-partial">ESS only</td>
+            <td class="role-partial">Own profile</td>
+            <td class="role-cross">✗</td>
+            <td class="role-partial">Own leave</td>
+            <td class="role-partial">Own payslips</td>
+            <td class="role-cross">✗</td>
+            <td class="role-partial">Employee chat</td>
+            <td class="role-cross">✗</td>
+            <td class="role-cross">✗</td>
+            <td class="role-cross">✗</td>
+          </tr>
+          <tr>
+            <td><strong>AUDITOR</strong></td>
+            <td class="role-check">✓</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-partial">Read-only</td>
+            <td class="role-cross">✗</td>
+            <td class="role-cross">✗</td>
+            <td class="role-cross">✗</td>
+            <td class="role-check">✓ Full</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid" style="margin-top:20px">
+      <div class="card">
+        <div class="card-title">Microsoft Entra ID — Only Login Method</div>
+        <div class="card-body">AVANIIS HR uses Auth.js v5 with Microsoft Entra ID OIDC as the sole authentication provider. There is no username/password login in production. The <code>AZURE_AD_TENANT_ID</code>, <code>AZURE_AD_CLIENT_ID</code>, and <code>AZURE_AD_CLIENT_SECRET</code> environment variables must be configured in Vercel. Dev-only credentials (hr.admin@avaniis.dev / demo) are only available when <code>NODE_ENV=development</code>.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Custom Fields Administration</div>
+        <div class="card-body">Navigate to /settings/custom-fields to define entity-specific fields. Fields can be added to the <code>persons</code> or <code>worker_assignments</code> table. Supported types: TEXT, NUMBER, DATE, BOOLEAN, SELECT, MULTI_SELECT, URL. All labels must be provided in both English and Arabic. Custom fields appear in employee profiles, bulk import templates, and HR reports automatically once created.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Workflow SLA Rules</div>
+        <div class="card-body">Navigate to /configuration/workflows to set SLA timers per approval step. SLA rules define the maximum hours before an approval step escalates. The Vercel cron job runs daily at 09:00 UTC and checks all PENDING_APPROVAL workflow instances against their SLA deadlines. Overdue approvals trigger escalation emails to the approver's manager. Delegation rules can be set to automatically reassign approvals during the approver's leave period.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Reaching This Module by Role</div>
+        <div class="card-body">
+          <strong>SUPER_ADMIN:</strong> Top-left navigation → Settings → Users<br/>
+          <strong>HR_ADMIN:</strong> Top-left navigation → Settings (Users option not visible)<br/>
+          <strong>All other roles:</strong> /users route returns 403 — redirected by middleware<br/><br/>
+          Master Data is accessible to HR_ADMIN via: Navigation → Master Data (direct sidebar item). SUPER_ADMIN can also reach it via Settings → Master Data.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S8 — Scenarios ═══ -->
+  <section class="sec" id="s8">
+    <div class="sec-header">
+      <div class="sec-num">S8</div>
+      <div class="sec-meta">
+        <h2>Operational Scenarios</h2>
+        <p>Four real-world scenarios covering the most common master data administration tasks. Each scenario includes the actor, step-by-step actions, and expected system outcome.</p>
+      </div>
+    </div>
+
+    <div class="scenario-grid">
+
+      <div class="sc-card">
+        <div class="sc-head navy">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+              <span class="sc-tag" style="background:var(--g);color:var(--n)">SCENARIO A</span>
+            </div>
+            <div class="sc-title" style="color:var(--w)">New Subsidiary Acquired — Full Entity Setup</div>
+            <div class="sc-actor" style="color:var(--mu)">Ahmed Al-Mansouri (SUPER_ADMIN)</div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div style="font-size:.78rem;color:var(--mu);margin-bottom:10px">Avaniis Hospitality LLC has just been acquired by Avaniis. Ahmed must configure the complete AVANIIS HR master data hierarchy from scratch for the new entity.</div>
+          <div class="sc-step"><div class="sc-step-num">1</div><div>Navigate to /master-data/legal-entities → click "New Entity" → enter name_en: "Avaniis Hospitality LLC", name_ar: "شركة أفانيس للضيافة ذ.م.م", legal_type: LLC, trade_licence: 0987654</div></div>
+          <div class="sc-step"><div class="sc-step-num">2</div><div>Navigate to /master-data/departments → create root department "Corporate" under Avaniis Hospitality → create sub-departments: Finance, HR, Operations, Food &amp; Beverage, Rooms Division</div></div>
+          <div class="sc-step"><div class="sc-step-num">3</div><div>Navigate to /master-data/grades → create G1–G10 salary bands appropriate for hospitality sector (different from real-estate bands)</div></div>
+          <div class="sc-step"><div class="sc-step-num">4</div><div>Navigate to /master-data/jobs → create hospitality-specific job codes: General Manager, F&amp;B Director, Head Chef, Front Desk Supervisor, Housekeeping Manager</div></div>
+          <div class="sc-step"><div class="sc-step-num">5</div><div>Create 40 positions, link each to correct department + job + grade, set reports_to_position_id to build the hierarchy</div></div>
+          <div class="sc-step"><div class="sc-step-num">6</div><div>Navigate to /configuration/workflows → duplicate leave + hiring + transfer templates from Avaniis Properties entity and reassign to Avaniis Hospitality</div></div>
+          <div class="sc-step"><div class="sc-step-num">7</div><div>Navigate to /settings/notifications → verify SMTP is sending to hospitality HR team email group</div></div>
+          <div class="sc-outcome">Outcome: CHAIN A fully established for Avaniis Hospitality LLC. HR admins can now onboard the 38 transferred employees from Day 1.</div>
+        </div>
+      </div>
+
+      <div class="sc-card">
+        <div class="sc-head green">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+              <span class="sc-tag" style="background:var(--te);color:var(--w)">SCENARIO B</span>
+            </div>
+            <div class="sc-title" style="color:var(--te)">Salary Band Increase — Mid-Year Adjustment</div>
+            <div class="sc-actor" style="color:var(--mu)">Sara Al-Hashimi (HR_ADMIN) + Finance sign-off</div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div style="font-size:.78rem;color:var(--mu);margin-bottom:10px">Annual market salary review has found Grade 5 (Senior Associate) bands are 12% below market. 3 employees are now below the new proposed minimum. Finance must approve before bands are updated.</div>
+          <div class="sc-step"><div class="sc-step-num">1</div><div>Sara navigates to /master-data/grades → selects Grade 5 → current bands: min 18,000 / mid 22,000 / max 26,000</div></div>
+          <div class="sc-step"><div class="sc-step-num">2</div><div>Sara enters new proposed bands: min 20,160 / mid 24,640 / max 29,120 (12% uplift) — Grade Band Validator confirms min &lt; mid &lt; max PASS</div></div>
+          <div class="sc-step"><div class="sc-step-num">3</div><div>System detects 3 employees (Khalid, Mariam, Rania) whose current salary of AED 19,500 falls below the new minimum of AED 20,160</div></div>
+          <div class="sc-step"><div class="sc-step-num">4</div><div>Finance notified via outbox with a list of impacted employees, variance amounts (AED 660 each), and total annual cost impact (AED 23,760)</div></div>
+          <div class="sc-step"><div class="sc-step-num">5</div><div>Finance head approves in the workflow approval inbox → Sara receives approval confirmation</div></div>
+          <div class="sc-step"><div class="sc-step-num">6</div><div>Sara applies the band update → effective_from=2026-06-01 → grade_salary_ranges record written → audit log entry created</div></div>
+          <div class="sc-step"><div class="sc-step-num">7</div><div>Sara raises 3 individual salary change requests for Khalid, Mariam, and Rania to bring them to AED 20,160 (new minimum)</div></div>
+          <div class="sc-outcome">Outcome: Grade 5 band updated market-aligned. 3 employees flagged for immediate salary correction. Finance has full audit trail of approval.</div>
+        </div>
+      </div>
+
+      <div class="sc-card">
+        <div class="sc-head amber">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+              <span class="sc-tag" style="background:var(--am);color:var(--w)">SCENARIO C</span>
+            </div>
+            <div class="sc-title" style="color:var(--am)">Department Reorganisation — Reparenting</div>
+            <div class="sc-actor" style="color:var(--mu)">Omar Al-Rashid (HR_ADMIN)</div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div style="font-size:.78rem;color:var(--mu);margin-bottom:10px">The Technology department currently sits under "Avaniis Admin Entity" but will be moved to "Avaniis Properties" effective 1 June 2026. 12 positions and their occupants must move with it.</div>
+          <div class="sc-step"><div class="sc-step-num">1</div><div>Navigate to /master-data/departments → locate "Technology" (current parent: Avaniis Admin Entity)</div></div>
+          <div class="sc-step"><div class="sc-step-num">2</div><div>Click Edit → change parent_department_id to "Avaniis Properties" parent department → enter effective_from=2026-06-01 (effective-date pattern — old record closed, new opened)</div></div>
+          <div class="sc-step"><div class="sc-step-num">3</div><div>System displays impact preview: 12 positions, 9 occupied employees, 3 vacant positions will move. Asks for confirmation.</div></div>
+          <div class="sc-step"><div class="sc-step-num">4</div><div>Omar confirms → system updates department.legal_entity_id to Avaniis Properties → updates all 12 positions' legal_entity_id → updates 9 worker_assignments' legal_entity_id via Drizzle transaction</div></div>
+          <div class="sc-step"><div class="sc-step-num">5</div><div>Payroll is notified: 9 employees will be processed under Avaniis Properties WPS from June payroll run. Finance notified via outbox.</div></div>
+          <div class="sc-step"><div class="sc-step-num">6</div><div>Org chart re-renders automatically — Technology subtree now appears under Avaniis Properties org chart</div></div>
+          <div class="sc-step"><div class="sc-step-num">7</div><div>Audit log records the full reparenting operation with before/after legal_entity_id values for all 12 positions and 9 assignments</div></div>
+          <div class="sc-outcome">Outcome: Technology department seamlessly reparented. All 12 positions and 9 employees migrate to Avaniis Properties effective 2026-06-01 with full audit trail.</div>
+        </div>
+      </div>
+
+      <div class="sc-card">
+        <div class="sc-head" style="background:var(--pu-bg);border-bottom:1px solid #C4A3E8">
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+              <span class="sc-tag" style="background:var(--pu);color:var(--w)">SCENARIO D</span>
+            </div>
+            <div class="sc-title" style="color:var(--pu)">Position Frozen — Budget Hold and Unfreeze</div>
+            <div class="sc-actor" style="color:var(--mu)">Mohammed Al-Farsi (HR Director) + Fatima Al-Zaabi (request)</div>
+          </div>
+        </div>
+        <div class="sc-body">
+          <div style="font-size:.78rem;color:var(--mu);margin-bottom:10px">The Senior Analyst position in Finance has been vacant for 60 days. Mohammed freezes it pending board budget review. 45 days later, Fatima requests an unfreeze after board approval.</div>
+          <div class="sc-step"><div class="sc-step-num">1</div><div>Mohammed navigates to /master-data/positions → Senior Analyst (FIN-SA-004) → currently VACANT since 2026-03-01</div></div>
+          <div class="sc-step"><div class="sc-step-num">2</div><div>Mohammed toggles is_frozen=true → enters freeze_reason: "FY2026 headcount review — awaiting board approval" → clicks Save</div></div>
+          <div class="sc-step"><div class="sc-step-num">3</div><div>System transitions position to FROZEN state → amber banner appears in org chart → hiring requests against this position are now blocked</div></div>
+          <div class="sc-step"><div class="sc-step-num">4</div><div>45 days later: Fatima navigates to the position → clicks "Request Unfreeze" button → enters justification: "Board approved Q3 headcount in meeting MOM/2026-061"</div></div>
+          <div class="sc-step"><div class="sc-step-num">5</div><div>Unfreeze request enters workflow → Mohammed receives approval notification → reviews MOM reference → approves</div></div>
+          <div class="sc-step"><div class="sc-step-num">6</div><div>System sets is_frozen=false → position transitions FROZEN → ACTIVE (VACANT) → vacancy_start_date reset to 2026-05-15</div></div>
+          <div class="sc-step"><div class="sc-step-num">7</div><div>HR team can now raise a hiring request against FIN-SA-004. Amber banner removed from org chart. Audit log records full freeze/unfreeze history with timestamps.</div></div>
+          <div class="sc-outcome">Outcome: Position lifecycle managed with full governance trail. Board approval captured in workflow audit. Position available for hire from 2026-05-15.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ S9 — Troubleshooting ═══ -->
+  <section class="sec" id="s9">
+    <div class="sec-header">
+      <div class="sec-num">S9</div>
+      <div class="sec-meta">
+        <h2>Troubleshooting Guide</h2>
+        <p>Four common master data configuration issues, their root causes, and step-by-step resolution procedures.</p>
+      </div>
+    </div>
+
+    <div class="ts-grid">
+
+      <div class="ts-card">
+        <div class="ts-card-head">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><circle cx="9" cy="9" r="7" stroke="#B01B1B" stroke-width="1.5"/><path d="M9 5v5M9 12v.5" stroke="#B01B1B" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <h4>Transfer Failing — Frozen Position or Grade Mismatch</h4>
+        </div>
+        <div class="ts-body">
+          <div class="ts-label">Symptom</div>
+          <div class="ts-val">Transfer request submitted by HR Admin but workflow immediately errors with "Assignment blocked — position unavailable" or "Grade mismatch — salary outside band". Employee cannot be moved to the target position.</div>
+          <div class="ts-label">Root Cause A — Frozen Position</div>
+          <div class="ts-val">The target position has is_frozen=true. The system blocks all new worker_assignments to frozen positions regardless of approval status. This is enforced at the DB constraint level, not just the UI.</div>
+          <div class="ts-label">Root Cause B — Grade Mismatch</div>
+          <div class="ts-val">The target position is linked to a different grade than the employee's current grade, and the employee's salary falls outside the target grade's salary band (grade_salary_ranges table).</div>
+          <div class="ts-fix">
+            <strong>Resolution A (Frozen):</strong> Navigate to /master-data/positions → find target position → check is_frozen flag. If frozen, submit an unfreeze request with HR Director approval before retrying the transfer.
+          </div>
+          <div class="ts-fix">
+            <strong>Resolution B (Grade Mismatch):</strong> Navigate to /master-data/grades → verify min/mid/max for target grade. Either adjust the employee's salary to fall within the target band, or select a different target position with a compatible grade. Finance sign-off required if salary change is needed.
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-card">
+        <div class="ts-card-head">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><circle cx="9" cy="9" r="7" stroke="#B01B1B" stroke-width="1.5"/><path d="M9 5v5M9 12v.5" stroke="#B01B1B" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <h4>Promotion Salary Blocked — grade_salary_ranges Not Defined</h4>
+        </div>
+        <div class="ts-body">
+          <div class="ts-label">Symptom</div>
+          <div class="ts-val">HR Admin attempts to process a promotion that includes a salary increase but receives "Salary band validation failed — no band defined for grade G8" or the promotion form shows the salary field as read-only and locked at AED 0.</div>
+          <div class="ts-label">Root Cause</div>
+          <div class="ts-val">The target grade exists in the grades table but has no corresponding record in the grade_salary_ranges table, or the effective_from date for the salary range is in the future (past today's date) and no current record is active.</div>
+          <div class="ts-label">Verification Steps</div>
+          <div class="ts-val">Navigate to /master-data/grades → select the target grade → check the "Salary Band" section. If min/mid/max all show AED 0 or the band editor is empty, the grade_salary_ranges record is missing or not yet effective.</div>
+          <div class="ts-fix">
+            <strong>Resolution:</strong> Navigate to /master-data/grades → edit the target grade → enter min, mid, and max salary values → set effective_from to today or a past date → Save. Grade Band Validator will run. Once a valid band record exists with effective_from ≤ today, the promotion flow will accept the salary input. Finance notification will fire automatically for any existing employees whose salary falls outside the new band.
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-card">
+        <div class="ts-card-head">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><circle cx="9" cy="9" r="7" stroke="#B01B1B" stroke-width="1.5"/><path d="M9 5v5M9 12v.5" stroke="#B01B1B" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <h4>Employee in Wrong Entity — legal_entity_id Mismatch</h4>
+        </div>
+        <div class="ts-body">
+          <div class="ts-label">Symptom</div>
+          <div class="ts-val">An employee appears under the wrong legal entity in the org chart, their payslips are being generated under the wrong WPS entity, or HR Admin cannot see the employee when filtering by the correct entity. Leave balances may also be calculated under wrong policies.</div>
+          <div class="ts-label">Root Cause</div>
+          <div class="ts-val">The employee's worker_assignment.legal_entity_id does not match the legal_entity_id of the position they are occupying. This can happen when positions are bulk-imported without specifying the entity, or after a department reparenting where the assignment was not updated in the same transaction.</div>
+          <div class="ts-label">Verification Steps</div>
+          <div class="ts-val">Navigate to /persons → find the employee → check their current assignment details. Compare the assignment's legal_entity_id with the position's legal_entity_id. They must match.</div>
+          <div class="ts-fix">
+            <strong>Resolution:</strong> Navigate to the person's profile → Assignments tab → edit current assignment → update legal_entity_id to match the position's entity. This change requires HR_ADMIN access and generates an audit log entry. Payroll should be re-run for the current month if the employee's WPS file has already been submitted — contact Finance to coordinate.
+          </div>
+        </div>
+      </div>
+
+      <div class="ts-card">
+        <div class="ts-card-head">
+          <svg viewBox="0 0 18 18" fill="none" width="18" height="18"><circle cx="9" cy="9" r="7" stroke="#B01B1B" stroke-width="1.5"/><path d="M9 5v5M9 12v.5" stroke="#B01B1B" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <h4>New User Cannot Log In — Entra ID SSO / Role Not Assigned</h4>
+        </div>
+        <div class="ts-body">
+          <div class="ts-label">Symptom</div>
+          <div class="ts-val">A new employee or HR Admin reports they can see the Microsoft SSO login button but after authenticating with their corporate Microsoft account, they are redirected back to the login page with no error, or they land on a blank dashboard with no modules visible.</div>
+          <div class="ts-label">Root Cause A — No Role Assigned</div>
+          <div class="ts-val">The user has been authenticated by Microsoft Entra ID but no role has been assigned in the AVANIIS HR users table. Without a role, Auth.js middleware redirects the session to the login page (or shows an empty dashboard depending on the middleware version).</div>
+          <div class="ts-label">Root Cause B — Entra ID Tenant Mismatch</div>
+          <div class="ts-val">The user's Microsoft account belongs to a different Entra ID tenant than AZURE_AD_TENANT_ID. This causes the OIDC token to fail validation — Auth.js rejects the session silently.</div>
+          <div class="ts-fix">
+            <strong>Resolution A (No Role):</strong> Navigate to /users (SUPER_ADMIN only) → search for the user's email → assign the appropriate role (HR_ADMIN, MANAGER, EMPLOYEE, etc.) → click Save. The user should be able to log in immediately without needing to clear their browser cache.
+          </div>
+          <div class="ts-fix">
+            <strong>Resolution B (Tenant Mismatch):</strong> Navigate to /settings/sso → verify AZURE_AD_TENANT_ID matches the user's Azure tenant. If the user is from a different tenant (e.g. a contractor from an external company), SUPER_ADMIN must configure Entra ID B2B guest access, or the user must use a Avaniis-issued Microsoft account.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ S10 — ARIA Intelligence ═══ -->
+  <section class="sec" id="s10">
+    <div class="sec-header">
+      <div class="sec-num">S10</div>
+      <div class="sec-meta">
+        <h2>ARIA Intelligence — Master Data Queries</h2>
+        <p>ARIA (AI-native HR assistant) can answer natural language questions about master data configuration. These are the 8 most common queries for System Administrators.</p>
+      </div>
+    </div>
+
+    <div class="aria-section">
+      <div class="aria-intro">ARIA is available at /aria (employee chat) and /aria (admin ARIA OS console). For master data queries, ARIA checks live database state using intent resolvers in <code>modules/aria/intents/org-chart-intents.ts</code>. All responses are bilingual (English + Arabic). ARIA handles RateLimitError, APIConnectionError, and AuthenticationError gracefully — it returns a bilingual AriaResponse rather than crashing the session.</div>
+
+      <div class="aria-grid">
+
+        <div class="aria-card">
+          <div class="aria-q">How many positions are currently vacant?</div>
+          <div class="aria-a">ARIA queries the positions table filtering on vacancy_start_date IS NOT NULL AND is_frozen = false. Returns a count with breakdown by legal entity and department. Also shows positions vacant for more than 30, 60, and 90 days to help prioritise urgent hires.</div>
+          <div class="aria-checks">
+            <div class="aria-check">Checks vacancy_start_date IS NOT NULL on all positions</div>
+            <div class="aria-check">Excludes frozen positions from "actively vacant" count</div>
+            <div class="aria-check">Groups by legal_entity and department for breakdown</div>
+            <div class="aria-check">Flags positions vacant &gt;90 days as high-priority</div>
+          </div>
+        </div>
+
+        <div class="aria-card">
+          <div class="aria-q">Show all frozen positions</div>
+          <div class="aria-a">ARIA queries positions WHERE is_frozen = true. Returns a table showing position code, title, department, legal entity, freeze date (inferred from audit_log), freeze reason, and days frozen. Includes a quick-link to each position's record in /master-data/positions for direct action.</div>
+          <div class="aria-checks">
+            <div class="aria-check">Checks is_frozen = true across all entities</div>
+            <div class="aria-check">Retrieves freeze_reason from positions table</div>
+            <div class="aria-check">Calculates days frozen from audit_log CREATE timestamp</div>
+            <div class="aria-check">Provides direct navigation links to each frozen position</div>
+          </div>
+        </div>
+
+        <div class="aria-card">
+          <div class="aria-q">What is the salary band for Grade 7?</div>
+          <div class="aria-a">ARIA queries the grade_salary_ranges table WHERE grade_id corresponds to G7 AND effective_from &lt;= today AND (effective_to IS NULL OR effective_to &gt;= today). Returns min, mid, and max in AED along with the number of employees currently in each third of the band (below mid, at mid, above mid).</div>
+          <div class="aria-checks">
+            <div class="aria-check">Checks grade_salary_ranges WHERE grade_id = G7</div>
+            <div class="aria-check">Filters for currently effective band (effective_from ≤ today)</div>
+            <div class="aria-check">Returns min / mid / max in AED</div>
+            <div class="aria-check">Shows employee distribution within the band</div>
+          </div>
+        </div>
+
+        <div class="aria-card">
+          <div class="aria-q">Why can't I promote Ahmed if his salary is in range?</div>
+          <div class="aria-a">ARIA checks all promotion blockers beyond salary: (1) Is the target position frozen? (2) Is there an active workflow approval pending for this employee? (3) Does the employee have an active probation period that restricts promotions? (4) Is the target position occupied by another person? Returns the first blocking condition found with a resolution suggestion.</div>
+          <div class="aria-checks">
+            <div class="aria-check">Checks target position is_frozen flag</div>
+            <div class="aria-check">Checks for pending workflow_instances for this employee</div>
+            <div class="aria-check">Checks probation end date — promotions blocked during probation</div>
+            <div class="aria-check">Checks if target position is already OCCUPIED by another person</div>
+          </div>
+        </div>
+
+        <div class="aria-card">
+          <div class="aria-q">Show all positions in Avaniis Construction entity</div>
+          <div class="aria-a">ARIA queries positions JOIN departments WHERE departments.legal_entity_id matches the Avaniis Construction entity UUID. Returns a list grouped by department showing position code, title, state (ACTIVE/OCCUPIED/VACANT/FROZEN), and current occupant name where applicable. Can be exported as CSV directly from the ARIA response panel.</div>
+          <div class="aria-checks">
+            <div class="aria-check">Filters by legal_entity_id matching Avaniis Construction</div>
+            <div class="aria-check">JOINs with departments to get department names</div>
+            <div class="aria-check">JOINs with worker_assignments to get current occupants</div>
+            <div class="aria-check">Returns position state (DRAFT/ACTIVE/OCCUPIED/VACANT/FROZEN/ARCHIVED)</div>
+          </div>
+        </div>
+
+        <div class="aria-card">
+          <div class="aria-q">How do I set up a new legal entity?</div>
+          <div class="aria-a">ARIA returns a step-by-step configuration guide for CHAIN A: (1) Navigate to /master-data/legal-entities → click New Entity, (2) Enter name_en + name_ar + trade_licence + legal_type, (3) Create departments, (4) Create grades with salary bands, (5) Create jobs, (6) Create positions, (7) Configure workflow templates. Includes navigation paths and required field names for each step.</div>
+          <div class="aria-checks">
+            <div class="aria-check">Provides ordered CHAIN A setup sequence</div>
+            <div class="aria-check">Includes navigation paths for each step</div>
+            <div class="aria-check">Lists required bilingual fields (name_en + name_ar)</div>
+            <div class="aria-check">Reminds user to configure workflow templates at the end</div>
+          </div>
+        </div>
+
+        <div class="aria-card">
+          <div class="aria-q">What custom fields are configured?</div>
+          <div class="aria-a">ARIA queries the custom field configuration from the settings module. Returns a list of all custom fields grouped by target table (persons vs worker_assignments) showing field_key, label_en, label_ar, field_type, is_required, and whether the field appears in the bulk import template. Navigation link to /settings/custom-fields provided for editing.</div>
+          <div class="aria-checks">
+            <div class="aria-check">Reads custom field config from /settings/custom-fields</div>
+            <div class="aria-check">Groups by target table (persons / worker_assignments)</div>
+            <div class="aria-check">Shows field_type and is_required for each field</div>
+            <div class="aria-check">Indicates which fields appear in bulk import templates</div>
+          </div>
+        </div>
+
+        <div class="aria-card">
+          <div class="aria-q">Which departments have no positions?</div>
+          <div class="aria-a">ARIA runs a LEFT JOIN between departments and positions, filtering for departments WHERE COUNT(positions) = 0. This surfaces orphaned departments — newly created departments that have no positions yet, or departments whose positions were all archived. Returns department name, legal entity, date created, and the department head position (head_position_id) if one was defined before positions were archived.</div>
+          <div class="aria-checks">
+            <div class="aria-check">LEFT JOINs departments → positions to find departments with no positions</div>
+            <div class="aria-check">Excludes archived positions from the count</div>
+            <div class="aria-check">Groups by legal_entity to show which entity has the gap</div>
+            <div class="aria-check">Flags if the department has a head_position_id that no longer exists (archived)</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:20px;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:16px">
+        <p style="font-size:.78rem;color:#8FA5C8;line-height:1.7"><strong style="color:var(--g)">ARIA availability:</strong> ARIA is accessible at <code style="color:var(--g)">/aria</code> for employees (chat panel) and at <code style="color:var(--g)">/aria</code> within the admin console (ARIA OS full panel). ARIA requires the <code style="color:var(--g)">ANTHROPIC_API_KEY</code> environment variable to be configured in Vercel. If the API key is missing or rate-limited, ARIA returns a bilingual fallback message: "ARIA is temporarily unavailable / ARIA غير متاحة مؤقتاً" — it does not crash the page. All ARIA responses include both English and Arabic text.</p>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /content -->
+</main>
+</div><!-- /shell -->
+
+<script>
+var ROLE_MAP = {
+  sa:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s6','s8','s9'],
+  emp: ['s1'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

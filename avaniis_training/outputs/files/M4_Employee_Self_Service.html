@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M4 — Employee Self-Service (ESS) | AVANIIS HR</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+    --lane-mgr:#7B68EE;
+    --lane-hd:#7B2FBE;
+    --lane-fi:#E87040;
+    --aria-bg1:#0A2E35;
+    --aria-bg2:#0A2228;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Header ── */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* ── Sticky Nav ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* ── Role Filter ── */
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+
+/* ── Content ── */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+
+/* ── Preconditions ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+
+/* ── Blocking conditions ── */
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:140px}
+.block-reason{color:var(--rd)}
+
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+
+/* ── State Machines ── */
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+
+/* ── Mockups ── */
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+
+/* ── Inbox mockup ── */
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+
+/* ── Org chart node pair ── */
+.node-pair{display:flex;gap:24px;flex-wrap:wrap}
+.oc-node{width:220px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:12px 14px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:10px}
+.oc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12.5px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:10px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:7px 14px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 14px 9px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--mu)}
+.acting-bar{background:var(--am);padding:5px 14px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.oc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+
+/* ── ARIA ── */
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* ── SLA timers ── */
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+
+/* ── Callouts ── */
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+
+/* ── Footer ── */
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+
+/* ── Print ── */
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+
+/* ── Mockup shell ── */
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr;min-height:340px}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.mf-main{background:var(--off);padding:16px;position:relative}
+/* ── ARIA dark cards ── */
+.aria-wrap{background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+/* ── SM ── */
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+/* ── pre-items ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-chk{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-rt{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-lbl{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:#7A1A1A}
+/* ── Print + mobile ── */
+@media print{.nav-wrap,.rf-bar{display:none!important}.sec{page-break-inside:avoid}body{background:#fff}.card,.swimlane,.sm-wrap,.sc-card,.ts-card{box-shadow:none!important;border:1px solid #ccc!important}}
+@media(max-width:640px){.ph{padding:20px 18px}.content{padding:20px 14px}.nav-inner{padding:0 16px}.rf-bar{padding:8px 16px}.mf-body{grid-template-columns:1fr}.mf-sidebar{display:none}.sc-grid,.ts-grid,.type-grid,.pre-grid{grid-template-columns:1fr}.aria-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Manual · M4 — Employee Self-Service</div>
+  <div class="ph-title">Employee Self-Service (ESS)</div>
+  <div class="ph-sub">بوابة الخدمة الذاتية للموظفين · My Profile · My Leave · My Payslips · My Timesheet · My Letters · ARIA Chat</div>
+  <div class="ph-pills"><span class="pill  g">EMPLOYEE</span><span class="pill  g">MANAGER</span><span class="pill">HR_ADMIN</span><span class="pill">HR_DIRECTOR</span><span class="pill">/me/* Routes</span><span class="pill">v1.0 · May 2026</span></div>
+</div>
+<div class="nav-wrap"><div class="nav-inner"><a href="#s1" class="ni" data-section="s1">Overview</a><a href="#s2" class="ni" data-section="s2">Dependency Map</a><a href="#s3" class="ni" data-section="s3">ESS Modules</a><a href="#s4" class="ni" data-section="s4">Process Flows</a><a href="#s5" class="ni" data-section="s5">Access States</a><a href="#s6" class="ni" data-section="s6">Screen Mockups</a><a href="#s7" class="ni" data-section="s7">Leave & Letters</a><a href="#s8" class="ni" data-section="s8">Scenarios</a><a href="#s9" class="ni" data-section="s9">Troubleshooting</a><a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a></div></div>
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+</div>
+<main class="content">
+
+<!-- S1 -->
+<div class="sec" id="s1">
+<div class="sec-lbl">Section 1</div>
+<div class="sec-title">Module Overview &amp; Preconditions</div>
+<div class="sec-desc">Employee Self-Service (ESS) gives every ACTIVE employee direct access to their HR data via <code>/me/*</code> routes — leave, payslips, letters, timesheets, and ARIA. Access provisions automatically when assignment_status becomes ACTIVE.</div>
+<div class="card" style="margin-bottom:16px">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions Checklist</div>
+<div class="pre-grid">
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Employee has ACTIVE assignment</div><div class="pre-where">Configure: <span class="pre-rt">/persons/[id] → Assignments</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Microsoft Entra ID SSO provisioned</div><div class="pre-where">Configure: <span class="pre-rt">/users → SSO tab</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Leave rules configured (M2 prerequisite)</div><div class="pre-where">Configure: <span class="pre-rt">/master-data/leave-rules</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Payroll module live — M3 prerequisite</div><div class="pre-where">Required for payslip visibility at <span class="pre-rt">/me/payslips</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Letter templates configured — M6 prerequisite</div><div class="pre-where">Configure: <span class="pre-rt">/employee-letters → Templates</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">Timesheet rules configured</div><div class="pre-where">Configure: <span class="pre-rt">/master-data/timesheet-rules</span></div></div></div>
+<div class="pre-item"><div class="pre-chk">✓</div><div><div class="pre-name">ARIA enabled for employee chat</div><div class="pre-where">Configure: <span class="pre-rt">/settings/aria → Active ON</span></div></div></div>
+</div>
+</div>
+<div class="block-panel">
+<div class="block-title">🚫 Blocking Conditions</div>
+<div class="block-row"><span class="block-lbl">PENDING_HIRE status</span><span class="block-reason">ESS access denied entirely — activate assignment first.</span></div>
+<div class="block-row"><span class="block-lbl">TERMINATED status</span><span class="block-reason">Reduced to read-only payslips and letters for 30 days only.</span></div>
+<div class="block-row"><span class="block-lbl">SSO not provisioned</span><span class="block-reason">Employee cannot log in — check Entra ID group in /users.</span></div>
+<div class="block-row"><span class="block-lbl">No PAID payroll run</span><span class="block-reason">/me/payslips shows empty until at least one run is PAID.</span></div>
+</div>
+</div>
+
+<!-- S2 -->
+<div class="sec" id="s2">
+<div class="sec-lbl">Section 2</div>
+<div class="sec-title">Dependency Map</div>
+<div class="sec-desc">Three chains: ESS access prerequisites, what becomes available on ACTIVE, and the letter signing flow.</div>
+<div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ESS Dependency Map — Three Chains</title>
+<desc>Chain A: access prerequisites. Chain B: post-ACTIVE capabilities. Chain C: letter signing without login.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="480" fill="#F5F6F8"/>
+<rect x="14" y="14" width="230" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — ESS ACCESS PREREQUISITES</text>
+<rect x="14" y="44" width="118" height="56" rx="7" fill="#0A1628"/>
+<text x="73" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">ACTIVE</text>
+<text x="73" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">Assignment</text>
+<text x="73" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">assignment_status</text>
+<line x1="132" y1="72" x2="152" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="44" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">SSO</text>
+<text x="213" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Provisioned</text>
+<text x="213" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">Entra ID group</text>
+<line x1="272" y1="72" x2="292" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="44" width="128" height="56" rx="7" fill="#0E7C6A"/>
+<text x="358" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">/me/* Routes</text>
+<text x="358" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#fff">Accessible</text>
+<text x="358" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">all 6 ESS modules</text>
+<line x1="422" y1="72" x2="444" y2="72" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="446" y="44" width="138" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="515" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">ESS Fully</text>
+<text x="515" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">Operational</text>
+<text x="515" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">all modules live</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="124" width="270" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — WHAT EMPLOYEE CAN DO ONCE ACTIVE</text>
+<rect x="14" y="158" width="118" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="73" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#C9A84C">ESS Active</text>
+<text x="73" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">/me/* live</text>
+<line x1="132" y1="186" x2="152" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="154" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">View Profile</text>
+<text x="213" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/me/profile</text>
+<line x1="272" y1="186" x2="292" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="294" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="353" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Apply Leave</text>
+<text x="353" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/me/leave</text>
+<line x1="412" y1="186" x2="432" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="434" y="158" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="493" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">View Payslips</text>
+<text x="493" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/me/payslips</text>
+<line x1="552" y1="186" x2="572" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="574" y="158" width="138" height="56" rx="7" fill="#1A6B3C"/>
+<text x="643" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">DSAR Download</text>
+<text x="643" y="195" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">/me/profile → Download</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="238" width="280" height="22" rx="4" fill="#1A4FBA"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — LETTER SIGNING (NO LOGIN REQUIRED)</text>
+<rect x="14" y="270" width="118" height="56" rx="7" fill="#0A1628"/>
+<text x="73" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#C9A84C">HR Generates</text>
+<text x="73" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.5)">/employee-letters</text>
+<line x1="132" y1="298" x2="152" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="270" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="213" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">JWT Link</text>
+<text x="213" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">30-day single-use</text>
+<line x1="272" y1="298" x2="292" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="270" width="118" height="56" rx="7" fill="#FEF3E2" stroke="#B45C00" stroke-width="1.5"/>
+<text x="353" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#7A3E00">Employee</text>
+<text x="353" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="#B45C00">/letters/sign/[token]</text>
+<line x1="412" y1="298" x2="432" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="434" y="270" width="118" height="56" rx="7" fill="#0E7C6A"/>
+<text x="493" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Signs</text>
+<text x="493" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">no login needed</text>
+<line x1="552" y1="298" x2="572" y2="298" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="574" y="270" width="118" height="56" rx="7" fill="#1A6B3C"/>
+<text x="633" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">Archived</text>
+<text x="633" y="307" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,0.6)">BR-AUDIT-001</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="352" width="400" height="110" rx="8" fill="#fff" stroke="#D4D8E2"/>
+<text x="26" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96">LEGEND</text>
+<rect x="26" y="378" width="13" height="13" rx="3" fill="#0A1628"/><text x="45" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Trigger / HR-initiated</text>
+<rect x="210" y="378" width="13" height="13" rx="3" fill="#0E7C6A"/><text x="229" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">System auto-action</text>
+<rect x="26" y="400" width="13" height="13" rx="3" fill="#FEF3E2" stroke="#B45C00" stroke-width="1"/><text x="45" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Employee action (no auth)</text>
+<rect x="210" y="400" width="13" height="13" rx="3" fill="#1A6B3C"/><text x="229" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Preservation / completion</text>
+<rect x="414" y="352" width="462" height="110" rx="8" fill="#FDEAEA" stroke="#F4A0A0"/>
+<text x="426" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">BLOCKING CONDITIONS</text>
+<text x="426" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">PENDING_HIRE</text><text x="510" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — no ESS access until ACTIVE</text>
+<text x="426" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">No PAID payroll run</text><text x="548" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — /me/payslips empty</text>
+<text x="426" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">JWT token expired</text><text x="536" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — 30-day limit, HR must regenerate</text>
+<text x="426" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A" font-weight="700">TERMINATED</text><text x="506" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A"> — payslips + letters read-only (30 days)</text>
+</svg>
+</div>
+</div>
+
+<!-- S3 -->
+<div class="sec" id="s3">
+<div class="sec-lbl">Section 3</div>
+<div class="sec-title">Six ESS Modules</div>
+<div class="sec-desc">Each /me/* route gives employees self-service access to a specific HR domain. All require ACTIVE assignment status.</div>
+<div class="type-grid">
+<div class="type-card" style="border-color:var(--bl-bd)">
+<div style="background:var(--bl-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--bl);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">👤</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">My Profile</div><div style="font-size:10px;color:var(--mu)">/me/profile</div></div></div>
+<div style="padding:0 16px 14px">
+<div class="tr"><span class="tk">View personal info</span><span class="tv-g">Always ✓</span></div>
+<div class="tr"><span class="tk">Edit contact details</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Download own data (DSAR)</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Edit salary/grade</span><span class="tv-r">HR only ✗</span></div>
+<div class="mistake">⚠ Common: employees try to edit the Emirates ID field — it is AES-256-GCM encrypted and read-only for all users including HR.</div>
+</div>
+</div>
+<div class="type-card" style="border-color:var(--te-bd)">
+<div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📅</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">My Leave</div><div style="font-size:10px;color:var(--mu)">/me/leave</div></div></div>
+<div style="padding:0 16px 14px">
+<div class="tr"><span class="tk">View balance by type</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Submit new request</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">View team calendar</span><span class="tv-r">Manager only ✗</span></div>
+<div class="tr"><span class="tk">Override balance</span><span class="tv-r">HR only ✗</span></div>
+<div class="mistake">⚠ Common: submitting leave with zero balance — system blocks with "Insufficient balance" error. Check accrual at /master-data/leave-rules.</div>
+</div>
+</div>
+<div class="type-card" style="border-color:var(--am-bd)">
+<div style="background:var(--am-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--am);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">💰</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">My Payslips</div><div style="font-size:10px;color:var(--mu)">/me/payslips</div></div></div>
+<div style="padding:0 16px 14px">
+<div class="tr"><span class="tk">View payslip history</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Download PDF payslip</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">EOSB estimate</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Edit salary elements</span><span class="tv-r">Payroll only ✗</span></div>
+<div class="mistake">⚠ Common: payslips empty — requires at least one payroll run with status=PAID. CALCULATED runs are not visible to employees.</div>
+</div>
+</div>
+<div class="type-card" style="border-color:#C4ADEE">
+<div style="background:var(--pu-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--pu);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">⏱</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">My Timesheet</div><div style="font-size:10px;color:var(--mu)">/me/timesheet</div></div></div>
+<div style="padding:0 16px 14px">
+<div class="tr"><span class="tk">Submit hours</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">View history</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Edit after submission</span><span class="tv-a">Before approval only</span></div>
+<div class="tr"><span class="tk">Approve team timesheets</span><span class="tv-r">Manager only ✗</span></div>
+<div class="mistake">⚠ Common: submitting after the approval window closes — manager must reject and unlock for re-submission.</div>
+</div>
+</div>
+<div class="type-card" style="border-color:var(--gr-bd)">
+<div style="background:var(--gr-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--gr);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📄</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">My Letters</div><div style="font-size:10px;color:var(--mu)">/me/letters</div></div></div>
+<div style="padding:0 16px 14px">
+<div class="tr"><span class="tk">View received letters</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Sign digitally (no login)</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Download signed PDF</span><span class="tv-g">Yes ✓</span></div>
+<div class="tr"><span class="tk">Request a letter</span><span class="tv-a">Via ARIA or HR Admin</span></div>
+<div class="mistake">⚠ Common: signing link expires after 30 days. HR Admin must regenerate at /employee-letters → Resend Link.</div>
+</div>
+</div>
+<div class="type-card" style="border-color:var(--te-bd)">
+<div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🤖</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">ARIA Chat</div><div style="font-size:10px;color:var(--mu)">/me/aria</div></div></div>
+<div style="padding:0 16px 14px">
+<div class="tr"><span class="tk">Ask HR questions</span><span class="tv-g">Own data only ✓</span></div>
+<div class="tr"><span class="tk">Voice input</span><span class="tv-g">Chrome / Edge ✓</span></div>
+<div class="tr"><span class="tk">Ask about others</span><span class="tv-r">Blocked ✗</span></div>
+<div class="tr"><span class="tk">Full HR console</span><span class="tv-r">HR Admin only ✗</span></div>
+<div class="mistake">⚠ Common: employees ask ARIA about another employee's salary — ARIA refuses and explains the access policy (PII governance).</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- S4 -->
+<div class="sec" id="s4">
+<div class="sec-lbl">Section 4</div>
+<div class="sec-title">Step-by-Step Process Flows</div>
+<div class="sec-desc">Two complete workflows: leave request via ESS, and digital letter signing via public token link.</div>
+<div class="swimlane">
+<div class="sw-head">Flow A — Employee Submits Leave Request <span class="sw-stag">BR-LV-001 · 3 LANES</span></div>
+<div class="sw-row"><div class="sw-lbl em">EMPLOYEE</div><div class="sw-steps">
+<div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Open /me/leave</span><span class="sb-sub">Sidebar → My Leave → New Request</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Select Type &amp; Dates</span><span class="sb-sub">Leave type · dates · reason</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-warn" style="position:relative"><span class="sn">3</span><span class="sb-title">Submit</span><span class="sb-sub">Status → SUBMITTED</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps">
+<div class="sb sb-auto"><span class="sb-title">Validate Balance</span><span class="sb-sub">absence_balances · no overlap · not in past</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-auto"><span class="sb-title">Notify Manager</span><span class="sb-sub">Email + in-app · 48h SLA starts</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl mg">MANAGER</div><div class="sw-steps">
+<div class="sb sb-act"><span class="sb-title">Review &amp; Decide</span><span class="sb-sub">/approvals → Approve / Reject / Delegate (BR-29)</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-ok"><span class="sb-title">On Approval</span><span class="sb-sub">Balance deducted · Calendar blocked · Employee notified</span></div>
+</div></div>
+</div>
+<div class="swimlane">
+<div class="sw-head">Flow B — Employee Signs a Letter — No Login Required <span class="sw-stag">JWT TOKEN · SINGLE USE</span></div>
+<div class="sw-row"><div class="sw-lbl hr">HR ADMIN</div><div class="sw-steps">
+<div class="sb sb-act" style="position:relative"><span class="sn">1</span><span class="sb-title">Generate Letter</span><span class="sb-sub">/employee-letters → template + employee</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-auto" style="position:relative"><span class="sn">2</span><span class="sb-title">JWT Link Sent</span><span class="sb-sub">Email to employee · 30-day expiry</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl em">EMPLOYEE</div><div class="sw-steps">
+<div class="sb sb-act"><span class="sb-title">Opens Link</span><span class="sb-sub">/letters/sign/[token] · any browser · no login</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-act"><span class="sb-title">Reads &amp; Signs</span><span class="sb-sub">Reviews letter · clicks Sign · legally binding</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl sy">SYSTEM</div><div class="sw-steps">
+<div class="sb sb-auto"><span class="sb-title">Validate Token</span><span class="sb-sub">Check expiry · check not used</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-auto"><span class="sb-title">Record Signature</span><span class="sb-sub">Timestamp · token consumed</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-term"><span class="sb-title" style="color:var(--g2)">Archived</span><span class="sb-sub" style="color:rgba(255,255,255,.6)">BR-AUDIT-001</span></div>
+</div></div>
+</div>
+</div>
+
+<!-- S5 -->
+<div class="sec" id="s5">
+<div class="sec-lbl">Section 5</div>
+<div class="sec-title">ESS Access State Machine</div>
+<div class="sec-desc">Employee access follows the worker assignment status. ACTIVE is the only state where full ESS is enabled.</div>
+<div class="sm-wrap">
+<div class="sm-hdr">⬤ ESS Access States — driven by assignment_status</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 700 240" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ESS Access State Machine</title>
+<desc>States from NOT_PROVISIONED through ACTIVE_ACCESS to TERMINATED.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="700" height="240" fill="#F5F6F8"/>
+<rect x="14" y="60" width="120" height="50" rx="8" fill="#D3D1C7" stroke="#B4B2A9" stroke-width="1.5"/>
+<text x="74" y="81" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#444">NOT_PROVISIONED</text>
+<text x="74" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#666">No access</text>
+<line x1="134" y1="85" x2="154" y2="85" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="156" y="60" width="120" height="50" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="216" y="81" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">PENDING_HIRE</text>
+<text x="216" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Login blocked</text>
+<line x1="276" y1="85" x2="296" y2="85" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="298" y="36" width="150" height="98" rx="8" fill="#0E7C6A" stroke="#085041" stroke-width="2"/>
+<text x="373" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#fff">ACTIVE_ACCESS</text>
+<text x="373" y="82" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.8)">All /me/* enabled</text>
+<text x="373" y="97" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Leave · Payslips · Letters</text>
+<text x="373" y="112" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Timesheet · ARIA · Profile</text>
+<line x1="448" y1="72" x2="490" y2="60" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="492" y="36" width="130" height="50" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="557" y="57" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">ON_LEAVE</text>
+<text x="557" y="73" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">ESS still active</text>
+<line x1="448" y1="108" x2="490" y2="120" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="492" y="106" width="130" height="50" rx="8" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="557" y="127" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B01B1B">TERMINATED</text>
+<text x="557" y="143" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Payslips+letters 30d</text>
+<rect x="14" y="180" width="672" height="34" rx="6" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1"/>
+<text x="350" y="201" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00" font-weight="700">⚠ ACTIVE_ACCESS is the ONLY state where all ESS modules work. Check assignment_status when any /me/* page fails to load.</text>
+</svg>
+</div>
+</div>
+<div class="sm-wrap" style="margin-top:16px">
+<div class="sm-hdr">⬤ Leave Request Lifecycle</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 180" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Leave Request State Machine</title>
+<desc>Leave request transitions from DRAFT through SUBMITTED to APPROVED/REJECTED/COMPLETED.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="180" fill="#F5F6F8"/>
+<rect x="14" y="64" width="90" height="48" rx="7" fill="#EEF0F5" stroke="#D4D8E2" stroke-width="1.5"/>
+<text x="59" y="85" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#6B7A96">DRAFT</text>
+<text x="59" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Saved</text>
+<line x1="104" y1="88" x2="124" y2="88" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="126" y="64" width="100" height="48" rx="7" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="176" y="84" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">SUBMITTED</text>
+<text x="176" y="100" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Awaiting manager</text>
+<line x1="226" y1="78" x2="260" y2="68" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<line x1="226" y1="98" x2="260" y2="108" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#arr-r)"/>
+<rect x="262" y="44" width="100" height="48" rx="7" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="312" y="64" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A6B3C">APPROVED</text>
+<text x="312" y="80" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Balance deducted</text>
+<line x1="362" y1="68" x2="400" y2="68" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="402" y="44" width="90" height="48" rx="7" fill="#1A6B3C"/>
+<text x="447" y="64" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">ACTIVE</text>
+<text x="447" y="80" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">On leave</text>
+<line x1="492" y1="68" x2="530" y2="68" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="532" y="44" width="100" height="48" rx="7" fill="#0E7C6A"/>
+<text x="582" y="64" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#fff">COMPLETED</text>
+<text x="582" y="80" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="rgba(255,255,255,0.7)">Return date</text>
+<rect x="262" y="102" width="100" height="48" rx="7" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="312" y="122" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B01B1B">REJECTED</text>
+<text x="312" y="138" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Terminal — new request</text>
+</svg>
+</div>
+</div>
+</div>
+
+<!-- S6 -->
+<div class="sec" id="s6">
+<div class="sec-lbl">Section 6</div>
+<div class="sec-title">Screen Mockups</div>
+<div class="sec-desc">Three annotated screens showing the ESS experience.</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — My Profile (/me/profile)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.1);margin-bottom:8px">
+<div class="mf-topbar"><div class="mf-logo">AVANIIS <span>HR</span></div><div class="mf-search">🔍 <span>Search...</span></div><div style="margin-left:auto"><div class="mf-av">AH</div></div></div>
+<div class="mf-body">
+<div class="mf-sidebar">
+<div class="sb-sec">My Space</div>
+<div class="sb-item active">👤 My Profile</div>
+<div class="sb-item">📅 My Leave</div>
+<div class="sb-item">💰 My Payslips</div>
+<div class="sb-item">⏱ My Timesheet</div>
+<div class="sb-item">📄 My Letters</div>
+<div class="sb-item">🤖 ARIA</div>
+</div>
+<div class="mf-main">
+<div style="background:#fff;border-radius:10px;border:1px solid var(--bd);padding:16px">
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+<div style="width:52px;height:52px;border-radius:50%;background:var(--bl);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff">AH</div>
+<div>
+<div style="font-size:16px;font-weight:700;color:var(--n)">Ahmed Hassan Al-Mansoori</div>
+<div style="font-size:12px;color:var(--mu)">أحمد حسن المنصوري</div>
+<div style="font-size:11px;color:var(--te)">Senior Software Engineer · Grade G6 · IT</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+<div style="background:var(--off);border-radius:7px;padding:8px 11px"><div style="font-size:10px;color:var(--mu)">Employee ID</div><div style="font-weight:700">EMP-0042</div></div>
+<div style="background:var(--off);border-radius:7px;padding:8px 11px"><div style="font-size:10px;color:var(--mu)">Hire Date</div><div style="font-weight:700">15 Jan 2022</div></div>
+<div style="background:var(--off);border-radius:7px;padding:8px 11px"><div style="font-size:10px;color:var(--mu)">Emirates ID 🔒</div><div style="font-weight:700;font-family:monospace">***-****-***-1234</div></div>
+<div style="background:var(--off);border-radius:7px;padding:8px 11px"><div style="font-size:10px;color:var(--mu)">Line Manager</div><div style="font-weight:700">Sara Al-Zaabi</div></div>
+</div>
+<button style="margin-top:12px;background:var(--n);color:#fff;border:none;border-radius:7px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer">⬇ Download My Data (DSAR)</button>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:24px">
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">①</div><div><strong style="display:block;font-size:11px">Bilingual name</strong>English and Arabic shown side-by-side — sourced from persons.name_en and persons.name_ar</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">②</div><div><strong style="display:block;font-size:11px">Emirates ID 🔒 encrypted</strong>AES-256-GCM · displayed masked · editable by no one from UI</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">③</div><div><strong style="display:block;font-size:11px">DSAR Download</strong>Employee downloads all their own HR data as ZIP — single use, expires in 24h</div></div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup B — My Leave (/me/leave)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08);margin-bottom:24px">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between">
+<div><div style="font-size:16px;font-weight:700;color:var(--n)">My Leave</div><div style="font-size:12px;color:var(--mu)">Ahmed Hassan · FY2026</div></div>
+<button style="background:var(--te);color:#fff;border:none;border-radius:7px;padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer">+ New Request</button>
+</div>
+<div style="padding:16px 20px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px">
+<div style="background:var(--te-bg);border:1px solid var(--te-bd);border-radius:9px;padding:12px 14px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--te)">14</div><div style="font-size:10px;color:var(--te);font-weight:600">Annual Leave</div><div style="font-size:9px;color:var(--mu)">of 30 remaining</div></div>
+<div style="background:var(--bl-bg);border:1px solid var(--bl-bd);border-radius:9px;padding:12px 14px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--bl)">45</div><div style="font-size:10px;color:var(--bl);font-weight:600">Sick Leave</div><div style="font-size:9px;color:var(--mu)">days remaining</div></div>
+<div style="background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:9px;padding:12px 14px;text-align:center"><div style="font-size:24px;font-weight:700;color:var(--gr)">5</div><div style="font-size:10px;color:var(--gr);font-weight:600">Paternity</div><div style="font-size:9px;color:var(--mu)">BR-LV-004</div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;background:var(--off);border-radius:7px;padding:9px 12px;font-size:12px;align-items:center"><div><div style="font-weight:700">Annual Leave</div><div style="font-size:10px;color:var(--mu)">5–9 May 2026</div></div><div style="font-size:11px;color:var(--mu)">5 days</div><span style="background:var(--gr-bg);color:var(--gr);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700">APPROVED</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;background:var(--off);border-radius:7px;padding:9px 12px;font-size:12px;align-items:center"><div><div style="font-weight:700">Annual Leave</div><div style="font-size:10px;color:var(--mu)">16–18 Jun 2026</div></div><div style="font-size:11px;color:var(--mu)">3 days</div><span style="background:var(--am-bg);color:var(--am);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700">PENDING</span></div>
+</div>
+</div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup C — Letter Signing (/letters/sign/[token]) — No Login Required</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08);max-width:560px">
+<div style="background:var(--n);padding:12px 18px;display:flex;align-items:center;gap:10px"><div class="mf-logo">AVANIIS <span>HR</span></div><div style="margin-left:auto;font-size:11px;color:rgba(255,255,255,.6)">Document Signing Portal</div></div>
+<div style="padding:20px">
+<div style="background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:8px;padding:9px 13px;font-size:12px;color:var(--gr);margin-bottom:14px">🔒 Secure authenticated link · No login required · Legally binding</div>
+<div style="font-size:16px;font-weight:700;color:var(--n);margin-bottom:2px">Promotion Letter</div>
+<div style="font-size:12px;color:var(--mu);margin-bottom:14px">Ahmed Hassan Al-Mansoori · Issued 20 May 2026 · Expires 19 June 2026</div>
+<div style="background:var(--off);border-radius:8px;padding:14px;font-size:12px;color:var(--tx);line-height:1.7;margin-bottom:14px">Dear Ahmed, we are pleased to inform you of your promotion to <strong>Senior Software Engineer (Grade G6)</strong> effective 1 June 2026...<br><em style="color:var(--mu);font-size:10px">[Scroll to read full letter before signing]</em></div>
+<div style="display:flex;gap:10px">
+<button style="background:var(--te);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;flex:2">✍ Sign this Document</button>
+<button style="background:#fff;border:1.5px solid var(--bd);border-radius:8px;padding:10px 14px;font-size:12px;cursor:pointer">⬇ PDF</button>
+</div>
+<div style="font-size:10px;color:var(--mu);text-align:center;margin-top:8px">Single-use token · Expires 19 June 2026 · Action is permanently recorded</div>
+</div>
+</div>
+</div>
+
+<!-- S7 -->
+<div class="sec" id="s7">
+<div class="sec-lbl">Section 7</div>
+<div class="sec-title">Leave &amp; Letters Quick Reference</div>
+<div class="sec-desc">The two most-used ESS features — leave requests and letter signing — with all rules and access paths.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">📅 Leave Request — Two Paths</div>
+<div style="background:var(--lt);border-radius:8px;padding:10px 14px;margin-bottom:8px">
+<div style="font-size:11px;font-weight:700;color:var(--n);margin-bottom:6px">Path A — Employee Self-Service</div>
+<div style="font-size:12px;color:var(--mu);display:flex;flex-direction:column;gap:3px"><div>① /me/leave → New Request</div><div>② Select type, dates, reason → Submit</div><div>③ Manager notified · track at /me/leave</div></div>
+</div>
+<div style="background:var(--lt);border-radius:8px;padding:10px 14px;margin-bottom:8px">
+<div style="font-size:11px;font-weight:700;color:var(--n);margin-bottom:6px">Path B — HR Applies on Behalf</div>
+<div style="font-size:12px;color:var(--mu);display:flex;flex-direction:column;gap:3px"><div>/persons/[id] → Absence tab → Apply Leave</div><div>HR can override balance warnings</div></div>
+</div>
+<div style="background:var(--am-bg);border:1px solid var(--am-bd);border-radius:7px;padding:8px 12px;font-size:11px;color:var(--am)">⚠ UAE Law BR-LV-001: minimum 30 calendar days annual leave. System blocks configurations below this threshold.</div>
+</div>
+<div class="card">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">📄 Letter Signing Rules</div>
+<div style="display:flex;flex-direction:column;gap:6px;font-size:12px">
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Token validity</span><span style="font-weight:700">30 days</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Reuse</span><span style="color:var(--rd);font-weight:700">Single-use only</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Login required</span><span style="color:var(--gr);font-weight:700">No — public route</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt)"><span style="color:var(--mu)">Audit logged</span><span style="color:var(--gr);font-weight:700">Yes — BR-AUDIT-001</span></div>
+<div style="display:flex;justify-content:space-between;padding:5px 0"><span style="color:var(--mu)">If link expired</span><span style="font-weight:700">HR regenerates</span></div>
+</div>
+<div style="background:var(--te-bg);border:1px solid var(--te-bd);border-radius:7px;padding:8px 12px;margin-top:8px;font-size:11px;color:var(--te)">💡 HR: /employee-letters → Actions → Resend Link to regenerate a new 30-day token.</div>
+</div>
+
+<div class="sm-wrap" style="margin-top:14px">
+<div class="sm-hdr">⬤ ESS Access by Status — Quick Reference</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>ESS Module Availability by Assignment Status</title>
+<desc>Shows which ESS modules are available for each worker assignment status.</desc>
+<defs><marker id="arr-ref" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="140" fill="#F5F6F8"/>
+<rect x="14" y="14" width="150" height="112" rx="8" fill="#EEF0F5" stroke="#D4D8E2" stroke-width="1.5"/>
+<text x="89" y="35" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#6B7A96">PENDING_HIRE</text>
+<text x="89" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ No /me/* access</text>
+<text x="89" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ Login blocked</text>
+<text x="89" y="89" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">Activate assignment</text>
+<text x="89" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#6B7A96">to unlock</text>
+<rect x="178" y="14" width="188" height="112" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="2"/>
+<text x="272" y="35" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#1A6B3C">ACTIVE — Full ESS</text>
+<text x="272" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Profile · Leave · Payslips</text>
+<text x="272" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Timesheet · Letters · ARIA</text>
+<text x="272" y="89" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Submit requests</text>
+<text x="272" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ DSAR download</text>
+<rect x="380" y="14" width="150" height="112" rx="8" fill="#EAF0FD" stroke="#90AADE" stroke-width="1.5"/>
+<text x="455" y="35" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#1A4FBA">SUSPENDED</text>
+<text x="455" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">✓ View only</text>
+<text x="455" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ No submissions</text>
+<text x="455" y="89" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A4FBA">Read-only mode</text>
+<rect x="544" y="14" width="122" height="112" rx="8" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+<text x="605" y="35" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="11" font-weight="700" fill="#B01B1B">TERMINATED</text>
+<text x="605" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Payslips (30d)</text>
+<text x="605" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">✓ Letters (30d)</text>
+<text x="605" y="89" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">✗ All other /me/*</text>
+<text x="605" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Expires after 30d</text>
+</svg>
+</div>
+</div>
+
+</div>
+
+<!-- S8 -->
+<div class="sec" id="s8">
+<div class="sec-lbl">Section 8</div>
+<div class="sec-title">Operational Scenarios</div>
+<div class="sec-desc">Four real-world ESS situations and their step-by-step resolution.</div>
+<div class="sc-grid">
+<div class="sc-card"><div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">A</div><div class="sc-title">Employee cannot see payslips</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>/me/payslips shows "No payslips found"</div></div><div class="sc-step"><div class="sc-n">2</div><div>HR Admin checks: is assignment_status = ACTIVE?</div></div><div class="sc-step"><div class="sc-n">3</div><div>Check: is there a payroll_run with status = PAID for this entity?</div></div><div class="sc-step"><div class="sc-n">4</div><div>If no PAID run — payroll must complete first</div></div><div class="sc-step"><div class="sc-n">5</div><div>If PAID run exists — check legal_entity_id matches</div></div><div class="sc-rule">assignment_status · payroll_runs.status=PAID · legal_entity_id</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">Letter signing link expired</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Employee: "This link has expired or been used"</div></div><div class="sc-step"><div class="sc-n">2</div><div>HR Admin: /employee-letters → find letter → status = SENT</div></div><div class="sc-step"><div class="sc-n">3</div><div>Actions → Resend Link — new 30-day JWT token generated</div></div><div class="sc-step"><div class="sc-n">4</div><div>New email sent. Old token permanently invalidated.</div></div><div class="sc-warn">⚠ JWT tokens are single-use. Resend creates a completely new token — old email link cannot be reactivated.</div><div class="sc-rule">JWT expiry · 30 days · /employee-letters → Resend</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">C</div><div class="sc-title">Leave balance shows zero — employee is entitled</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>New employee sees 0 annual leave balance</div></div><div class="sc-step"><div class="sc-n">2</div><div>Check: hired recently? Accrual is monthly — new hires get pro-rated first month</div></div><div class="sc-step"><div class="sc-n">3</div><div>Has accrual cron run since hire? (/api/cron/leave-accrual is monthly)</div></div><div class="sc-step"><div class="sc-n">4</div><div>HR Admin: /master-data/leave-rules → Run Accrual Now to trigger manually</div></div><div class="sc-step"><div class="sc-n">5</div><div>Balance updates immediately after trigger</div></div><div class="sc-rule">absence_balances · accrual cron · pro-rata new hire</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Employee wants to download all personal data (DSAR)</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Employee navigates to /me/profile</div></div><div class="sc-step"><div class="sc-n">2</div><div>Clicks "Download My Data (DSAR)" button</div></div><div class="sc-step"><div class="sc-n">3</div><div>System generates ZIP: profile, leave history, payslips, letters, timesheets, audit entries</div></div><div class="sc-step"><div class="sc-n">4</div><div>Download begins. File expires after 24 hours — single-use link.</div></div><div class="sc-step"><div class="sc-n">5</div><div>Encrypted fields (Emirates ID, IBAN) included in decrypted form — employee has the right to own data</div></div><div class="sc-warn">⚠ DSAR downloads include decrypted PII. Link is single-use and expires in 24 hours per UAE Data Protection requirements.</div><div class="sc-rule">DSAR · /me/profile · UAE Data Protection Law</div></div></div>
+</div>
+</div>
+
+<!-- S9 -->
+<div class="sec" id="s9">
+<div class="sec-lbl">Section 9</div>
+<div class="sec-title">Troubleshooting</div>
+<div class="sec-desc">Common ESS issues — problem, root cause, and exact fix.</div>
+<div class="ts-grid">
+<div class="ts-card"><div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚫 Cannot Access /me/* Pages</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">"Access denied" on any /me/ page</div><div class="ts-c">assignment_status is not ACTIVE</div><div class="ts-f">→ HR Admin: /persons/[id] → Assignments → set to ACTIVE if hire is confirmed.</div></div><div class="ts-prob"><div class="ts-p">Page loads but shows no data</div><div class="ts-c">SSO provisioned but EMPLOYEE role not assigned</div><div class="ts-f">→ SUPER_ADMIN: /users → find user → assign EMPLOYEE role.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Login redirects to error page</div><div class="ts-c">Microsoft Entra ID token expired or SSO misconfigured</div><div class="ts-f">→ Clear browser cache and retry. If persistent, IT checks Entra ID group membership.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⏳ Leave Request Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Submit button greyed out</div><div class="ts-c">Zero balance / dates in past / overlapping leave</div><div class="ts-f">→ Check balance on the form. Select future dates. Check for conflicting approved requests.</div></div><div class="ts-prob"><div class="ts-p">Approved but balance not deducted</div><div class="ts-c">Race condition with accrual cron</div><div class="ts-f">→ HR Admin: /absence → [employee] → Recalculate Balance. Correct deduction applies immediately.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Manager not receiving email</div><div class="ts-c">SMTP config / manager email missing / spam</div><div class="ts-f">→ Check notification_log for FAILED. Verify manager email at /persons/[manager_id].</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">📄 Payslip &amp; Timesheet Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Payslip shows wrong salary</div><div class="ts-c">Transfer/promotion was mid-month — pro-rata applies</div><div class="ts-f">→ Expected behaviour. Pro-rated payslip is correct. Full new salary from next month.</div></div><div class="ts-prob"><div class="ts-p">Cannot edit submitted timesheet</div><div class="ts-c">Status PENDING_APPROVAL — locked for editing</div><div class="ts-f">→ Ask manager to reject it. Rejected timesheet returns to DRAFT — editable again.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Payslips list is empty</div><div class="ts-c">No payroll run with PAID status for this entity</div><div class="ts-f">→ Payroll must complete at least one full cycle. Check /payroll for run status.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">🤖 ARIA Chat Issues</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">ARIA not appearing at /me/aria</div><div class="ts-c">ARIA Active toggle is OFF</div><div class="ts-f">→ SUPER_ADMIN: Settings → AI & Access → AI Agent (ARIA) → Identity → toggle Active ON.</div></div><div class="ts-prob"><div class="ts-p">ARIA says "I cannot help with that"</div><div class="ts-c">Employee asking about another employee's data — correct behaviour</div><div class="ts-f">→ Expected. /me/aria is scoped to own data only. This is PII governance — not a bug.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Voice input not working</div><div class="ts-c">Browser does not support Web Speech API</div><div class="ts-f">→ Use Chrome or Edge only. Firefox and Safari do not support Web Speech API.</div></div></div></div>
+</div>
+</div>
+
+<!-- S10 -->
+<div class="sec" id="s10">
+<div class="sec-lbl">Section 10</div>
+<div class="sec-title">ARIA Intelligence — ESS Queries</div>
+<div class="sec-desc">What employees and HR admins can ask ARIA about the self-service portal. Employee ARIA (/me/aria) is scoped to own data only.</div>
+<div class="aria-wrap">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:14px;font-weight:600">Employee Self-Service — Query Reference</span></div>
+<div class="aria-grid">
+<div class="aria-card"><div class="aria-q">"How many leave days do I have left?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Identify user from session → persons.id</div><div class="aria-check"><span class="aria-ci">2.</span>absence_balances WHERE person_id = user AND leave_type = ANNUAL</div><div class="aria-check"><span class="aria-ci">3.</span>Check next accrual date from leave_rules</div></div><div class="aria-response">"You have <strong>14 days</strong> of annual leave remaining. Your next accrual of 2.5 days is on 1 June 2026."</div><div class="aria-rule">absence_balances · leave_rules · BR-LV-001</div></div>
+<div class="aria-card"><div class="aria-q">"When was my last payslip?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Find most recent payroll_run WHERE status=PAID AND employee included</div><div class="aria-check"><span class="aria-ci">2.</span>Return period and net pay from salary_elements</div></div><div class="aria-response">"Your last payslip was April 2026, paid on 30 April. Net pay: AED 19,850. View it at /me/payslips."</div><div class="aria-rule">payroll_runs · salary_elements · status=PAID</div></div>
+<div class="aria-card"><div class="aria-q">"Can you show me Ahmed's salary?" (from another employee)</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Requesting user role = EMPLOYEE</div><div class="aria-check"><span class="aria-ci">2.</span>Target ≠ requesting user → ACCESS DENIED at governance layer</div></div><div class="aria-response">"I'm not able to share another employee's salary. This is restricted to HR Admins and above. For your own salary, check /me/payslips."</div><div class="aria-rule">Role permissions · PII governance · /me/* scope</div></div>
+<div class="aria-card"><div class="aria-q">"How do I apply for 3 days leave next week?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Check annual leave balance ≥ 3</div><div class="aria-check"><span class="aria-ci">2.</span>Check no overlapping approved requests</div><div class="aria-check"><span class="aria-ci">3.</span>Authority level → Advisory = guide to form</div></div><div class="aria-response">"You have 14 days available and no conflicts. Go to My Leave → New Request, select Annual Leave, pick your dates, and submit. Your manager will be notified immediately."</div><div class="aria-rule">absence_balances · absence_requests · /me/leave</div></div>
+<div class="aria-card"><div class="aria-q">"Who is my line manager?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>worker_assignments WHERE person_id = user → line_manager_id</div><div class="aria-check"><span class="aria-ci">2.</span>persons WHERE id = line_manager_id → name_en, name_ar</div></div><div class="aria-response">"Your line manager is <strong>Sara Al-Zaabi</strong> (سارة الزعبي), Head of IT Operations."</div><div class="aria-rule">worker_assignments.line_manager_id · persons</div></div>
+<div class="aria-card"><div class="aria-q">"My payslip looks wrong this month"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Check if transfer/promotion effective_date was mid-month → pro-rata expected</div><div class="aria-check"><span class="aria-ci">2.</span>Check for acting allowance additions/removals</div><div class="aria-check"><span class="aria-ci">3.</span>If genuinely wrong → escalate to HR Admin</div></div><div class="aria-response">"A transfer was effective on the 15th, so your payslip is pro-rated — that is correct. If the amounts still seem wrong, I'll connect you with your HR Admin."</div><div class="aria-rule">salary_elements · effective_date · worker_assignments</div></div>
+<div class="aria-card"><div class="aria-q">"What documents do I need to sign?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>employee_letters WHERE person_id = user AND status = SENT</div><div class="aria-check"><span class="aria-ci">2.</span>Check token expiry dates — flag urgent ones</div></div><div class="aria-response">"You have 1 letter pending signature: <strong>Promotion Letter</strong> (sent 18 May 2026, expires 17 June 2026). Check My Letters or use the link in your email."</div><div class="aria-rule">employee_letters.status=SENT · token expiry · /me/letters</div></div>
+<div class="aria-card"><div class="aria-q">"How do I download all my personal data?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>Confirm DSAR is from the data subject themselves</div><div class="aria-check"><span class="aria-ci">2.</span>Guide to /me/profile → Download My Data</div></div><div class="aria-response">"Go to My Profile (/me/profile) and click <strong>Download My Data (DSAR)</strong>. A ZIP with all your HR data downloads immediately. The link expires in 24 hours."</div><div class="aria-rule">DSAR · persons · /me/profile · UAE Data Protection</div></div>
+</div>
+</div>
+</div>
+
+</div>
+</main>
+<div class="page-footer">
+  AVANIIS HR · Employee Self-Service (ESS) · v1.0 · May 2026 · Avaniis / Avaniis · Internal Use Only
+</div>
+<script>var ROLE_MAP = {
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  hr: ['s1','s2','s3','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s7','s8','s9','s10'],
+  emp: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  sa: ['s1','s2','s5','s9'],
+};
+
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  pay: ['s1','s2','s4','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

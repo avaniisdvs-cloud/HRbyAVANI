@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>G5 — Production Troubleshooting | AVANIIS HR</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+    --lane-mgr:#7B68EE;
+    --lane-hd:#7B2FBE;
+    --lane-fi:#E87040;
+    --aria-bg1:#0A2E35;
+    --aria-bg2:#0A2228;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Header ── */
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+
+/* ── Sticky Nav ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+
+/* ── Role Filter ── */
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+
+/* ── Content ── */
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+
+/* ── Cards ── */
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+
+/* ── Preconditions ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+
+/* ── Blocking conditions ── */
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:140px}
+.block-reason{color:var(--rd)}
+
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+
+/* ── State Machines ── */
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+
+/* ── Mockups ── */
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:400px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fld.err{border-color:var(--rd);background:var(--rd-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.ferr{font-size:10px;color:var(--rd);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+
+/* ── Inbox mockup ── */
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr:hover td{background:var(--off)}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:none}
+.ab-ok{background:var(--gr-bg);color:var(--gr)}
+.ab-no{background:var(--rd-bg);color:var(--rd)}
+.ab-dl{background:var(--lt);color:var(--mu)}
+
+/* ── Org chart node pair ── */
+.node-pair{display:flex;gap:24px;flex-wrap:wrap}
+.oc-node{width:220px;border-radius:10px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.oc-node.acting{border-color:var(--am);border-width:2px}
+.oc-strip{position:absolute;left:0;top:0;bottom:0;width:4px}
+.oc-inner{padding:12px 14px 8px 18px}
+.oc-row{display:flex;align-items:center;gap:10px}
+.oc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.oc-name{font-size:12.5px;font-weight:700;color:var(--n);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-title{font-size:10.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc-dept{font-size:10px;color:var(--mu)}
+.oc-divider{height:1px;background:var(--lt);margin:7px 14px}
+.oc-footer{display:flex;align-items:center;justify-content:space-between;padding:0 14px 9px}
+.oc-reports{font-size:10px;color:var(--mu)}
+.oc-menu{width:20px;height:20px;border-radius:4px;background:var(--lt);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:var(--mu)}
+.acting-bar{background:var(--am);padding:5px 14px;font-size:10px;font-weight:700;color:#fff;letter-spacing:.04em;display:flex;align-items:center;justify-content:space-between}
+.oc-status{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+
+/* ── ARIA ── */
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+
+/* ── SLA timers ── */
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-sub{font-size:11px;color:var(--mu)}
+
+/* ── Callouts ── */
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+
+/* ── Footer ── */
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+
+/* ── Print ── */
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+
+/* ── Mobile ── */
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+}
+
+/* ── Mockup shell ── */
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr;min-height:340px}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.mf-main{background:var(--off);padding:16px;position:relative}
+/* ── ARIA dark cards ── */
+.aria-wrap{background:linear-gradient(135deg,#0A2E35 0%,#0A2228 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+/* ── Scenarios ── */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+/* ── Troubleshooting ── */
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px}
+.ts-prob:last-child{margin-bottom:0}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+/* ── Swimlane ── */
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:140px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+/* ── SM ── */
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+/* ── Type cards ── */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+/* ── pre-items ── */
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-chk{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-rt{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-lbl{font-weight:700;color:var(--rd);flex-shrink:0;min-width:160px}
+.block-reason{color:#7A1A1A}
+/* ── Print + mobile ── */
+@media print{.nav-wrap,.rf-bar{display:none!important}.sec{page-break-inside:avoid}body{background:#fff}.card,.swimlane,.sm-wrap,.sc-card,.ts-card{box-shadow:none!important;border:1px solid #ccc!important}}
+@media(max-width:640px){.ph{padding:20px 18px}.content{padding:20px 14px}.nav-inner{padding:0 16px}.rf-bar{padding:8px 16px}.mf-body{grid-template-columns:1fr}.mf-sidebar{display:none}.sc-grid,.ts-grid,.type-grid,.pre-grid{grid-template-columns:1fr}.aria-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Manual · G5 — Production Troubleshooting</div>
+  <div class="ph-title">Production Troubleshooting</div>
+  <div class="ph-sub">استكشاف أخطاء الإنتاج · Four-Layer Triage · Error Codes · System Health · Runbooks · ARIA Diagnostics</div>
+  <div class="ph-pills"><span class="pill  g">SUPER_ADMIN</span><span class="pill  g">HR_ADMIN</span><span class="pill">HR_DIRECTOR</span><span class="pill">MANAGER</span><span class="pill">/settings/system · /audit-log</span><span class="pill">v1.0 · May 2026</span></div>
+</div>
+<div class="nav-wrap"><div class="nav-inner"><a href="#s1" class="ni" data-section="s1">Overview</a><a href="#s2" class="ni" data-section="s2">Diagnostic Map</a><a href="#s3" class="ni" data-section="s3">Error Categories</a><a href="#s4" class="ni" data-section="s4">Diagnostic Flows</a><a href="#s5" class="ni" data-section="s5">System Health States</a><a href="#s6" class="ni" data-section="s6">Screen Mockups</a><a href="#s7" class="ni" data-section="s7">Error Code Reference</a><a href="#s8" class="ni" data-section="s8">Production Scenarios</a><a href="#s9" class="ni" data-section="s9">Runbook Procedures</a><a href="#s10" class="ni" data-section="s10">ARIA Diagnostic Queries</a></div></div>
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'emp')">Employee</button>
+  <button class="rf-btn" onclick="setRole(this,'sa')">Super Admin</button>
+</div>
+<main class="content">
+
+<!-- S1 -->
+<div class="sec" id="s1">
+<div class="sec-lbl">Section 1</div>
+<div class="sec-title">Troubleshooting Philosophy &amp; First Principles</div>
+<div class="sec-desc">Production troubleshooting in AVANIIS HR follows a structured diagnostic approach. Every issue can be diagnosed by checking the same four layers: <strong>Status</strong> → <strong>Configuration</strong> → <strong>Data</strong> → <strong>Integration</strong>. Start from the top and work down — most issues resolve at layer 1 or 2.</div>
+<div class="card" style="margin-bottom:16px">
+<div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">The Four Diagnostic Layers</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start;background:var(--lt);border-radius:8px;padding:12px 14px">
+<div style="width:32px;height:32px;background:var(--bl);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff">1</div>
+<div><div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:4px">Status Check</div><div style="font-size:12px;color:var(--mu)">Is the employee ACTIVE? Is the payroll run PAID? Is the assignment EXECUTED? Is ARIA Active? — 80% of all issues resolve here by finding an incorrect status.</div></div>
+</div>
+<div style="display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start;background:var(--lt);border-radius:8px;padding:12px 14px">
+<div style="width:32px;height:32px;background:var(--te);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff">2</div>
+<div><div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:4px">Configuration Check</div><div style="font-size:12px;color:var(--mu)">Are leave rules set? Is SMTP configured? Are GL codes mapped? Is the workflow template active? — Configuration gaps cause silent failures that pass status checks.</div></div>
+</div>
+<div style="display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start;background:var(--lt);border-radius:8px;padding:12px 14px">
+<div style="width:32px;height:32px;background:var(--am);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff">3</div>
+<div><div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:4px">Data Integrity Check</div><div style="font-size:12px;color:var(--mu)">Does the employee have a line_manager_id? Is the email address on file? Does legal_entity_id match across records? — Mismatched data causes cross-module failures.</div></div>
+</div>
+<div style="display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start;background:var(--lt);border-radius:8px;padding:12px 14px">
+<div style="width:32px;height:32px;background:var(--rd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff">4</div>
+<div><div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:4px">Integration Check</div><div style="font-size:12px;color:var(--mu)">Is Oracle ERP sync active? Is Microsoft Entra ID group correct? Are scheduled cron jobs running? — Integration failures cause data to appear stale or missing.</div></div>
+</div>
+</div>
+</div>
+<div style="background:var(--n);border-radius:10px;padding:14px 18px">
+<div style="font-size:12px;font-weight:700;color:var(--g2);margin-bottom:8px">Quick Diagnostic Checklist — Run This First</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11.5px;color:rgba(255,255,255,.75)">
+<div>□ assignment_status = ACTIVE?</div><div>□ Role assigned at /users?</div>
+<div>□ SSO provisioned in Entra ID?</div><div>□ Email address on file?</div>
+<div>□ Payroll run in PAID status?</div><div>□ Leave rules configured?</div>
+<div>□ SMTP test passes?</div><div>□ line_manager_id set?</div>
+</div>
+</div>
+</div>
+
+<!-- S2 -->
+<div class="sec" id="s2">
+<div class="sec-lbl">Section 2</div>
+<div class="sec-title">Diagnostic Map</div>
+<div class="sec-desc">Three diagnostic chains: the four-layer triage flow, the data integrity check chain, and the integration failure chain.</div>
+<div class="card" style="padding:4px 4px 0">
+<svg viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Production Troubleshooting Diagnostic Map</title>
+<desc>Three chains: Layer 1-4 triage, data integrity check, and integration failure diagnosis.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="900" height="500" fill="#F5F6F8"/>
+<rect x="14" y="14" width="250" height="22" rx="4" fill="#0A1628"/>
+<text x="24" y="29" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="0.07em">CHAIN A — FOUR-LAYER TRIAGE (START HERE)</text>
+<rect x="14" y="44" width="108" height="56" rx="7" fill="#0A1628"/>
+<text x="68" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Issue</text>
+<text x="68" y="79" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Reported</text>
+<text x="68" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.5)">any module</text>
+<line x1="122" y1="72" x2="140" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="142" y="44" width="108" height="56" rx="7" fill="#1A4FBA"/>
+<text x="196" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Layer 1</text>
+<text x="196" y="79" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Status Check</text>
+<text x="196" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.7)">80% resolve here</text>
+<line x1="250" y1="72" x2="268" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="270" y="44" width="108" height="56" rx="7" fill="#0E7C6A"/>
+<text x="324" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Layer 2</text>
+<text x="324" y="79" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Config Check</text>
+<text x="324" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.6)">rules · SMTP · GL</text>
+<line x1="378" y1="72" x2="396" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="398" y="44" width="108" height="56" rx="7" fill="#B45C00"/>
+<text x="452" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Layer 3</text>
+<text x="452" y="79" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Data Integrity</text>
+<text x="452" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.7)">IDs · emails · entities</text>
+<line x1="506" y1="72" x2="524" y2="72" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="526" y="44" width="108" height="56" rx="7" fill="#B01B1B"/>
+<text x="580" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Layer 4</text>
+<text x="580" y="79" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Integration</text>
+<text x="580" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.7)">ERP · Entra · cron</text>
+<line x1="634" y1="72" x2="652" y2="72" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="654" y="44" width="102" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="2"/>
+<text x="705" y="65" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Escalate</text>
+<text x="705" y="79" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">to Eng</text>
+<text x="705" y="93" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.4)">if all layers clear</text>
+<line x1="14" y1="116" x2="886" y2="116" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="124" width="240" height="22" rx="4" fill="#0E7C6A"/>
+<text x="24" y="139" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN B — DATA INTEGRITY CHECK CHAIN</text>
+<rect x="14" y="158" width="108" height="56" rx="7" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="68" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Check</text>
+<text x="68" y="193" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Email Field</text>
+<text x="68" y="207" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.5)">/persons profile</text>
+<line x1="122" y1="186" x2="140" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="142" y="158" width="108" height="56" rx="7" fill="#0E7C6A"/>
+<text x="196" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Check</text>
+<text x="196" y="193" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Manager ID</text>
+<text x="196" y="207" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.6)">line_manager_id set?</text>
+<line x1="250" y1="186" x2="268" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="270" y="158" width="108" height="56" rx="7" fill="#0E7C6A"/>
+<text x="324" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Check</text>
+<text x="324" y="193" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Entity Match</text>
+<text x="324" y="207" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.6)">legal_entity_id</text>
+<line x1="378" y1="186" x2="396" y2="186" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#arr-t)"/>
+<rect x="398" y="158" width="108" height="56" rx="7" fill="#0E7C6A"/>
+<text x="452" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Check</text>
+<text x="452" y="193" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Grade/Dept IDs</text>
+<text x="452" y="207" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.6)">master data</text>
+<line x1="506" y1="186" x2="524" y2="186" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="526" y="158" width="148" height="56" rx="7" fill="#1A6B3C"/>
+<text x="600" y="179" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Data Integrity</text>
+<text x="600" y="193" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Confirmed ✓</text>
+<text x="600" y="207" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.6)">move to Layer 4</text>
+<line x1="14" y1="230" x2="886" y2="230" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="238" width="260" height="22" rx="4" fill="#B01B1B"/>
+<text x="24" y="253" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff" letter-spacing="0.07em">CHAIN C — INTEGRATION FAILURE DIAGNOSIS</text>
+<rect x="14" y="270" width="118" height="56" rx="7" fill="#0A1628"/>
+<text x="73" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Symptom</text>
+<text x="73" y="305" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#C9A84C">Identified</text>
+<text x="73" y="319" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.5)">stale · missing data</text>
+<line x1="132" y1="298" x2="152" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="154" y="270" width="118" height="56" rx="7" fill="#B01B1B"/>
+<text x="213" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Check</text>
+<text x="213" y="305" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">notification_log</text>
+<text x="213" y="319" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.7)">FAILED entries</text>
+<line x1="272" y1="298" x2="292" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="294" y="270" width="118" height="56" rx="7" fill="#B01B1B"/>
+<text x="353" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Check Cron</text>
+<text x="353" y="305" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Job Log</text>
+<text x="353" y="319" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.7)">/settings/system</text>
+<line x1="412" y1="298" x2="432" y2="298" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#arr-g)"/>
+<rect x="434" y="270" width="118" height="56" rx="7" fill="#B01B1B"/>
+<text x="493" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Test</text>
+<text x="493" y="305" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Integration</text>
+<text x="493" y="319" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.7)">SMTP · Oracle · Entra</text>
+<line x1="552" y1="298" x2="572" y2="298" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#arr-gold)"/>
+<rect x="574" y="270" width="148" height="56" rx="7" fill="#0E7C6A"/>
+<text x="648" y="291" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">Fix &amp; Retry</text>
+<text x="648" y="305" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#fff">or Escalate</text>
+<text x="648" y="319" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,0.6)">audit all changes</text>
+<line x1="14" y1="342" x2="886" y2="342" stroke="#D4D8E2" stroke-width="0.5" stroke-dasharray="5 3"/>
+<rect x="14" y="352" width="400" height="110" rx="8" fill="#fff" stroke="#D4D8E2"/>
+<text x="26" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#6B7A96">TRIAGE LEGEND</text>
+<rect x="26" y="378" width="13" height="13" rx="3" fill="#1A4FBA"/><text x="45" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Layer 1 · Status (start here)</text>
+<rect x="200" y="378" width="13" height="13" rx="3" fill="#0E7C6A"/><text x="219" y="389" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Layer 2 · Configuration</text>
+<rect x="26" y="400" width="13" height="13" rx="3" fill="#B45C00"/><text x="45" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Layer 3 · Data integrity</text>
+<rect x="200" y="400" width="13" height="13" rx="3" fill="#B01B1B"/><text x="219" y="411" font-family="-apple-system,sans-serif" font-size="10" fill="#1A2340">Layer 4 · Integration / escalate</text>
+<rect x="414" y="352" width="462" height="110" rx="8" fill="#FDEAEA" stroke="#F4A0A0"/>
+<text x="426" y="370" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#B01B1B">NEVER SKIP LAYER 1</text>
+<text x="426" y="390" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">80% of all reported issues are Layer 1: wrong status, not wrong code.</text>
+<text x="426" y="408" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">The most common cause of "bug reports" is PENDING_HIRE or CALCULATED status.</text>
+<text x="426" y="426" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">Check assignment_status and payroll_run.status before anything else.</text>
+<text x="426" y="444" font-family="-apple-system,sans-serif" font-size="10" fill="#7A1A1A">If Layer 1 is ACTIVE and PAID, move to Layer 2. Never skip to Layer 4.</text>
+</svg>
+</div>
+</div>
+
+<!-- S3 -->
+<div class="sec" id="s3">
+<div class="sec-lbl">Section 3</div>
+<div class="sec-title">Six Error Categories</div>
+<div class="sec-desc">Every production issue falls into one of these six categories. Identify the category first — it determines which diagnostic layer to start at.</div>
+<div class="type-grid">
+<div class="type-card" style="border-color:var(--rd-bd)"><div style="background:var(--rd-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--rd);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🚫</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Access Denied</div><div style="font-size:10px;color:var(--mu)">Layer 1 — Status · Layer 2 — Role</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Symptom</span><span class="tv" style="font-size:10px">"Access denied" or blank page</span></div><div class="tr"><span class="tk">Check first</span><span class="tv">assignment_status = ACTIVE</span></div><div class="tr"><span class="tk">Check second</span><span class="tv">Role at /users</span></div><div class="tr"><span class="tk">Check third</span><span class="tv">SSO Entra ID group</span></div><div class="mistake">⚠ 90% of access denied issues = wrong status or missing role. Check both before assuming an authentication failure.</div></div></div>
+<div class="type-card" style="border-color:var(--am-bd)"><div style="background:var(--am-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--am);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📭</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Missing Data</div><div style="font-size:10px;color:var(--mu)">Layer 1 — Status · Layer 3 — Data</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Symptom</span><span class="tv" style="font-size:10px">Empty list, 0 records, blank fields</span></div><div class="tr"><span class="tk">Check first</span><span class="tv">Is the source data in correct status?</span></div><div class="tr"><span class="tk">Check second</span><span class="tv">legal_entity_id match?</span></div><div class="tr"><span class="tk">Check third</span><span class="tv">Date range / filter correct?</span></div><div class="mistake">⚠ "No data" is usually CALCULATED not PAID for payroll, or PENDING_HIRE not ACTIVE for employees. Check status first.</div></div></div>
+<div class="type-card" style="border-color:var(--bl-bd)"><div style="background:var(--bl-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--bl);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">📧</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Notification Failure</div><div style="font-size:10px;color:var(--mu)">Layer 2 — Config · Layer 4 — SMTP</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Symptom</span><span class="tv" style="font-size:10px">Email not received, link not sent</span></div><div class="tr"><span class="tk">Check first</span><span class="tv">Email on file at /persons</span></div><div class="tr"><span class="tk">Check second</span><span class="tv">notification_log → FAILED?</span></div><div class="tr"><span class="tk">Check third</span><span class="tv">SMTP test at /settings/notifications</span></div><div class="mistake">⚠ Notification_log shows FAILED silently — check it proactively after any important action. SMTP failures don't show in the UI.</div></div></div>
+<div class="type-card" style="border-color:var(--te-bd)"><div style="background:var(--te-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--te);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">⚙</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Workflow Stuck</div><div style="font-size:10px;color:var(--mu)">Layer 1 — Status · Layer 2 — Workflow config</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Symptom</span><span class="tv" style="font-size:10px">Approval not progressing</span></div><div class="tr"><span class="tk">Check first</span><span class="tv">Current approver status</span></div><div class="tr"><span class="tk">Check second</span><span class="tv">SLA timer — has it breached?</span></div><div class="tr"><span class="tk">Check third</span><span class="tv">Is workflow template ACTIVE?</span></div><div class="mistake">⚠ Workflows silently stall if the assigned approver has left or been SUSPENDED. Check approver status at /persons.</div></div></div>
+<div class="type-card" style="border-color:#C9A84C"><div style="background:#FEF9EE;padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:#A8863A;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">💰</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Payroll Discrepancy</div><div style="font-size:10px;color:var(--mu)">Layer 1 — Run status · Layer 3 — Data</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Symptom</span><span class="tv" style="font-size:10px">Wrong amount, missing element</span></div><div class="tr"><span class="tk">Check first</span><span class="tv">Is the run PAID (not CALCULATED)?</span></div><div class="tr"><span class="tk">Check second</span><span class="tv">salary_elements for this run</span></div><div class="tr"><span class="tk">Check third</span><span class="tv">effective_date of salary change</span></div><div class="mistake">⚠ Pro-rated payslips look "wrong" but are correct when effective_date is mid-month. Verify before raising as a bug.</div></div></div>
+<div class="type-card" style="border-color:var(--pu-bd,#C4ADEE)"><div style="background:var(--pu-bg);padding:12px 16px;display:flex;align-items:center;gap:10px"><div style="width:36px;height:36px;background:var(--pu);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px">🔗</div><div><div style="font-size:14px;font-weight:700;color:var(--n)">Integration Failure</div><div style="font-size:10px;color:var(--mu)">Layer 4 — External systems</div></div></div><div style="padding:0 16px 14px"><div class="tr"><span class="tk">Symptom</span><span class="tv" style="font-size:10px">Stale data, sync not happening</span></div><div class="tr"><span class="tk">Check first</span><span class="tv">Cron job log at /settings/system</span></div><div class="tr"><span class="tk">Check second</span><span class="tv">Oracle ERP connection status</span></div><div class="tr"><span class="tk">Check third</span><span class="tv">Entra ID group membership</span></div><div class="mistake">⚠ Integration failures don't show in the normal HR UI — check /settings/system → Integration Status for real-time sync status.</div></div></div>
+</div>
+</div>
+
+<!-- S4 -->
+<div class="sec" id="s4">
+<div class="sec-lbl">Section 4</div>
+<div class="sec-title">Diagnostic Process Flows</div>
+<div class="sec-desc">Two structured diagnostic flows — one for access issues, one for data and notification issues — covering the most common production problem categories.</div>
+<div class="swimlane"><div class="sw-head">Flow A — Diagnosing an Access Denied Issue <span class="sw-stag">LAYER 1 → 2 → RESOLVE</span></div>
+<div class="sw-row"><div class="sw-lbl hr">HR ADMIN</div><div class="sw-steps">
+<div class="sb sb-warn" style="position:relative"><span class="sn">1</span><span class="sb-title">Receive Report</span><span class="sb-sub">Employee or manager reports access denied</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Check Status</span><span class="sb-sub">/persons/[id] → assignment_status</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-act" style="position:relative"><span class="sn">3</span><span class="sb-title">Check Role</span><span class="sb-sub">/users → role field</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl sy">DECISION</div><div class="sw-steps">
+<div class="sb sb-ok"><span class="sb-title">Status ACTIVE + Role OK</span><span class="sb-sub">→ Check SSO / Entra ID group</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-warn"><span class="sb-title">Status not ACTIVE</span><span class="sb-sub">→ Fix status first, all else waits</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-warn"><span class="sb-title">Role missing</span><span class="sb-sub">→ Assign role at /users → resolved</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl sa">SUPER ADMIN</div><div class="sw-steps">
+<div class="sb sb-auto"><span class="sb-title">Verify Entra ID</span><span class="sb-sub">Check group membership in Azure portal</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-ok"><span class="sb-title">Re-provision SSO</span><span class="sb-sub">Add to correct Entra ID group → employee retries</span></div>
+</div></div>
+</div>
+<div class="swimlane"><div class="sw-head">Flow B — Diagnosing a Notification Failure <span class="sw-stag">LAYER 2 → 4 → RESOLVE</span></div>
+<div class="sw-row"><div class="sw-lbl hr">HR ADMIN</div><div class="sw-steps">
+<div class="sb sb-warn" style="position:relative"><span class="sn">1</span><span class="sb-title">Issue Reported</span><span class="sb-sub">Email not received / link not sent</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-act" style="position:relative"><span class="sn">2</span><span class="sb-title">Check notification_log</span><span class="sb-sub">/settings/system → Notifications → filter FAILED</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl sy">DECISION</div><div class="sw-steps">
+<div class="sb sb-ok"><span class="sb-title">Log shows FAILED</span><span class="sb-sub">→ Check error reason: SMTP or bad email</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-ok"><span class="sb-title">Log shows SUCCESS</span><span class="sb-sub">→ Email delivered, check spam filter</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-ok"><span class="sb-title">No log entry</span><span class="sb-sub">→ Action never triggered — check workflow</span></div>
+</div></div>
+<div class="sw-row"><div class="sw-lbl sa">SUPER ADMIN</div><div class="sw-steps">
+<div class="sb sb-auto"><span class="sb-title">Fix SMTP</span><span class="sb-sub">/settings/notifications → SMTP → Test Connection</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-auto"><span class="sb-title">Retry Notification</span><span class="sb-sub">notification_log → Retry failed entry</span></div>
+<span class="sw-arr">→</span>
+<div class="sb sb-term"><span class="sb-title" style="color:var(--g2)">Resolved</span><span class="sb-sub" style="color:rgba(255,255,255,.6)">Audit log entry updated</span></div>
+</div></div>
+</div>
+</div>
+
+<!-- S5 -->
+<div class="sec" id="s5">
+<div class="sec-lbl">Section 5</div>
+<div class="sec-title">System Health State Indicators</div>
+<div class="sec-desc">Key system health indicators and what each state means for operations. Check these first when investigating any systemic issue.</div>
+<div class="sm-wrap"><div class="sm-hdr">⬤ System Health — Four Key Indicators</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>System Health Indicators</title>
+<desc>Four key system health indicators: SMTP, cron jobs, Oracle ERP sync, and Entra ID SSO.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="210" fill="#F5F6F8"/>
+<rect x="14" y="14" width="146" height="182" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="87" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">SMTP</text>
+<text x="87" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="26" font-weight="700" fill="#1A6B3C">✓</text>
+<text x="87" y="76" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Connected</text>
+<text x="87" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">All notifications</text>
+<text x="87" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">are delivering</text>
+<text x="87" y="138" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">If FAILED:</text>
+<text x="87" y="152" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">All emails silent</text>
+<text x="87" y="166" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">Check /settings/</text>
+<text x="87" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">notifications</text>
+<rect x="174" y="14" width="146" height="182" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="247" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">CRON JOBS</text>
+<text x="247" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="26" font-weight="700" fill="#1A6B3C">✓</text>
+<text x="247" y="76" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">All running</text>
+<text x="247" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">Leave accrual</text>
+<text x="247" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">reports · acting alerts</text>
+<text x="247" y="138" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">If FAILED:</text>
+<text x="247" y="152" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">Leave won't accrue</text>
+<text x="247" y="166" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">Acting alerts miss</text>
+<text x="247" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">Check /settings/system</text>
+<rect x="334" y="14" width="146" height="182" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="407" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#1A6B3C">ORACLE ERP</text>
+<text x="407" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="26" font-weight="700" fill="#1A6B3C">✓</text>
+<text x="407" y="76" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Sync active</text>
+<text x="407" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">GL journals</text>
+<text x="407" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#1A6B3C">posting normally</text>
+<text x="407" y="138" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">If FAILED:</text>
+<text x="407" y="152" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">GL journals queue</text>
+<text x="407" y="166" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">Finance reporting</text>
+<text x="407" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#B01B1B">breaks</text>
+<rect x="494" y="14" width="172" height="182" rx="8" fill="#0A1628" stroke="#C9A84C" stroke-width="1.5"/>
+<text x="580" y="32" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C">ENTRA ID SSO</text>
+<text x="580" y="55" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="26" font-weight="700" fill="#C9A84C">✓</text>
+<text x="580" y="76" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" fill="#C9A84C">Groups synced</text>
+<text x="580" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,.6)">All users can</text>
+<text x="580" y="106" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,.6)">authenticate</text>
+<text x="580" y="138" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#F4A0A0">If FAILED:</text>
+<text x="580" y="152" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#F4A0A0">Nobody can log in</text>
+<text x="580" y="166" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#F4A0A0">Check Azure AD</text>
+<text x="580" y="180" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="#F4A0A0">app registration</text>
+</svg>
+</div>
+</div>
+<div class="sm-wrap" style="margin-top:16px"><div class="sm-hdr">⬤ Production Issue Severity Levels</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 140" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Production Issue Severity Levels</title>
+<desc>P1 Critical through P3 Low severity definitions with SLA and escalation path.</desc>
+<defs>
+  <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="arr-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<rect width="680" height="140" fill="#F5F6F8"/>
+<rect x="14" y="14" width="196" height="112" rx="8" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="2"/>
+<text x="112" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B01B1B">P1 — CRITICAL</text>
+<text x="26" y="54" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Nobody can log in</text>
+<text x="26" y="70" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Payroll data loss risk</text>
+<text x="26" y="86" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B" font-weight="700">SLA: Immediate</text>
+<text x="26" y="102" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Escalate: Engineering now</text>
+<text x="26" y="118" font-family="-apple-system,sans-serif" font-size="9" fill="#B01B1B">Entra ID down / DB unreachable</text>
+<rect x="224" y="14" width="196" height="112" rx="8" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+<text x="322" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#B45C00">P2 — HIGH</text>
+<text x="236" y="54" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Payroll cannot close</text>
+<text x="236" y="70" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">HR module completely down</text>
+<text x="236" y="86" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00" font-weight="700">SLA: 4 hours</text>
+<text x="236" y="102" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">Escalate: SA + Engineering</text>
+<text x="236" y="118" font-family="-apple-system,sans-serif" font-size="9" fill="#B45C00">SMTP failure / Oracle ERP down</text>
+<rect x="434" y="14" width="232" height="112" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+<text x="550" y="34" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="700" fill="#1A6B3C">P3 — STANDARD</text>
+<text x="446" y="54" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">One employee access issue</text>
+<text x="446" y="70" font-family="-apple-system,sans-serif" font-size="9" fill="#1A2340">Single report not generating
+<text x="446" y="86" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C" font-weight="700">SLA: 1 business day</text>
+<text x="446" y="102" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">HR Admin resolves</text>
+<text x="446" y="118" font-family="-apple-system,sans-serif" font-size="9" fill="#1A6B3C">Use 4-layer triage</text>
+</svg>
+</div>
+</div>
+</div>
+
+<!-- S6 -->
+<div class="sec" id="s6">
+<div class="sec-lbl">Section 6</div>
+<div class="sec-title">Screen Mockups</div>
+<div class="sec-desc">Three annotated screens from AVANIIS HR's admin and diagnostic interfaces.</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup A — System Integration Status (/settings/system)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.1);margin-bottom:8px">
+<div class="mf-topbar"><div class="mf-logo">AVANIIS <span>HR</span></div><div class="mf-search">🔍 <span>Settings...</span></div><div style="margin-left:auto"><div class="mf-av">SA</div></div></div>
+<div class="mf-body">
+<div class="mf-sidebar"><div class="sb-sec">Settings</div><div class="sb-item">⚙ General</div><div class="sb-item active">🔗 System &amp; Integrations</div><div class="sb-item">🔔 Notifications</div><div class="sb-item">🤖 AI &amp; Access</div><div class="sb-item">🔐 Security</div></div>
+<div class="mf-main">
+<div style="font-size:16px;font-weight:700;color:var(--n);margin-bottom:14px">System &amp; Integration Status</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:8px;padding:10px 14px"><div><div style="font-size:13px;font-weight:700;color:var(--n)">SMTP Email Delivery</div><div style="font-size:11px;color:var(--mu)">smtp.office365.com · Last test: 2h ago</div></div><span style="background:var(--gr-bg);color:var(--gr);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;border:1px solid var(--gr-bd)">CONNECTED</span><button style="background:var(--lt);border:1px solid var(--bd);border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer">Test</button></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:8px;padding:10px 14px"><div><div style="font-size:13px;font-weight:700;color:var(--n)">Oracle ERP GL Sync</div><div style="font-size:11px;color:var(--mu)">Last sync: 6 May 2026 · 23:00 GST</div></div><span style="background:var(--gr-bg);color:var(--gr);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;border:1px solid var(--gr-bd)">SYNCED</span><button style="background:var(--lt);border:1px solid var(--bd);border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer">Sync Now</button></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:8px;padding:10px 14px"><div><div style="font-size:13px;font-weight:700;color:var(--n)">Cron Jobs</div><div style="font-size:11px;color:var(--rd)">⚠ leave_accrual job failed at 00:05 — 3 retries exhausted</div></div><span style="background:var(--rd-bg);color:var(--rd);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;border:1px solid var(--rd-bd)">FAILED</span><button style="background:var(--rd);color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer">Retry</button></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:var(--gr-bg);border:1px solid var(--gr-bd);border-radius:8px;padding:10px 14px"><div><div style="font-size:13px;font-weight:700;color:var(--n)">Microsoft Entra ID SSO</div><div style="font-size:11px;color:var(--mu)">App: avaniis-hr-prod · 148 active sessions</div></div><span style="background:var(--gr-bg);color:var(--gr);padding:2px 9px;border-radius:10px;font-size:10px;font-weight:700;border:1px solid var(--gr-bd)">ACTIVE</span><button style="background:var(--lt);border:1px solid var(--bd);border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer">View</button></div>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-bottom:24px">
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">①</div><div><strong style="display:block;font-size:11px">FAILED cron job</strong>Leave accrual will not run automatically — HR must manually trigger from this screen</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">②</div><div><strong style="display:block;font-size:11px">Test button</strong>SMTP Test sends a verification email — if it fails, all notification emails will also fail</div></div>
+<div style="display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px"><div style="width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">③</div><div><strong style="display:block;font-size:11px">Sync Now</strong>Forces an immediate Oracle ERP GL journal sync outside the nightly schedule</div></div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup B — Notification Log (/settings/system → Notification Log)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08);margin-bottom:24px">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between"><div style="font-size:14px;font-weight:700;color:var(--n)">Notification Log</div><div style="display:flex;gap:8px"><button style="background:var(--rd-bg);color:var(--rd);border:1px solid var(--rd-bd);border-radius:7px;padding:5px 12px;font-size:11px;cursor:pointer">Filter: FAILED</button><button style="background:var(--lt);color:var(--tx);border:1px solid var(--bd);border-radius:7px;padding:5px 12px;font-size:11px;cursor:pointer">Export</button></div></div>
+<div style="padding:14px 20px;overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:11.5px;min-width:600px"><thead><tr style="background:var(--n)"><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Time</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Type</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Recipient</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Subject</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Status</th><th style="padding:8px 12px;color:rgba(255,255,255,.85);text-align:left;font-size:10px">Action</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px 12px;border-bottom:1px solid var(--lt);color:var(--mu)">09:14:23</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">Approval</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">sara@avaniis.ae</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">Leave request approved</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)"><span style="background:var(--gr-bg);color:var(--gr);padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700">SENT</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">—</td></tr>
+<tr><td style="padding:8px 12px;border-bottom:1px solid var(--lt);color:var(--mu)">08:44:11</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">Letter</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">ahmed@avaniis.ae</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)">Promotion Letter — sign here</td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)"><span style="background:var(--rd-bg);color:var(--rd);padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700">FAILED</span></td><td style="padding:8px 12px;border-bottom:1px solid var(--lt)"><button style="background:var(--bl);color:#fff;border:none;border-radius:5px;padding:2px 9px;font-size:10px;cursor:pointer">Retry</button></td></tr>
+<tr><td style="padding:8px 12px;color:var(--mu)">07:30:05</td><td style="padding:8px 12px">Report</td><td style="padding:8px 12px">hr.director@avaniis.ae</td><td style="padding:8px 12px">Monthly Headcount Report</td><td style="padding:8px 12px"><span style="background:var(--gr-bg);color:var(--gr);padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700">SENT</span></td><td style="padding:8px 12px">—</td></tr>
+</tbody></table>
+</div>
+</div>
+
+<div style="font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Mockup C — Audit Log Detail (/audit-log → Employee filter)</div>
+<div style="background:#fff;border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(10,22,40,.08)">
+<div style="padding:14px 20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between"><div style="font-size:14px;font-weight:700;color:var(--n)">Audit Log — Ahmed Al-Mansoori</div><div style="font-size:11px;color:var(--mu);background:var(--lt);padding:4px 10px;border-radius:6px">INSERT-only · 7-year retention</div></div>
+<div style="padding:14px 20px;display:flex;flex-direction:column;gap:6px">
+<div style="display:grid;grid-template-columns:130px 1fr 1fr 80px;gap:10px;background:var(--off);border-radius:7px;padding:8px 12px;font-size:11.5px;align-items:center"><span style="color:var(--mu)">2026-05-20 09:14</span><span style="font-weight:700">Promotion EXECUTED</span><span style="color:var(--mu)">Actor: hr_admin_sara</span><span style="background:var(--gr-bg);color:var(--gr);padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;text-align:center">SUCCESS</span></div>
+<div style="display:grid;grid-template-columns:130px 1fr 1fr 80px;gap:10px;background:var(--off);border-radius:7px;padding:8px 12px;font-size:11.5px;align-items:center"><span style="color:var(--mu)">2026-05-18 14:22</span><span style="font-weight:700">Salary updated G6→G7</span><span style="color:var(--mu)">Actor: system_auto</span><span style="background:var(--gr-bg);color:var(--gr);padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;text-align:center">SUCCESS</span></div>
+<div style="display:grid;grid-template-columns:130px 1fr 1fr 80px;gap:10px;background:var(--rd-bg);border-radius:7px;padding:8px 12px;font-size:11.5px;align-items:center;border:1px solid var(--rd-bd)"><span style="color:var(--mu)">2026-05-18 08:44</span><span style="font-weight:700">Notification failed — email</span><span style="color:var(--rd);font-size:10px">SMTP: Connection refused (port 587)</span><span style="background:var(--rd-bg);color:var(--rd);padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700;text-align:center">FAILED</span></div>
+</div>
+</div>
+</div>
+
+<!-- S7 -->
+<div class="sec" id="s7">
+<div class="sec-lbl">Section 7</div>
+<div class="sec-title">Error Code Reference</div>
+<div class="sec-desc">Common error codes and messages in AVANIIS HR — what they mean and the exact resolution.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">Access &amp; Authentication Errors</div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+<div style="background:var(--rd-bg);border-radius:7px;padding:8px 12px"><div style="font-family:monospace;font-weight:700;color:var(--rd);margin-bottom:3px">403 ASSIGNMENT_INACTIVE</div><div style="color:var(--mu)">Employee's assignment_status is not ACTIVE</div><div style="color:var(--n);margin-top:3px">Fix: /persons/[id] → Assignments → set ACTIVE</div></div>
+<div style="background:var(--rd-bg);border-radius:7px;padding:8px 12px"><div style="font-family:monospace;font-weight:700;color:var(--rd);margin-bottom:3px">403 ROLE_INSUFFICIENT</div><div style="color:var(--mu)">User lacks required role for this route</div><div style="color:var(--n);margin-top:3px">Fix: /users → assign correct role</div></div>
+<div style="background:var(--rd-bg);border-radius:7px;padding:8px 12px"><div style="font-family:monospace;font-weight:700;color:var(--rd);margin-bottom:3px">401 SSO_TOKEN_EXPIRED</div><div style="color:var(--mu)">Microsoft Entra ID token has expired</div><div style="color:var(--n);margin-top:3px">Fix: Employee clears browser cache and re-logs in</div></div>
+</div></div>
+<div class="card"><div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:12px">Data &amp; Workflow Errors</div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:12px">
+<div style="background:var(--am-bg);border-radius:7px;padding:8px 12px"><div style="font-family:monospace;font-weight:700;color:var(--am);margin-bottom:3px">MERGE_FIELD_EMPTY: {{salary}}</div><div style="color:var(--mu)">No PAID payroll run for this employee</div><div style="color:var(--n);margin-top:3px">Fix: Complete payroll run → set to PAID</div></div>
+<div style="background:var(--am-bg);border-radius:7px;padding:8px 12px"><div style="font-family:monospace;font-weight:700;color:var(--am);margin-bottom:3px">EOSB_DECISION_REQUIRED</div><div style="color:var(--mu)">Cross-entity transfer cannot execute without EOSB</div><div style="color:var(--n);margin-top:3px">Fix: /persons/[id] → Assignments → set EOSB Decision</div></div>
+<div style="background:var(--am-bg);border-radius:7px;padding:8px 12px"><div style="font-family:monospace;font-weight:700;color:var(--am);margin-bottom:3px">GRADE_BAND_VIOLATION</div><div style="color:var(--mu)">New salary is outside the target grade band</div><div style="color:var(--n);margin-top:3px">Fix: Adjust salary within band or get HR Director override</div></div>
+</div></div>
+</div>
+</div>
+
+<!-- S8 -->
+
+<div class="sm-wrap" style="margin-top:14px">
+<div class="sm-hdr">⬤ Quick Triage Decision Tree</div>
+<div style="padding:4px 4px 0;background:#fff">
+<svg viewBox="0 0 680 160" xmlns="http://www.w3.org/2000/svg" width="100%" role="img" style="display:block">
+<title>Quick Triage Decision Tree</title>
+<desc>Decision tree for diagnosing the most common AVANIIS HR production issues in under 2 minutes.</desc>
+<defs><marker id="tr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="680" height="160" fill="#F5F6F8"/>
+<rect x="14" y="58" width="110" height="44" rx="7" fill="#0A1628"/>
+<text x="69" y="76" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C">Issue</text>
+<text x="69" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#C9A84C">Reported</text>
+<line x1="124" y1="80" x2="144" y2="65" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<line x1="124" y1="80" x2="144" y2="95" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<rect x="146" y="44" width="130" height="38" rx="6" fill="#1A4FBA"/>
+<text x="211" y="60" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" font-weight="700" fill="#fff">ACCESS DENIED?</text>
+<text x="211" y="75" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,.75)">Check assignment_status + role</text>
+<rect x="146" y="88" width="130" height="38" rx="6" fill="#B45C00"/>
+<text x="211" y="104" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" font-weight="700" fill="#fff">MISSING DATA?</text>
+<text x="211" y="119" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8" fill="rgba(255,255,255,.75)">Check status = PAID / ACTIVE</text>
+<line x1="276" y1="63" x2="296" y2="55" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<line x1="276" y1="63" x2="296" y2="73" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<line x1="276" y1="107" x2="296" y2="98" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<line x1="276" y1="107" x2="296" y2="116" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<rect x="298" y="42" width="110" height="28" rx="5" fill="#0E7C6A"/>
+<text x="353" y="58" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" font-weight="700" fill="#fff">Not ACTIVE → Fix status</text>
+<rect x="298" y="74" width="110" height="28" rx="5" fill="#B01B1B"/>
+<text x="353" y="90" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" font-weight="700" fill="#fff">ACTIVE → Check role+SSO</text>
+<rect x="298" y="84" width="0" height="0"/>
+<rect x="298" y="84" width="110" height="28" rx="5" fill="#0E7C6A" style="display:none"/>
+<rect x="298" y="86" width="110" height="28" rx="5" fill="#0E7C6A"/>
+<text x="353" y="102" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" font-weight="700" fill="#fff">Not PAID → Complete run</text>
+<rect x="298" y="104" width="110" height="28" rx="5" fill="#B45C00"/>
+<text x="353" y="120" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="8.5" font-weight="700" fill="#fff">PAID → Check entity_id</text>
+<line x1="408" y1="56" x2="428" y2="56" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<line x1="408" y1="88" x2="428" y2="88" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<line x1="408" y1="100" x2="428" y2="100" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<line x1="408" y1="118" x2="428" y2="118" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#tr1)"/>
+<rect x="430" y="14" width="236" height="132" rx="8" fill="#1A6B3C"/>
+<text x="548" y="35" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="700" fill="#fff">RESOLUTION PATHS</text>
+<text x="442" y="56" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,.9)">→ /persons/[id] → Assignments → ACTIVE</text>
+<text x="442" y="72" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,.9)">→ Notification? Check notification_log first</text>
+<text x="442" y="88" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,.9)">→ /payroll → close run → set PAID</text>
+<text x="442" y="104" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,.9)">→ /users → assign correct role</text>
+<text x="442" y="120" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,.9)">→ /settings/system → check integrations</text>
+<text x="442" y="136" font-family="-apple-system,sans-serif" font-size="8.5" fill="rgba(255,255,255,.7)">→ ARIA: ask "why can't X do Y?"</text>
+</svg>
+</div>
+</div>
+
+<div class="sec" id="s8">
+<div class="sec-lbl">Section 8</div>
+<div class="sec-title">Production Scenarios</div>
+<div class="sec-desc">Four real-world production incidents — root cause identification and step-by-step resolution using the four-layer triage.</div>
+<div class="sc-grid">
+<div class="sc-card"><div class="sc-hdr" style="background:var(--rd-bg)"><div class="sc-num" style="background:var(--rd)">A</div><div class="sc-title">Nobody received their leave approval emails this morning</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Layer 1 check: workflow_instances show APPROVED — status is correct</div></div><div class="sc-step"><div class="sc-n">2</div><div>Layer 2/4: check notification_log → multiple FAILED entries this morning with "SMTP: Connection refused"</div></div><div class="sc-step"><div class="sc-n">3</div><div>/settings/notifications → SMTP → Test Connection → FAILED</div></div><div class="sc-step"><div class="sc-n">4</div><div>Root cause: SMTP password expired overnight (Office 365 App Password rotation)</div></div><div class="sc-step"><div class="sc-n">5</div><div>Fix: update SMTP credentials → Test passes → notification_log → Retry All Failed → emails sent</div></div><div class="sc-warn">⚠ P2 severity — all notifications are down. SMTP failures are silent in the HR UI. Check notification_log proactively after any email complaint.</div><div class="sc-rule">notification_log · SMTP · /settings/notifications</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--am-bg)"><div class="sc-num" style="background:var(--am)">B</div><div class="sc-title">Leave balances not updated for 5 new employees this month</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Admin notices 5 employees hired in May show 0 leave balance</div></div><div class="sc-step"><div class="sc-n">2</div><div>Layer 4: /settings/system → Cron Jobs → leave_accrual → status = FAILED (last run: 1 May)</div></div><div class="sc-step"><div class="sc-n">3</div><div>Cron failure log: "Connection pool exhausted" — DB contention during payroll close</div></div><div class="sc-step"><div class="sc-n">4</div><div>Fix: resolve DB issue → /settings/system → Cron Jobs → leave_accrual → Run Now</div></div><div class="sc-step"><div class="sc-n">5</div><div>Verify: all 5 employees now show correct pro-rated balances at /absence → [each employee]</div></div><div class="sc-rule">leave_accrual cron · /settings/system · Run Now</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--bl-bg)"><div class="sc-num" style="background:var(--bl)">C</div><div class="sc-title">Promotion workflow stuck for 7 days — SLA breached</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>HR Admin receives ARIA alert: "Ahmed's promotion has exceeded the 7-day SLA"</div></div><div class="sc-step"><div class="sc-n">2</div><div>Layer 1: /approvals → find Ahmed's promotion — shows "Pending Finance · Day 5"</div></div><div class="sc-step"><div class="sc-n">3</div><div>Layer 3: check the Finance approver — /persons/[finance_approver_id] → status = SUSPENDED</div></div><div class="sc-step"><div class="sc-n">4</div><div>Root cause: Finance approver was suspended last week, workflow was not re-assigned</div></div><div class="sc-step"><div class="sc-n">5</div><div>Fix: HR Admin → /approvals → find item → Delegate to active Finance manager → workflow resumes</div></div><div class="sc-rule">workflow_instances · approver status · SLA breach · Delegate</div></div></div>
+<div class="sc-card"><div class="sc-hdr" style="background:var(--pu-bg)"><div class="sc-num" style="background:var(--pu)">D</div><div class="sc-title">Payroll GL journals not posting to Oracle ERP</div></div><div class="sc-body"><div class="sc-step"><div class="sc-n">1</div><div>Finance team reports May payroll is not showing in Oracle ERP cost centres</div></div><div class="sc-step"><div class="sc-n">2</div><div>Layer 4: /settings/system → Oracle ERP → Last Sync: 28 April (2+ weeks ago)</div></div><div class="sc-step"><div class="sc-n">3</div><div>Oracle ERP integration status: "API key expired — 401 Unauthorized"</div></div><div class="sc-step"><div class="sc-n">4</div><div>SA rotates the Oracle ERP API key in /settings/integrations → Oracle ERP → Update Key</div></div><div class="sc-step"><div class="sc-n">5</div><div>Trigger manual sync: Sync Now → all queued GL journals post to ERP within 5 minutes</div></div><div class="sc-warn">⚠ Queued GL journals are held and do not drop — they will all post when sync is restored. Finance should verify posting amounts after manual sync completes.</div><div class="sc-rule">Oracle ERP · API key rotation · /settings/integrations · manual sync</div></div></div>
+</div>
+</div>
+
+<!-- S9 -->
+<div class="sec" id="s9">
+<div class="sec-lbl">Section 9</div>
+<div class="sec-title">Runbook Procedures</div>
+<div class="sec-desc">Step-by-step runbooks for the most common production maintenance operations. Execute in order — do not skip steps.</div>
+<div class="ts-grid">
+<div class="ts-card"><div class="ts-hdr" style="background:var(--bl-bg);color:var(--bl)">📋 Runbook: Monthly Payroll Checklist</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Pre-run checks (day before payroll close)</div><div class="ts-c">Validate all data before closing the run to avoid corrections</div><div class="ts-f">→ 1. All new hires added to run? 2. All salary changes effective this month confirmed EXECUTED? 3. Any acting allowances to add/remove? 4. SMTP test passes? 5. Oracle ERP sync recent (within 24h)?</div></div><div class="ts-prob"><div class="ts-p">Run execution (payroll day)</div><div class="ts-c">Follow this exact sequence</div><div class="ts-f">→ 1. Lock run (prevents edits) 2. Generate CALCULATED → verify totals 3. Get Finance sign-off 4. Set to PAID → emails sent → payslips visible. Do NOT skip CALCULATED review step.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Post-run verification (day after)</div><div class="ts-c">Confirm successful completion</div><div class="ts-f">→ 1. Check notification_log for FAILED emails 2. Check Oracle ERP sync completed 3. Spot-check 3 payslips for accuracy 4. Confirm leave balances not affected by payroll run.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--te-bg);color:var(--te)">🔧 Runbook: New Employee Setup</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">HR data setup (must complete in order)</div><div class="ts-c">Each step depends on the previous</div><div class="ts-f">→ 1. Create person at /persons/new 2. Set assignment: position, grade, salary, manager 3. Set ACTIVE status 4. Add to Entra ID group at /users 5. Add to next payroll run. Leave accrual seeds automatically at midnight.</div></div><div class="ts-prob"><div class="ts-p">Verification checklist (24 hours after)</div><div class="ts-c">Confirm everything is working</div><div class="ts-f">→ 1. Employee can log in? 2. /me/* pages load? 3. Leave balance shows (may take 24h for cron)? 4. Profile visible in org chart? 5. Line manager appears correctly?</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Common missed step</div><div class="ts-c">SSO provisioning — most frequently forgotten</div><div class="ts-f">→ After setting ACTIVE status, immediately go to /users → find employee → confirm Entra ID group is assigned. This is the #1 cause of "new hire cannot log in" tickets.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">🔄 Runbook: SMTP Failure Recovery</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Identify scope of failure</div><div class="ts-c">How many emails are affected?</div><div class="ts-f">→ /settings/system → Notification Log → filter by FAILED and today's date. Note the count and types of notifications affected.</div></div><div class="ts-prob"><div class="ts-p">Diagnose and fix</div><div class="ts-c">Find the root cause</div><div class="ts-f">→ /settings/notifications → SMTP → Test Connection. Check error: (a) wrong password → update credentials; (b) wrong port → change to 587 or 465; (c) firewall → SA checks network rules.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Retry failed notifications</div><div class="ts-c">Resend all notifications that failed</div><div class="ts-f">→ Notification Log → filter FAILED → select all → Retry. Critical items (approval emails, signing links) should be manually verified as received. Do NOT retry if recipient email has changed — fix the email first.</div></div></div></div>
+<div class="ts-card"><div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🚨 Runbook: P1 — All Users Locked Out</div><div class="ts-body"><div class="ts-prob"><div class="ts-p">Confirm scope</div><div class="ts-c">Is this everyone or one person?</div><div class="ts-f">→ If one person: check assignment_status and /users role. If everyone: Entra ID SSO is down. Go to Azure portal immediately.</div></div><div class="ts-prob"><div class="ts-p">Azure AD / Entra ID check</div><div class="ts-c">Most P1 lockouts are Entra ID</div><div class="ts-f">→ 1. Check Azure portal → Enterprise Apps → avaniis-hr-prod → is it enabled? 2. Check app registration → client secret expiry. 3. Check conditional access policies haven't changed. 4. SA rotates client secret if expired → redeploy credentials.</div></div><div class="ts-prob" style="margin-bottom:0"><div class="ts-p">Escalation if unresolved in 30 mins</div><div class="ts-c">This is a P1 — do not wait</div><div class="ts-f">→ Escalate to engineering immediately. Provide: error message from login page, time of first report, any Azure changes in last 24h. Do not attempt database-level fixes without engineering.</div></div></div></div>
+</div>
+</div>
+
+<!-- S10 -->
+<div class="sec" id="s10">
+<div class="sec-lbl">Section 10</div>
+<div class="sec-title">ARIA Diagnostic Intelligence</div>
+<div class="sec-desc">Use ARIA as your first diagnostic tool — it can check status across all modules simultaneously and identify the exact cause of most production issues.</div>
+<div class="aria-wrap">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><span class="aria-badge">ARIA</span><span style="color:#fff;font-size:14px;font-weight:600">Production Troubleshooting — Diagnostic Query Reference</span></div>
+<div class="aria-grid">
+<div class="aria-card"><div class="aria-q">"Why can't Ahmed log in?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA triage in order</div><div class="aria-check"><span class="aria-ci">L1.</span>persons → assignment_status = ACTIVE?</div><div class="aria-check"><span class="aria-ci">L1.</span>users → role assigned?</div><div class="aria-check"><span class="aria-ci">L4.</span>SSO group in Entra ID?</div></div><div class="aria-response">"Ahmed's assignment is ACTIVE and role is EMPLOYEE. I can't check Entra ID directly, but based on his profile, the likely issue is his Entra ID group. SUPER_ADMIN: go to /users → Ahmed → check Entra ID group assignment."</div><div class="aria-rule">Layer 1 → Layer 2 → Layer 4</div></div>
+<div class="aria-card"><div class="aria-q">"Why is the payroll report empty?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA triage in order</div><div class="aria-check"><span class="aria-ci">L1.</span>payroll_runs WHERE status=PAID → any exist?</div><div class="aria-check"><span class="aria-ci">L3.</span>Do employees match the legal_entity_id of the run?</div></div><div class="aria-response">"I can see 2 payroll runs: April 2026 (PAID) and May 2026 (CALCULATED). The May run has not been paid yet — reports only show PAID runs. The April report should be visible. If April is also empty, check that the legal_entity_id on the employees matches the run."</div><div class="aria-rule">payroll_runs.status=PAID · legal_entity_id · Layer 1</div></div>
+<div class="aria-card"><div class="aria-q">"Ahmed says his leave balance hasn't updated since he joined"</div><div class="aria-checks"><div class="aria-checks-title">ARIA triage in order</div><div class="aria-check"><span class="aria-ci">L1.</span>assignment_status = ACTIVE and hire_date set?</div><div class="aria-check"><span class="aria-ci">L4.</span>leave_accrual cron → last run date?</div><div class="aria-check"><span class="aria-ci">L2.</span>leave_rules configured for employee's entity?</div></div><div class="aria-response">"Ahmed has been ACTIVE since 1 May. His leave balance is 0. The leave_accrual cron last ran on 28 April — before his hire date. The cron needs to run for his balance to seed. HR Admin: /master-data/leave-rules → Run Accrual Now to trigger manually."</div><div class="aria-rule">leave_accrual cron · hire_date · Run Accrual Now</div></div>
+<div class="aria-card"><div class="aria-q">"The promotion approval has been pending for 6 days — what's happening?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA triage in order</div><div class="aria-check"><span class="aria-ci">L1.</span>workflow_instances → current step + approver</div><div class="aria-check"><span class="aria-ci">L1.</span>Check approver's assignment_status</div><div class="aria-check"><span class="aria-ci">Check</span>SLA clock — 7 days total</div></div><div class="aria-response">"The promotion is at step 3 of 5 — Finance approval. The assigned approver is Khalid Al-Mansoori who was suspended 4 days ago. The workflow is stuck. ⚠ SLA breach in 1 day. Recommend delegating this step to another Finance approver immediately at /approvals → Delegate."</div><div class="aria-rule">workflow_instances · approver status · SLA 7 days</div></div>
+<div class="aria-card"><div class="aria-q">"Check the system health across all integrations"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks (SUPER_ADMIN only)</div><div class="aria-check"><span class="aria-ci">1.</span>notification_log → FAILED count today</div><div class="aria-check"><span class="aria-ci">2.</span>cron_jobs → last run timestamps</div><div class="aria-check"><span class="aria-ci">3.</span>oracle_erp → last sync timestamp</div></div><div class="aria-response">"System health check: SMTP ✓ (0 failures today), Oracle ERP ✓ (last sync 23:00 yesterday), Cron jobs ⚠ — leave_accrual failed at 00:05 today (retry in progress). 3 employees hired this month may have 0 leave balance. Recommend running accrual manually."</div><div class="aria-rule">notification_log · cron_jobs · oracle_erp · SUPER_ADMIN</div></div>
+<div class="aria-card"><div class="aria-q">"Who are the workflow approvers who are currently SUSPENDED?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>workflow_instances WHERE status=PENDING → get assigned_to</div><div class="aria-check"><span class="aria-ci">2.</span>persons WHERE id IN [approvers] AND assignment_status=SUSPENDED</div></div><div class="aria-response">"2 currently pending workflow items are assigned to SUSPENDED approvers: Promotion (Khalid Al-Mansoori, Finance) and Cross-entity transfer (Mohammed Al-Rashidi, Legal). Both are at risk of SLA breach. Recommend delegating both immediately."</div><div class="aria-rule">workflow_instances · SUSPENDED approvers · SLA risk</div></div>
+<div class="aria-card"><div class="aria-q">"Show me all notification failures in the last 24 hours"</div><div class="aria-checks"><div class="aria-checks-title">ARIA checks in order</div><div class="aria-check"><span class="aria-ci">1.</span>notification_log WHERE status=FAILED AND created_at > 24h ago</div><div class="aria-check"><span class="aria-ci">2.</span>Group by error_reason to identify patterns</div></div><div class="aria-response">"14 notification failures in the last 24 hours. All have the same error: 'SMTP: Connection refused (port 587)'. This indicates an SMTP outage, not individual email issues. Fix: /settings/notifications → SMTP → update credentials or check port. Then retry all 14 from the notification log."</div><div class="aria-rule">notification_log.status=FAILED · SMTP · retry</div></div>
+<div class="aria-card"><div class="aria-q">"An employee says they're missing from the org chart — what's wrong?"</div><div class="aria-checks"><div class="aria-checks-title">ARIA triage in order</div><div class="aria-check"><span class="aria-ci">L1.</span>assignment_status = ACTIVE?</div><div class="aria-check"><span class="aria-ci">L3.</span>position_id set on assignment?</div><div class="aria-check"><span class="aria-ci">L3.</span>department_id valid?</div></div><div class="aria-response">"Fatima's assignment is ACTIVE. However, her worker_assignment has no position_id set — she is assigned to IT Department but no specific position. The org chart requires a valid position. HR Admin: /persons/[Fatima's ID] → Assignments → edit current assignment → assign a position."</div><div class="aria-rule">worker_assignments.position_id · org chart · Layer 3</div></div>
+</div>
+</div>
+</div>
+
+</main>
+<div class="page-footer">
+  AVANIIS HR · Production Troubleshooting · v1.0 · May 2026 · Avaniis / Avaniis · Internal Use Only
+</div>
+<script>var ROLE_MAP = {
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  hr: ['s1','s3','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s8','s9'],
+  emp: ['s1','s8'],
+  sa: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+};
+
+// Role filter — shows/hides tagged sections
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  pay: ['s1','s2','s4','s8','s9'],
+  emp: ['s1','s3','s6'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+// IntersectionObserver — active nav highlight
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

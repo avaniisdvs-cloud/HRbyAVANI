@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>M5 — Approvals &amp; Workflow Engine | AVANIIS HR v3.0</title>
+<style>
+:root{
+  --n:#0A1628;--n2:#12244A;--n3:#1A3060;
+  --g:#C9A84C;--g2:#E8C97A;--g3:#A8863A;
+  --w:#FFFFFF;--off:#F5F6F8;--surf:#FFFFFF;
+  --lt:#EEF0F5;--mu:#6B7A96;--bd:#D4D8E2;--tx:#1A2340;
+  --te:#0E7C6A;--te-bg:#E0F4F0;--te-bd:#9FD8CF;
+  --am:#B45C00;--am-bg:#FEF3E2;--am-bd:#F4B86A;
+  --rd:#B01B1B;--rd-bg:#FDEAEA;--rd-bd:#F4A0A0;
+  --gr:#1A6B3C;--gr-bg:#E6F5EE;--gr-bd:#7BC4A0;
+  --bl:#1A4FBA;--bl-bg:#EAF0FD;--bl-bd:#90AADE;
+  --pu:#5B2D9E;--pu-bg:#F0EAFB;
+  --lane-mgr:#5B2D9E;
+  --lane-hd:#3A1577;
+  --lane-fi:#B35C00;
+  --aria-bg1:#0A1628;
+  --aria-bg2:#12244A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--off);color:var(--tx);font-size:14px;line-height:1.6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.ph{background:var(--n);color:#fff;padding:28px 44px 24px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:rgba(201,168,76,.1)}
+.ph-tag{font-size:10px;letter-spacing:.12em;color:var(--g);text-transform:uppercase;font-weight:700;margin-bottom:8px}
+.ph-title{font-size:26px;font-weight:700;margin-bottom:4px}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.ph-pills{display:flex;flex-wrap:wrap;gap:7px}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,.82)}
+.pill.g{background:rgba(201,168,76,.18);border-color:var(--g);color:var(--g2)}
+.nav-wrap{position:sticky;top:0;z-index:100;background:var(--n2);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.nav-inner{display:flex;overflow-x:auto;padding:0 44px;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.ni{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;cursor:pointer}
+.ni:hover,.ni.active{color:var(--g2);border-bottom-color:var(--g)}
+.rf-bar{background:var(--n);padding:8px 44px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.08)}
+.rf-label{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.05em;margin-right:4px}
+.rf-btn{border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 14px;font-size:11px;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);transition:all .15s}
+.rf-btn.active,.rf-btn:hover{border-color:var(--g);background:rgba(201,168,76,.15);color:var(--g2)}
+.content{max-width:1160px;margin:0 auto;padding:32px 24px 100px}
+.sec{margin-bottom:56px}
+.sec-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);font-weight:700;margin-bottom:6px}
+.sec-title{font-size:22px;font-weight:700;color:var(--n);margin-bottom:4px}
+.sec-desc{font-size:13px;color:var(--mu);margin-bottom:22px}
+.card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 24px}
+.pre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.pre-item{display:flex;gap:12px;background:var(--off);border-radius:8px;padding:10px 14px}
+.pre-check{width:22px;height:22px;background:var(--gr-bg);border:1.5px solid var(--gr-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gr);flex-shrink:0;margin-top:1px}
+.pre-body{flex:1}
+.pre-name{font-size:12px;font-weight:700;color:var(--n);margin-bottom:2px}
+.pre-where{font-size:10px;color:var(--mu)}
+.pre-route{font-size:10px;font-family:monospace;background:var(--bl-bg);color:var(--bl);padding:1px 5px;border-radius:3px}
+.block-panel{background:var(--rd-bg);border:1px solid var(--rd-bd);border-radius:10px;padding:16px 20px}
+.block-title{font-size:12px;font-weight:700;color:var(--rd);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.block-row{display:flex;gap:10px;margin-bottom:8px;font-size:12px}
+.block-row:last-child{margin-bottom:0}
+.block-label{font-weight:700;color:var(--rd);flex-shrink:0;min-width:200px}
+.block-reason{color:var(--rd)}
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.type-card{background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.type-head{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.type-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.type-name{font-size:14px;font-weight:700;color:var(--n)}
+.type-sub{font-size:10px;color:var(--mu)}
+.type-body{padding:0 16px 14px}
+.tr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--lt);font-size:11.5px}
+.tr:last-child{border-bottom:none}
+.tk{color:var(--mu)}
+.tv{font-weight:600;color:var(--n)}
+.tv-g{color:var(--gr);font-weight:600}
+.tv-r{color:var(--rd);font-weight:600}
+.tv-a{color:var(--am);font-weight:600}
+.br-pill{font-size:10px;background:var(--bl-bg);color:var(--bl);border:1px solid var(--bl-bd);padding:1px 6px;border-radius:4px;font-family:monospace}
+.mistake{background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 10px;font-size:11px;color:var(--am);margin-top:8px}
+.swimlane{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.sw-head{background:var(--n);color:#fff;padding:12px 20px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:10px}
+.sw-stag{font-size:10px;background:rgba(201,168,76,.25);color:var(--g2);padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.05em}
+.sw-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--lt)}
+.sw-row:last-child{border-bottom:none}
+.sw-lbl{background:var(--n2);color:rgba(255,255,255,.75);font-size:11px;font-weight:600;padding:14px 10px;display:flex;align-items:center;letter-spacing:.04em;border-right:3px solid}
+.sw-lbl.hr{border-right-color:var(--g)}
+.sw-lbl.sy{border-right-color:var(--te)}
+.sw-lbl.mg{border-right-color:var(--lane-mgr)}
+.sw-lbl.em{border-right-color:var(--am)}
+.sw-lbl.fi{border-right-color:var(--lane-fi)}
+.sw-lbl.hd{border-right-color:var(--lane-hd)}
+.sw-steps{padding:10px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:0}
+.sb{border-radius:7px;padding:7px 11px;font-size:11px;text-align:center;min-width:95px;max-width:150px;position:relative;border:1.5px solid}
+.sb-def{background:var(--lt);border-color:var(--bd)}
+.sb-auto{background:var(--te-bg);border-color:var(--te-bd)}
+.sb-act{background:var(--bl-bg);border-color:var(--bl-bd)}
+.sb-ok{background:var(--gr-bg);border-color:var(--gr-bd)}
+.sb-warn{background:var(--am-bg);border-color:var(--am-bd)}
+.sb-term{background:var(--n);border-color:var(--n);color:#fff}
+.sb-pu{background:var(--pu-bg);border-color:var(--pu)}
+.sb-fi{background:#FFF3E0;border-color:#F4B86A}
+.sb-title{font-weight:600;font-size:10.5px;color:var(--n);display:block;margin-bottom:1px}
+.sb-sub{font-size:9.5px;color:var(--mu);display:block}
+.sb-term .sb-title,.sb-term .sb-sub{color:rgba(255,255,255,.9)}
+.sn{position:absolute;top:-8px;left:-8px;width:17px;height:17px;background:var(--n);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.sw-arr{color:var(--mu);font-size:15px;margin:0 4px;flex-shrink:0}
+.sm-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.sm-wrap{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.sm-hdr{background:var(--n2);padding:10px 18px;font-size:12px;font-weight:700;color:var(--g2);display:flex;align-items:center;gap:8px}
+.mockup-frame{border:1.5px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 6px 24px rgba(10,22,40,.12);margin-bottom:28px;background:#fff}
+.mf-topbar{height:50px;background:var(--n);display:flex;align-items:center;padding:0 14px;gap:10px}
+.mf-logo{font-size:13px;font-weight:700;color:#fff;letter-spacing:.04em}
+.mf-logo span{color:var(--g)}
+.mf-search{flex:1;max-width:300px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;height:28px;display:flex;align-items:center;padding:0 9px;gap:6px;font-size:11px;color:rgba(255,255,255,.5)}
+.mf-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.mf-ico{width:30px;height:30px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);font-size:14px;position:relative}
+.mf-badge{position:absolute;top:2px;right:2px;width:13px;height:13px;background:var(--rd);border-radius:50%;border:2px solid var(--n);font-size:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.mf-av{width:28px;height:28px;border-radius:50%;background:var(--g3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+.mf-sidebar{background:var(--n2);padding:10px 0}
+.sb-sec{padding:7px 14px 3px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:700}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 14px;font-size:11.5px;color:rgba(255,255,255,.6);cursor:pointer;border-left:3px solid transparent}
+.sb-item:hover{color:#fff;background:rgba(255,255,255,.06)}
+.sb-item.active{color:#fff;background:rgba(201,168,76,.12);border-left-color:var(--g)}
+.sb-badge{margin-left:auto;background:var(--rd);color:#fff;border-radius:9px;font-size:9px;padding:1px 6px;font-weight:700}
+.sb-badge-g{background:rgba(201,168,76,.25);color:var(--g2)}
+.mf-main{background:var(--off);padding:16px;position:relative;min-height:380px}
+.mf-overlay{position:absolute;inset:0;background:rgba(10,22,40,.4);z-index:2}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:420px;background:#fff;border-left:1px solid var(--bd);z-index:3;display:flex;flex-direction:column}
+.dr-hdr{background:var(--n);padding:14px 18px;flex-shrink:0}
+.dr-hdr h3{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.dr-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
+.dr-body{flex:1;padding:14px 18px;overflow-y:auto}
+.dr-sec{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid var(--lt);margin-top:14px}
+.dr-sec:first-child{margin-top:0}
+.frow{margin-bottom:11px}
+.frow label{font-size:11px;font-weight:600;color:var(--tx);display:block;margin-bottom:3px}
+.frow .req{color:var(--rd)}
+.fld{background:#fff;border:1.5px solid var(--bd);border-radius:6px;padding:7px 10px;font-size:12px;color:var(--tx);width:100%}
+.fld.focus{border-color:var(--bl);box-shadow:0 0 0 3px var(--bl-bg)}
+.fhint{font-size:10px;color:var(--mu);margin-top:2px}
+.frow-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.vbar{border-radius:7px;padding:8px 11px;font-size:11px;margin-top:5px;display:flex;align-items:flex-start;gap:7px}
+.vbar-ok{background:var(--gr-bg);border:1px solid var(--gr-bd);color:var(--gr)}
+.vbar-warn{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.vbar-err{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.dr-foot{padding:12px 18px;border-top:1px solid var(--bd);display:flex;gap:9px;flex-shrink:0;background:var(--off)}
+.btn{border-radius:7px;height:34px;padding:0 16px;font-size:12.5px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.btn-p{background:var(--n);color:#fff}
+.btn-g{background:#fff;border:1.5px solid var(--bd);color:var(--tx)}
+.btn-gold{background:var(--g);color:var(--n)}
+.btn-ok{background:var(--gr-bg);border:1.5px solid var(--gr-bd);color:var(--gr)}
+.btn-no{background:var(--rd-bg);border:1.5px solid var(--rd-bd);color:var(--rd)}
+.btn-dl{background:var(--lt);border:1.5px solid var(--bd);color:var(--mu)}
+.ann-num{width:22px;height:22px;background:var(--n);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;vertical-align:middle;margin-right:4px}
+.ann-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;margin-top:12px}
+.ann-item{display:flex;gap:9px;background:#fff;border:1px solid var(--bd);border-radius:7px;padding:8px 11px;font-size:12px}
+.ann-t{font-size:11px;font-weight:700;color:var(--n);display:block;margin-bottom:1px}
+.inbox-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.inbox-tbl th{background:var(--n);color:rgba(255,255,255,.85);padding:8px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em}
+.inbox-tbl td{padding:9px 11px;border-bottom:1px solid var(--lt);vertical-align:middle}
+.inbox-tbl tr.urgent td{background:var(--rd-bg)}
+.inbox-tbl tr.warn td{background:var(--am-bg)}
+.sp{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;letter-spacing:.04em}
+.sp-p{background:var(--am-bg);color:var(--am)}
+.sp-u{background:var(--rd-bg);color:var(--rd)}
+.sp-ok{background:var(--gr-bg);color:var(--gr)}
+.sp-esc{background:var(--pu-bg);color:var(--pu)}
+.act-btns{display:flex;gap:5px}
+.act-btn{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;cursor:pointer;border:1px solid}
+.ab-ok{background:var(--gr-bg);color:var(--gr);border-color:var(--gr-bd)}
+.ab-no{background:var(--rd-bg);color:var(--rd);border-color:var(--rd-bd)}
+.ab-dl{background:var(--lt);color:var(--mu);border-color:var(--bd)}
+.sla-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:16px}
+.sla-tile{background:var(--lt);border-radius:8px;padding:10px 14px}
+.sla-tile.warn{background:var(--am-bg);border:1px solid var(--am-bd)}
+.sla-tile.ok{background:var(--gr-bg);border:1px solid var(--gr-bd)}
+.sla-tile.red{background:var(--rd-bg);border:1px solid var(--rd-bd)}
+.sla-label{font-size:11px;color:var(--mu);margin-bottom:3px}
+.sla-num{font-size:22px;font-weight:700;color:var(--n)}
+.sla-tile.warn .sla-num{color:var(--am)}
+.sla-tile.ok .sla-num{color:var(--gr)}
+.sla-tile.red .sla-num{color:var(--rd)}
+.sla-sub{font-size:11px;color:var(--mu)}
+.callout{border-radius:8px;padding:9px 13px;font-size:12px;display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.callout-i{background:var(--bl-bg);border:1px solid var(--bl-bd);color:var(--bl)}
+.callout-w{background:var(--am-bg);border:1px solid var(--am-bd);color:var(--am)}
+.callout-t{background:var(--te-bg);border:1px solid var(--te-bd);color:var(--te)}
+.callout-r{background:var(--rd-bg);border:1px solid var(--rd-bd);color:var(--rd)}
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.guide-panel{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.guide-head{padding:12px 16px;font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.guide-body{padding:14px 16px}
+.guide-step{display:flex;gap:10px;margin-bottom:10px;font-size:12px;color:var(--tx);align-items:flex-start}
+.guide-n{width:20px;height:20px;background:var(--g);color:var(--n);border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.wf-matrix{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:12px}
+.wf-matrix th{background:var(--n2);color:rgba(255,255,255,.85);padding:8px 10px;text-align:left;font-size:10.5px;font-weight:600}
+.wf-matrix td{padding:8px 10px;border-bottom:1px solid var(--lt)}
+.wf-matrix tr:last-child td{border-bottom:none}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.sc-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.sc-hdr{padding:10px 16px;display:flex;align-items:center;gap:9px}
+.sc-num{width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.sc-title{font-size:13px;font-weight:700;color:var(--n)}
+.sc-body{padding:10px 16px}
+.sc-step{display:flex;gap:8px;margin-bottom:7px;font-size:12px;color:var(--tx)}
+.sc-n{background:var(--g);color:var(--n);width:17px;height:17px;border-radius:50%;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sc-warn{font-size:11px;background:var(--am-bg);border:1px solid var(--am-bd);border-radius:6px;padding:6px 9px;margin-top:8px;color:var(--am)}
+.sc-rule{font-size:10px;color:var(--mu);margin-top:6px;font-family:monospace}
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.ts-card{background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden}
+.ts-hdr{padding:9px 16px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ts-body{padding:10px 16px}
+.ts-prob{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--lt)}
+.ts-prob:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.ts-p{font-weight:700;color:var(--n);font-size:12px;margin-bottom:2px}
+.ts-c{font-size:11px;color:var(--mu);margin-bottom:3px}
+.ts-f{font-size:11px;background:var(--lt);border-radius:5px;padding:4px 8px;color:var(--tx)}
+.aria-wrap{background:linear-gradient(135deg,var(--aria-bg1) 0%,var(--aria-bg2) 100%);border:1px solid var(--te-bd);border-radius:12px;padding:22px 26px}
+.aria-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.aria-badge{background:rgba(201,168,76,.2);border:1px solid var(--g);color:var(--g2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;letter-spacing:.06em}
+.aria-title{color:#fff;font-size:14px;font-weight:600}
+.aria-sub{color:rgba(255,255,255,.5);font-size:12px}
+.aria-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:12px}
+.aria-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:14px 16px}
+.aria-q{font-size:12.5px;color:var(--g2);font-style:italic;margin-bottom:10px}
+.aria-checks{margin-bottom:10px}
+.aria-checks-title{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.aria-check{display:flex;gap:8px;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:4px;line-height:1.4}
+.aria-ci{color:var(--te-bd);font-weight:700;flex-shrink:0;width:14px}
+.aria-response{font-size:12px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.2);border-radius:6px;padding:8px 11px;margin-bottom:8px;line-height:1.5}
+.aria-rule{font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+.page-footer{background:var(--n);color:rgba(255,255,255,.4);text-align:center;padding:18px;font-size:11px;margin-top:60px}
+@media print{
+  .nav-wrap,.rf-bar{display:none!important}
+  .sec{page-break-inside:avoid}
+  .content{padding:16px}
+  body{background:#fff}
+  .card,.swimlane,.sm-wrap,.mockup-frame,.aria-wrap,.ts-card,.sc-card{box-shadow:none!important;border:1px solid #ccc!important}
+}
+@media(max-width:640px){
+  .ph{padding:20px 18px}
+  .content{padding:20px 14px}
+  .nav-inner{padding:0 16px}
+  .rf-bar{padding:8px 16px}
+  .mf-body{grid-template-columns:1fr}
+  .mf-sidebar{display:none}
+  .drawer{width:100%;position:relative}
+  .mf-overlay{display:none}
+  .mf-main{min-height:auto}
+  .pre-grid{grid-template-columns:1fr}
+  .aria-grid{grid-template-columns:1fr}
+  .sw-row{grid-template-columns:80px 1fr}
+  .sw-lbl{font-size:10px;padding:10px 7px}
+  .guide-grid{grid-template-columns:1fr}
+  .type-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="ph">
+  <div class="ph-tag">AVANIIS HR · Training Module M5 · v3.0 Enterprise</div>
+  <div class="ph-title">Approvals &amp; Workflow Engine</div>
+  <div class="ph-sub">محرك الموافقات وسير العمل · Complete Operational Guide · Workflow Types · State Machines · SLA Escalation · Mockups · Scenarios · ARIA Intelligence</div>
+  <div class="ph-pills">
+    <span class="pill g">MANAGER</span><span class="pill g">HR ADMIN</span><span class="pill g">HR DIRECTOR</span>
+    <span class="pill">All Approvers</span><span class="pill">UAE Labour Law</span><span class="pill">v3.0 · May 2026</span>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <a href="#s1" class="ni" data-section="s1">Overview</a>
+    <a href="#s2" class="ni" data-section="s2">Dependency Map</a>
+    <a href="#s3" class="ni" data-section="s3">Workflow Types</a>
+    <a href="#s4" class="ni" data-section="s4">Step-by-Step Flows</a>
+    <a href="#s5" class="ni" data-section="s5">State Machines</a>
+    <a href="#s6" class="ni" data-section="s6">Screen Mockups</a>
+    <a href="#s7" class="ni" data-section="s7">Approvals Guide</a>
+    <a href="#s8" class="ni" data-section="s8">Scenarios</a>
+    <a href="#s9" class="ni" data-section="s9">Troubleshooting</a>
+    <a href="#s10" class="ni" data-section="s10">ARIA Intelligence</a>
+  </div>
+</div>
+
+<!-- ROLE FILTER -->
+<div class="rf-bar">
+  <span class="rf-label">SHOW FOR:</span>
+  <button class="rf-btn active" onclick="setRole(this,'all')">All Roles</button>
+  <button class="rf-btn" onclick="setRole(this,'hr')">HR Admin</button>
+  <button class="rf-btn" onclick="setRole(this,'mgr')">Manager</button>
+  <button class="rf-btn" onclick="setRole(this,'hd')">HR Director</button>
+</div>
+
+<main class="content">
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 1 — OVERVIEW & PRECONDITIONS
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s1">
+  <div class="sec-lbl">Section 1</div>
+  <div class="sec-title">Module Overview &amp; Preconditions</div>
+  <div class="sec-desc">The AVANIIS HR Approval &amp; Workflow Engine is a configurable multi-step decision system underpinning every HR action that requires authorisation. Every request — from a lateral transfer to a 4-step promotion — follows a strict state machine: one <code>workflow_instance</code> row is created, one <code>approval_steps</code> row per approver is resolved from the template, SLA timers run per UAE business days, and all decisions are immutably written to <code>audit_log</code>. Rejection is always terminal — no reopening. Every approval screen exposes exactly three actions: Approve · Reject · Delegate (BR-29).</div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:14px">✅ Preconditions Checklist — All must be satisfied before any workflow can execute</div>
+    <div class="pre-grid">
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Workflow templates configured with steps and SLA</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/workflows</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Approver roles assigned to users (MANAGER / HR_ADMIN / HR_DIRECTOR / FINANCE)</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/users → role assignment</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">SLA timers set per workflow type (default: 48h, configurable 24–72h)</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/workflows → SLA</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">UAE holiday calendar loaded for business-day SLA calculation</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/master-data/holidays</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Email notification templates active and SMTP configured for JWT one-click links</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/notifications</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Delegation rules optionally set before approvers take leave (prevents SLA breach)</div>
+          <div class="pre-where">Configure at: <span class="pre-route">/settings/delegations</span></div>
+        </div>
+      </div>
+      <div class="pre-item">
+        <div class="pre-check">✓</div>
+        <div class="pre-body">
+          <div class="pre-name">Cron job /api/cron/workflow-sla scheduled and authenticated via CRON_SECRET env var</div>
+          <div class="pre-where">Configure at: <span class="pre-route">vercel.json → cron schedule 09:00 UTC</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block-panel">
+    <div class="block-title">🚫 System Blocking Conditions — Workflow stalls or refuses to proceed</div>
+    <div class="block-row">
+      <div class="block-label">No Finance approver assigned</div>
+      <div class="block-reason">Promotion workflow (4-step) stalls at Step 4 indefinitely — system cannot auto-assign. Fix: go to /users and assign FINANCE role to the correct user before creating the promotion request.</div>
+    </div>
+    <div class="block-row">
+      <div class="block-label">No delegation set when approver is absent</div>
+      <div class="block-reason">SLA breach occurs after 48h with no action. The workflow escalates to HR Admin notification but cannot self-reassign. Fix: set delegation at /settings/delegations before the approver goes on leave.</div>
+    </div>
+    <div class="block-row">
+      <div class="block-label">Payroll run locked or under approval</div>
+      <div class="block-reason">Salary-affecting workflows (promotions, acting allowances) are blocked while payroll_runs.status = LOCKED or APPROVAL_PENDING for the affected legal entity. Wait for payroll close before re-submitting.</div>
+    </div>
+    <div class="block-row">
+      <div class="block-label">Effective date already passed — Recall unavailable</div>
+      <div class="block-reason">RECALLED status is only permitted before the effective_date. Once EXECUTED, the change is live in the org chart and payroll. A new reverse request (e.g. a new transfer back) must be created.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 2 — DEPENDENCY MAP
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s2">
+  <div class="sec-lbl">Section 2</div>
+  <div class="sec-title">Dependency Map — Three Workflow Chains</div>
+  <div class="sec-desc">Chain A shows the standard submission-to-decision flow. Chain B shows the SLA escalation path triggered by the daily cron at 09:00 UTC. Chain C shows the rejection terminal path — no reopen, new request required per platform design.</div>
+  <div class="card">
+    <svg viewBox="0 0 900 490" role="img" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+      <title>M5 Approvals — Three Dependency Chains: Workflow Initiation, SLA Escalation, Rejection Path</title>
+      <desc>Three horizontal dependency chains showing how workflows are created, how SLA breach triggers cron escalation, and how the terminal rejection path works with no reopen capability</desc>
+      <defs>
+        <marker id="ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        <marker id="agold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        <marker id="ate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#0E7C6A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        <marker id="ard" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+      </defs>
+      <rect width="900" height="490" fill="#F5F6F8" rx="10"/>
+
+      <!-- CHAIN A -->
+      <text x="20" y="42" font-size="10" font-weight="700" fill="#C9A84C" letter-spacing="1" font-family="sans-serif">CHAIN A — WORKFLOW INITIATION</text>
+      <rect x="20" y="52" width="118" height="44" rx="6" fill="#0A1628"/>
+      <text x="79" y="70" text-anchor="middle" font-size="9.5" font-weight="700" fill="#FFFFFF" font-family="sans-serif">Request</text>
+      <text x="79" y="84" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.7)" font-family="sans-serif">Submitted</text>
+      <line x1="138" y1="74" x2="156" y2="74" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+      <rect x="156" y="52" width="136" height="44" rx="6" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+      <text x="224" y="70" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0E7C6A" font-family="sans-serif">workflow_instance</text>
+      <text x="224" y="84" text-anchor="middle" font-size="9" fill="#0E7C6A" font-family="sans-serif">Created (DB row)</text>
+      <line x1="292" y1="74" x2="310" y2="74" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+      <rect x="310" y="52" width="136" height="44" rx="6" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+      <text x="378" y="70" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0E7C6A" font-family="sans-serif">approval_steps</text>
+      <text x="378" y="84" text-anchor="middle" font-size="9" fill="#0E7C6A" font-family="sans-serif">Resolved from Template</text>
+      <line x1="446" y1="74" x2="464" y2="74" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+      <rect x="464" y="52" width="120" height="44" rx="6" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+      <text x="524" y="70" text-anchor="middle" font-size="9.5" font-weight="700" fill="#B45C00" font-family="sans-serif">Step 1 Approver</text>
+      <text x="524" y="84" text-anchor="middle" font-size="9" fill="#B45C00" font-family="sans-serif">Notified (Email + App)</text>
+      <line x1="584" y1="74" x2="602" y2="74" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+      <rect x="602" y="52" width="152" height="44" rx="6" fill="#FEF9EC" stroke="#C9A84C" stroke-width="2"/>
+      <text x="678" y="70" text-anchor="middle" font-size="9.5" font-weight="700" fill="#A8863A" font-family="sans-serif">Decision → Next Step</text>
+      <text x="678" y="84" text-anchor="middle" font-size="9" fill="#A8863A" font-family="sans-serif">or Terminal (APPROVED/REJECTED)</text>
+
+      <!-- CHAIN B -->
+      <text x="20" y="158" font-size="10" font-weight="700" fill="#B45C00" letter-spacing="1" font-family="sans-serif">CHAIN B — SLA ESCALATION PATH</text>
+      <rect x="20" y="168" width="112" height="44" rx="6" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+      <text x="76" y="186" text-anchor="middle" font-size="9.5" font-weight="700" fill="#B45C00" font-family="sans-serif">48h No Action</text>
+      <text x="76" y="200" text-anchor="middle" font-size="9" fill="#B45C00" font-family="sans-serif">by Approver</text>
+      <line x1="132" y1="190" x2="150" y2="190" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+      <rect x="150" y="168" width="152" height="44" rx="6" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+      <text x="226" y="186" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0E7C6A" font-family="sans-serif">/api/cron/workflow-sla</text>
+      <text x="226" y="200" text-anchor="middle" font-size="9" fill="#0E7C6A" font-family="sans-serif">09:00 UTC Daily</text>
+      <line x1="302" y1="190" x2="320" y2="190" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#ard)"/>
+      <rect x="320" y="168" width="120" height="44" rx="6" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+      <text x="380" y="186" text-anchor="middle" font-size="9.5" font-weight="700" fill="#B01B1B" font-family="sans-serif">SLA Breached</text>
+      <text x="380" y="200" text-anchor="middle" font-size="9" fill="#B01B1B" font-family="sans-serif">Status Updated</text>
+      <line x1="440" y1="190" x2="458" y2="190" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+      <rect x="458" y="168" width="130" height="44" rx="6" fill="#EEF0F5" stroke="#D4D8E2" stroke-width="1.5"/>
+      <text x="523" y="186" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1A2340" font-family="sans-serif">Auto-Escalate</text>
+      <text x="523" y="200" text-anchor="middle" font-size="9" fill="#6B7A96" font-family="sans-serif">to Next Level</text>
+      <line x1="588" y1="190" x2="606" y2="190" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#agold)"/>
+      <rect x="606" y="168" width="152" height="44" rx="6" fill="#FEF9EC" stroke="#C9A84C" stroke-width="2"/>
+      <text x="682" y="186" text-anchor="middle" font-size="9.5" font-weight="700" fill="#A8863A" font-family="sans-serif">ARIA SLA Alert</text>
+      <text x="682" y="200" text-anchor="middle" font-size="9" fill="#A8863A" font-family="sans-serif">HR Admin Notified</text>
+
+      <!-- CHAIN C -->
+      <text x="20" y="274" font-size="10" font-weight="700" fill="#B01B1B" letter-spacing="1" font-family="sans-serif">CHAIN C — REJECTION TERMINAL PATH</text>
+      <rect x="20" y="284" width="120" height="44" rx="6" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="2"/>
+      <text x="80" y="302" text-anchor="middle" font-size="9.5" font-weight="700" fill="#B01B1B" font-family="sans-serif">Any Step</text>
+      <text x="80" y="316" text-anchor="middle" font-size="9.5" fill="#B01B1B" font-family="sans-serif">Rejects ✗</text>
+      <line x1="140" y1="306" x2="158" y2="306" stroke="#B01B1B" stroke-width="2" fill="none" marker-end="url(#ard)"/>
+      <rect x="158" y="284" width="136" height="44" rx="6" fill="#B01B1B"/>
+      <text x="226" y="302" text-anchor="middle" font-size="9.5" font-weight="700" fill="#FFFFFF" font-family="sans-serif">status=REJECTED</text>
+      <text x="226" y="316" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.7)" font-family="sans-serif">⊗ Terminal State</text>
+      <line x1="294" y1="306" x2="312" y2="306" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+      <rect x="312" y="284" width="128" height="44" rx="6" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+      <text x="376" y="302" text-anchor="middle" font-size="9.5" font-weight="700" fill="#B45C00" font-family="sans-serif">Requester</text>
+      <text x="376" y="316" text-anchor="middle" font-size="9" fill="#B45C00" font-family="sans-serif">Notified by Email</text>
+      <line x1="440" y1="306" x2="458" y2="306" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#ate)"/>
+      <rect x="458" y="284" width="128" height="44" rx="6" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+      <text x="522" y="302" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0E7C6A" font-family="sans-serif">Audit Log Entry</text>
+      <text x="522" y="316" text-anchor="middle" font-size="9" fill="#0E7C6A" font-family="sans-serif">Immutable · BR-AUDIT-001</text>
+      <line x1="586" y1="306" x2="604" y2="306" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#ag)"/>
+      <rect x="604" y="284" width="160" height="44" rx="6" fill="#0A1628"/>
+      <text x="684" y="302" text-anchor="middle" font-size="9.5" font-weight="700" fill="#FFFFFF" font-family="sans-serif">New Request Required</text>
+      <text x="684" y="316" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.65)" font-family="sans-serif">No Reopen — Submit Again</text>
+
+      <!-- Legend -->
+      <rect x="20" y="368" width="860" height="102" rx="8" fill="#FFFFFF" stroke="#D4D8E2" stroke-width="1"/>
+      <text x="36" y="386" font-size="10" font-weight="700" fill="#1A2340" font-family="sans-serif">NODE KEY</text>
+      <rect x="36" y="396" width="14" height="14" rx="3" fill="#0A1628"/>
+      <text x="56" y="407" font-size="9.5" fill="#1A2340" font-family="sans-serif">Navy — Trigger / Terminal</text>
+      <rect x="200" y="396" width="14" height="14" rx="3" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1"/>
+      <text x="220" y="407" font-size="9.5" fill="#0E7C6A" font-family="sans-serif">Teal — System Auto-action</text>
+      <rect x="400" y="396" width="14" height="14" rx="3" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1"/>
+      <text x="420" y="407" font-size="9.5" fill="#B45C00" font-family="sans-serif">Amber — Decision / Waiting</text>
+      <rect x="600" y="396" width="14" height="14" rx="3" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1"/>
+      <text x="620" y="407" font-size="9.5" fill="#B01B1B" font-family="sans-serif">Red — Error / Rejected</text>
+      <text x="36" y="428" font-size="9.5" fill="#6B7A96" font-family="sans-serif">Chain A: Standard flow — every HR request creates one workflow_instance + N approval_steps rows resolved from template. Each step gets an email + in-app notification with a single-use JWT link (7-day expiry).</text>
+      <text x="36" y="446" font-size="9.5" fill="#6B7A96" font-family="sans-serif">Chain B: SLA cron runs daily at 09:00 UTC via /api/cron/workflow-sla. Breach fires ARIA alert and auto-escalates. UAE business days only — weekends and public holidays excluded from SLA countdown.</text>
+      <text x="36" y="464" font-size="9.5" fill="#6B7A96" font-family="sans-serif">Chain C: REJECTED is a terminal state. The requester is notified and must submit a new request. Rejection reason must be ≥10 characters (BR-29). All decisions are written to audit_log (BR-AUDIT-001).</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 3 — SIX WORKFLOW TYPES
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s3">
+  <div class="sec-lbl">Section 3</div>
+  <div class="sec-title">Six Workflow Types</div>
+  <div class="sec-desc">Each workflow type has a dedicated template with a fixed number of approval steps. The template determines who approves, in what order, and what the SLA is. Configure templates at <code>/settings/workflows</code>.</div>
+  <div class="type-grid">
+
+    <div class="type-card">
+      <div class="type-head" style="background:#EAF0FD">
+        <div class="type-icon" style="background:var(--bl-bg)">🔄</div>
+        <div>
+          <div class="type-name">Transfer</div>
+          <div class="type-sub">Lateral &amp; vertical position change</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Business Rule</span><span class="tv"><span class="br-pill">BR-TR-001</span></span></div>
+        <div class="tr"><span class="tk">Approval Steps</span><span class="tv">2 — Manager + HR Admin</span></div>
+        <div class="tr"><span class="tk">SLA per Step</span><span class="tv tv-a">48h UAE business days</span></div>
+        <div class="tr"><span class="tk">Salary Change</span><span class="tv tv-r">No change (lateral)</span></div>
+        <div class="tr"><span class="tk">Finance Required</span><span class="tv">No</span></div>
+        <div class="mistake">⚠ Common mistake: initiating a grade change through Transfer — use Promotion workflow if grade increases (BR-PR-001)</div>
+      </div>
+    </div>
+
+    <div class="type-card">
+      <div class="type-head" style="background:#E6F5EE">
+        <div class="type-icon" style="background:var(--gr-bg)">📈</div>
+        <div>
+          <div class="type-name">Promotion</div>
+          <div class="type-sub">Grade increase with salary uplift</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Business Rule</span><span class="tv"><span class="br-pill">BR-PR-001</span></span></div>
+        <div class="tr"><span class="tk">Approval Steps</span><span class="tv">4 — Mgr → HR Admin → HR Director → Finance</span></div>
+        <div class="tr"><span class="tk">SLA per Step</span><span class="tv tv-a">48–72h configurable</span></div>
+        <div class="tr"><span class="tk">Finance Sign-off</span><span class="tv tv-g">Required (Step 4)</span></div>
+        <div class="tr"><span class="tk">Grade Change</span><span class="tv tv-g">Must increase</span></div>
+        <div class="mistake">⚠ Common mistake: no Finance user assigned before creating promotion — workflow stalls at Step 4 indefinitely</div>
+      </div>
+    </div>
+
+    <div class="type-card">
+      <div class="type-head" style="background:#FEF3E2">
+        <div class="type-icon" style="background:var(--am-bg)">⚡</div>
+        <div>
+          <div class="type-name">Acting Assignment</div>
+          <div class="type-sub">Temporary cover — max 6 months UAE Law</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Business Rule</span><span class="tv"><span class="br-pill">BR-AC-001</span></span></div>
+        <div class="tr"><span class="tk">Approval Steps</span><span class="tv">2 — Manager + HR Admin</span></div>
+        <div class="tr"><span class="tk">Acting End Date</span><span class="tv tv-r">Required — max 6 months</span></div>
+        <div class="tr"><span class="tk">Acting Allowance</span><span class="tv">Optional (BR-AC-002)</span></div>
+        <div class="tr"><span class="tk">Home Position</span><span class="tv">Held — is_acting=true flag</span></div>
+        <div class="mistake">⚠ Common mistake: no acting_end_date set — system flags as compliance violation after 180 days</div>
+      </div>
+    </div>
+
+    <div class="type-card">
+      <div class="type-head" style="background:#FDEAEA">
+        <div class="type-icon" style="background:var(--rd-bg)">🕐</div>
+        <div>
+          <div class="type-name">Backdated Hire</div>
+          <div class="type-sub">Hire date &gt;30 days in the past</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Business Rule</span><span class="tv"><span class="br-pill">BR-WF-010</span></span></div>
+        <div class="tr"><span class="tk">Approval Steps</span><span class="tv">2 — Manager + HR Director</span></div>
+        <div class="tr"><span class="tk">SLA</span><span class="tv tv-a">48h per step</span></div>
+        <div class="tr"><span class="tk">Trigger Condition</span><span class="tv tv-r">hire_date &gt;30 days ago</span></div>
+        <div class="tr"><span class="tk">Payroll Impact</span><span class="tv tv-a">Retroactive proration required</span></div>
+        <div class="mistake">⚠ Common mistake: not accounting for retroactive EOSB accrual and payroll proration from the backdated hire date</div>
+      </div>
+    </div>
+
+    <div class="type-card">
+      <div class="type-head" style="background:#E0F4F0">
+        <div class="type-icon" style="background:var(--te-bg)">🏖</div>
+        <div>
+          <div class="type-name">Leave Approval</div>
+          <div class="type-sub">Annual, sick, maternity, paternity</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Business Rule</span><span class="tv"><span class="br-pill">BR-LV-001</span></span></div>
+        <div class="tr"><span class="tk">Approval Steps</span><span class="tv">1 — Direct Line Manager</span></div>
+        <div class="tr"><span class="tk">SLA</span><span class="tv tv-a">48h UAE business days</span></div>
+        <div class="tr"><span class="tk">Override</span><span class="tv">HR Admin can apply on behalf</span></div>
+        <div class="tr"><span class="tk">Auto-deduct</span><span class="tv tv-g">Balance deducted on approval</span></div>
+        <div class="mistake">⚠ Common mistake: manager on leave with no delegate set — leave request sits pending and breaches SLA without escalation path</div>
+      </div>
+    </div>
+
+    <div class="type-card">
+      <div class="type-head" style="background:#F0EAFB">
+        <div class="type-icon" style="background:var(--pu-bg)">📄</div>
+        <div>
+          <div class="type-name">Employee Letter</div>
+          <div class="type-sub">Salary cert, NOC, experience letter</div>
+        </div>
+      </div>
+      <div class="type-body">
+        <div class="tr"><span class="tk">Initiator</span><span class="tv">HR Admin or Employee (ESS)</span></div>
+        <div class="tr"><span class="tk">Approval Steps</span><span class="tv">1 — HR Admin (generation)</span></div>
+        <div class="tr"><span class="tk">Signing</span><span class="tv">Digital — JWT token link</span></div>
+        <div class="tr"><span class="tk">Delivery</span><span class="tv">Email + /me/letters</span></div>
+        <div class="tr"><span class="tk">PDF Engine</span><span class="tv">jsPDF 4.2.1 + DOMPurify</span></div>
+        <div class="mistake">⚠ Common mistake: letter body contains HTML that is not sanitized — always routed through DOMPurify before PDF render (XSS prevention)</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 4 — TWO SWIMLANE PROCESS FLOWS
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s4">
+  <div class="sec-lbl">Section 4</div>
+  <div class="sec-title">Step-by-Step Process Flows</div>
+  <div class="sec-desc">Flow A shows a standard 2-step approval (Transfer, Leave, Acting). Flow B shows the 4-step promotion flow with Finance sign-off. Both flows support in-app and email JWT one-click approval paths in parallel.</div>
+
+  <!-- Flow A: 2-Step Approval -->
+  <div class="swimlane">
+    <div class="sw-head">
+      ⟳ Flow A — 2-Step Approval: Transfer / Leave / Acting Assignment
+      <span class="sw-stag">Manager + HR Admin</span>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl em">EMPLOYEE / HR</div>
+      <div class="sw-steps">
+        <div class="sb sb-def" style="min-width:115px">
+          <span class="sn">1</span>
+          <span class="sb-title">Initiate Request</span>
+          <span class="sb-sub">/approvals or /me/leave</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-def" style="min-width:115px">
+          <span class="sn">2</span>
+          <span class="sb-title">Complete Form</span>
+          <span class="sb-sub">Effective date + reason</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="min-width:120px">
+          <span class="sn">3</span>
+          <span class="sb-title">Submit for Approval</span>
+          <span class="sb-sub">Status → PENDING_STEP_1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto" style="min-width:130px">
+          <span class="sn">4</span>
+          <span class="sb-title">Create workflow_instance</span>
+          <span class="sb-sub">+ approval_steps rows</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="min-width:130px">
+          <span class="sn">5</span>
+          <span class="sb-title">Email + In-app Notify</span>
+          <span class="sb-sub">JWT link generated · 7d expiry</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="min-width:110px">
+          <span class="sn">6</span>
+          <span class="sb-title">SLA Timer Starts</span>
+          <span class="sb-sub">48h UAE business days</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER (Step 1)</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="min-width:120px">
+          <span class="sn">7</span>
+          <span class="sb-title">Review at /approvals</span>
+          <span class="sb-sub">or email one-click link</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="min-width:130px">
+          <span class="sn">8</span>
+          <span class="sb-title">Approve / Reject / Delegate</span>
+          <span class="sb-sub">BR-29 · Reject ≥10 chars</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="min-width:120px">
+          <span class="sn">9</span>
+          <span class="sb-title">Decision Recorded</span>
+          <span class="sb-sub">audit_log · decided_at set</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR ADMIN (Step 2)</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="min-width:120px">
+          <span class="sn">10</span>
+          <span class="sb-title">Review at /approvals</span>
+          <span class="sb-sub">Notified after Step 1</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="min-width:130px">
+          <span class="sn">11</span>
+          <span class="sb-title">Approve / Reject / Delegate</span>
+          <span class="sb-sub">Final approval gate</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl sy">SYSTEM</div>
+      <div class="sw-steps">
+        <div class="sb sb-auto" style="min-width:120px">
+          <span class="sn">12</span>
+          <span class="sb-title">Status → APPROVED</span>
+          <span class="sb-sub">Awaits effective_date</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="min-width:120px">
+          <span class="sn">13</span>
+          <span class="sb-title">EXECUTED on Date</span>
+          <span class="sb-sub">Org chart + payroll updated</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="min-width:115px">
+          <span class="sn">14</span>
+          <span class="sb-title">Audit Log Entry</span>
+          <span class="sb-sub">Immutable · BR-AUDIT-001</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flow B: 4-Step Promotion -->
+  <div class="swimlane">
+    <div class="sw-head">
+      📈 Flow B — 4-Step Promotion: Manager → HR Admin → HR Director → Finance
+      <span class="sw-stag">Grade Increase · Finance Sign-off · BR-PR-001</span>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR ADMIN (Initiates)</div>
+      <div class="sw-steps">
+        <div class="sb sb-def" style="min-width:120px">
+          <span class="sn">1</span>
+          <span class="sb-title">Open Promotion Form</span>
+          <span class="sb-sub">/persons/[id] → Promote</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="min-width:140px">
+          <span class="sn">2</span>
+          <span class="sb-title">Select New Grade + Salary</span>
+          <span class="sb-sub">Grade must increase · salary ↑</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-warn" style="min-width:120px">
+          <span class="sn">3</span>
+          <span class="sb-title">Submit → PENDING_STEP_1</span>
+          <span class="sb-sub">Manager notified</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl mg">MANAGER (Step 1)</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="min-width:120px">
+          <span class="sn">4</span>
+          <span class="sb-title">Review Promotion</span>
+          <span class="sb-sub">Performance basis check</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="min-width:130px">
+          <span class="sn">5</span>
+          <span class="sb-title">Approve → Step 2</span>
+          <span class="sb-sub">HR Admin notified · 48h SLA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl hr">HR ADMIN (Step 2)</div>
+      <div class="sw-steps">
+        <div class="sb sb-act" style="min-width:130px">
+          <span class="sn">6</span>
+          <span class="sb-title">Validate Grade Band</span>
+          <span class="sb-sub">Salary within grade range?</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="min-width:130px">
+          <span class="sn">7</span>
+          <span class="sb-title">Approve → Step 3</span>
+          <span class="sb-sub">HR Director notified</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl hd">HR DIRECTOR (Step 3)</div>
+      <div class="sw-steps">
+        <div class="sb sb-pu" style="min-width:120px">
+          <span class="sn">8</span>
+          <span class="sb-title">Strategic Review</span>
+          <span class="sb-sub">Org design alignment</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="min-width:130px">
+          <span class="sn">9</span>
+          <span class="sb-title">Approve → Step 4</span>
+          <span class="sb-sub">Finance notified · 72h SLA</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-row">
+      <div class="sw-lbl fi">FINANCE (Step 4)</div>
+      <div class="sw-steps">
+        <div class="sb sb-fi" style="min-width:130px">
+          <span class="sn">10</span>
+          <span class="sb-title">Budget Confirmation</span>
+          <span class="sb-sub">Cost centre headcount check</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-ok" style="min-width:120px">
+          <span class="sn">11</span>
+          <span class="sb-title">APPROVED</span>
+          <span class="sb-sub">All 4 steps complete</span>
+        </div>
+        <span class="sw-arr">→</span>
+        <div class="sb sb-auto" style="min-width:120px">
+          <span class="sn">12</span>
+          <span class="sb-title">EXECUTED</span>
+          <span class="sb-sub">Payroll + org updated</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 5 — STATE MACHINES
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s5">
+  <div class="sec-lbl">Section 5</div>
+  <div class="sec-title">State Machines</div>
+  <div class="sec-desc">The primary workflow lifecycle and the SLA escalation chain are modelled as explicit state machines. REJECTED is always a terminal state — no transitions out. RECALLED is only available while the effective date is still in the future.</div>
+  <div class="sm-grid">
+
+    <div class="sm-wrap">
+      <div class="sm-hdr">⬤ State Machine 1 — Primary Workflow Lifecycle: DRAFT → PENDING → APPROVED → EXECUTED</div>
+      <svg viewBox="0 0 820 360" role="img" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;padding:16px">
+        <title>Primary Workflow State Machine showing DRAFT through PENDING steps to APPROVED and EXECUTED, with terminal states REJECTED, WITHDRAWN, and RECALLED</title>
+        <desc>State transition diagram for the AVANIIS HR workflow engine primary lifecycle</desc>
+        <defs>
+          <marker id="sm1a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="sm1g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="sm1r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="sm1am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <rect width="820" height="360" fill="#F5F6F8" rx="8"/>
+
+        <!-- Terminal states row -->
+        <rect x="145" y="48" width="120" height="40" rx="20" fill="#B01B1B"/>
+        <text x="205" y="64" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">WITHDRAWN</text>
+        <text x="205" y="78" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="sans-serif">by requester</text>
+
+        <rect x="325" y="48" width="120" height="40" rx="20" fill="#B01B1B"/>
+        <text x="385" y="64" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">REJECTED ⊗</text>
+        <text x="385" y="78" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="sans-serif">terminal — no reopen</text>
+
+        <rect x="510" y="48" width="120" height="40" rx="20" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+        <text x="570" y="64" text-anchor="middle" font-size="10" font-weight="700" fill="#B45C00" font-family="sans-serif">RECALLED</text>
+        <text x="570" y="78" text-anchor="middle" font-size="8.5" fill="#B45C00" font-family="sans-serif">before eff. date only</text>
+
+        <!-- Main flow row -->
+        <rect x="20" y="152" width="90" height="40" rx="8" fill="#0A1628"/>
+        <text x="65" y="168" text-anchor="middle" font-size="10" font-weight="700" fill="white" font-family="sans-serif">DRAFT</text>
+        <text x="65" y="182" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,.6)" font-family="sans-serif">Initial</text>
+
+        <line x1="110" y1="172" x2="143" y2="172" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+        <text x="126" y="166" text-anchor="middle" font-size="8" fill="#6B7A96" font-family="sans-serif">Submit</text>
+
+        <rect x="143" y="146" width="124" height="52" rx="8" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+        <text x="205" y="165" text-anchor="middle" font-size="10" font-weight="700" fill="#B45C00" font-family="sans-serif">PENDING</text>
+        <text x="205" y="178" text-anchor="middle" font-size="9" font-weight="600" fill="#B45C00" font-family="sans-serif">STEP 1</text>
+        <text x="205" y="190" text-anchor="middle" font-size="8" fill="#B45C00" font-family="sans-serif">Manager · 48h</text>
+
+        <line x1="205" y1="146" x2="205" y2="90" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm1r)"/>
+        <text x="212" y="120" font-size="8" fill="#B01B1B" font-family="sans-serif">Withdraw</text>
+
+        <line x1="267" y1="172" x2="323" y2="172" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm1a)"/>
+        <text x="295" y="166" text-anchor="middle" font-size="8" fill="#6B7A96" font-family="sans-serif">Approve</text>
+
+        <rect x="323" y="146" width="124" height="52" rx="8" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+        <text x="385" y="165" text-anchor="middle" font-size="10" font-weight="700" fill="#B45C00" font-family="sans-serif">PENDING</text>
+        <text x="385" y="178" text-anchor="middle" font-size="9" font-weight="600" fill="#B45C00" font-family="sans-serif">STEP 2</text>
+        <text x="385" y="190" text-anchor="middle" font-size="8" fill="#B45C00" font-family="sans-serif">HR Admin · 48h</text>
+
+        <line x1="385" y1="146" x2="385" y2="90" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm1r)"/>
+        <text x="392" y="120" font-size="8" fill="#B01B1B" font-family="sans-serif">Reject</text>
+
+        <line x1="447" y1="172" x2="503" y2="172" stroke="#0E7C6A" stroke-width="1.5" fill="none" marker-end="url(#sm1g)"/>
+        <text x="475" y="166" text-anchor="middle" font-size="8" fill="#0E7C6A" font-family="sans-serif">Approve</text>
+
+        <rect x="503" y="136" width="136" height="72" rx="10" fill="#E0F4F0" stroke="#0E7C6A" stroke-width="2.5"/>
+        <text x="571" y="157" text-anchor="middle" font-size="12" font-weight="700" fill="#0E7C6A" font-family="sans-serif">APPROVED</text>
+        <text x="571" y="172" text-anchor="middle" font-size="9" fill="#0E7C6A" font-family="sans-serif">All steps complete</text>
+        <text x="571" y="185" text-anchor="middle" font-size="9" fill="#0E7C6A" font-family="sans-serif">Awaits eff. date</text>
+        <text x="571" y="199" text-anchor="middle" font-size="8" fill="#0E7C6A" font-family="sans-serif">⬤ ACTIVE STATE</text>
+
+        <line x1="571" y1="136" x2="571" y2="90" stroke="#B45C00" stroke-width="1.5" fill="none" marker-end="url(#sm1am)"/>
+        <text x="578" y="115" font-size="8" fill="#B45C00" font-family="sans-serif">Recall</text>
+
+        <line x1="639" y1="172" x2="697" y2="172" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm1g)"/>
+        <text x="668" y="166" text-anchor="middle" font-size="8" fill="#1A6B3C" font-family="sans-serif">Eff. Date</text>
+
+        <rect x="697" y="152" width="104" height="40" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+        <text x="749" y="168" text-anchor="middle" font-size="10" font-weight="700" fill="#1A6B3C" font-family="sans-serif">EXECUTED</text>
+        <text x="749" y="182" text-anchor="middle" font-size="8.5" fill="#1A6B3C" font-family="sans-serif">Applied ✓</text>
+
+        <!-- Dashed line: Step 1 can also reject to REJECTED -->
+        <path d="M 235 146 L 235 118 L 350 118 L 350 90" stroke="#B01B1B" stroke-width="1" stroke-dasharray="4 3" fill="none" marker-end="url(#sm1r)"/>
+
+        <!-- Notes at bottom -->
+        <rect x="20" y="252" width="780" height="90" rx="8" fill="#FFFFFF" stroke="#D4D8E2" stroke-width="1"/>
+        <text x="36" y="270" font-size="10" font-weight="700" fill="#1A2340" font-family="sans-serif">STATE NOTES</text>
+        <text x="36" y="288" font-size="9.5" fill="#6B7A96" font-family="sans-serif">● PENDING steps extend to STEP 3 and STEP 4 for the 4-step promotion workflow (HR Director + Finance). The state names remain PENDING_STEP_N.</text>
+        <text x="36" y="304" font-size="9.5" fill="#6B7A96" font-family="sans-serif">● REJECTED is a terminal state (no outgoing transitions). Requester must submit a new request. Rejection reason must be ≥10 characters (BR-29).</text>
+        <text x="36" y="320" font-size="9.5" fill="#6B7A96" font-family="sans-serif">● RECALLED is only available to HR Admin or HR Director and only while effective_date is in the future. After EXECUTED, a new reverse workflow must be created.</text>
+        <text x="36" y="336" font-size="9.5" fill="#6B7A96" font-family="sans-serif">● Dashed line (---): Step 1 approver can also directly reject to REJECTED terminal, bypassing Step 2 notification.</text>
+      </svg>
+    </div>
+
+    <div class="sm-wrap">
+      <div class="sm-hdr">⏱ State Machine 2 — SLA Escalation Chain: 48h Breach → Cron → Escalate → ARIA Alert</div>
+      <svg viewBox="0 0 740 270" role="img" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;padding:16px">
+        <title>SLA Escalation State Machine showing 48h breach triggering cron job, escalation, and ARIA alert</title>
+        <desc>Diagram of the SLA breach and escalation lifecycle managed by /api/cron/workflow-sla daily job</desc>
+        <defs>
+          <marker id="sm2a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="sm2g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="sm2r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          <marker id="sm2am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+        </defs>
+        <rect width="740" height="270" fill="#F5F6F8" rx="8"/>
+
+        <!-- Row 1: Normal path -->
+        <text x="20" y="32" font-size="10" font-weight="700" fill="#0E7C6A" letter-spacing="1" font-family="sans-serif">NORMAL PATH — Approver acts within SLA</text>
+        <rect x="20" y="44" width="110" height="42" rx="6" fill="#0A1628"/>
+        <text x="75" y="61" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff" font-family="sans-serif">STEP N</text>
+        <text x="75" y="75" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="sans-serif">Assigned</text>
+        <line x1="130" y1="65" x2="148" y2="65" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+        <rect x="148" y="44" width="120" height="42" rx="6" fill="#E0F4F0" stroke="#9FD8CF" stroke-width="1.5"/>
+        <text x="208" y="61" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0E7C6A" font-family="sans-serif">Notified</text>
+        <text x="208" y="75" text-anchor="middle" font-size="8.5" fill="#0E7C6A" font-family="sans-serif">Email + In-app</text>
+        <line x1="268" y1="65" x2="286" y2="65" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+        <rect x="286" y="44" width="120" height="42" rx="6" fill="#FEF3E2" stroke="#F4B86A" stroke-width="1.5"/>
+        <text x="346" y="61" text-anchor="middle" font-size="9.5" font-weight="700" fill="#B45C00" font-family="sans-serif">AWAITING</text>
+        <text x="346" y="75" text-anchor="middle" font-size="8.5" fill="#B45C00" font-family="sans-serif">48h Window</text>
+        <line x1="406" y1="65" x2="424" y2="65" stroke="#1A6B3C" stroke-width="1.5" fill="none" marker-end="url(#sm2g)"/>
+        <rect x="424" y="44" width="120" height="42" rx="6" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+        <text x="484" y="61" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1A6B3C" font-family="sans-serif">ACTION TAKEN</text>
+        <text x="484" y="75" text-anchor="middle" font-size="8.5" fill="#1A6B3C" font-family="sans-serif">Approved / Rejected</text>
+        <text x="346" y="104" text-anchor="middle" font-size="8" fill="#6B7A96" font-family="sans-serif">If no action →</text>
+
+        <!-- Down arrow from AWAITING -->
+        <line x1="346" y1="86" x2="346" y2="136" stroke="#B01B1B" stroke-width="1.5" fill="none" marker-end="url(#sm2r)"/>
+
+        <!-- Row 2: Breach path -->
+        <text x="20" y="152" font-size="10" font-weight="700" fill="#B01B1B" letter-spacing="1" font-family="sans-serif">BREACH PATH — 48h exceeded, cron fires</text>
+        <rect x="230" y="140" width="132" height="42" rx="6" fill="#FDEAEA" stroke="#F4A0A0" stroke-width="1.5"/>
+        <text x="296" y="157" text-anchor="middle" font-size="9.5" font-weight="700" fill="#B01B1B" font-family="sans-serif">SLA_BREACHED</text>
+        <text x="296" y="171" text-anchor="middle" font-size="8.5" fill="#B01B1B" font-family="sans-serif">/api/cron/workflow-sla</text>
+        <line x1="362" y1="161" x2="380" y2="161" stroke="#6B7A96" stroke-width="1.5" fill="none" marker-end="url(#sm2a)"/>
+        <rect x="380" y="140" width="130" height="42" rx="6" fill="#F0EAFB" stroke="#5B2D9E" stroke-width="1.5"/>
+        <text x="445" y="157" text-anchor="middle" font-size="9.5" font-weight="700" fill="#5B2D9E" font-family="sans-serif">ESCALATED</text>
+        <text x="445" y="171" text-anchor="middle" font-size="8.5" fill="#5B2D9E" font-family="sans-serif">HR Admin notified</text>
+        <line x1="510" y1="161" x2="528" y2="161" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#sm2am)"/>
+        <rect x="528" y="140" width="148" height="42" rx="6" fill="#FEF9EC" stroke="#C9A84C" stroke-width="2"/>
+        <text x="602" y="157" text-anchor="middle" font-size="9.5" font-weight="700" fill="#A8863A" font-family="sans-serif">ARIA ALERT FIRED</text>
+        <text x="602" y="171" text-anchor="middle" font-size="8.5" fill="#A8863A" font-family="sans-serif">HR Admin resolves</text>
+
+        <!-- Notes -->
+        <rect x="20" y="208" width="700" height="52" rx="8" fill="#FFFFFF" stroke="#D4D8E2" stroke-width="1"/>
+        <text x="36" y="226" font-size="9.5" font-weight="700" fill="#1A2340" font-family="sans-serif">SLA RULES</text>
+        <text x="36" y="242" font-size="9.5" fill="#6B7A96" font-family="sans-serif">UAE business days only (weekends + public holidays excluded) · Cron runs daily 09:00 UTC via vercel.json schedule · CRON_SECRET required for authentication</text>
+        <text x="36" y="256" font-size="9.5" fill="#6B7A96" font-family="sans-serif">Default SLA: 48h (configurable 24–72h per template) · 24h reminder email at halfway mark · Delegation at /settings/delegations prevents breach when approver absent</text>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 6 — SCREEN MOCKUPS
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s6">
+  <div class="sec-lbl">Section 6</div>
+  <div class="sec-title">Simulated Screen Mockups</div>
+  <div class="sec-desc">Three key screens: the approvals inbox with SLA timers, the workflow template editor, and the delegation setup screen. Every approval screen enforces BR-29: exactly Approve · Reject · Delegate.</div>
+
+  <!-- Mockup A: /approvals inbox -->
+  <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:10px">Mockup A — /approvals Inbox with SLA Timers and BR-29 Action Buttons</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 Search approvals, employees...</div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">5</div></div>
+        <div class="mf-av">MH</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">MAIN</div>
+        <div class="sb-item">📊 Dashboard</div>
+        <div class="sb-item">👥 Persons</div>
+        <div class="sb-item active">✅ Approvals <span class="sb-badge">5</span></div>
+        <div class="sb-item">🏖 Absence</div>
+        <div class="sb-sec">MANAGE</div>
+        <div class="sb-item">💰 Payroll</div>
+        <div class="sb-item">📋 Timesheets</div>
+        <div class="sb-item">📄 Letters</div>
+        <div class="sb-sec">CONFIG</div>
+        <div class="sb-item">⚙ Workflows</div>
+        <div class="sb-item">🔗 Delegations</div>
+        <div class="sb-item">🤖 ARIA</div>
+      </div>
+      <div class="mf-main">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:16px;font-weight:700;color:var(--n)">My Approval Inbox</div>
+          <div style="display:flex;gap:8px">
+            <select style="font-size:11px;border:1px solid var(--bd);border-radius:5px;padding:4px 8px;background:#fff;color:var(--tx)"><option>All Types</option><option>Promotion</option><option>Transfer</option><option>Leave</option></select>
+            <select style="font-size:11px;border:1px solid var(--bd);border-radius:5px;padding:4px 8px;background:#fff;color:var(--tx)"><option>All Status</option><option>Pending</option><option>SLA Breach</option></select>
+          </div>
+        </div>
+        <table class="inbox-tbl">
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Type</th>
+              <th>Step</th>
+              <th>SLA Remaining</th>
+              <th>Status</th>
+              <th>Actions (BR-29)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="urgent">
+              <td><strong>Ahmed Al-Rashidi</strong><br><span style="font-size:10px;color:var(--mu)">Senior Engineer → Lead Engineer</span></td>
+              <td>Promotion</td>
+              <td>Step 2 / 4</td>
+              <td><span style="color:var(--rd);font-weight:700">⚠ BREACHED 6h ago</span></td>
+              <td><span class="sp sp-u">SLA BREACH</span></td>
+              <td><div class="act-btns"><button class="act-btn ab-ok">Approve</button><button class="act-btn ab-no">Reject</button><button class="act-btn ab-dl">Delegate</button></div></td>
+            </tr>
+            <tr class="warn">
+              <td><strong>Sara Al-Mansouri</strong><br><span style="font-size:10px;color:var(--mu)">Annual Leave · 10 days · 2026-07-01</span></td>
+              <td>Leave</td>
+              <td>Step 1 / 1</td>
+              <td><span style="color:var(--am);font-weight:700">⏱ 4h remaining</span></td>
+              <td><span class="sp sp-p">PENDING</span></td>
+              <td><div class="act-btns"><button class="act-btn ab-ok">Approve</button><button class="act-btn ab-no">Reject</button><button class="act-btn ab-dl">Delegate</button></div></td>
+            </tr>
+            <tr>
+              <td><strong>Omar Al-Farsi</strong><br><span style="font-size:10px;color:var(--mu)">Lateral Transfer · Operations → Projects</span></td>
+              <td>Transfer</td>
+              <td>Step 1 / 2</td>
+              <td>36h remaining</td>
+              <td><span class="sp sp-p">PENDING</span></td>
+              <td><div class="act-btns"><button class="act-btn ab-ok">Approve</button><button class="act-btn ab-no">Reject</button><button class="act-btn ab-dl">Delegate</button></div></td>
+            </tr>
+            <tr>
+              <td><strong>Fatima Al-Zaabi</strong><br><span style="font-size:10px;color:var(--mu)">Acting Assignment · Finance Manager</span></td>
+              <td>Acting</td>
+              <td>Step 2 / 2</td>
+              <td>22h remaining</td>
+              <td><span class="sp sp-esc">ESCALATED</span></td>
+              <td><div class="act-btns"><button class="act-btn ab-ok">Approve</button><button class="act-btn ab-no">Reject</button><button class="act-btn ab-dl">Delegate</button></div></td>
+            </tr>
+            <tr>
+              <td><strong>Mohammed Al-Hassan</strong><br><span style="font-size:10px;color:var(--mu)">Salary Certificate · Standard</span></td>
+              <td>Letter</td>
+              <td>Step 1 / 1</td>
+              <td>44h remaining</td>
+              <td><span class="sp sp-p">PENDING</span></td>
+              <td><div class="act-btns"><button class="act-btn ab-ok">Approve</button><button class="act-btn ab-no">Reject</button><button class="act-btn ab-dl">Delegate</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="callout callout-r" style="margin-top:12px">⚠ <strong>BR-29 Enforcement:</strong> Every approval row must show exactly Approve · Reject · Delegate. The system renders no other action buttons on any decision screen.</div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item">
+      <span class="ann-num">①</span>
+      <div>
+        <span class="ann-t">SLA breach row (red)</span>
+        Ahmed's promotion breached the 48h SLA. The row turns red and the /api/cron/workflow-sla job has already escalated to the HR Admin. Approver must act immediately.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">②</span>
+      <div>
+        <span class="ann-t">Warning row (amber)</span>
+        Sara's leave request has only 4h left on the SLA. Approvers within 12h of SLA receive a second reminder email. Delegation recommended.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">③</span>
+      <div>
+        <span class="ann-t">BR-29 action buttons</span>
+        Every row shows exactly three buttons: Approve (green), Reject (red), Delegate (grey). No fourth button is ever rendered. Reject requires a reason ≥10 characters.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">④</span>
+      <div>
+        <span class="ann-t">Filter bar</span>
+        Filter by workflow type (Promotion, Transfer, Leave, Acting, Letter) or status (Pending, SLA Breach, Escalated). Helps approvers prioritise urgent items.
+      </div>
+    </div>
+  </div>
+
+  <!-- Mockup B: /settings/workflows -->
+  <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:10px;margin-top:20px">Mockup B — /settings/workflows — Workflow Template Editor with Step Configuration</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 Search settings...</div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">2</div></div>
+        <div class="mf-av">HR</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">SETTINGS</div>
+        <div class="sb-item active">⚙ Workflows</div>
+        <div class="sb-item">🔗 Delegations</div>
+        <div class="sb-item">🔔 Notifications</div>
+        <div class="sb-item">🌙 Appearance</div>
+        <div class="sb-item">🔒 Compliance</div>
+        <div class="sb-sec">MASTER DATA</div>
+        <div class="sb-item">🏢 Entities</div>
+        <div class="sb-item">🗂 Departments</div>
+        <div class="sb-item">📅 Holidays</div>
+      </div>
+      <div class="mf-main">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:16px;font-weight:700;color:var(--n)">Workflow Templates</div>
+          <button style="font-size:11.5px;background:var(--n);color:#fff;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;font-weight:600">+ New Template</button>
+        </div>
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:14px">
+          <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;overflow:hidden">
+            <div style="background:var(--n2);padding:8px 12px;font-size:10px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.08em">TEMPLATES</div>
+            <div style="padding:4px 0">
+              <div style="padding:8px 12px;font-size:11.5px;color:rgba(255,255,255,.6);background:var(--n2);border-left:3px solid transparent">Transfer</div>
+              <div style="padding:8px 12px;font-size:11.5px;color:#fff;background:rgba(201,168,76,.12);border-left:3px solid var(--g)">Promotion ✓</div>
+              <div style="padding:8px 12px;font-size:11.5px;color:rgba(255,255,255,.6);background:var(--n2);border-left:3px solid transparent">Acting Assignment</div>
+              <div style="padding:8px 12px;font-size:11.5px;color:rgba(255,255,255,.6);background:var(--n2);border-left:3px solid transparent">Backdated Hire</div>
+              <div style="padding:8px 12px;font-size:11.5px;color:rgba(255,255,255,.6);background:var(--n2);border-left:3px solid transparent">Leave</div>
+              <div style="padding:8px 12px;font-size:11.5px;color:rgba(255,255,255,.6);background:var(--n2);border-left:3px solid transparent">Employee Letter</div>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid var(--bd);border-radius:8px;padding:16px">
+            <div style="font-size:14px;font-weight:700;color:var(--n);margin-bottom:4px">Promotion Workflow — 4 Steps</div>
+            <div style="font-size:11px;color:var(--mu);margin-bottom:16px">All salary-affecting grade increases · BR-PR-001 · Finance sign-off required</div>
+            <div style="background:var(--off);border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid var(--lane-mgr)">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                <div style="width:24px;height:24px;background:var(--lane-mgr);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+                <div style="font-size:12px;font-weight:700;color:var(--n)">Step 1 — Line Manager Approval</div>
+                <div style="margin-left:auto;font-size:10px;background:var(--am-bg);color:var(--am);border:1px solid var(--am-bd);border-radius:4px;padding:2px 7px;font-weight:600">SLA: 48h</div>
+              </div>
+              <div style="font-size:11px;color:var(--mu)">Approver Role: MANAGER · line_manager_id field · Auto-resolved per employee's assignment</div>
+            </div>
+            <div style="background:var(--off);border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid var(--g)">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                <div style="width:24px;height:24px;background:var(--g3);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+                <div style="font-size:12px;font-weight:700;color:var(--n)">Step 2 — HR Admin Review</div>
+                <div style="margin-left:auto;font-size:10px;background:var(--am-bg);color:var(--am);border:1px solid var(--am-bd);border-radius:4px;padding:2px 7px;font-weight:600">SLA: 48h</div>
+              </div>
+              <div style="font-size:11px;color:var(--mu)">Approver Role: HR_ADMIN · Grade band validation + salary compliance check</div>
+            </div>
+            <div style="background:var(--off);border-radius:8px;padding:12px;margin-bottom:10px;border-left:4px solid var(--lane-hd)">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                <div style="width:24px;height:24px;background:var(--lane-hd);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+                <div style="font-size:12px;font-weight:700;color:var(--n)">Step 3 — HR Director Strategic Review</div>
+                <div style="margin-left:auto;font-size:10px;background:var(--am-bg);color:var(--am);border:1px solid var(--am-bd);border-radius:4px;padding:2px 7px;font-weight:600">SLA: 72h</div>
+              </div>
+              <div style="font-size:11px;color:var(--mu)">Approver Role: HR_DIRECTOR · Org design alignment + headcount strategy</div>
+            </div>
+            <div style="background:var(--off);border-radius:8px;padding:12px;border-left:4px solid var(--lane-fi)">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                <div style="width:24px;height:24px;background:var(--lane-fi);color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div>
+                <div style="font-size:12px;font-weight:700;color:var(--n)">Step 4 — Finance Budget Confirmation</div>
+                <div style="margin-left:auto;font-size:10px;background:var(--rd-bg);color:var(--rd);border:1px solid var(--rd-bd);border-radius:4px;padding:2px 7px;font-weight:600">Required · 72h</div>
+              </div>
+              <div style="font-size:11px;color:var(--mu)">Approver Role: FINANCE · Cost centre + headcount budget approval</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item">
+      <span class="ann-num">①</span>
+      <div>
+        <span class="ann-t">Template selector (left panel)</span>
+        Six workflow templates listed. Click any to edit its steps, SLA timers, and approver roles. Changes apply to new requests only — in-flight workflows follow the template at time of creation.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">②</span>
+      <div>
+        <span class="ann-t">Step configuration</span>
+        Each step shows: step number, approver role, SLA duration, and auto-resolution logic. Step 1 always auto-resolves the approver from the employee's line_manager_id field.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">③</span>
+      <div>
+        <span class="ann-t">Finance step (red SLA badge)</span>
+        Step 4 has a red badge indicating no Finance approver is assigned yet. The system will stall at Step 4 without this configuration. Go to /users to assign FINANCE role.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">④</span>
+      <div>
+        <span class="ann-t">SLA per step</span>
+        SLA is configurable per step (24h, 48h, or 72h). Step 3 and 4 in promotions default to 72h to allow strategic review time. UAE business days only.
+      </div>
+    </div>
+  </div>
+
+  <!-- Mockup C: /settings/delegations -->
+  <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:10px;margin-top:20px">Mockup C — /settings/delegations — Delegation Rules to Prevent SLA Breach</div>
+  <div class="mockup-frame">
+    <div class="mf-topbar">
+      <div class="mf-logo">AVANIIS <span>HR</span></div>
+      <div class="mf-search">🔍 Search delegations...</div>
+      <div class="mf-right">
+        <div class="mf-ico">🔔<div class="mf-badge">1</div></div>
+        <div class="mf-av">HR</div>
+      </div>
+    </div>
+    <div class="mf-body">
+      <div class="mf-sidebar">
+        <div class="sb-sec">SETTINGS</div>
+        <div class="sb-item">⚙ Workflows</div>
+        <div class="sb-item active">🔗 Delegations</div>
+        <div class="sb-item">🔔 Notifications</div>
+        <div class="sb-item">🌙 Appearance</div>
+        <div class="sb-sec">MASTER DATA</div>
+        <div class="sb-item">🏢 Entities</div>
+        <div class="sb-item">📅 Holidays</div>
+        <div class="sb-item">🗂 Departments</div>
+      </div>
+      <div class="mf-main">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="font-size:16px;font-weight:700;color:var(--n)">Approval Delegations</div>
+          <button style="font-size:11.5px;background:var(--n);color:#fff;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;font-weight:600">+ New Delegation</button>
+        </div>
+        <div class="callout callout-w" style="margin-bottom:14px">⚠ <strong>Critical:</strong> Always set a delegation before taking leave if you have pending approvals. Without a delegate, requests breach SLA and ARIA alerts HR Admin.</div>
+        <svg viewBox="0 0 620 200" role="img" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;height:auto;display:block;margin-bottom:14px">
+          <title>Delegation chain: Mohammed Al-Hassan delegates to Fatima Al-Zaabi for all workflow types from June 1 to June 15</title>
+          <desc>Visual representation of a delegation rule showing delegator, delegate, scope, and date range</desc>
+          <defs>
+            <marker id="sm3a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#6B7A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+            <marker id="sm3am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B45C00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+            <marker id="sm3g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1A6B3C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+            <marker id="sm3r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#B01B1B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+          </defs>
+          <rect width="620" height="200" fill="#F5F6F8" rx="8"/>
+          <rect x="20" y="60" width="160" height="80" rx="8" fill="#0A1628"/>
+          <text x="100" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#C9A84C" font-family="sans-serif">DELEGATOR</text>
+          <text x="100" y="106" text-anchor="middle" font-size="10.5" fill="#fff" font-family="sans-serif">Mohammed Al-Hassan</text>
+          <text x="100" y="120" text-anchor="middle" font-size="9" fill="rgba(255,255,255,.6)" font-family="sans-serif">HR Admin · On Annual Leave</text>
+          <text x="100" y="133" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,.5)" font-family="sans-serif">2026-06-01 → 2026-06-15</text>
+          <line x1="180" y1="100" x2="218" y2="100" stroke="#C9A84C" stroke-width="2" fill="none" marker-end="url(#sm3am)"/>
+          <rect x="218" y="72" width="140" height="56" rx="8" fill="#FEF9EC" stroke="#C9A84C" stroke-width="2"/>
+          <text x="288" y="93" text-anchor="middle" font-size="10" font-weight="700" fill="#A8863A" font-family="sans-serif">SCOPE</text>
+          <text x="288" y="108" text-anchor="middle" font-size="10" fill="#B45C00" font-family="sans-serif">All Workflow Types</text>
+          <text x="288" y="121" text-anchor="middle" font-size="9" fill="#6B7A96" font-family="sans-serif">Transfers · Promotions · Leave</text>
+          <line x1="358" y1="100" x2="396" y2="100" stroke="#1A6B3C" stroke-width="2" fill="none" marker-end="url(#sm3g)"/>
+          <rect x="396" y="60" width="160" height="80" rx="8" fill="#E6F5EE" stroke="#7BC4A0" stroke-width="1.5"/>
+          <text x="476" y="88" text-anchor="middle" font-size="11" font-weight="700" fill="#1A6B3C" font-family="sans-serif">DELEGATE</text>
+          <text x="476" y="106" text-anchor="middle" font-size="10.5" fill="#1A6B3C" font-family="sans-serif">Fatima Al-Zaabi</text>
+          <text x="476" y="120" text-anchor="middle" font-size="9" fill="#1A6B3C" font-family="sans-serif">HR Admin · Active</text>
+          <text x="476" y="133" text-anchor="middle" font-size="8.5" fill="#1A6B3C" font-family="sans-serif">Notifications redirected ✓</text>
+          <text x="310" y="28" text-anchor="middle" font-size="10" font-weight="700" fill="#1A2340" font-family="sans-serif">Active Delegation: 2026-06-01 — 2026-06-15 · All approval types · Auto-expires at date range end</text>
+          <text x="310" y="178" text-anchor="middle" font-size="9" fill="#6B7A96" font-family="sans-serif">During delegation: Fatima receives all approval emails (JWT links) + in-app notifications. Mohammed's /approvals inbox is hidden. Audit log records: acted_as_delegate=true</text>
+        </svg>
+        <table class="inbox-tbl">
+          <thead>
+            <tr>
+              <th>Delegator</th>
+              <th>Delegate</th>
+              <th>Scope</th>
+              <th>Period</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mohammed Al-Hassan</strong><br><span style="font-size:10px;color:var(--mu)">HR Admin</span></td>
+              <td><strong>Fatima Al-Zaabi</strong><br><span style="font-size:10px;color:var(--mu)">HR Admin</span></td>
+              <td>All types</td>
+              <td>01 Jun – 15 Jun 2026</td>
+              <td><span class="sp sp-ok">ACTIVE</span></td>
+            </tr>
+            <tr>
+              <td><strong>Omar Al-Farsi</strong><br><span style="font-size:10px;color:var(--mu)">Manager</span></td>
+              <td><strong>Ahmed Al-Rashidi</strong><br><span style="font-size:10px;color:var(--mu)">Team Lead</span></td>
+              <td>Leave only</td>
+              <td>20 Jun – 30 Jun 2026</td>
+              <td><span class="sp sp-p">UPCOMING</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="ann-list">
+    <div class="ann-item">
+      <span class="ann-num">①</span>
+      <div>
+        <span class="ann-t">Delegation chain diagram</span>
+        Shows delegator (navy), scope (gold), and delegate (green). During the date range, all approval emails and in-app notifications are redirected to Fatima. Mohammed's inbox is hidden.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">②</span>
+      <div>
+        <span class="ann-t">Scope selector</span>
+        Delegation can be scoped to all workflow types or restricted to specific types (e.g. Leave only). Useful when a manager wants their deputy to handle leave but not promotions.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">③</span>
+      <div>
+        <span class="ann-t">Auto-expiry</span>
+        Delegation automatically deactivates at the end date. No manual action required. The audit log records acted_as_delegate=true on all decisions made by the delegate.
+      </div>
+    </div>
+    <div class="ann-item">
+      <span class="ann-num">④</span>
+      <div>
+        <span class="ann-t">Upcoming delegation (amber)</span>
+        Omar's delegation is set up in advance before his leave starts on 20 Jun. Best practice: set delegation at least 24h before absence begins to ensure no requests are missed.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 7 — APPROVALS GUIDE
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s7">
+  <div class="sec-lbl">Section 7</div>
+  <div class="sec-title">Approvals &amp; Workflow Guide</div>
+  <div class="sec-desc">Two approval paths exist in parallel: in-app at /approvals and email one-click JWT. Both update the same approval_steps record. The system does not require login for the email path — JWT is single-use and expires after 7 days.</div>
+
+  <div class="guide-grid">
+    <div class="guide-panel">
+      <div class="guide-head" style="background:var(--n)">🖥 Path A — In-App Approval at /approvals</div>
+      <div class="guide-body">
+        <div class="guide-step">
+          <div class="guide-n">1</div>
+          <div>Log in at http://localhost:3001. Navigate to <strong>Approvals</strong> in the left sidebar (all roles with pending items see the badge count).</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">2</div>
+          <div>The inbox shows all items where you are the current step approver. Items are sorted by SLA urgency — breached items appear first in red.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">3</div>
+          <div>Click any row to open the detail panel: employee info, effective date, current grade, target grade, salary delta, and business rule references.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">4</div>
+          <div>Click <strong>Approve</strong> to advance the workflow, <strong>Reject</strong> (requires reason ≥10 characters per BR-29) to terminate, or <strong>Delegate</strong> to reassign to another user.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">5</div>
+          <div>Decision is written to <code>approval_steps.status</code> and <code>approval_steps.decided_at</code> with full actor context in <code>audit_log</code>. Next approver is notified immediately.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-panel">
+      <div class="guide-head" style="background:var(--te)">✉ Path B — Email One-Click JWT Approval</div>
+      <div class="guide-body">
+        <div class="guide-step">
+          <div class="guide-n">1</div>
+          <div>When a step is assigned to you, an email is sent immediately with your name, the request summary (employee, type, dates), and three one-click buttons: Approve, Reject, Delegate.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">2</div>
+          <div>Each button contains a signed JWT token. Clicking opens a lightweight confirmation page — <strong>no login required</strong>. The token identifies you, the action, and the workflow step.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">3</div>
+          <div>Tokens are <strong>single-use</strong> — once clicked, all three links in that email are invalidated. If you click Approve, the Reject and Delegate links in the same email stop working.</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">4</div>
+          <div>Token expiry: <strong>7 days</strong>. After expiry, the email link shows an error: "This approval link has expired. Please log in to /approvals to take action."</div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-n">5</div>
+          <div>The confirmation page shows the full request details before final submission. The approver can still change their decision on the confirmation page before hitting the final button.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <div style="font-size:13px;font-weight:700;color:var(--n);margin-bottom:12px">Workflow Type × Approval Matrix</div>
+    <table class="wf-matrix">
+      <thead>
+        <tr>
+          <th>Workflow Type</th>
+          <th>Steps</th>
+          <th>Step 1</th>
+          <th>Step 2</th>
+          <th>Step 3</th>
+          <th>Step 4</th>
+          <th>SLA</th>
+          <th>Finance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Transfer</strong> (BR-TR-001)</td>
+          <td>2</td>
+          <td>Manager</td>
+          <td>HR Admin</td>
+          <td>—</td>
+          <td>—</td>
+          <td>48h</td>
+          <td style="color:var(--mu)">No</td>
+        </tr>
+        <tr>
+          <td><strong>Promotion</strong> (BR-PR-001)</td>
+          <td>4</td>
+          <td>Manager</td>
+          <td>HR Admin</td>
+          <td>HR Director</td>
+          <td>Finance</td>
+          <td>48–72h</td>
+          <td style="color:var(--gr);font-weight:700">Required</td>
+        </tr>
+        <tr>
+          <td><strong>Acting Assign.</strong> (BR-AC-001)</td>
+          <td>2</td>
+          <td>Manager</td>
+          <td>HR Admin</td>
+          <td>—</td>
+          <td>—</td>
+          <td>48h</td>
+          <td style="color:var(--mu)">No</td>
+        </tr>
+        <tr>
+          <td><strong>Backdated Hire</strong> (BR-WF-010)</td>
+          <td>2</td>
+          <td>Manager</td>
+          <td>HR Director</td>
+          <td>—</td>
+          <td>—</td>
+          <td>48h</td>
+          <td style="color:var(--mu)">No</td>
+        </tr>
+        <tr>
+          <td><strong>Leave</strong> (BR-LV-001)</td>
+          <td>1</td>
+          <td>Manager</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>48h</td>
+          <td style="color:var(--mu)">No</td>
+        </tr>
+        <tr>
+          <td><strong>Employee Letter</strong></td>
+          <td>1</td>
+          <td>HR Admin</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>48h</td>
+          <td style="color:var(--mu)">No</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sla-grid">
+    <div class="sla-tile ok">
+      <div class="sla-label">Default SLA per step</div>
+      <div class="sla-num">48h</div>
+      <div class="sla-sub">UAE business days</div>
+    </div>
+    <div class="sla-tile warn">
+      <div class="sla-label">Finance step SLA</div>
+      <div class="sla-num">72h</div>
+      <div class="sla-sub">Promotions Step 4</div>
+    </div>
+    <div class="sla-tile">
+      <div class="sla-label">JWT token expiry</div>
+      <div class="sla-num">7d</div>
+      <div class="sla-sub">Single-use after click</div>
+    </div>
+    <div class="sla-tile warn">
+      <div class="sla-label">Reminder email sent</div>
+      <div class="sla-num">24h</div>
+      <div class="sla-sub">Before SLA breach</div>
+    </div>
+    <div class="sla-tile red">
+      <div class="sla-label">Escalation trigger</div>
+      <div class="sla-num">+0h</div>
+      <div class="sla-sub">Immediately on breach</div>
+    </div>
+    <div class="sla-tile">
+      <div class="sla-label">Cron schedule</div>
+      <div class="sla-num">09:00</div>
+      <div class="sla-sub">UTC daily via vercel.json</div>
+    </div>
+  </div>
+
+  <div class="callout callout-t" style="margin-top:16px">ℹ <strong>UAE Business Days:</strong> Saturday and Sunday are non-working days. All UAE public holidays listed at /master-data/holidays are excluded from SLA calculation. Ramadan reduced-hours adjustments are configurable per entity.</div>
+  <div class="callout callout-i" style="margin-top:10px">ℹ <strong>Delegation Best Practice:</strong> Set delegation at /settings/delegations at least 24h before an approver goes on leave. Include both start and end dates. Scope to specific workflow types if the delegate should not handle all request types. Audit log records acted_as_delegate=true on all delegated decisions.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 8 — OPERATIONAL SCENARIOS
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s8">
+  <div class="sec-lbl">Section 8</div>
+  <div class="sec-title">Operational Scenarios</div>
+  <div class="sec-desc">Four real-world scenarios encountered at AVANIIS Real Estate / Avaniis. Each shows the exact sequence of system and human actions, the compliance constraint, and the resolution path.</div>
+  <div class="sc-grid">
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:#FDEAEA">
+        <div class="sc-num" style="background:#B01B1B">A</div>
+        <div class="sc-title">Approver on Leave — No Delegate Set, SLA Breach</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-step">
+          <div class="sc-n">1</div>
+          <div>Omar Al-Farsi (Manager) goes on annual leave without setting a delegation. He has 3 pending approvals in his inbox including Ahmed's promotion at Step 1.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">2</div>
+          <div>48 hours pass. The cron job /api/cron/workflow-sla fires at 09:00 UTC and marks all three workflow instances as SLA_BREACHED.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">3</div>
+          <div>ARIA automatically fires an alert to the HR Admin (Mohammed Al-Hassan): "3 approvals have breached SLA — approver Omar Al-Farsi is unreachable." The alert appears in ARIA console and via email.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">4</div>
+          <div>HR Admin navigates to /settings/delegations and creates an emergency delegation: Omar → Fatima Al-Zaabi, scope All Types, effective immediately with end date matching Omar's return date.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">5</div>
+          <div>Fatima receives email notifications for all three pending items. She reviews and approves Ahmed's promotion and the other two requests. The SLA breach is noted in the audit log but the workflows continue.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">6</div>
+          <div>HR Director reviews the SLA breach report in /reports. Omar's return meeting includes a mandatory review of delegation setup best practices per HR policy.</div>
+        </div>
+        <div class="sc-warn">⚠ Prevention: Always set delegation at /settings/delegations before any planned absence. ARIA can be queried: "Who has pending approvals and is going on leave this week?" to catch gaps proactively.</div>
+        <div class="sc-rule">workflow_instances.status · /api/cron/workflow-sla · /settings/delegations</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:#FEF3E2">
+        <div class="sc-num" style="background:#B45C00">B</div>
+        <div class="sc-title">Finance Frozen During Payroll Close — Promotion Blocked at Step 4</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-step">
+          <div class="sc-n">1</div>
+          <div>A 4-step promotion for Sara Al-Mansouri is moving through the workflow. Steps 1–3 complete within SLA. The request reaches Step 4 — Finance approval.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">2</div>
+          <div>The payroll run for Avaniis's June period is currently in APPROVAL_PENDING status. The system blocks any salary-affecting changes during this window per platform rule.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">3</div>
+          <div>The Finance approver's email link shows an error: "Payroll for this legal entity is currently locked. Salary-affecting approvals cannot be processed until payroll is finalised." The Finance approver cannot click Approve.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">4</div>
+          <div>HR Admin sets the effective_date of Sara's promotion to the 1st of the following month (after payroll close). This moves the salary change outside the locked period.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">5</div>
+          <div>Once the payroll run reaches COMPLETED status, the Finance approver receives a new notification and approves the promotion. The effective date is still in the future so the system applies the change on that date.</div>
+        </div>
+        <div class="sc-warn">⚠ Compliance note: The SLA clock pauses during payroll lock if the workflow template is configured with freeze_during_payroll=true. Otherwise the SLA continues and a breach may occur. HR Admin should monitor this scenario during month-end.</div>
+        <div class="sc-rule">payroll_runs.status · APPROVAL_PENDING · effective_date pattern</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:#E6F5EE">
+        <div class="sc-num" style="background:#1A6B3C">C</div>
+        <div class="sc-title">Rejected Workflow — Retry Options (New Request, Not Reopen)</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-step">
+          <div class="sc-n">1</div>
+          <div>Fatima Al-Zaabi's transfer request (Operations → Projects) is rejected at Step 2 (HR Admin) with reason: "Target position headcount is frozen pending Q3 budget approval."</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">2</div>
+          <div>The system immediately sets workflow_instance.status = REJECTED (terminal). Fatima receives an email with the rejection reason. The workflow is locked — no further action possible on this request.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">3</div>
+          <div>Fatima checks the /approvals page — the rejected request shows in the "Completed" filter with status badge REJECTED and the full rejection reason visible.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">4</div>
+          <div>After Q3 budget is approved (2 weeks later), the headcount freeze on the target position is lifted. HR Admin unfreezes the position at /master-data/positions.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">5</div>
+          <div>HR Admin initiates a new Transfer request for Fatima — this creates a brand new workflow_instance with a new ID. The previous rejected request remains in history for audit purposes but cannot be reopened.</div>
+        </div>
+        <div class="sc-warn">⚠ Platform design: REJECTED is always a terminal state. There is no "reopen" capability. This is intentional — it ensures clean audit trails where every decision is final and traceable. A new request provides a clean approval chain.</div>
+        <div class="sc-rule">workflow_instances.status=REJECTED · audit_log · BR-AUDIT-001 · positions.is_frozen</div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-hdr" style="background:#EAF0FD">
+        <div class="sc-num" style="background:#1A4FBA">D</div>
+        <div class="sc-title">Email JWT Link Expired or Already Consumed — Troubleshooting</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-step">
+          <div class="sc-n">1</div>
+          <div>Ahmed Al-Rashidi (Manager) receives an email with an Approve link for a transfer request. He clicks Approve on his phone but receives: "This approval link has already been used or has expired."</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">2</div>
+          <div>ARIA is queried: "Ahmed clicked approval email but got an error." ARIA checks: (1) Was the JWT token consumed? YES — another device or browser tab had already submitted the token 30 minutes earlier. (2) Is the request still pending? NO — already approved by the first click.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">3</div>
+          <div>ARIA responds: "Your approval was successfully recorded at 14:32 GST. The email link was consumed at that time. The request is now at Step 2 — HR Admin has been notified. No action needed."</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">4</div>
+          <div>Scenario B — genuinely expired: Ahmed is returning from a 10-day trip and the email is 8 days old. JWT tokens expire at 7 days. HR Admin generates a new notification from /approvals → Resend Notification to send a fresh JWT link.</div>
+        </div>
+        <div class="sc-step">
+          <div class="sc-n">5</div>
+          <div>Ahmed receives the new email with a fresh 7-day JWT. He approves via email one-click. The approval is recorded against his user ID in audit_log with the actor_id and timestamp.</div>
+        </div>
+        <div class="sc-warn">⚠ JWT tokens are single-use by design — this prevents replay attacks. If you see "link already used," check the workflow status in /approvals. If expired, ask HR Admin to resend the notification.</div>
+        <div class="sc-rule">JWT token · single-use · 7-day expiry · /approvals → Resend Notification</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 9 — TROUBLESHOOTING
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s9">
+  <div class="sec-lbl">Section 9</div>
+  <div class="sec-title">Troubleshooting Knowledge Base</div>
+  <div class="sec-desc">Four common workflow support issues encountered by HR Admins and approvers, with root cause analysis and exact resolution steps.</div>
+  <div class="ts-grid">
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--am-bg);color:var(--am)">⚠ Problem 1: Request Stuck at Step 2 — No Action for Days</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">User reports: "Ahmed's promotion has been stuck at Step 2 for 5 days. Nothing is happening."</div>
+          <div class="ts-c">Root cause: The Step 2 approver (HR Admin) may be absent, unaware, or the notification email went to spam. The SLA cron should have fired but the approver has not responded.</div>
+          <div class="ts-f">Fix: Go to /approvals → filter by workflow_instance ID. Check approval_steps to see who the Step 2 approver is and their decided_at value (NULL = no action). Navigate to /settings/delegations to create an emergency delegation, or go to the approval row and click Delegate to manually reassign to an active HR Admin.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">User reports: "SLA shows breached but the workflow hasn't escalated to anyone."</div>
+          <div class="ts-c">Root cause: The /api/cron/workflow-sla cron may not be running. Check that vercel.json has the cron schedule and that CRON_SECRET environment variable is set in Vercel dashboard.</div>
+          <div class="ts-f">Fix: Verify vercel.json cron definition. Go to Vercel dashboard → Functions → Cron Jobs to see last execution time. If CRON_SECRET is missing, add it. Manually trigger the cron via POST /api/cron/workflow-sla with the Bearer token for immediate escalation.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">User reports: "The Step 2 approver says they never received an email notification."</div>
+          <div class="ts-c">Root cause: SMTP misconfiguration, spam filter, or the approver's email is not set in their user record.</div>
+          <div class="ts-f">Fix: Check /settings/notifications SMTP configuration. Verify the approver's email address at /users → [user] → email field. Use the Resend Notification button on the workflow row in /approvals to generate a fresh email and JWT link.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--rd-bg);color:var(--rd)">🔗 Problem 2: Email Approval Link Not Working</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">Approver reports: "I clicked the Approve link and got 'This link has already been used.'"</div>
+          <div class="ts-c">Root cause: JWT tokens are single-use. If clicked from a different device or browser after a first successful submission, the token is already consumed.</div>
+          <div class="ts-f">Fix: No action needed — the approval was already recorded. Go to /approvals to confirm the step status shows APPROVED and the decided_at timestamp is set. The request has advanced to the next step.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Approver reports: "The link says 'This approval link has expired.'"</div>
+          <div class="ts-c">Root cause: JWT tokens expire after 7 days. Approvers who are away for over a week without delegation will find their email links no longer valid.</div>
+          <div class="ts-f">Fix: HR Admin navigates to /approvals, finds the workflow row, and clicks Resend Notification. A new email with a fresh 7-day JWT is sent. Alternatively, the approver can log in directly to /approvals and approve in-app — no JWT needed for in-app.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">Approver reports: "Clicking the link opens a blank page or shows a server error."</div>
+          <div class="ts-c">Root cause: The JWT signature is invalid or the signing key (AUTH_SECRET env var) has been rotated since the email was sent.</div>
+          <div class="ts-f">Fix: Check that AUTH_SECRET in Vercel environment variables has not changed since the email was sent. If rotated, all outstanding JWT tokens are invalidated. HR Admin must resend notifications for all pending items. Use /approvals Resend Notification for each affected item.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--pu-bg);color:var(--pu)">⚙ Problem 3: Wrong Approver on a Workflow Step</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">HR Admin reports: "Step 1 of Ahmed's promotion is assigned to an intern, not his actual line manager."</div>
+          <div class="ts-c">Root cause: Ahmed's worker_assignments.line_manager_id field points to the wrong person_id, or the workflow template Step 1 is configured to use a static approver instead of the dynamic line_manager_id lookup.</div>
+          <div class="ts-f">Fix: Go to /persons → Ahmed → Assignments → verify line_manager_id is correct. If wrong, update the assignment (creates new effective-date record). For in-flight requests, use Delegate on the approval row to reassign Step 1 to the correct manager without cancelling the workflow.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">HR Admin reports: "Promotions are going to a junior HR Admin instead of the HR Director at Step 3."</div>
+          <div class="ts-c">Root cause: The Promotion workflow template Step 3 approver role is misconfigured as HR_ADMIN instead of HR_DIRECTOR.</div>
+          <div class="ts-f">Fix: Go to /settings/workflows → Promotion template → Step 3 → change Approver Role to HR_DIRECTOR. Save. This applies to new requests only — in-flight items retain the original template configuration. For in-flight items, use Delegate to reassign Step 3 to the correct HR Director.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">User reports: "No one is set as the Finance approver — Step 4 has no assignee."</div>
+          <div class="ts-c">Root cause: No user has been assigned the FINANCE role in the system. Step 4 cannot auto-resolve to a Finance approver without at least one active FINANCE-role user.</div>
+          <div class="ts-f">Fix: Go to /users → find the Finance team member → edit their role to include FINANCE. Return to the stalled workflow and use Resend Notification — the system will now resolve Step 4 to the Finance approver. If no Finance user exists in the org, the HR Director can manually delegate Step 4 to themselves.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ts-card">
+      <div class="ts-hdr" style="background:var(--te-bg);color:var(--te)">↩ Problem 4: Recall Not Available — Already Executed</div>
+      <div class="ts-body">
+        <div class="ts-prob">
+          <div class="ts-p">HR Admin reports: "I want to recall Sara's approved transfer but the Recall button is greyed out."</div>
+          <div class="ts-c">Root cause: The effective_date has already passed and the system has executed the transfer — worker_assignments has been updated. RECALLED status is only available while effective_date is in the future.</div>
+          <div class="ts-f">Fix: The executed transfer cannot be undone directly. Create a new Transfer request to move Sara back to her original position. The original transfer remains in audit history. Both transfers will appear in Sara's assignment history with their respective effective dates.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">HR Admin reports: "The Recall button is visible but clicking it says 'Insufficient permissions.'"</div>
+          <div class="ts-c">Root cause: Only HR_ADMIN and HR_DIRECTOR roles can recall approved workflows. MANAGER role cannot recall — they can only approve/reject/delegate at their step. The current user may have MANAGER role only.</div>
+          <div class="ts-f">Fix: Ask an HR Admin or HR Director to perform the recall. They can access the workflow at /approvals → Completed tab → find the APPROVED workflow → Recall. If the HR Admin cannot see the Recall option, verify their user role includes HR_ADMIN at /users.</div>
+        </div>
+        <div class="ts-prob">
+          <div class="ts-p">User reports: "I thought I recalled the transfer but the org chart still shows the old position."</div>
+          <div class="ts-c">Root cause: RECALLED sets the workflow back to a pre-execution state — the org chart will not reflect the transfer as it was recalled before execution. But the org chart cache may not have refreshed.</div>
+          <div class="ts-f">Fix: Hard refresh the /org-chart page (Ctrl+Shift+R or CMD+Shift+R). If the org chart still shows stale data, trigger the org snapshot cron: POST /api/cron/org-snapshot with CRON_SECRET Bearer token. The snapshot updates the cached tree used for performance.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SECTION 10 — ARIA INTELLIGENCE
+═══════════════════════════════════════════════════════ -->
+<div class="sec" id="s10">
+  <div class="sec-lbl">Section 10</div>
+  <div class="sec-title">ARIA Intelligence — Workflow &amp; Approval Queries</div>
+  <div class="sec-desc">ARIA (the AI assistant) understands workflow state, SLA timers, approval step assignments, and delegation rules. These eight queries demonstrate how ARIA reasons through the approval engine using live database state.</div>
+
+  <div class="aria-wrap">
+    <div class="aria-hdr">
+      <div class="aria-badge">ARIA</div>
+      <div>
+        <div class="aria-title">Workflow Engine Intelligence</div>
+        <div class="aria-sub">محرك الموافقات · All queries resolve against live workflow_instances + approval_steps + audit_log</div>
+      </div>
+    </div>
+
+    <div class="aria-grid">
+
+      <div class="aria-card">
+        <div class="aria-q">"Show me all approvals pending more than 48 hours — who needs to act?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Query workflow_instances WHERE status IN ('PENDING_STEP_1','PENDING_STEP_2','PENDING_STEP_3','PENDING_STEP_4') AND created_at &lt; NOW() - INTERVAL '48 hours'</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Join approval_steps WHERE status = 'PENDING' AND decided_at IS NULL — identify the current active step per instance</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Join persons via approver_id to get the approver name, email, and role</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Cross-reference /settings/delegations — if the approver has an active delegation, show the delegate name instead</div>
+        </div>
+        <div class="aria-response">"There are 3 approvals pending beyond 48h: Ahmed Al-Rashidi's Promotion (Step 2, HR Admin — 54h overdue), Sara's Transfer (Step 1, Omar Al-Farsi — 50h overdue — SLA BREACHED), and Fatima's Leave (Step 1, Omar Al-Farsi — 49h overdue — SLA BREACHED). Omar has no active delegation. Recommend creating a delegation immediately or logging in to /approvals to act."</div>
+        <div class="aria-rule">workflow_instances · approval_steps · /settings/delegations · SLA cron</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Why is Ahmed's promotion stuck? He's been waiting 3 weeks."</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Find workflow_instance WHERE resource_id = Ahmed's person_id AND resource_type = 'PROMOTION' AND status != 'EXECUTED' ORDER BY created_at DESC LIMIT 1</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Read approval_steps: which step is pending? Check decided_at for each completed step</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Identify the current stuck step and its approver — is the approver active? Do they have an active delegation?</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Check payroll_runs for the affected legal entity — is there a LOCKED or APPROVAL_PENDING run blocking salary changes?</div>
+        </div>
+        <div class="aria-response">"Ahmed's promotion is at Step 4 — Finance approval. Steps 1–3 were approved within 48h each. Step 4 has been pending 18 days. The Finance approver role has no user assigned in /users — this is the blocker. Recommend: go to /users and assign the FINANCE role to the correct person, then resend the Step 4 notification."</div>
+        <div class="aria-rule">workflow_instances · approval_steps · users.role = FINANCE · payroll_runs.status</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Who is the Finance approver for promotions at AVANIIS Real Estate?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Query users WHERE role @&gt; ARRAY['FINANCE'] AND legal_entity_id = AVANIIS_REAL_ESTATE_UUID AND is_active = true</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>If no result: confirm that the Promotion workflow template Step 4 requires FINANCE role — template is not misconfigured</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Check if any FINANCE-role user has an active delegation to another user</div>
+        </div>
+        <div class="aria-response">"There is currently no user assigned the FINANCE role for AVANIIS Real Estate. This is why the Promotion workflow stalls at Step 4. To resolve: go to /users, find the Finance department head or CFO, and add FINANCE to their role list. Once assigned, all stalled promotions at Step 4 will send them a notification automatically upon next cron run."</div>
+        <div class="aria-rule">users.role · legal_entity_id · workflow template Step 4 · FINANCE role</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Sara is going on maternity leave next month — how do I set up delegation for her approvals?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Identify Sara's current role and the workflow types she can approve (based on users.role)</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Check Sara's current pending approval queue — how many items does she have and when do they SLA expire?</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Identify suitable delegates: other users with the same role (HR_ADMIN or MANAGER) at the same legal entity</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Confirm the maternity leave start date from absence_requests to set the delegation date range accurately</div>
+        </div>
+        <div class="aria-response">"Sara (HR Admin) can approve Transfer, Promotion, Acting Assignment, Backdated Hire, Leave, and Letter workflows. She has 2 items currently pending in her inbox. For her maternity leave starting 2026-06-10: navigate to /settings/delegations → New Delegation → Delegator: Sara Al-Mansouri → Delegate: Mohammed Al-Hassan (or another HR Admin) → Scope: All Types → Period: 2026-06-10 to [return date]. Do this at least 24h before her leave starts."</div>
+        <div class="aria-rule">/settings/delegations · users.role · absence_requests.start_date · BR-LV-003</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"Omar clicked the email approval link but got an error — what happened?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Check the JWT token log for the workflow_instance — has the token been consumed (single-use flag = true)?</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>If consumed: what was the approval decision and timestamp? Did it come from Omar's session or another device?</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>If not consumed: check token created_at — is it older than 7 days (expired)?</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>If neither: check AUTH_SECRET env var — has it been rotated since the email was sent? Rotation invalidates all outstanding tokens.</div>
+        </div>
+        <div class="aria-response">"The JWT token was consumed at 09:42 GST — 40 minutes before Omar clicked the link again. This was a double-click from a different device (his phone vs desktop). The approval was successfully recorded at 09:42 and the request has already advanced to Step 2. No action needed. If Omar needs to verify: check /approvals → Completed tab → find the request — it shows APPROVED with timestamp 09:42."</div>
+        <div class="aria-rule">JWT token · single-use · approval_steps.decided_at · audit_log.created_at</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"How do I recall Ahmed's approved transfer? He changed his mind."</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Find Ahmed's transfer workflow_instance — what is the current status? (APPROVED or EXECUTED?)</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>If APPROVED: compare effective_date with today — is it still in the future?</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>If future: RECALLED is available. Verify the requesting user has HR_ADMIN or HR_DIRECTOR role.</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>If EXECUTED (effective_date passed): Recall is no longer possible — a new reverse transfer request is required.</div>
+        </div>
+        <div class="aria-response">"Ahmed's transfer is APPROVED with effective_date 2026-07-01 — 9 days from now. Recall is available. Navigate to /approvals → Completed tab → find Ahmed's transfer → click Recall. You must provide a reason. The workflow returns to RECALLED status. The org chart will not update on the effective date. If you need to create a new transfer with a different target, initiate a new request at /persons/[Ahmed] → Transfer. All history is preserved in audit_log."</div>
+        <div class="aria-rule">workflow_instances.status · effective_date · RECALLED · HR_ADMIN role required</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"What happens automatically if no one approves Mohammed's leave request?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Identify Mohammed's leave workflow_instance and its current step approver</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Check if a delegation exists for the approver — if yes, the delegate also receives notifications</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Calculate time elapsed vs SLA (48h) — at SLA breach, /api/cron/workflow-sla runs and marks status=SLA_BREACHED</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>After breach: ARIA generates alert to HR Admin. No auto-approval occurs — human action is always required</div>
+        </div>
+        <div class="aria-response">"If no one approves within 48h: (1) at 24h, a reminder email is sent to the approver; (2) at 48h, the cron marks the workflow SLA_BREACHED; (3) ARIA sends an alert to HR Admin; (4) the request remains PENDING — it is NOT auto-approved or auto-rejected. A human must still act. Recommend: HR Admin either delegates the step or approves/rejects directly using the Admin override capability in /approvals."</div>
+        <div class="aria-rule">/api/cron/workflow-sla · SLA_BREACHED · ARIA alert · no auto-approval</div>
+      </div>
+
+      <div class="aria-card">
+        <div class="aria-q">"How many approvals did Fatima process this month and what was her decision breakdown?"</div>
+        <div class="aria-checks">
+          <div class="aria-checks-title">ARIA checks in order</div>
+          <div class="aria-check"><span class="aria-ci">1.</span>Query approval_steps WHERE approver_id = Fatima.person_id AND decided_at BETWEEN first_day_of_month AND today</div>
+          <div class="aria-check"><span class="aria-ci">2.</span>Group by status (APPROVED / REJECTED / DELEGATED) for count breakdown</div>
+          <div class="aria-check"><span class="aria-ci">3.</span>Join workflow_instances to get workflow type breakdown (Transfer, Promotion, Leave, etc.)</div>
+          <div class="aria-check"><span class="aria-ci">4.</span>Calculate average decision time (decided_at - step_assigned_at) to show Fatima's avg SLA performance</div>
+        </div>
+        <div class="aria-response">"This month, Fatima Al-Zaabi processed 12 approval steps: 9 Approved, 2 Rejected, 1 Delegated. By type: Leave (6), Transfer (4), Acting Assignment (2). Average decision time: 14.3 hours (well within 48h SLA). Her rejections were: Sara's leave (insufficient balance) and Omar's transfer (position frozen). No SLA breaches on Fatima's steps this month. Excellent compliance record."</div>
+        <div class="aria-rule">approval_steps.decided_at · approver_id · workflow_instances.resource_type · SLA performance</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div class="page-footer">
+  AVANIIS HR · Training Module M5: Approvals &amp; Workflow Engine · v3.0 Enterprise Edition · May 2026<br>
+  Avaniis / Avaniis · Internal Use Only · UAE Federal Decree-Law No. 33 of 2021 and amendments · BR-29 · BR-AUDIT-001
+</div>
+
+<script>
+var ROLE_MAP = {
+  hr:  ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'],
+  mgr: ['s1','s3','s4','s6','s7','s8','s9','s10'],
+  hd:  ['s1','s2','s4','s5','s7','s8','s9','s10'],
+  all: ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10']
+};
+
+function setRole(btn, role) {
+  document.querySelectorAll('.rf-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  var show = ROLE_MAP[role] || ROLE_MAP['all'];
+  document.querySelectorAll('.sec[id]').forEach(function(el){
+    el.style.display = (show.indexOf(el.id) !== -1) ? '' : 'none';
+  });
+}
+
+var navLinks = document.querySelectorAll('.ni[data-section]');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){ l.classList.remove('active'); });
+      var link = document.querySelector('.ni[data-section="'+entry.target.id+'"]');
+      if(link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+document.querySelectorAll('.sec[id]').forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>

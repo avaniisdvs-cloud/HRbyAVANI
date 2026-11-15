@@ -1,0 +1,18 @@
+{
+  "run_environment": "http://localhost:3001",
+  "nfr_results": {
+    "NFR-01 page_load_p95_ms": 1143.5189499999997,
+    "NFR-01 threshold_ms": 2000,
+    "NFR-01 status": "PASS",
+    "NFR-02 api_resp_p95_ms": 293.7495,
+    "NFR-02 threshold_ms": 500,
+    "NFR-02 status": "PASS",
+    "NFR-04 peak_vus": 500,
+    "NFR-04 target_vus": 500,
+    "NFR-04 error_rate": 0,
+    "NFR-04 error_rate_threshold": 0.01,
+    "NFR-04 status": "PASS",
+    "check_pass_rate": 0.9983112890830401,
+    "overall_p95_ms": 992.04625
+  }
+}

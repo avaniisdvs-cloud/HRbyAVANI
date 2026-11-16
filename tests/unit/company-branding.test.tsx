@@ -11,6 +11,11 @@ describe('configured company display identity', () => {
     expect(screen.getByText('NESNAR HR')).toBeTruthy()
     expect(screen.getByRole('img', { name: 'NESNAR' }).getAttribute('src')).toBe(brand.logoUrl)
   })
+  it('keeps uploaded artwork within explicit layout dimensions', () => {
+    render(<BrandingProvider branding={brand}><CompanyLogo width={64} height={64} style={{ width: 'auto', objectFit: 'contain' }} /></BrandingProvider>)
+    expect(screen.getByRole('img').style.height).toBe('64px')
+    expect(screen.getByRole('img').style.width).toBe('auto')
+  })
   it('handles Arabic, mixed case and literal replacement characters safely', () => {
     expect(formatBrandText('Avaniis / AVANIIS / أفانيس', brand)).toBe('NESNAR / NESNAR / نسنار')
     expect(formatBrandText('AVANIIS HR', { ...brand, companyName: 'A & B $&' })).toBe('A & B $& HR')

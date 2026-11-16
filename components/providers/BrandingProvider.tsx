@@ -19,7 +19,7 @@ export function CompanyLogo({ alt, priority, ...props }: ComponentProps<'img'> &
   const branding = useBranding()
   // Plain img intentionally supports the existing durable DB-backed data URLs.
   // eslint-disable-next-line @next/next/no-img-element
-  return <img {...props} loading={priority ? 'eager' : props.loading} src={companyLogoSource(branding)} alt={alt || branding.companyName} />
+  return <img {...props} style={{ width: props.width, height: props.height, ...props.style }} loading={priority ? 'eager' : props.loading} src={companyLogoSource(branding)} alt={alt || branding.companyName} />
 }
 
 export function MobileBrandHeader() {

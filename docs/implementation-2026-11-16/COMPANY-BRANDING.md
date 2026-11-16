@@ -23,12 +23,13 @@ A public read-only artwork endpoint serves only the configured global image, nee
 
 ## Verification
 
-- 191 test files pass: 3,333 passed, 36 skipped, 7 TODO.
+- 191 test files pass: 3,334 passed, 36 skipped, 7 TODO.
 - TypeScript and optimized application build pass (existing lint warnings remain).
 - Browser: Super Admin changed AVANIIS to NESNAR; saved state persisted on reload. Dashboard heading/title, sign-in product copy, ticker/footer and uploaded test SVG changed to NESNAR. Public logo loaded successfully.
 - Supplied transparent AVANIIS PNG (852 KB) uploaded and loaded successfully.
 - HR Admin saw no Company Branding link; direct /settings/branding redirected to /settings. Unit tests deny unauthenticated callers and all six other roles before any branding database write.
 - Restored AVANIIS, Arabic name and original default logo after testing. Six synthetic employees remained visible; no employee/legal-entity records were edited.
+- Final screenshot review caught an intrinsic image-size regression in the shared logo. Explicit inline layout dimensions now constrain artwork; a regression test verifies the size bound.
 - First-upload test found a historical database ticker default. New personalization rows explicitly use neutral defaults, preventing an upload from introducing unrelated company copy.
 
 Local browser evidence (ignored by Git):

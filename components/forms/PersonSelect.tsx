@@ -162,11 +162,11 @@ export function PersonSelect({
         }}
       >
         {selectedLabel ? (
-          <span style={{ fontSize: 14, color: 'var(--ink-1)', flex: 1, fontFamily: 'var(--font-sans)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-1)', flex: 1, fontFamily: 'var(--font-sans)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {selectedLabel}
           </span>
         ) : (
-          <span style={{ fontSize: 14, color: 'var(--ink-4)', flex: 1, fontFamily: 'var(--font-sans)' }}>
+          <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-4)', flex: 1, fontFamily: 'var(--font-sans)' }}>
             {placeholder ?? (required ? 'Search employee…' : 'Select employee…')}
           </span>
         )}

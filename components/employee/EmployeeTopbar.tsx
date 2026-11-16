@@ -164,7 +164,7 @@ export function EmployeeTopbar({ userName, userRole, initials, locale, personId,
         </div>
         <span style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{
-            fontSize: 14, fontWeight: 600, color: 'var(--ink-1)',
+            fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)',
             fontFamily: 'var(--font-sans)', letterSpacing: '-0.1px', lineHeight: 1.15,
           }}>
             {primaryLabel}

@@ -207,7 +207,7 @@ function NavItemLink({
         {item.isNew && (
           <span style={{
             fontSize: 'var(--text-caption)', fontWeight: 700, letterSpacing: '0.08em',
-            textTransform: 'uppercase', color: 'white', flexShrink: 0,
+            textTransform: 'uppercase', color: "var(--on-accent)", flexShrink: 0,
             background: 'var(--accent)', padding: '2px 5px', borderRadius: 4,
           }}>NEW</span>
         )}
@@ -220,7 +220,7 @@ function NavItemLink({
         )}
         {item.badge != null && (
           <span style={{
-            fontSize: 'var(--text-caption)', fontWeight: 600, color: 'white', flexShrink: 0,
+            fontSize: 'var(--text-caption)', fontWeight: 600, color: "var(--on-accent)", flexShrink: 0,
             background: 'var(--accent)', minWidth: 18, textAlign: 'center',
             padding: '1px 5px', borderRadius: 20,
           }}>

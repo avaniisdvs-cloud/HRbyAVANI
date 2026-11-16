@@ -92,7 +92,7 @@ export function LeaveDecisionBar({ requestId, status, canSubmit, canDecide, canC
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'اتخذ إجراء' : 'Take action'}</h3>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'اتخذ إجراء' : 'Take action'}</h3>
       </div>
       <div style={{ padding: '16px 20px' }} className="space-y-3">
         {(canDecide || canCancel) && (

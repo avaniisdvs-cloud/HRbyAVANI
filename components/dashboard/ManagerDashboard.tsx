@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import Link from 'next/link'
 import { Check, Users, Calendar, Clock } from 'lucide-react'
 
@@ -73,13 +74,13 @@ export function ManagerDashboard({
 
       {/* Section 1 — Greeting */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 24 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 32, fontWeight: 500,
           letterSpacing: '-0.6px', color: 'var(--ink-1)', margin: 0,
         }}>
           {greeting}, {firstName}.
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
           {locale === 'ar'
             ? `أنت تقود ${teamSize} موظفين في فريقك.`
             : `You lead ${teamSize} ${teamSize === 1 ? 'person' : 'people'} on your team.`}
@@ -209,7 +210,7 @@ export function ManagerDashboard({
               padding: '16px 20px', borderBottom: '1px solid var(--border)',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             }}>
-              <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+              <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
                 {locale === 'ar' ? 'تحتاج مراجعتك' : 'Needs your review'}
               </h3>
               <Link href="/workflows" style={{
@@ -280,7 +281,7 @@ export function ManagerDashboard({
             borderRadius: 12, overflow: 'hidden',
           }}>
             <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-              <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+              <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
                 {locale === 'ar' ? 'الفريق بلمحة' : 'Team at a glance'}
               </h3>
             </div>

@@ -24,7 +24,7 @@ type Tab = 'personal' | 'employment' | 'documents'
 
 const inputStyle: React.CSSProperties = {
   border: '1.5px solid var(--border)', borderRadius: 8,
-  padding: '10px 12px', fontSize: 14,
+  padding: '10px 12px', fontSize: 'var(--text-body)',
   background: 'var(--card)', color: 'var(--ink-1)',
   outline: 'none', width: '100%', boxSizing: 'border-box',
 }
@@ -70,7 +70,7 @@ function TabBar({ active, onChange }: { active: Tab; onChange: (t: Tab) => void 
     marginBottom: 24 }}>
       {tabs.map(t => (
         <button key={t.key} type="button" onClick={() => onChange(t.key)} style={{
-          padding: '10px 18px', fontSize: 14,
+          padding: '10px 18px', fontSize: 'var(--text-body)',
           fontWeight:   active === t.key ? 600 : 400,
           color:        active === t.key ? 'var(--brand-active)' : 'var(--ink-3)',
           background:   'transparent',
@@ -320,12 +320,12 @@ export function PersonEditDrawer({ open, person, onClose, onSaved }: Props) {
   const footer = (
     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
       <button type="button" onClick={onClose} disabled={isPending} style={{
-        padding: '9px 18px', fontSize: 14, fontWeight: 500, borderRadius: 8,
+        padding: '9px 18px', fontSize: 'var(--text-body)', fontWeight: 500, borderRadius: 8,
         border: '1.5px solid var(--border)', background: 'var(--card)', color: 'var(--ink-2)',
         cursor: isPending ? 'not-allowed' : 'pointer', opacity: isPending ? 0.5 : 1,
       }}>{locale === 'ar' ? 'إلغاء' : 'Cancel'}</button>
       <button type="button" onClick={handleSave} disabled={isPending} style={{
-        padding: '9px 18px', fontSize: 14, fontWeight: 600, borderRadius: 8,
+        padding: '9px 18px', fontSize: 'var(--text-body)', fontWeight: 600, borderRadius: 8,
         border: 'none', background: 'var(--accent)', color: 'var(--card)',
         cursor: isPending ? 'not-allowed' : 'pointer', opacity: isPending ? 0.6 : 1, minWidth: 80,
       }}>{isPending ? (locale === 'ar' ? 'جارٍ الحفظ…' : 'Saving…') : (locale === 'ar' ? 'حفظ' : 'Save')}</button>

@@ -1,0 +1,295 @@
+[
+  {
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Employees",
+        "weight": "600",
+        "width": 165.5625,
+        "x": 464
+      }
+    ],
+    "navLinks": [
+      {
+        "color": "rgb(62, 72, 85)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "Overview\u23181",
+        "weight": "400",
+        "width": 191,
+        "x": 8
+      },
+      {
+        "color": "rgb(47, 107, 50)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "People\u23182",
+        "weight": "600",
+        "width": 191,
+        "x": 8
+      },
+      {
+        "color": "rgb(62, 72, 85)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "Organization\u23183",
+        "weight": "400",
+        "width": 191,
+        "x": 8
+      },
+      {
+        "color": "rgb(62, 72, 85)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "Leave & Time\u23184",
+        "weight": "400",
+        "width": 191,
+        "x": 8
+      },
+      {
+        "color": "rgb(62, 72, 85)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "Workflows\u23186",
+        "weight": "400",
+        "width": 191,
+        "x": 8
+      },
+      {
+        "color": "rgb(62, 72, 85)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "Documents\u23187",
+        "weight": "400",
+        "width": 191,
+        "x": 8
+      },
+      {
+        "color": "rgb(62, 72, 85)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "Reports\u23188",
+        "weight": "400",
+        "width": 191,
+        "x": 8
+      }
+    ],
+    "navs": [
+      {
+        "color": "rgb(62, 72, 85)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "WorkspacesOverview\u23181People\u23182Organization\u23183Leave & Time\u23184Workflows\u23186Doc",
+        "weight": "400",
+        "width": 207,
+        "x": 0
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "PeopleWORKSPACEEmployeesDirectoryOrg ChartMy TeamImport EmployeesNEWLi",
+        "weight": "400",
+        "width": 232,
+        "x": 208
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "14px",
+        "text": "HomeApprovalsMenu",
+        "weight": "400",
+        "width": 0,
+        "x": 0
+      }
+    ],
+    "page": "/persons",
+    "tokens": {
+      "--bg": "#F9F6F0",
+      "--border": "#E6E2DB",
+      "--brand-active": "#2F6B32",
+      "--text-body": "0.875rem",
+      "--text-caption": "0.8125rem"
+    },
+    "viewport": 1280
+  },
+  {
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Legal Entities",
+        "weight": "500"
+      }
+    ],
+    "page": "/master-data/legal-entities"
+  },
+  {
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Legal Entities",
+        "weight": "500"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "18px",
+        "text": "New Legal Entity",
+        "weight": "500"
+      }
+    ],
+    "page": "legal-entity-create-dialog"
+  },
+  {
+    "error": false,
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Avaniis People \u2014 Overview",
+        "weight": "500"
+      }
+    ],
+    "page": "/dashboard",
+    "title": "Dashboard \u00b7 AVANIIS People \u2014 AVANIIS HR"
+  },
+  {
+    "error": false,
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Leave Management",
+        "weight": "500"
+      }
+    ],
+    "page": "/absence",
+    "title": "Leave Requests \u00b7 AVANIIS People \u2014 AVANIIS HR"
+  },
+  {
+    "error": false,
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Pending Approvals",
+        "weight": "500"
+      }
+    ],
+    "page": "/workflows",
+    "title": "Approvals \u00b7 AVANIIS People \u2014 AVANIIS HR"
+  },
+  {
+    "error": false,
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Employee Letters",
+        "weight": "700"
+      }
+    ],
+    "page": "/employee-letters",
+    "title": "Employee Letters | AVANIIS HR \u2014 AVANIIS HR"
+  },
+  {
+    "error": false,
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "Headcount by Department",
+        "weight": "500"
+      }
+    ],
+    "page": "/reports",
+    "title": "Reports \u00b7 AVANIIS People \u2014 AVANIIS HR"
+  },
+  {
+    "error": false,
+    "headings": [
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Fraunces, \"Fraunces Fallback\"",
+        "size": "28.16px",
+        "text": "System & HR Configuration",
+        "weight": "400"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "HR Policies",
+        "weight": "600"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "Organization Setup",
+        "weight": "600"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "Leave & Time",
+        "weight": "600"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "Payroll",
+        "weight": "600"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "Insurance",
+        "weight": "600"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "Employee Lifecycle",
+        "weight": "600"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "Access & Delegations",
+        "weight": "600"
+      },
+      {
+        "color": "rgb(23, 33, 43)",
+        "font": "Inter, \"Inter Fallback\", system-ui, sans-serif",
+        "size": "15px",
+        "text": "Platform & System",
+        "weight": "600"
+      }
+    ],
+    "page": "/settings",
+    "title": "Administration \u00b7 AVANIIS HR \u2014 AVANIIS HR"
+  },
+  {
+    "error": false,
+    "headings": [],
+    "page": "/admin/dataops",
+    "title": "AVANIIS HR"
+  }
+]

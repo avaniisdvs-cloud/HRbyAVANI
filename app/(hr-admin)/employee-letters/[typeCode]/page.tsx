@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { useParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import { FileText, Clock } from 'lucide-react'
@@ -111,12 +112,12 @@ export default function LetterTypePage() {
           <span style={{ color: 'var(--ink-1)' }}>{typeMeta.en}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-          <h1 style={{
+          <PageTitle style={{
             margin: 0, fontSize: 22, fontWeight: 700,
             color: 'var(--ink-1)', fontFamily: 'var(--font-serif)',
           }}>
             {typeMeta.en}
-          </h1>
+          </PageTitle>
           <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', fontFamily: 'var(--font-serif)' }}>
             {typeMeta.ar}
           </span>

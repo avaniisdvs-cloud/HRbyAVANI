@@ -65,7 +65,7 @@ export function LeaveCertUploadWidget({ requestId, certUploaded, uploadedFileNam
           <rect x="2" y="1" width="12" height="14" rx="2" stroke="var(--ink-2)" strokeWidth="1.4" />
           <path d="M5 5h6M5 8h6M5 11h3" stroke="var(--ink-2)" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'الشهادة الطبية' : 'Medical Certificate'}
         </h3>
         {uploaded && (

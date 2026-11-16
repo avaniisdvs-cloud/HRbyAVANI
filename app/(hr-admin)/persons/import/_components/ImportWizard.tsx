@@ -9,6 +9,7 @@
  *   3. Confirm import
  *   4. Result summary
  */
+import { SectionTitle } from '@/components/ui/typography'
 import React, { useCallback, useRef, useState } from 'react'
 import { Upload, Download, CheckCircle, AlertTriangle, XCircle, FileSpreadsheet, Users, UserCheck, Loader2 } from 'lucide-react'
 import { validateImportFile, confirmImport } from '@/modules/core-hr/bulk-import/actions'
@@ -190,7 +191,7 @@ export function ImportWizard() {
           borderRadius: 8, padding: '12px 16px', marginBottom: 24, display: 'flex', gap: 10, alignItems: 'flex-start',
         }}>
           <XCircle size={16} style={{ color: 'var(--status-rejected-fg)', marginTop: 2, flexShrink: 0 }} />
-          <span style={{ color: 'var(--status-rejected-fg)', fontSize: 14 }}>{error}</span>
+          <span style={{ color: 'var(--status-rejected-fg)', fontSize: 'var(--text-body)' }}>{error}</span>
         </div>
       )}
 
@@ -203,10 +204,10 @@ export function ImportWizard() {
           <div style={{
             background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 24,
           }}>
-            <h2 style={{ margin: '0 0 8px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
+            <SectionTitle style={{ margin: '0 0 8px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
               {isAr ? 'الخطوة 1 — نزّل القالب' : 'Step 1 — Download the template'}
-            </h2>
-            <p style={{ margin: '0 0 16px', color: 'var(--ink-2)', fontSize: 14 }}>
+            </SectionTitle>
+            <p style={{ margin: '0 0 16px', color: 'var(--ink-2)', fontSize: 'var(--text-body)' }}>
               {isAr
                 ? 'نزّل قالب Excel، واملأ بيانات الموظفين، ثم ارفعه أدناه. يتضمّن القالب أوراقاً مرجعية بالرموز الصحيحة للجهات القانونية والأقسام والمناصب والدرجات والمواقع.'
                 : 'Download the Excel template, fill in employee data, and upload it below. The template includes reference sheets with valid codes for legal entities, departments, positions, grades, and locations.'}
@@ -216,8 +217,8 @@ export function ImportWizard() {
               download
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'var(--accent)', color: '#fff',
-                padding: '9px 18px', borderRadius: 8, fontWeight: 600, fontSize: 14,
+                background: 'var(--accent)', color: "var(--on-accent)",
+                padding: '9px 18px', borderRadius: 8, fontWeight: 600, fontSize: 'var(--text-body)',
                 textDecoration: 'none',
               }}
             >
@@ -230,9 +231,9 @@ export function ImportWizard() {
           <div style={{
             background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 24,
           }}>
-            <h2 style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
+            <SectionTitle style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
               {isAr ? 'الخطوة 2 — ارفع الملف المكتمل' : 'Step 2 — Upload completed file'}
-            </h2>
+            </SectionTitle>
 
             <div
               onDrop={onDrop}
@@ -284,8 +285,8 @@ export function ImportWizard() {
                   disabled={loading}
                   style={{
                     display: 'flex', alignItems: 'center', gap: 8,
-                    background: 'var(--accent)', color: '#fff',
-                    padding: '10px 22px', borderRadius: 8, fontWeight: 600, fontSize: 14,
+                    background: 'var(--accent)', color: "var(--on-accent)",
+                    padding: '10px 22px', borderRadius: 8, fontWeight: 600, fontSize: 'var(--text-body)',
                     border: 'none', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1,
                   }}
                 >
@@ -295,7 +296,7 @@ export function ImportWizard() {
                 <button
                   onClick={() => { setFile(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
                   style={{
-                    padding: '10px 18px', borderRadius: 8, fontWeight: 500, fontSize: 14,
+                    padding: '10px 18px', borderRadius: 8, fontWeight: 500, fontSize: 'var(--text-body)',
                     border: '1px solid var(--border)', background: 'var(--surface)',
                     color: 'var(--ink-2)', cursor: 'pointer',
                   }}
@@ -317,9 +318,9 @@ export function ImportWizard() {
           <div style={{
             background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 24,
           }}>
-            <h2 style={{ margin: '0 0 20px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
+            <SectionTitle style={{ margin: '0 0 20px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
               {isAr ? 'ملخّص التحقّق' : 'Validation Summary'}
-            </h2>
+            </SectionTitle>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
               <SummaryCard icon={<FileSpreadsheet size={18} />} label={isAr ? 'إجمالي الصفوف' : 'Total Rows'} value={preview.totalRows} />
               <SummaryCard icon={<CheckCircle size={18} />} label={isAr ? 'الصفوف الصالحة' : 'Valid Rows'} value={preview.validRows} accent="green" />
@@ -336,9 +337,9 @@ export function ImportWizard() {
             <div style={{
               background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 24,
             }}>
-              <h2 style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
+              <SectionTitle style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
                 {isAr ? 'مشكلات التحقّق' : 'Validation Issues'} ({preview.issues.length})
-              </h2>
+              </SectionTitle>
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-body)' }}>
                   <thead>
@@ -380,9 +381,9 @@ export function ImportWizard() {
             <div style={{
               background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 24,
             }}>
-              <h2 style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
+              <SectionTitle style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 18, color: 'var(--ink-1)' }}>
                 {isAr ? 'معاينة الصفوف الصالحة' : 'Valid Rows Preview'} ({preview.validatedRows.length})
-              </h2>
+              </SectionTitle>
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-body)' }}>
                   <thead>
@@ -433,8 +434,8 @@ export function ImportWizard() {
                 onClick={() => setStep('confirm')}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 8,
-                  background: 'var(--accent)', color: '#fff',
-                  padding: '10px 22px', borderRadius: 8, fontWeight: 600, fontSize: 14,
+                  background: 'var(--accent)', color: "var(--on-accent)",
+                  padding: '10px 22px', borderRadius: 8, fontWeight: 600, fontSize: 'var(--text-body)',
                   border: 'none', cursor: 'pointer',
                 }}
               >
@@ -447,7 +448,7 @@ export function ImportWizard() {
             {hasBlockingErrors && (
               <div style={{
                 background: 'var(--status-rejected-bg)', border: '1px solid var(--status-rejected-dot)',
-                borderRadius: 8, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, fontSize: 14,
+                borderRadius: 8, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, fontSize: 'var(--text-body)',
                 color: 'var(--status-rejected-fg)',
               }}>
                 <XCircle size={15} />
@@ -459,7 +460,7 @@ export function ImportWizard() {
             <button
               onClick={handleReset}
               style={{
-                padding: '10px 18px', borderRadius: 8, fontWeight: 500, fontSize: 14,
+                padding: '10px 18px', borderRadius: 8, fontWeight: 500, fontSize: 'var(--text-body)',
                 border: '1px solid var(--border)', background: 'var(--surface)',
                 color: 'var(--ink-2)', cursor: 'pointer',
               }}
@@ -478,10 +479,10 @@ export function ImportWizard() {
           background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 32,
           display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 600,
         }}>
-          <h2 style={{ margin: 0, fontFamily: 'var(--font-serif)', fontSize: 22, color: 'var(--ink-1)' }}>
+          <SectionTitle style={{ margin: 0, fontFamily: 'var(--font-serif)', fontSize: 22, color: 'var(--ink-1)' }}>
             {isAr ? 'تأكيد الاستيراد' : 'Confirm Import'}
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, color: 'var(--ink-2)', fontSize: 15 }}>
+          </SectionTitle>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, color: 'var(--ink-2)', fontSize: 'var(--text-body)' }}>
             <div>
               {isAr
                 ? <>أنت على وشك استيراد <strong style={{ color: 'var(--ink-1)' }}>{preview.validRows} {preview.validRows === 1 ? 'موظف' : 'موظفين'}</strong>.</>
@@ -515,8 +516,8 @@ export function ImportWizard() {
               disabled={loading}
               style={{
                 display: 'flex', alignItems: 'center', gap: 8,
-                background: 'var(--accent)', color: '#fff',
-                padding: '11px 24px', borderRadius: 8, fontWeight: 600, fontSize: 14,
+                background: 'var(--accent)', color: "var(--on-accent)",
+                padding: '11px 24px', borderRadius: 8, fontWeight: 600, fontSize: 'var(--text-body)',
                 border: 'none', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1,
               }}
             >
@@ -529,7 +530,7 @@ export function ImportWizard() {
               onClick={() => setStep('preview')}
               disabled={loading}
               style={{
-                padding: '11px 18px', borderRadius: 8, fontWeight: 500, fontSize: 14,
+                padding: '11px 18px', borderRadius: 8, fontWeight: 500, fontSize: 'var(--text-body)',
                 border: '1px solid var(--border)', background: 'var(--surface)',
                 color: 'var(--ink-2)', cursor: 'pointer',
               }}
@@ -551,10 +552,10 @@ export function ImportWizard() {
           }}>
             <CheckCircle size={24} style={{ color: 'var(--status-approved-fg)', flexShrink: 0 }} />
             <div>
-              <h2 style={{ margin: '0 0 6px', fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--status-approved-fg)' }}>
+              <SectionTitle style={{ margin: '0 0 6px', fontFamily: 'var(--font-serif)', fontSize: 20, color: 'var(--status-approved-fg)' }}>
                 {isAr ? 'تم الاستيراد بنجاح' : 'Import Successful'}
-              </h2>
-              <p style={{ margin: 0, color: 'var(--status-approved-fg)', fontSize: 14 }}>
+              </SectionTitle>
+              <p style={{ margin: 0, color: 'var(--status-approved-fg)', fontSize: 'var(--text-body)' }}>
                 {isAr
                   ? `تم استيراد ${result.imported} ${result.imported === 1 ? 'موظف' : 'موظفين'} بنجاح.${result.usersCreated > 0 ? ` وأُنشئ ${result.usersCreated} ${result.usersCreated === 1 ? 'حساب مستخدم' : 'حساب مستخدم'}.` : ''}`
                   : `${result.imported} employee${result.imported !== 1 ? 's were' : ' was'} imported successfully.${result.usersCreated > 0 ? ` ${result.usersCreated} user account${result.usersCreated !== 1 ? 's were' : ' was'} created.` : ''}`}
@@ -570,7 +571,7 @@ export function ImportWizard() {
           <div style={{
             background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, padding: 24,
           }}>
-            <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 16, color: 'var(--ink-1)' }}>
+            <h3 style={{ margin: '0 0 16px', fontFamily: 'var(--font-serif)', fontSize: 'var(--text-lead)', color: 'var(--ink-1)' }}>
               {isAr ? 'الموظفون المستوردون' : 'Imported Employees'}
             </h3>
             <div style={{ overflowX: 'auto' }}>
@@ -615,8 +616,8 @@ export function ImportWizard() {
               href="/persons"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: 'var(--accent)', color: '#fff',
-                padding: '10px 22px', borderRadius: 8, fontWeight: 600, fontSize: 14,
+                background: 'var(--accent)', color: "var(--on-accent)",
+                padding: '10px 22px', borderRadius: 8, fontWeight: 600, fontSize: 'var(--text-body)',
                 textDecoration: 'none',
               }}
             >
@@ -626,7 +627,7 @@ export function ImportWizard() {
             <button
               onClick={handleReset}
               style={{
-                padding: '10px 18px', borderRadius: 8, fontWeight: 500, fontSize: 14,
+                padding: '10px 18px', borderRadius: 8, fontWeight: 500, fontSize: 'var(--text-body)',
                 border: '1px solid var(--border)', background: 'var(--surface)',
                 color: 'var(--ink-2)', cursor: 'pointer',
               }}

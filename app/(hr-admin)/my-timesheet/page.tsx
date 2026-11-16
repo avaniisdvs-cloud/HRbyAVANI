@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { requireRole } from '@/lib/auth'
 import { getMyAttendance } from '@/modules/timesheets/actions'
 import { AttendanceCalendar } from '@/components/timesheets/AttendanceCalendar'
@@ -28,7 +29,7 @@ export default async function MyTimesheetPage() {
   return (
     <div className="page-in" style={{ width: '100%', boxSizing: 'border-box', maxWidth: 960 }}>
       <div style={{ marginBottom: 24 }}>
-        <h1
+        <PageTitle
           style={{
             fontFamily:    'var(--font-serif)',
             fontSize:      30,
@@ -39,8 +40,8 @@ export default async function MyTimesheetPage() {
           }}
         >
           My Timesheet
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
           View your attendance records and submit exception requests.
         </p>
       </div>
@@ -59,20 +60,20 @@ export default async function MyTimesheetPage() {
           <AttendanceCalendar year={year} month={month} records={records} />
         </div>
         <div style={{ background: 'var(--card)', borderRadius: '0.75rem', padding: '1.25rem', border: '1px solid var(--border)' }}>
-          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
+          <SectionTitle style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
             Submit Exception Request
-          </h2>
+          </SectionTitle>
           <ExceptionRequestForm />
         </div>
       </div>
 
       {records.length > 0 && (
         <div style={{ marginTop: '1.5rem', background: 'var(--card)', borderRadius: '0.75rem', padding: '1.25rem', border: '1px solid var(--border)' }}>
-          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
+          <SectionTitle style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
             Attendance Log
-          </h2>
+          </SectionTitle>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-caption)' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
                   {['Date', 'Status', 'In', 'Out', 'Worked', 'Late', 'Notes'].map(h => (
@@ -91,7 +92,7 @@ export default async function MyTimesheetPage() {
                         display: 'inline-block', padding: '0.125rem 0.5rem', borderRadius: '0.25rem',
                         background: r.status === 'PRESENT' ? 'var(--status-approved-bg)' : r.status === 'ABSENT' ? 'var(--status-rejected-bg)' : r.status === 'ON_LEAVE' ? 'var(--status-pending-bg)' : 'var(--status-draft-bg)',
                         color:      r.status === 'PRESENT' ? 'var(--status-approved-fg)' : r.status === 'ABSENT' ? 'var(--status-rejected-fg)' : r.status === 'ON_LEAVE' ? 'var(--status-pending-fg)' : 'var(--status-draft-fg)',
-                        fontSize: '0.75rem', fontWeight: 600,
+                        fontSize: 'var(--text-caption)', fontWeight: 600,
                       }}>
                         {r.status.replace('_', ' ')}
                       </span>

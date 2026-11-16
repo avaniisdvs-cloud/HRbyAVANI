@@ -2,7 +2,7 @@ export function CompanyUpdatesCard({ locale = 'en' }: { locale?: string }) {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
       <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>
+        <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>
           {locale === 'ar' ? 'أخبار الشركة' : 'Company updates'}
         </h3>
       </div>

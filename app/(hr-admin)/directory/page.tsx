@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth, roleHome } from '@/lib/auth'
 import { getLocale } from '@/lib/locale-server'
@@ -19,7 +20,7 @@ export default async function AdminDirectoryPage() {
   return (
     <div className="page-in">
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily:    'var(--font-serif)',
           fontSize:      28,
           fontWeight:    500,
@@ -28,7 +29,7 @@ export default async function AdminDirectoryPage() {
           margin:        0,
         }}>
           {locale === 'ar' ? 'دليل الموظفين' : 'Employee Directory'}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 0' }}>
           {locale === 'ar'
             ? 'ابحث عن موظفين واطّلع على بياناتهم الوظيفية.'

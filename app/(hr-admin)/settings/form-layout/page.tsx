@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { auth, roleHome } from '@/lib/auth'
@@ -49,7 +50,7 @@ export default async function FormLayoutSettingsPage({
   return (
     <div className="page-in">
       <div className="mb-6">
-        <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'تخطيط النموذج' : 'Form layout'}</h1>
+        <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'تخطيط النموذج' : 'Form layout'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {locale === 'ar' ? (
             <>إعادة ترتيب أقسام النموذج أو إعادة تسميتها أو إخفاؤها دون تغييرات برمجية. تُحدَّد نطاقات التخطيطات
@@ -64,7 +65,7 @@ export default async function FormLayoutSettingsPage({
       </div>
 
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }} className="mb-6">
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'اختر تخطيطاً للتعديل' : 'Pick a layout to edit'}</h3></div>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'اختر تخطيطاً للتعديل' : 'Pick a layout to edit'}</h3></div>
         <div style={{ padding: '16px 20px' }}>
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
             <div className="space-y-1.5">

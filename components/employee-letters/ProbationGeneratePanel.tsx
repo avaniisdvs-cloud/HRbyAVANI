@@ -96,7 +96,7 @@ function Initials({ name, photo, size = 36 }: { name: string | null; photo?: str
   return (
     <div style={{
       width: size, height: size, borderRadius: '50%', flexShrink: 0,
-      background: `hsl(${hue},45%,55%)`, color: '#fff',
+      background: `hsl(${hue},45%,55%)`, color: "var(--on-accent)",
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: size > 40 ? 16 : 12, fontWeight: 700, letterSpacing: '0.03em',
     }}>
@@ -365,7 +365,7 @@ export function ProbationGeneratePanel({ employees, onGenerated }: Props) {
             }}>
               <Initials name={selected.fullNameEn} photo={selected.profilePhotoUrl} size={56} />
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--ink-1)' }}>
+                <div style={{ fontWeight: 700, fontSize: 'var(--text-body)', color: 'var(--ink-1)' }}>
                   {selected.fullNameEn ?? '—'}
                 </div>
                 {hasArabic(selected.fullNameAr) && (
@@ -457,7 +457,7 @@ export function ProbationGeneratePanel({ employees, onGenerated }: Props) {
                   style={{
                     width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                     padding: '10px 0', borderRadius: 8, border: 'none',
-                    background: 'var(--accent)', color: '#fff',
+                    background: 'var(--accent)', color: "var(--on-accent)",
                     fontSize: 'var(--text-body)', fontWeight: 600, cursor: isPending ? 'wait' : 'pointer',
                     opacity: isPending ? 0.8 : 1, transition: 'opacity 0.15s',
                   }}
@@ -475,7 +475,7 @@ export function ProbationGeneratePanel({ employees, onGenerated }: Props) {
                     onClick={onGenerated}
                     style={{
                       width: '100%', padding: '9px 0', borderRadius: 8, border: 'none',
-                      background: 'var(--accent)', color: '#fff',
+                      background: 'var(--accent)', color: "var(--on-accent)",
                       fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                     }}

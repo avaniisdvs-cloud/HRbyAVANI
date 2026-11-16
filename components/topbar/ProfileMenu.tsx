@@ -109,7 +109,7 @@ export function ProfileMenu({
             width: 40, height: 40, borderRadius: '50%',
             background: 'var(--accent)', color: 'var(--card)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 14, fontWeight: 700, fontFamily: 'var(--font-sans)', flexShrink: 0,
+            fontSize: 'var(--text-body)', fontWeight: 700, fontFamily: 'var(--font-sans)', flexShrink: 0,
           }}>
             {initials}
           </div>

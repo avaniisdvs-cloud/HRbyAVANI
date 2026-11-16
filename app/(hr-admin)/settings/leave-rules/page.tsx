@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -76,7 +77,7 @@ export default async function LeaveRulesPage({
     <div className="page-in">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'قواعد الإجازات' : 'Leave rules'}</h1>
+          <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'قواعد الإجازات' : 'Leave rules'}</PageTitle>
           <p className="mt-1 text-sm text-ink-3">
             {locale === 'ar'
               ? 'تحدّد مجموعات قواعد الإجازات شرائح الاستحقاق، وحدود الترحيل، وتكرار الاستحقاق.'
@@ -126,9 +127,9 @@ export default async function LeaveRulesPage({
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             <header className="flex items-center justify-between border-b border-border px-5 py-3">
               <div>
-                <h2 className="font-sans text-sm font-semibold text-ink-1">
+                <SectionTitle className="font-sans text-sm font-semibold text-ink-1">
                   {activeSet?.ruleSetNameEn ?? (locale === 'ar' ? 'اختر مجموعة قواعد' : 'Select a rule set')}
-                </h2>
+                </SectionTitle>
                 {activeSet && (
                   <p className="text-xs text-ink-3">
                     {activeSet.nationalityScope} · {activeSet.employmentTypeScope} ·

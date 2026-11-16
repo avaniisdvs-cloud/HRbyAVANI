@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import Link from 'next/link'
@@ -90,13 +91,13 @@ export default async function LeaveListPage({
         marginBottom: 16,
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
             letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0,
           }}>
             {locale === 'ar' ? 'إدارة الإجازات' : 'Leave Management'}
-          </h1>
-          <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+          </PageTitle>
+          <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
             {pageResult.total === 0
               ? (locale === 'ar' ? 'لا توجد طلبات إجازة تطابق الفلاتر الحالية.' : 'No leave requests match the current filters.')
               : `Showing ${start + 1}–${end} of ${pageResult.total}`}
@@ -106,7 +107,7 @@ export default async function LeaveListPage({
           href="/absence/new"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             borderRadius: 7, padding: '9px 16px', fontSize: 'var(--text-body)',
             fontWeight: 600, textDecoration: 'none',
           }}

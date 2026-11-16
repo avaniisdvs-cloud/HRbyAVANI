@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { CustomFieldCreateForm } from './CustomFieldCreateForm'
@@ -20,7 +21,7 @@ export default async function NewCustomFieldPage() {
   return (
     <div className="page-in">
       <div>
-        <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'حقل مخصص جديد' : 'New custom field'}</h1>
+        <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'حقل مخصص جديد' : 'New custom field'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {locale === 'ar' ? (
             <>أضف حقلاً خاصاً بالمستأجر إلى كائن موارد بشرية. تُخزَّن القيمة في عمود
@@ -33,7 +34,7 @@ export default async function NewCustomFieldPage() {
       </div>
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', maxWidth: '42rem' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="">{locale === 'ar' ? 'تعريف الحقل' : 'Field definition'}</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="">{locale === 'ar' ? 'تعريف الحقل' : 'Field definition'}</h3>
         </div>
         <div style={{ padding: '16px 20px' }}>
           <CustomFieldCreateForm legalEntityId={legalEntityId} />

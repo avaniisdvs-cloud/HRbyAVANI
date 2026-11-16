@@ -1,3 +1,4 @@
+import { SectionTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { auth } from '@/lib/auth'
@@ -71,7 +72,7 @@ export default async function AIAgentSettingsPage() {
       }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 6px' }}>
+            <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 6px' }}>
               Open ARIA Admin Console
             </p>
             <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', margin: 0, lineHeight: 1.6 }}>
@@ -83,7 +84,7 @@ export default async function AIAgentSettingsPage() {
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '8px 16px', borderRadius: 8, flexShrink: 0,
-              background: 'var(--accent)', color: 'white',
+              background: 'var(--accent)', color: "var(--on-accent)",
               fontSize: 'var(--text-body)', fontWeight: 500, textDecoration: 'none',
               transition: 'opacity 0.15s',
             }}
@@ -181,15 +182,15 @@ export default async function AIAgentSettingsPage() {
             borderBottom: '1px solid var(--border)',
           }}>
             <Settings2 size={15} strokeWidth={1.75} style={{ color: 'var(--ink-3)' }} aria-hidden />
-            <h2 style={{
+            <SectionTitle style={{
               fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 400,
               letterSpacing: '-0.01em', color: 'var(--ink-1)', margin: 0,
             }}>
               ARIA Configuration
-            </h2>
+            </SectionTitle>
             <span style={{
               fontSize: 'var(--text-caption)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-              color: 'white', background: 'var(--accent)', padding: '2px 6px', borderRadius: 4,
+              color: "var(--on-accent)", background: 'var(--accent)', padding: '2px 6px', borderRadius: 4,
             }}>
               SUPER ADMIN
             </span>

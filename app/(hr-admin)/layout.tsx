@@ -4,8 +4,7 @@ import { eq, and } from 'drizzle-orm'
 import { auth, roleHome } from '@/lib/auth'
 import { type Locale } from '@/lib/i18n'
 import { resolveLocale } from '@/lib/language-preference'
-import { WorkspaceRail }        from '@/components/layout/WorkspaceRail'
-import { WorkspaceSecondaryNav } from '@/components/layout/WorkspaceSecondaryNav'
+import { WorkspaceSidebar } from '@/components/layout/WorkspaceSidebar'
 import { AdminSidebar }         from '@/components/layout/AdminSidebar'
 import { AdminTopbar }          from '@/components/layout/AdminTopbar'
 import { EmployeeSidebar }      from '@/components/employee/EmployeeSidebar'
@@ -102,7 +101,7 @@ export default async function HrAdminLayout({
         <PreferencesApplier preferences={preferences} />
         <a className="skip-link" href="#main-content">{locale === 'ar' ? 'انتقل إلى المحتوى' : 'Skip to content'}</a>
 
-        <WorkspaceRail
+        <WorkspaceSidebar
           role={role}
           locale={locale}
           userName={name}
@@ -111,7 +110,6 @@ export default async function HrAdminLayout({
           brandingLogoUrl={brandingLogoUrl}
         />
 
-        <WorkspaceSecondaryNav role={role} locale={locale} />
 
         <div className="flex min-w-0 flex-1 flex-col" style={{ overflow: 'hidden' }}>
           <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>

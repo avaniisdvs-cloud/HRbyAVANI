@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -41,7 +42,7 @@ export default async function CustomFieldsPage({
     <div className="page-in">
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'الحقول المخصصة' : 'Custom fields'}</h1>
+          <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'الحقول المخصصة' : 'Custom fields'}</PageTitle>
           <p className="mt-1 text-sm text-ink-3">
             {locale === 'ar'
               ? 'وسّع كائنات الموارد البشرية بحقول خاصة بالمستأجر تُخزَّن في عمود extra_data من نوع JSONB.'

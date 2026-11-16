@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, AlertTriangle, Clock, Users, Layers } from 'lucide-react'
@@ -73,10 +74,10 @@ export default async function WorkflowOperationsPage({
 
       {/* Header */}
       <div style={{ marginBottom: 18 }}>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: '0 0 4px' }}>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: '0 0 4px' }}>
           {ar ? 'عمليات سير العمل' : 'Workflow Operations'}
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
           {ar ? 'إشراف على مستوى المؤسسة (قراءة فقط)' : 'Organization-wide oversight (read-only)'} · {scopeNote}
         </p>
       </div>
@@ -108,7 +109,7 @@ export default async function WorkflowOperationsPage({
           <input type="checkbox" name="breached" value="1" defaultChecked={sp.breached === '1'} />
           {ar ? 'متجاوزة المهلة فقط' : 'SLA breached only'}
         </label>
-        <button type="submit" style={{ padding: '8px 16px', background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer' }}>
+        <button type="submit" style={{ padding: '8px 16px', background: 'var(--accent)', color: "var(--on-accent)", border: 'none', borderRadius: 8, fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer' }}>
           {ar ? 'تصفية' : 'Filter'}
         </button>
         <Link href="/approvals/operations" style={{ padding: '8px 14px', fontSize: 'var(--text-body)', color: 'var(--ink-3)', textDecoration: 'none' }}>{ar ? 'مسح' : 'Clear'}</Link>
@@ -117,7 +118,7 @@ export default async function WorkflowOperationsPage({
       {/* Table */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
         {rows.length === 0 ? (
-          <div style={{ padding: '48px 24px', textAlign: 'center', fontSize: 14, color: 'var(--ink-3)' }}>
+          <div style={{ padding: '48px 24px', textAlign: 'center', fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
             {ar ? 'لا توجد سجلات مطابقة.' : 'No matching workflows.'}
           </div>
         ) : (

@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
@@ -54,9 +55,9 @@ export default async function RequestDetailPage({
 
       <div style={{ marginBottom: 22 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500, letterSpacing: '-0.4px', color: 'var(--ink-1)', margin: 0 }}>
+          <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500, letterSpacing: '-0.4px', color: 'var(--ink-1)', margin: 0 }}>
             {detail.workflowNameEn}
-          </h1>
+          </PageTitle>
           <WorkflowStatusBadge status={detail.status} lang={lang} />
         </div>
         <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontFamily: 'var(--font-mono)' }}>
@@ -69,7 +70,7 @@ export default async function RequestDetailPage({
         {leave && (
           <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
             <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
-              <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{lang === 'ar' ? 'ملخص الطلب' : 'Request summary'}</h3>
+              <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{lang === 'ar' ? 'ملخص الطلب' : 'Request summary'}</h3>
             </div>
             <div style={{ padding: '6px 20px 14px' }}>
               {([

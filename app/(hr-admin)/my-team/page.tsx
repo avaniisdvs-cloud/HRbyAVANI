@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -37,9 +38,9 @@ export default async function MyTeamPage() {
     return (
       <div className="page-in flex flex-col items-center justify-center py-24 text-center">
         <Users className="mb-4 h-10 w-10 text-ink-3" strokeWidth={1.5} />
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 600, color: 'var(--ink-1)' }}>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 600, color: 'var(--ink-1)' }}>
           {t(locale, 'No employee profile linked', 'لا يوجد ملف موظف مرتبط')}
-        </h1>
+        </PageTitle>
         <p className="mt-2 max-w-sm text-sm text-ink-3">
           {t(locale,
             'Ask your HR Admin to link your user account to an employee record so your direct reports appear here.',
@@ -112,9 +113,9 @@ export default async function MyTeamPage() {
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             {t(locale, 'My Team', 'فريقي')}
-          </h1>
+          </PageTitle>
           <p className="mt-1 text-sm text-ink-3">
             {teamRows.length === 0
               ? t(locale, 'No direct reports', 'لا يوجد مرؤوسون مباشرون')

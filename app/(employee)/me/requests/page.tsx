@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Inbox, ArrowRight, AlertTriangle, Clock } from 'lucide-react'
@@ -39,10 +40,10 @@ export default async function MyRequestsPage() {
   return (
     <div className="page-in" style={{ width: '100%', boxSizing: 'border-box', maxWidth: 980 }}>
       <div style={{ marginBottom: 18 }}>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0 }}>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500, letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0 }}>
           {ar ? 'طلباتي' : 'My Requests'}
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
           {ar ? 'حالة كل ما قدّمته — مع الموافِق الحالي والتالي والتقدّم' : 'Status of everything you submitted — current approver, next approver, and progress.'}
         </p>
       </div>

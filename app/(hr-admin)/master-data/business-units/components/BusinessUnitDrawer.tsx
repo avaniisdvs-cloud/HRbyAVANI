@@ -40,7 +40,7 @@ const inputStyle: React.CSSProperties = {
   border:       '1.5px solid var(--border)',
   borderRadius: 8,
   padding:      '10px 12px',
-  fontSize:     14,
+  fontSize:     'var(--text-body)',
   fontFamily:   'var(--font-sans)',
   color:        'var(--ink-1)',
   background:   'var(--card)',
@@ -54,7 +54,7 @@ const selectStyle: React.CSSProperties = {
   border:       '1.5px solid var(--border)',
   borderRadius: 8,
   padding:      '0 12px',
-  fontSize:     14,
+  fontSize:     'var(--text-body)',
   fontFamily:   'var(--font-sans)',
   color:        'var(--ink-1)',
   background:   'var(--card)',
@@ -171,7 +171,7 @@ export function BusinessUnitDrawer({
               style={{
                 height: 38, padding: '0 18px', borderRadius: 8,
                 border: '1.5px solid var(--border)', background: 'transparent',
-                fontSize: 14, color: 'var(--ink-2)', cursor: 'pointer',
+                fontSize: 'var(--text-body)', color: 'var(--ink-2)', cursor: 'pointer',
               }}
             >
               {locale === 'ar' ? 'إلغاء' : 'Cancel'}
@@ -182,8 +182,8 @@ export function BusinessUnitDrawer({
               disabled={isPending}
               style={{
                 height: 38, padding: '0 20px', borderRadius: 8,
-                border: 'none', background: 'var(--accent)', color: '#fff',
-                fontSize: 14, fontWeight: 600,
+                border: 'none', background: 'var(--accent)', color: "var(--on-accent)",
+                fontSize: 'var(--text-body)', fontWeight: 600,
                 cursor: isPending ? 'not-allowed' : 'pointer',
                 opacity: isPending ? 0.7 : 1,
               }}

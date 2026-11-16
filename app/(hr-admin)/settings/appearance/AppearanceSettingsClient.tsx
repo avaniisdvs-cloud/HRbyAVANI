@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import Image from 'next/image'
 import { Check, Palette, Moon, Sun, AlignJustify } from 'lucide-react'
@@ -94,9 +95,9 @@ export function AppearanceSettingsClient({
       <section className="rounded-xl border border-border bg-card p-6">
         <div className="mb-5 flex items-center gap-2">
           <Palette className="h-5 w-5 text-accent" aria-hidden />
-          <h2 className="font-sans text-sm font-semibold text-ink-1">
+          <SectionTitle className="font-sans text-sm font-semibold text-ink-1">
             {ar ? 'لون المظهر' : 'Accent theme'}
-          </h2>
+          </SectionTitle>
         </div>
 
         <div className="flex flex-wrap gap-4">
@@ -176,9 +177,9 @@ export function AppearanceSettingsClient({
       <section className="rounded-xl border border-border bg-card p-6">
         <div className="mb-5 flex items-center gap-2">
           <AlignJustify className="h-5 w-5 text-accent" aria-hidden />
-          <h2 className="font-sans text-sm font-semibold text-ink-1">
+          <SectionTitle className="font-sans text-sm font-semibold text-ink-1">
             {ar ? 'كثافة العرض' : 'Display density'}
-          </h2>
+          </SectionTitle>
         </div>
 
         <div className="flex flex-wrap gap-3">
@@ -203,9 +204,9 @@ export function AppearanceSettingsClient({
 
       {/* ── Section D — Logo (display only) ─────────────────────────── */}
       <section className="rounded-xl border border-border bg-card p-6">
-        <h2 className="mb-5 font-sans text-sm font-semibold text-ink-1">
+        <SectionTitle className="mb-5 font-sans text-sm font-semibold text-ink-1">
           {ar ? 'الشعار' : 'Logo'}
-        </h2>
+        </SectionTitle>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex-shrink-0 rounded-lg border border-border bg-surface p-4">

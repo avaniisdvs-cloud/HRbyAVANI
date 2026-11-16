@@ -163,7 +163,7 @@ export function LeaveTableClient({ rows, locale, sortColumn, sortDirection }: Pr
                     }}>
                       <Inbox size={20} strokeWidth={1.75} />
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 600, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
+                    <div style={{ fontSize: 'var(--text-body)', fontWeight: 600, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
                       {locale === 'ar' ? 'لا توجد طلبات إجازة' : 'No leave requests found'}
                     </div>
                     <div style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', maxWidth: 300 }}>

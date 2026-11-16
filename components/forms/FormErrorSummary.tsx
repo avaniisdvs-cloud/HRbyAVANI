@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useEffect, useRef } from 'react'
 import { useLocale } from '@/components/providers/LocaleProvider'
 
@@ -12,7 +13,7 @@ export function FormErrorSummary({ errors }: { errors: Record<string, string> })
   useEffect(() => { if (signature) ref.current?.focus() }, [signature])
   if (!entries.length) return null
   return <div ref={ref} role="alert" tabIndex={-1} style={{ border: '1px solid var(--status-rejected-fg)', borderRadius: 8, padding: 16, marginBottom: 16, background: 'var(--card)', color: 'var(--ink-1)' }}>
-    <h2 style={{ fontSize: 'var(--text-body)', fontWeight: 700 }}>{locale === 'ar' ? 'يرجى تصحيح الحقول التالية' : 'Please correct the following fields'}</h2>
+    <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 700 }}>{locale === 'ar' ? 'يرجى تصحيح الحقول التالية' : 'Please correct the following fields'}</SectionTitle>
     <ul style={{ paddingInlineStart: 20 }}>{entries.map(([key, message]) => <li key={key}><a href={`#${key}`} onClick={event => { const target = document.getElementById(key); if (target) { event.preventDefault(); target.focus(); target.scrollIntoView({ block: 'center' }) } }}>{message}</a></li>)}</ul>
   </div>
 }

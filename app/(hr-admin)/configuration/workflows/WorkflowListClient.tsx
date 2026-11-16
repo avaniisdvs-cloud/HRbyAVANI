@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import Link from 'next/link'
 import { useState, useTransition, useMemo, useRef, useEffect } from 'react'
 import { GitBranch, Plus, MoreHorizontal, Edit2, ChevronRight, Power, PowerOff } from 'lucide-react'
@@ -273,9 +274,9 @@ export function WorkflowListClient({ initialData }: WorkflowListClientProps) {
             <GitBranch size={20} />
           </div>
           <div>
-            <h1 style={{ margin: 0, fontSize: 20, fontWeight: 500, fontFamily: 'var(--font-serif)', letterSpacing: '-0.3px', color: 'var(--ink-1)' }}>
+            <PageTitle style={{ margin: 0, fontSize: 20, fontWeight: 500, fontFamily: 'var(--font-serif)', letterSpacing: '-0.3px', color: 'var(--ink-1)' }}>
               {locale === 'ar' ? 'تعريفات سير العمل' : 'Workflow Definitions'}
-            </h1>
+            </PageTitle>
             <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
             marginTop: 2 }}>
               {locale === 'ar'
@@ -290,7 +291,7 @@ export function WorkflowListClient({ initialData }: WorkflowListClientProps) {
             display: 'flex', alignItems: 'center', gap: 6,
             height: 36, padding: '0 16px',
             border: 'none', borderRadius: 10,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer',
           }}
         >
@@ -386,7 +387,7 @@ export function WorkflowListClient({ initialData }: WorkflowListClientProps) {
 
         {/* Rows */}
         {filtered.length === 0 ? (
-          <div style={{ padding: '48px 24px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 14 }}>
+          <div style={{ padding: '48px 24px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 'var(--text-body)' }}>
             {data.length === 0
               ? (locale === 'ar' ? 'لا توجد تعريفات سير عمل بعد. أنشئ أول واحدة.' : 'No workflow definitions yet. Create the first one.')
               : (locale === 'ar' ? 'لا توجد عمليات سير عمل تطابق عوامل التصفية الحالية.' : 'No workflows match the current filters.')}
@@ -419,7 +420,7 @@ export function WorkflowListClient({ initialData }: WorkflowListClientProps) {
 
               {/* Name */}
               <div style={{ padding: '14px 8px' }}>
-                <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink-1)' }}>
+                <div style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--ink-1)' }}>
                   {row.workflowNameEn}
                 </div>
                 {row.workflowNameAr && (
@@ -499,7 +500,7 @@ export function WorkflowListClient({ initialData }: WorkflowListClientProps) {
       {toastMsg && (
         <div style={{
           position: 'fixed', bottom: 24, right: 24, zIndex: 100,
-          background: 'var(--ink-1)', color: '#fff',
+          background: 'var(--ink-1)', color: "var(--on-accent)",
           padding: '10px 18px', borderRadius: 8,
           fontSize: 'var(--text-body)', fontWeight: 500,
         }}>

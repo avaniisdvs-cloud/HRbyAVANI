@@ -27,7 +27,7 @@ export default function HrAdminError({
         <AlertTriangle size={22} strokeWidth={1.75} />
       </div>
       <div style={{ textAlign: 'center', maxWidth: 420 }}>
-        <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--ink-1)', marginBottom: 6 }}>
+        <div style={{ fontSize: 'var(--text-lead)', fontWeight: 600, color: 'var(--ink-1)', marginBottom: 6 }}>
           Something went wrong
         </div>
         <div style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', marginBottom: 20 }}>

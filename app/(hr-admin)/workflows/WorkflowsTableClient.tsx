@@ -100,7 +100,7 @@ export function WorkflowsTableClient({ rows, locale, userRole }: Props) {
       borderRadius: 12,
     }}>
       <div style={{ flexShrink: 0, padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+        <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
           My queue ({userRole})
         </h3>
       </div>
@@ -162,7 +162,7 @@ export function WorkflowsTableClient({ rows, locale, userRole }: Props) {
                     }}>
                       <Inbox size={20} strokeWidth={1.75} />
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 600, fontFamily: 'var(--font-sans)', color: 'var(--ink-1)' }}>
+                    <div style={{ fontSize: 'var(--text-body)', fontWeight: 600, fontFamily: 'var(--font-sans)', color: 'var(--ink-1)' }}>
                       {locale === 'ar' ? 'أنجزت جميع المهام' : 'All caught up'}
                     </div>
                     <div style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', maxWidth: 300 }}>

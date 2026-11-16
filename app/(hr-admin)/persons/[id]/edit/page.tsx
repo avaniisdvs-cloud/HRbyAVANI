@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import { and, asc, eq, or } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
@@ -242,7 +243,7 @@ export default async function EditPersonPage({
   return (
     <div className="page-in">
       <div className="mb-6">
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'تعديل الموظف' : 'Edit person'}</h1>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'تعديل الموظف' : 'Edit person'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {person.personNumber} · {person.fullNameEn ?? '—'}
           <span className="mx-2 text-ink-3">·</span>

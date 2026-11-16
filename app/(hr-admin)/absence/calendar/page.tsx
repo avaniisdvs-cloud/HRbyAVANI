@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { and, eq, gte, lte, or, isNull, asc } from 'drizzle-orm'
 import { z } from 'zod'
@@ -108,7 +109,7 @@ export default async function LeaveCalendarPage({
   const cardHeaderStyle: React.CSSProperties = {
     padding: '14px 20px', borderBottom: '1px solid var(--border)',
     display: 'flex', alignItems: 'center', gap: 8,
-    fontSize: 14, fontWeight: 600, color: 'var(--ink-1)',
+    fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)',
   }
   const rowStyle: React.CSSProperties = {
     display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
@@ -121,13 +122,13 @@ export default async function LeaveCalendarPage({
 
       {/* Page Header */}
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
           letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0,
         }}>
           Leave Calendar
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
           Window: <span style={{ fontFamily: 'var(--font-mono)' }}>{from}</span> → <span style={{ fontFamily: 'var(--font-mono)' }}>{to}</span>
           {' · '}
           {holidays.length} {holidays.length === 1 ? 'holiday' : 'holidays'},{' '}

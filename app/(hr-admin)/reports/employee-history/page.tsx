@@ -9,6 +9,7 @@
  * This is additive — it does not affect any operational report or workflow,
  * which continue to read the current/active record.
  */
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { auth, roleHome } from '@/lib/auth'
@@ -68,16 +69,16 @@ export default async function EmployeeHistoryPage({ searchParams }: { searchPara
     const people = await listHistoryEmployees(user, q ?? '')
     return (
       <div className="page-in" style={{ maxWidth: 900, margin: '0 auto' }}>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
           {L('Employee Assignment History', 'سجل تعيينات الموظف')}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 18px' }}>
           {L('Select an employee to view their full assignment history, promotions, grade changes and manager history.',
              'اختر موظفاً لعرض سجل تعييناته الكامل والترقيات وتغييرات الدرجة وتاريخ المدير.')}
         </p>
         <form style={{ marginBottom: 16 }}>
           <input name="q" defaultValue={q ?? ''} placeholder={L('Search by name or employee number…', 'ابحث بالاسم أو رقم الموظف…')}
-            style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--ink-1)', fontSize: 14 }} />
+            style={{ width: '100%', padding: '10px 12px', borderRadius: 8, border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--ink-1)', fontSize: 'var(--text-body)' }} />
         </form>
         <div style={{ ...card, padding: 0, overflow: 'hidden' }}>
           {people.length === 0 ? (
@@ -85,7 +86,7 @@ export default async function EmployeeHistoryPage({ searchParams }: { searchPara
           ) : people.map(p => (
             <Link key={p.id} href={`/reports/employee-history?personId=${p.id}`}
               style={{ display: 'flex', justifyContent: 'space-between', padding: '11px 16px', borderBottom: '1px solid var(--border)', textDecoration: 'none', color: 'var(--ink-1)' }}>
-              <span style={{ fontSize: 14 }}>{ar ? p.fullNameAr : (p.fullNameEn ?? p.fullNameAr)}</span>
+              <span style={{ fontSize: 'var(--text-body)' }}>{ar ? p.fullNameAr : (p.fullNameEn ?? p.fullNameAr)}</span>
               <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontFamily: 'var(--font-mono)' }}>{p.personNumber}</span>
             </Link>
           ))}
@@ -101,9 +102,9 @@ export default async function EmployeeHistoryPage({ searchParams }: { searchPara
   return (
     <div className="page-in" style={{ maxWidth: 1100, margin: '0 auto' }}>
       <Link href="/reports/employee-history" style={{ fontSize: 'var(--text-body)', color: 'var(--brand-active)', textDecoration: 'none' }}>← {L('Back to employees', 'العودة للموظفين')}</Link>
-      <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: '8px 0 0' }}>
+      <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: '8px 0 0' }}>
         {ar ? h.person.fullNameAr : (h.person.fullNameEn ?? h.person.fullNameAr)}
-      </h1>
+      </PageTitle>
       <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 18px' }}>
         {h.person.personNumber} · {L('Hired', 'تاريخ التعيين')} {fmt(h.person.hireDate)} · {L('Status', 'الحالة')}: {h.person.assignmentStatus}
       </p>
@@ -111,7 +112,7 @@ export default async function EmployeeHistoryPage({ searchParams }: { searchPara
       {/* Current state */}
       <div style={{ ...card, marginBottom: 16 }}>
         <div style={{ fontSize: 'var(--text-caption)', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--ink-3)', marginBottom: 10 }}>{L('Current Assignment', 'التعيين الحالي')}</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, fontSize: 14 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, fontSize: 'var(--text-body)' }}>
           <div><div style={{ color: 'var(--ink-3)', fontSize: 'var(--text-caption)' }}>{L('Manager', 'المدير')}</div>{h.current.managerName ?? '—'}</div>
           <div><div style={{ color: 'var(--ink-3)', fontSize: 'var(--text-caption)' }}>{L('Position', 'المنصب')}</div>{h.current.positionTitle ?? '—'}</div>
           <div><div style={{ color: 'var(--ink-3)', fontSize: 'var(--text-caption)' }}>{L('Grade', 'الدرجة')}</div>{h.current.gradeName ?? '—'}</div>

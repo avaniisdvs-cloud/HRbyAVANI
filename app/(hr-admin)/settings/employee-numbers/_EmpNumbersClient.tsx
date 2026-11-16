@@ -51,7 +51,7 @@ const inputStyle: React.CSSProperties = {
   border:      '1.5px solid var(--border)',
   borderRadius: 8,
   padding:     '9px 12px',
-  fontSize:    14,
+  fontSize:    'var(--text-body)',
   background:  'var(--card)',
   color:       'var(--ink-1)',
   outline:     'none',
@@ -149,7 +149,7 @@ function EntityCard({
       }}>
         <Building2 size={16} style={{ color: 'var(--ink-3)', flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{row.nameEn}</span>
+          <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{row.nameEn}</span>
           <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-4)',
           marginLeft: 8 }}>{row.entityCode}</span>
         </div>
@@ -200,7 +200,7 @@ function EntityCard({
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   fontWeight:    600,
-                  fontSize:      15,
+                  fontSize:      'var(--text-body)',
                 }}
               />
             ) : (
@@ -408,7 +408,7 @@ export function EmpNumbersClient({ rows, isSuperAdmin }: Props) {
         borderRadius: 12,
       }}>
         <Hash size={32} style={{ marginBottom: 12, opacity: 0.4 }} />
-        <p style={{ margin: 0, fontSize: 14 }}>{locale === 'ar' ? 'لا توجد كيانات قانونية نشطة.' : 'No active legal entities found.'}</p>
+        <p style={{ margin: 0, fontSize: 'var(--text-body)' }}>{locale === 'ar' ? 'لا توجد كيانات قانونية نشطة.' : 'No active legal entities found.'}</p>
       </div>
     )
   }

@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { and, desc, eq, sql } from 'drizzle-orm'
@@ -165,9 +166,9 @@ export default async function MyLettersPage() {
       {/* ── Page header ───────────────────────────────────────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <FileText size={18} style={{ color: 'var(--brand-active)' }} />
-        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+        <PageTitle style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
           {t(locale, 'My Letters', 'خطاباتي')}
-        </h1>
+        </PageTitle>
         {locale !== 'ar' && (
           <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }} dir="rtl" lang="ar">خطاباتي</span>
         )}
@@ -179,9 +180,9 @@ export default async function MyLettersPage() {
           marginBottom: 28, padding: '18px 20px',
           background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10,
         }}>
-          <h2 style={{ margin: '0 0 12px', fontSize: 15, fontWeight: 600, color: 'var(--ink-1)' }}>
+          <SectionTitle style={{ margin: '0 0 12px', fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
             {t(locale, 'Request a Letter', 'طلب خطاب')}
-          </h2>
+          </SectionTitle>
           <RequestLetterForm types={selfServiceTypes} personId={person.id} />
         </div>
       )}
@@ -200,13 +201,13 @@ export default async function MyLettersPage() {
       )}
 
       {/* ── Letter history ────────────────────────────────────────────── */}
-      <h2 style={{ margin: '0 0 14px', fontSize: 15, fontWeight: 600, color: 'var(--ink-1)' }}>
+      <SectionTitle style={{ margin: '0 0 14px', fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
         {t(locale, 'Letter History', 'سجل الخطابات')}
-      </h2>
+      </SectionTitle>
 
       {letterRows.length === 0 ? (
         <div style={{
-          color: 'var(--ink-3)', fontSize: 14, padding: '32px 20px',
+          color: 'var(--ink-3)', fontSize: 'var(--text-body)', padding: '32px 20px',
           background: 'var(--surface)', border: '1px dashed var(--border)', borderRadius: 8,
           textAlign: 'center',
         }}>
@@ -296,7 +297,7 @@ export default async function MyLettersPage() {
                             href={`/me/letters/sign/${l.id}`}
                             style={{
                               fontSize: 'var(--text-caption)', fontWeight: 500,
-                              color: '#fff',
+                              color: "var(--on-accent)",
                               background: 'var(--accent)',
                               border: '1px solid var(--accent-200)',
                               borderRadius: 6, padding: '3px 10px',

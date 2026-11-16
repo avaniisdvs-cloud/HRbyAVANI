@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useEffect, useCallback } from 'react'
 import { Users, UserCheck, UserPlus, Search, RefreshCw } from 'lucide-react'
 import { getPeopleIntelligence } from '@/modules/aria'
@@ -156,7 +157,7 @@ export default function AriaPeopleView({ onAskAria, sessionCtx }: Props) {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
         <div>
-          <h2 style={{
+          <SectionTitle style={{
             margin: '0 0 2px',
             fontSize: 20,
             fontWeight: 600,
@@ -164,7 +165,7 @@ export default function AriaPeopleView({ onAskAria, sessionCtx }: Props) {
             color: 'var(--ink-1)',
           }}>
             {locale === 'ar' ? 'تحليلات الموظفين' : 'People Intelligence'}
-          </h2>
+          </SectionTitle>
           <p style={{ margin: 0, fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }}>
             {loading
               ? tk(locale, 'common.loading')
@@ -298,7 +299,7 @@ export default function AriaPeopleView({ onAskAria, sessionCtx }: Props) {
           style={{
             flex: 1, border: 'none', outline: 'none',
             background: 'transparent',
-            fontSize: 14, color: 'var(--ink-1)',
+            fontSize: 'var(--text-body)', color: 'var(--ink-1)',
             fontFamily: 'var(--font-sans)',
           }}
         />

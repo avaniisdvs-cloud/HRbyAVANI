@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useEffect } from 'react'
 import {
   Shield, FileText, FileCheck, Users,
@@ -241,13 +242,13 @@ export default function AriaComplianceView({ onAskAria }: Props) {
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h2 style={{
+        <SectionTitle style={{
           margin: 0, fontSize: 20, fontWeight: 700,
           fontFamily: 'var(--font-serif)', color: 'var(--ink-1)',
           display: 'flex', alignItems: 'center', gap: 10,
         }}>
           <Shield size={20} /> Compliance Overview
-        </h2>
+        </SectionTitle>
       </div>
 
       {/* Summary banner */}
@@ -275,7 +276,7 @@ export default function AriaComplianceView({ onAskAria }: Props) {
           {loading ? (
             <div style={{ height: 16, width: 160, background: 'var(--surface)', borderRadius: 4, marginBottom: 6 }} />
           ) : (
-            <p style={{ margin: '0 0 6px', fontSize: 14, color: 'var(--ink-2)' }}>
+            <p style={{ margin: '0 0 6px', fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
               {data && data.score >= 80
                 ? 'All critical compliance areas are in good standing.'
                 : data && data.score >= 60

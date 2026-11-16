@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
@@ -35,7 +36,7 @@ export default async function MyProbationPage() {
   if (!personId) {
     return (
       <div style={{ padding: '32px 28px', maxWidth: 700 }}>
-        <p style={{ fontSize: 14, color: 'var(--ink-2)' }}>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
           Your sign-in is not linked to a person record. Please contact HR Admin.
         </p>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }} dir="rtl" lang="ar">
@@ -78,7 +79,7 @@ export default async function MyProbationPage() {
       {/* ── Page header ──────────────────────────────────────────────────── */}
       <div style={{ marginBottom: 28 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-          <h1 style={{
+          <PageTitle style={{
             margin: 0,
             fontSize: 26,
             fontWeight: 600,
@@ -87,12 +88,12 @@ export default async function MyProbationPage() {
             letterSpacing: '-0.4px',
           }}>
             My Probation
-          </h1>
-          <span style={{ fontSize: 14, color: 'var(--ink-3)' }} dir="rtl" lang="ar">
+          </PageTitle>
+          <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }} dir="rtl" lang="ar">
             فترة التجربة
           </span>
         </div>
-        <p style={{ margin: '6px 0 0', fontSize: 14, color: 'var(--ink-3)' }}>
+        <p style={{ margin: '6px 0 0', fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
           Track your probation period and request a formal review.
           {' '}
           <span dir="rtl" lang="ar" style={{ color: 'var(--ink-4)', fontSize: 'var(--text-caption)' }}>
@@ -121,9 +122,9 @@ export default async function MyProbationPage() {
             borderRadius: 12,
             padding: '22px 24px',
           }}>
-            <h2 style={{
+            <SectionTitle style={{
               margin: '0 0 6px',
-              fontSize: 16,
+              fontSize: 'var(--text-lead)',
               fontWeight: 600,
               color: 'var(--ink-1)',
               fontFamily: 'var(--font-serif)',
@@ -132,7 +133,7 @@ export default async function MyProbationPage() {
               <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', fontFamily: 'var(--font-sans)', fontWeight: 400, marginLeft: 8 }} dir="rtl" lang="ar">
                 طلب مراجعة فترة التجربة
               </span>
-            </h2>
+            </SectionTitle>
             <p style={{ margin: '0 0 18px', fontSize: 'var(--text-body)', color: 'var(--ink-2)', lineHeight: 1.6 }}>
               When you are ready, you can formally request your probation review. Your Line Manager will be asked
               to make a recommendation (Confirm, Extend, or Fail), followed by HR approval.
@@ -164,9 +165,9 @@ export default async function MyProbationPage() {
             borderRadius: 12,
             padding: '22px 24px',
           }}>
-            <h2 style={{
+            <SectionTitle style={{
               margin: '0 0 20px',
-              fontSize: 16,
+              fontSize: 'var(--text-lead)',
               fontWeight: 600,
               color: 'var(--ink-1)',
               fontFamily: 'var(--font-serif)',
@@ -175,7 +176,7 @@ export default async function MyProbationPage() {
               <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', fontFamily: 'var(--font-sans)', fontWeight: 400, marginLeft: 8 }} dir="rtl" lang="ar">
                 المراجعة جارية
               </span>
-            </h2>
+            </SectionTitle>
 
             {/* Step timeline */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
@@ -225,7 +226,7 @@ export default async function MyProbationPage() {
                     {/* Label */}
                     <div style={{ paddingBottom: idx < REVIEW_STEPS.length - 1 ? 24 : 0 }}>
                       <div style={{
-                        fontSize: 14,
+                        fontSize: 'var(--text-body)',
                         fontWeight: isCurrent ? 700 : 500,
                         color: isCurrent ? 'var(--ink-1)' : isCompleted ? 'var(--ink-2)' : 'var(--ink-4)',
                       }}>
@@ -298,7 +299,7 @@ export default async function MyProbationPage() {
             </svg>
           </div>
 
-          <h2 style={{
+          <SectionTitle style={{
             margin: '0 0 8px',
             fontSize: 20,
             fontWeight: 600,
@@ -306,8 +307,8 @@ export default async function MyProbationPage() {
             color: 'var(--ink-1)',
           }}>
             Employment Confirmed
-          </h2>
-          <p style={{ margin: '0 0 6px', fontSize: 14, color: 'var(--ink-2)' }}>
+          </SectionTitle>
+          <p style={{ margin: '0 0 6px', fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
             Your employment has been confirmed. Congratulations!
           </p>
           {person.hireDate && (
@@ -346,12 +347,12 @@ export default async function MyProbationPage() {
                 <path d="M10 6v4.5" stroke="var(--status-warning-fg)" strokeWidth="1.8" strokeLinecap="round" />
                 <circle cx="10" cy="14" r="1" fill="var(--status-warning-fg)" />
               </svg>
-              <h2 style={{ margin: 0, fontSize: 15, fontWeight: 600, color: 'var(--status-warning-fg)' }}>
+              <SectionTitle style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--status-warning-fg)' }}>
                 Probation Extended
                 <span style={{ fontSize: 'var(--text-caption)', fontWeight: 400, color: 'var(--status-warning-fg)', marginLeft: 8 }} dir="rtl" lang="ar">
                   تم تمديد فترة التجربة
                 </span>
-              </h2>
+              </SectionTitle>
             </div>
             <p style={{ margin: 0, fontSize: 'var(--text-body)', color: 'var(--ink-2)', lineHeight: 1.6 }}>
               Your probation period has been extended to{' '}
@@ -378,7 +379,7 @@ export default async function MyProbationPage() {
           borderRadius: 12,
           padding: '28px 24px',
         }}>
-          <h2 style={{
+          <SectionTitle style={{
             margin: '0 0 12px',
             fontSize: 17,
             fontWeight: 600,
@@ -389,8 +390,8 @@ export default async function MyProbationPage() {
             <span style={{ fontSize: 'var(--text-body)', fontWeight: 400, color: 'var(--ink-3)', fontFamily: 'var(--font-sans)', marginLeft: 8 }} dir="rtl" lang="ar">
               لم تتجاوز فترة التجربة
             </span>
-          </h2>
-          <p style={{ margin: '0 0 10px', fontSize: 14, color: 'var(--ink-2)', lineHeight: 1.6 }}>
+          </SectionTitle>
+          <p style={{ margin: '0 0 10px', fontSize: 'var(--text-body)', color: 'var(--ink-2)', lineHeight: 1.6 }}>
             HR has been notified and will be in touch with you regarding next steps.
             If you have any questions, please contact your HR Business Partner directly.
           </p>
@@ -410,7 +411,7 @@ export default async function MyProbationPage() {
           borderRadius: 10,
           padding: '32px 24px',
           textAlign: 'center',
-          fontSize: 14,
+          fontSize: 'var(--text-body)',
           color: 'var(--ink-3)',
         }}>
           Probation end date has not been set on your record. Please contact HR Admin.

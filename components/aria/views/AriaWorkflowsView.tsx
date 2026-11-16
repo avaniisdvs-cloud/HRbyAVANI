@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useEffect, useCallback } from 'react'
 import {
   GitBranch, AlertTriangle, CheckCircle,
@@ -200,12 +201,12 @@ export default function AriaWorkflowsView({ onAskAria }: Props) {
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
         marginBottom: 12 }}>
           <div>
-            <h2 style={{
+            <SectionTitle style={{
               fontFamily: 'var(--font-serif)', fontSize: 20, fontWeight: 600,
               color: 'var(--ink-1)', margin: '0 0 2px',
             }}>
               {locale === 'ar' ? 'حالة سير العمل' : 'Workflow Status'}
-            </h2>
+            </SectionTitle>
             <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', margin: 0 }}>
               {loading
                 ? tk(locale, 'common.loading')
@@ -381,7 +382,7 @@ export default function AriaWorkflowsView({ onAskAria }: Props) {
               <CheckCircle size={22} />
             </div>
             <div>
-              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-2)', margin: '0 0 4px', fontFamily: 'var(--font-serif)' }}>
+              <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-2)', margin: '0 0 4px', fontFamily: 'var(--font-serif)' }}>
                 {locale === 'ar'
                   ? (activeTab === 'all' ? 'لا توجد مسارات عمل' : 'لا توجد مسارات عمل مطابقة')
                   : (activeTab === 'all' ? 'No workflows found' : `No ${activeTab} workflows`)}

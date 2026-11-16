@@ -117,7 +117,7 @@ function Field({ label, value, tooltip }: { label: string; value: string | null 
         {label}
         {tooltip && <InfoIcon tip={tooltip} />}
       </div>
-      <div style={{ fontSize: 14, color: empty ? 'var(--ink-4)' : 'var(--ink-1)', lineHeight: '1.4' }}>
+      <div style={{ fontSize: 'var(--text-body)', color: empty ? 'var(--ink-4)' : 'var(--ink-1)', lineHeight: '1.4' }}>
         {value || '—'}
       </div>
     </div>
@@ -159,7 +159,7 @@ export function AssignmentHistoryPanel({ rows, locale }: { rows: AssignmentHisto
 
   if (!rows || rows.length === 0) {
     return (
-      <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>
+      <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
         {L('No historical assignment changes found.', 'لا توجد تغييرات في سجل التعيينات.')}
       </p>
     )
@@ -224,7 +224,7 @@ function EditableField({
   const result    = saveResult?.field === fieldKey ? saveResult : null
 
   const inputStyle: React.CSSProperties = {
-    fontSize: 14, padding: '6px 10px', borderRadius: 6,
+    fontSize: 'var(--text-body)', padding: '6px 10px', borderRadius: 6,
     border: '1px solid var(--accent)', outline: 'none',
     background: 'var(--card)', color: 'var(--ink-1)',
     width: '100%', boxSizing: 'border-box',
@@ -300,7 +300,7 @@ function EditableField({
         </div>
       ) : (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 14, color: value ? 'var(--ink-1)' : 'var(--ink-4)' }}>
+          <span style={{ fontSize: 'var(--text-body)', color: value ? 'var(--ink-1)' : 'var(--ink-4)' }}>
             {value || '—'}
           </span>
           {result?.success && (
@@ -490,10 +490,10 @@ function ManagerRow({ label, name, tooltip }: { label: string; name: string | nu
           }}>
             {getInitials(name)}
           </div>
-          <span style={{ fontSize: 14, color: 'var(--ink-1)', fontWeight: 500 }}>{name}</span>
+          <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-1)', fontWeight: 500 }}>{name}</span>
         </>
       ) : (
-        <span style={{ fontSize: 14, color: 'var(--ink-4)' }}>—</span>
+        <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-4)' }}>—</span>
       )}
     </div>
   )
@@ -890,7 +890,7 @@ export function ProfilePageClient({ data, personId, history = [] }: Props) {
                 </SectionCard>
               </>
             ) : (
-              <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>{locale === 'ar' ? 'لا يوجد سجل توظيف.' : 'No employment record found.'}</p>
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>{locale === 'ar' ? 'لا يوجد سجل توظيف.' : 'No employment record found.'}</p>
             )}
           </div>
         )}
@@ -960,7 +960,7 @@ export function ProfilePageClient({ data, personId, history = [] }: Props) {
                 </div>
               </div>
             ) : (
-              <p style={{ fontSize: 14, color: 'var(--ink-3)',
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)',
               marginBottom: 20 }}>{locale === 'ar' ? 'لا توجد أرصدة إجازات لهذا العام.' : 'No leave balances found for this year.'}</p>
             )}
 
@@ -1007,7 +1007,7 @@ export function ProfilePageClient({ data, personId, history = [] }: Props) {
               // manager team-member toggle (team-leave entry from /absence is unchanged).
               onClick={() => router.push('/absence/new?scope=self')}
               style={{
-                fontSize: 14, fontWeight: 500, padding: '10px 20px',
+                fontSize: 'var(--text-body)', fontWeight: 500, padding: '10px 20px',
                 borderRadius: 8, border: '1px solid var(--accent)',
                 background: 'none', color: 'var(--brand-active)',
                 cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
@@ -1032,7 +1032,7 @@ export function ProfilePageClient({ data, personId, history = [] }: Props) {
                 ))}
               </div>
             ) : (
-              <p style={{ fontSize: 14, color: 'var(--ink-3)',
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)',
               marginBottom: 16 }}>{locale === 'ar' ? 'لا توجد مستندات مسجلة.' : 'No documents on record.'}</p>
             )}
 
@@ -1096,7 +1096,7 @@ export function ProfilePageClient({ data, personId, history = [] }: Props) {
                 ))}
               </div>
             ) : (
-              <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>{locale === 'ar' ? 'لا يوجد نشاط حديث.' : 'No recent activity.'}</p>
+              <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>{locale === 'ar' ? 'لا يوجد نشاط حديث.' : 'No recent activity.'}</p>
             )}
           </div>
         )}

@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect }     from 'next/navigation'
 import { auth }         from '@/lib/auth'
 import { db }           from '@/lib/db'
@@ -36,9 +37,9 @@ export default async function NewPayrollRunPage() {
           <a href="/payroll/runs" className="hover:text-[var(--accent)]">Runs</a>
           {' / '}New
         </nav>
-        <h1 className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
+        <PageTitle className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
           New Payroll Run
-        </h1>
+        </PageTitle>
       </div>
 
       <NewPayrollRunForm

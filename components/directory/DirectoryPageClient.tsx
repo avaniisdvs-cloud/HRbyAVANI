@@ -75,9 +75,9 @@ function PersonCard({
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
         <div style={{
           width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-          background: color, color: 'white',
+          background: color, color: "var(--on-accent)",
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-sans)',
+          fontSize: 'var(--text-body)', fontWeight: 700, fontFamily: 'var(--font-sans)',
         }}>
           {ini}
         </div>
@@ -299,7 +299,7 @@ export function DirectoryPageClient({ initial, locale = 'en', showEntity = false
             gap: 8, padding: 48, color: 'var(--ink-3)',
           }}>
             <Search size={32} strokeWidth={1.25} aria-hidden />
-            <div style={{ fontSize: 14, fontWeight: 500 }}>
+            <div style={{ fontSize: 'var(--text-body)', fontWeight: 500 }}>
               {locale === 'ar' ? 'لا توجد نتائج' : 'No results found'}
             </div>
             {query && (

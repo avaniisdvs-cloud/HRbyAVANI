@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import type { AriaSessionContext } from '@/modules/aria'
@@ -25,13 +26,13 @@ export default async function AriaEmployeePage() {
       <div className="page-in" style={{
         width: '100%', padding: 'calc(24px * var(--density))', boxSizing: 'border-box',
       }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
           letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: '0 0 8px',
         }}>
           {locale === 'ar' ? 'مساعد ARIA' : 'ARIA Assistant'}
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-2)', margin: 0 }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)', margin: 0 }}>
           {locale === 'ar'
             ? 'حسابك غير مرتبط بسجل شخص. تواصل مع الموارد البشرية لتفعيل ARIA.'
             : 'Your account is not linked to a person record. Contact HR to activate ARIA.'}
@@ -73,13 +74,13 @@ export default async function AriaEmployeePage() {
       width: '100%', boxSizing: 'border-box',
     }}>
       <div style={{ marginBottom: 20, padding: 'calc(24px * var(--density)) calc(24px * var(--density)) 0', flexShrink: 0 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
           letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0,
         }}>
           {locale === 'ar' ? 'مساعد ARIA' : 'ARIA Assistant'}
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
           {locale === 'ar'
             ? 'اسأل عن رصيد إجازتك، مديرك، أو حالة طلبات الإجازة.'
             : 'Ask about your leave balance, manager, or leave request status.'}

@@ -1,3 +1,4 @@
+import { SectionTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { and, eq } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
@@ -80,17 +81,17 @@ export default async function EssSigningPage({ params }: Props) {
           boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
         }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
-          <h2 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <SectionTitle style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             Document Already Signed
-          </h2>
-          <p style={{ margin: '0 0 20px', fontSize: 14, color: 'var(--ink-2)' }}>
+          </SectionTitle>
+          <p style={{ margin: '0 0 20px', fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
             {letter.letterNumber} was signed by {letter.signedByName} on{' '}
             {letter.signedAt ? new Date(letter.signedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) : '—'}.
           </p>
           <a href="/me/letters" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '8px 20px', borderRadius: 7,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             fontSize: 'var(--text-body)', fontWeight: 600, textDecoration: 'none',
           }}>
             View My Documents
@@ -159,10 +160,10 @@ function ErrorPage({ message }: { message: string }) {
         boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
       }}>
         <div style={{ fontSize: 40, marginBottom: 12 }}>⚠️</div>
-        <h2 style={{ margin: '0 0 12px', fontSize: 18, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+        <SectionTitle style={{ margin: '0 0 12px', fontSize: 18, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
           Unable to Open Document
-        </h2>
-        <p style={{ margin: 0, fontSize: 14, color: 'var(--ink-2)' }}>{message}</p>
+        </SectionTitle>
+        <p style={{ margin: 0, fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>{message}</p>
       </div>
     </div>
   )

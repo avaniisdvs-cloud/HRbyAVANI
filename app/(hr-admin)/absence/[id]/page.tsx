@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { auth, roleHome } from '@/lib/auth'
@@ -84,7 +85,7 @@ export default async function LeaveDetailPage({
             <path d="M6 10.5l2.5 2.5 5.5-5.5" stroke="white" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
           <div>
-            <p style={{ margin: 0, fontWeight: 600, fontSize: 14, color: 'var(--status-success-fg)' }}>
+            <p style={{ margin: 0, fontWeight: 600, fontSize: 'var(--text-body)', color: 'var(--status-success-fg)' }}>
               {locale === 'ar' ? 'تم تقديم طلب الإجازة بنجاح' : 'Leave submitted successfully'}
             </p>
             <p style={{ margin: '4px 0 0', fontSize: 'var(--text-body)', color: 'var(--status-success-fg)', opacity: 0.85 }}>
@@ -102,7 +103,7 @@ export default async function LeaveDetailPage({
       <div className="flex items-start justify-between">
         <div>
           <Link href="/absence" className="text-xs text-accent hover:underline">{locale === 'ar' ? '← جميع طلبات الإجازات' : '← All leave requests'}</Link>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>
+          <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>
             {view.requestNumber}
             <span className="ms-3 align-middle">
               <Badge
@@ -115,7 +116,7 @@ export default async function LeaveDetailPage({
                 {view.status}
               </Badge>
             </span>
-          </h1>
+          </PageTitle>
           <p className="mt-1 text-sm text-ink-3">
             {view.personFullNameEn} · <span dir="rtl">{view.personFullNameAr}</span>
             {view.personNumber && <span className="ms-2 font-mono text-xs">({view.personNumber})</span>}
@@ -132,7 +133,7 @@ export default async function LeaveDetailPage({
       <div className="grid gap-6 md:grid-cols-2" style={{ marginTop: 24 }}>
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'تفاصيل الطلب' : 'Request details'}</h3>
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'تفاصيل الطلب' : 'Request details'}</h3>
           </div>
           <div style={{ padding: '16px 20px' }} className="space-y-2 text-sm">
             <Row label={locale === 'ar' ? 'النوع' : 'Type'}>
@@ -159,7 +160,7 @@ export default async function LeaveDetailPage({
 
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'سير العمل + الرصيد' : 'Workflow + balance'}</h3>
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'سير العمل + الرصيد' : 'Workflow + balance'}</h3>
           </div>
           <div style={{ padding: '16px 20px' }} className="space-y-2 text-sm">
             <Row label={locale === 'ar' ? 'نسخة سير العمل' : 'Workflow instance'}>
@@ -252,7 +253,7 @@ function ApprovalTracker({
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
         }}
       >
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'مسار الموافقة' : 'Approval Progress'}
         </h3>
         {!wfDone && pendingStep && (
@@ -342,7 +343,7 @@ function StepRow({
 
   const iconContent =
     state === 'done'     ? <CheckIcon />
-    : state === 'current'  ? <span style={{ fontSize: 'var(--text-caption)', color: '#fff', fontWeight: 700 }}>{step.stepOrder}</span>
+    : state === 'current'  ? <span style={{ fontSize: 'var(--text-caption)', color: "var(--on-accent)", fontWeight: 700 }}>{step.stepOrder}</span>
     : state === 'rejected' ? <CrossIcon />
     : <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontWeight: 600 }}>{step.stepOrder}</span>
 
@@ -381,7 +382,7 @@ function StepRow({
       {/* Content */}
       <div style={{ paddingBottom: isLast ? 0 : 20, flexGrow: 1 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: labelColor }}>
+          <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: labelColor }}>
             {step.stepName}
           </span>
           {step.assigneeName && (

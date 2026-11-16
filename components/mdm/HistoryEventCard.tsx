@@ -43,7 +43,7 @@ export function HistoryEventCard({ entry, fieldLabels }: HistoryEventCardProps) 
       {/* Header row */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span style={{ fontSize: 14, flexShrink: 0 }}>{config.icon}</span>
+          <span style={{ fontSize: 'var(--text-body)', flexShrink: 0 }}>{config.icon}</span>
           <span style={{
             fontSize:   'var(--text-caption)',
             fontWeight: 700,

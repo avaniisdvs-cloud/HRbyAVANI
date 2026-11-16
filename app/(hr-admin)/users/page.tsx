@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
@@ -85,12 +86,12 @@ export default async function UsersPage({
         marginBottom: 16,
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 600,
             letterSpacing: '-0.4px', color: 'var(--ink-1)', margin: 0,
           }}>
             Users &amp; Roles
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
             {result.total === 0
               ? 'No users match the current filters.'

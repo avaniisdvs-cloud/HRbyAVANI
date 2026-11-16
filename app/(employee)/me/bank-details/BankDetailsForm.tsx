@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import { CreditCard, CheckCircle2, Clock, AlertTriangle } from 'lucide-react'
 import { selfServiceUpdateBankDetails } from '@/modules/core-hr'
@@ -85,9 +86,9 @@ export function BankDetailsForm({ existing }: Props) {
         }}
       >
         <CheckCircle2 size={36} color="#16a34a" strokeWidth={1.5} style={{ marginBottom: 12 }} />
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 8px' }}>
+        <SectionTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 8px' }}>
           {locale === 'ar' ? 'تم تحديث التفاصيل المصرفية' : 'Bank details updated'}
-        </h2>
+        </SectionTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
           {locale === 'ar'
             ? <>تم حفظ حسابك المصرفي الجديد ({bankCode} · {iban.slice(-4).padStart(iban.length, '·')}). سيتم توجيه دفعة راتبك القادمة إلى هذا الحساب.</>
@@ -107,9 +108,9 @@ export function BankDetailsForm({ existing }: Props) {
         }}
       >
         <Clock size={36} color="var(--accent)" strokeWidth={1.5} style={{ marginBottom: 12 }} />
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 8px' }}>
+        <SectionTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 8px' }}>
           {locale === 'ar' ? 'تم إرسال التغيير للموافقة' : 'Change submitted for approval'}
-        </h2>
+        </SectionTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0, maxWidth: 380, marginInline: 'auto' }}>
           {locale === 'ar'
             ? 'تم إصدار خطاب تحويل راتب خلال الـ 30 يوماً الماضية، لذا يتطلب تغيير تفاصيلك المصرفية موافقة مسؤول الموارد البشرية قبل أن يصبح ساري المفعول. تم إخطار الموارد البشرية.'

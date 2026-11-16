@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { AlertTriangle } from 'lucide-react'
 import { auth, roleHome } from '@/lib/auth'
@@ -36,13 +37,13 @@ export default async function PendingApprovalsPage() {
         marginBottom: 16,
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
             letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0,
           }}>
             {locale === 'ar' ? 'الموافقات المعلقة' : 'Pending Approvals'}
-          </h1>
-          <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+          </PageTitle>
+          <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
             {locale === 'ar'
               ? `خطوات سير العمل الجارية المعيّنة لدورك · ${rows.length} معلّق`
               : `In-flight workflow steps assigned to your role · ${rows.length} pending`}

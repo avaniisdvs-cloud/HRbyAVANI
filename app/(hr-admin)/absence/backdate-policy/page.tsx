@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { and, asc, eq } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
@@ -67,12 +68,12 @@ export default async function LeaveBackdatePolicyPage({
   return (
     <div className="page-in">
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 700,
           color: 'var(--ink-1)', margin: 0, letterSpacing: '-0.4px',
         }}>
           {locale === 'ar' ? 'سياسة الإدخال بأثر رجعي للإجازات' : 'Leave Backdate Policy'}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 0' }}>
           Configure how far back employees can submit leave requests, per leave type and legal entity.
         </p>

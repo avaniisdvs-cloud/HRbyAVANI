@@ -616,7 +616,7 @@ function ChangePasswordModal({
               <KeyRound size={18} strokeWidth={2} />
             </div>
             <div>
-              <div style={{ fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
+              <div style={{ fontSize: 'var(--text-lead)', fontWeight: 700, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
                 {locale === 'ar' ? 'تغيير كلمة المرور' : 'Change Password'}
               </div>
               <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
@@ -716,7 +716,7 @@ function ChangePasswordModal({
                 style={{
                   padding: '9px 20px', fontSize: 'var(--text-body)', fontWeight: 600,
                   border: 'none', borderRadius: 8,
-                  background: 'var(--accent)', color: '#fff',
+                  background: 'var(--accent)', color: "var(--on-accent)",
                   cursor: isPending ? 'wait' : 'pointer',
                   opacity: isPending || mismatch ? 0.65 : 1,
                 }}
@@ -1157,7 +1157,7 @@ export function UsersClient({
                     }}>
                       <Inbox size={20} strokeWidth={1.75} />
                     </div>
-                    <div style={{ fontSize: 15, fontWeight: 600, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
+                    <div style={{ fontSize: 'var(--text-body)', fontWeight: 600, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
                       {locale === 'ar' ? 'لا يوجد مستخدمون' : 'No users found'}
                     </div>
                   </div>

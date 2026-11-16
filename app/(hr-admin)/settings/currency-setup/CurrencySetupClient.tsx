@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useTransition, useMemo } from 'react'
 import { Badge } from '@/components/ui/badge'
@@ -182,12 +183,12 @@ export function CurrencySetupClient({ settings: initial, legalEntities, role }: 
             <Coins size={20} style={{ color: 'var(--brand-active)' }} />
           </div>
           <div>
-            <h1 style={{
+            <PageTitle style={{
               fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 700,
               color: 'var(--ink-1)', margin: 0, lineHeight: 1.2,
             }}>
               {locale === 'ar' ? 'إعداد عملة الشركة' : 'Company Currency Setup'}
-            </h1>
+            </PageTitle>
             <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0', fontFamily: 'var(--font-sans)' }}>
               {locale === 'ar' ? 'تهيئة دقة العملة لكل كيان قانوني' : 'Configure currency precision per legal entity'}
             </p>

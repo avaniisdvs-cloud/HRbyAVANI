@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect }         from 'next/navigation'
 import Link                  from 'next/link'
@@ -23,9 +24,9 @@ export default async function PayrollDefinitionsPage() {
             <Link href="/payroll" className="hover:text-[var(--accent)]">{locale === 'ar' ? 'الرواتب' : 'Payroll'}</Link>
             {' / '}{locale === 'ar' ? 'التعريفات' : 'Definitions'}
           </nav>
-          <h1 className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
+          <PageTitle className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
             {locale === 'ar' ? 'تعريفات الرواتب' : 'Payroll Definitions'}
-          </h1>
+          </PageTitle>
           <p className="text-sm text-[var(--ink-3)]">{locale === 'ar' ? 'تهيئة رموز الرواتب وتكرارات الدفع ورموز بنوك حماية الأجور والعملة' : 'Configure payroll codes, pay frequencies, WPS bank codes, and currency'}</p>
         </div>
       </div>

@@ -6,6 +6,7 @@
  * Warns in amber (--status-warning) if within 14 days of end; red if overdue.
  */
 
+import { SectionTitle } from '@/components/ui/typography'
 import { formatDMY } from '@/lib/utils/date-format'
 import type { Locale } from '@/lib/i18n'
 
@@ -68,9 +69,9 @@ export function ProbationStatusCard({
     }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 20 }}>
-        <h2 style={{ margin: 0, fontSize: 18, fontWeight: 600, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
+        <SectionTitle style={{ margin: 0, fontSize: 18, fontWeight: 600, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
           {ar ? 'حالة التجربة' : 'Probation Status'}
-        </h2>
+        </SectionTitle>
 
         <span style={{
           marginLeft: 'auto',
@@ -235,7 +236,7 @@ function SummaryItem({
       <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', marginBottom: 4 }} {...(locale === 'ar' ? { dir: 'rtl' as const, lang: 'ar' } : {})}>
         {locale === 'ar' ? labelAr : labelEn}
       </div>
-      <div style={{ fontSize: 14, fontWeight: 600, color: highlight ? highlightColor : 'var(--ink-1)', fontFamily: 'var(--font-mono)' }}>
+      <div style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: highlight ? highlightColor : 'var(--ink-1)', fontFamily: 'var(--font-mono)' }}>
         {value}
       </div>
     </div>

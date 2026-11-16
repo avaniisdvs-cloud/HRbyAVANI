@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth }     from '@/lib/auth'
 import { isPayrollWorkstreamEnabled, PAYROLL_DISABLED_MESSAGE } from '@/lib/features/payroll-feature-gate'
@@ -26,9 +27,9 @@ export default async function PayrollLayout({
           className="max-w-md rounded-lg border p-6 text-center"
           style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}
         >
-          <h1 className="mb-2 text-lg font-semibold" style={{ color: 'var(--ink-1)' }}>
+          <PageTitle className="mb-2 text-lg font-semibold" style={{ color: 'var(--ink-1)' }}>
             {PAYROLL_DISABLED_MESSAGE}
-          </h1>
+          </PageTitle>
           <p className="text-sm" style={{ color: 'var(--ink-3)' }}>
             Payroll is deferred from the current release. Contact your administrator
             if you believe this is unexpected.

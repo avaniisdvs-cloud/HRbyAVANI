@@ -33,8 +33,10 @@ const navHrefs = [...navItemsBlock.matchAll(/href:\s*'([^']+)'/g)].map(m => m[1]
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('EmployeeSidebar NAV_ITEMS order (NAV-001–010)', () => {
-  it('NAV-001: contains exactly 12 nav items', () => {
-    expect(navHrefs).toHaveLength(12)
+  it('NAV-001: contains the original 12 items and two approved self-service links', () => {
+    expect(navHrefs).toHaveLength(14)
+    expect(navHrefs).toContain('/me/accommodations')
+    expect(navHrefs).toContain('/me/requests/probation')
   })
 
   it('NAV-002: Home is first', () => {

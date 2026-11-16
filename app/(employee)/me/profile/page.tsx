@@ -16,7 +16,7 @@ export default async function MyProfilePage() {
   if (!personId) {
     return (
       <div style={{ padding: 32 }}>
-        <p style={{ fontSize: 14, color: 'var(--ink-2)' }}>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
           Your sign-in is not linked to a person record yet. Please contact HR Admin to complete onboarding.
         </p>
       </div>
@@ -27,7 +27,7 @@ export default async function MyProfilePage() {
   if (!data) {
     return (
       <div style={{ padding: 32 }}>
-        <p style={{ fontSize: 14, color: 'var(--ink-2)' }}>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
           Profile not found. Please contact HR Admin.
         </p>
       </div>

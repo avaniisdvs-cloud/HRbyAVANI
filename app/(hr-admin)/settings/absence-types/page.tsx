@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
@@ -60,7 +61,7 @@ export default async function AbsenceTypesPage() {
   return (
     <div className="page-in">
       <div>
-        <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'أنواع الغياب' : 'Absence types'}</h1>
+        <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'أنواع الغياب' : 'Absence types'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {locale === 'ar'
             ? 'أنواع الإجازات القانونية وغير القانونية في الإمارات. تُدار عبر البيانات الأولية — وتتطلب التغييرات ترحيلاً مُراجَعاً قانونياً.'

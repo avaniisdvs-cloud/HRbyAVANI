@@ -22,7 +22,7 @@ export default async function PermissionsSettingsPage() {
           padding: '64px 24px', textAlign: 'center',
           background: 'var(--card)',
         }}>
-          <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
             No feature permissions found. Run migration 0012 to seed default data.
           </p>
         </div>

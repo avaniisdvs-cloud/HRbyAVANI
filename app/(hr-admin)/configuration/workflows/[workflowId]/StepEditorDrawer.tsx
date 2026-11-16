@@ -235,7 +235,7 @@ export function StepEditorDrawer({ workflowId, step, open, onClose, onSaved, gro
         style={{
           padding: '8px 18px', borderRadius: 6, border: 'none',
           background: 'var(--accent)', cursor: isPending ? 'not-allowed' : 'pointer',
-          fontSize: 'var(--text-body)', color: '#fff', display: 'flex', alignItems: 'center', gap: 6,
+          fontSize: 'var(--text-body)', color: "var(--on-accent)", display: 'flex', alignItems: 'center', gap: 6,
           opacity: isPending ? 0.7 : 1,
         }}
       >

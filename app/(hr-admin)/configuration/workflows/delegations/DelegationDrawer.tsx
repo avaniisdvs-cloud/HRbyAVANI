@@ -1,5 +1,6 @@
 'use client'
 
+import { DialogHeading } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import { X, Info } from 'lucide-react'
 import { useLocale } from '@/components/providers/LocaleProvider'
@@ -91,9 +92,9 @@ export function DelegationDrawer({ onClose, onCreated }: Props) {
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '16px 20px', borderBottom: '1px solid var(--border)',
         }}>
-          <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
+          <DialogHeading style={{ fontSize: 'var(--text-lead)', fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
             {locale === 'ar' ? 'قاعدة تفويض جديدة' : 'New Delegation Rule'}
-          </h2>
+          </DialogHeading>
           <button
             onClick={onClose}
             style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-3)', padding: 4 }}
@@ -224,10 +225,10 @@ export function DelegationDrawer({ onClose, onCreated }: Props) {
               width: '100%',
               padding: '10px',
               background: isPending ? 'var(--accent-300, #93c5fd)' : 'var(--accent)',
-              color: '#fff',
+              color: "var(--on-accent)",
               border: 'none',
               borderRadius: 'var(--radius)',
-              fontSize: 14,
+              fontSize: 'var(--text-body)',
               fontWeight: 600,
               cursor: isPending ? 'not-allowed' : 'pointer',
             }}

@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useEffect } from 'react'
 import { FileText, Search, Upload, ExternalLink,
          ChevronRight, BookOpen, CheckCircle,
@@ -109,7 +110,7 @@ export default function AriaCompanyPoliciesView({ onAskAria }: Props) {
 
       {/* Header */}
       <div style={{ flexShrink: 0, padding: '20px 24px 16px', borderBottom: '1px solid var(--border)' }}>
-        <h2 style={{
+        <SectionTitle style={{
           fontFamily: 'var(--font-serif)',
           fontSize: '20px',
           fontWeight: 600,
@@ -117,7 +118,7 @@ export default function AriaCompanyPoliciesView({ onAskAria }: Props) {
           margin: '0 0 2px',
         }}>
           Company Policies
-        </h2>
+        </SectionTitle>
         <p style={{ fontSize: '12px', color: 'var(--ink-3)', margin: '0 0 14px' }}>
           {hasDocuments
             ? `${docs.length} document${docs.length !== 1 ? 's' : ''} available · ARIA can answer questions from these`
@@ -189,7 +190,7 @@ export default function AriaCompanyPoliciesView({ onAskAria }: Props) {
             </div>
 
             <div>
-              <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 6px', fontFamily: 'var(--font-serif)' }}>
+              <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: '0 0 6px', fontFamily: 'var(--font-serif)' }}>
                 No policy documents yet
               </p>
               <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0, maxWidth: 320, lineHeight: 1.5 }}>
@@ -203,7 +204,7 @@ export default function AriaCompanyPoliciesView({ onAskAria }: Props) {
               style={{
                 display: 'flex', alignItems: 'center', gap: 6,
                 padding: '10px 20px', background: 'var(--accent)',
-                color: 'white', border: 'none', borderRadius: 8,
+                color: "var(--on-accent)", border: 'none', borderRadius: 8,
                 fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'var(--font-sans)',
               }}

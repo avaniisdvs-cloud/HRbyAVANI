@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect } from 'next/navigation'
 import { and, eq, asc } from 'drizzle-orm'
@@ -59,7 +60,7 @@ export default async function LeaveRulesPage() {
   return (
     <div className="page-in">
       <div>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'مجموعات قواعد الإجازات' : 'Leave Rule Sets'}</h1>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'مجموعات قواعد الإجازات' : 'Leave Rule Sets'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {locale === 'ar'
             ? 'القاعدة الصارمة 11 — يُتحقَّق من كل بند وفق المرسوم بقانون اتحادي إماراتي رقم 33/2021 المادة 29 (BR-AL-001: الإجازة السنوية ≥ 22 يوماً حداً أدنى) قبل الحفظ.'
@@ -69,7 +70,7 @@ export default async function LeaveRulesPage() {
 
       <div style={{ marginTop: 24, background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'مجموعات القواعد النشطة' : 'Active rule sets'} ({sets.length})</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'مجموعات القواعد النشطة' : 'Active rule sets'} ({sets.length})</h3>
         </div>
         <div style={{ padding: '16px 20px' }} className="space-y-4">
           {sets.length === 0 ? (

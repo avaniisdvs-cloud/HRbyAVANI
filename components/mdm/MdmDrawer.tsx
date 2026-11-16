@@ -1,5 +1,6 @@
 'use client'
 
+import { DialogHeading } from '@/components/ui/typography'
 import { useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
@@ -154,7 +155,7 @@ export function MdmDrawer({
           flexShrink: 0,
         }}>
           <div>
-            <h2 style={{
+            <DialogHeading style={{
               fontFamily: 'var(--font-serif)',
               fontSize: 18,
               fontWeight: 500,
@@ -163,7 +164,7 @@ export function MdmDrawer({
               letterSpacing: '-0.3px',
             }}>
               {titleEn}
-            </h2>
+            </DialogHeading>
             <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', direction: 'rtl', display: 'block', marginTop: 2 }}>
               {titleAr}
             </span>

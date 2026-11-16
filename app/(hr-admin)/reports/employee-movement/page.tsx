@@ -5,6 +5,7 @@
  * timeline. Roles: MANAGER (direct team), HR_ADMIN / HR_DIRECTOR (own entity),
  * SUPER_ADMIN (all). NON-SENSITIVE columns only — never salary.
  */
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth, roleHome } from '@/lib/auth'
 import { getLocale } from '@/lib/locale-server'
@@ -96,9 +97,9 @@ export default async function EmployeeMovementReportPage({ searchParams }: { sea
 
   return (
     <div className="page-in" style={{ maxWidth: 1280, margin: '0 auto' }}>
-      <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
+      <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
         {L('Employee Movement Report', 'تقرير حركة الموظفين')}
-      </h1>
+      </PageTitle>
       <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 18px' }}>
         {L('Effective-dated assignment history across employees in your scope — promotions, transfers, grade, position, department, manager and organisation changes.',
            'سجل التعيينات الفعّال عبر الموظفين ضمن نطاقك — الترقيات والتنقلات وتغييرات الدرجة والمنصب والقسم والمدير والتنظيم.')}
@@ -143,7 +144,7 @@ export default async function EmployeeMovementReportPage({ searchParams }: { sea
             <input id="emp-mov-to" type="date" name="to" defaultValue={filters.to ?? ''} style={ctrl} /></div>
         </div>
         <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
-          <button type="submit" style={{ background: 'var(--accent)', color: '#fff', border: 'none', borderRadius: 8, padding: '8px 18px', fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer' }}>
+          <button type="submit" style={{ background: 'var(--accent)', color: "var(--on-accent)", border: 'none', borderRadius: 8, padding: '8px 18px', fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer' }}>
             {L('Apply filters', 'تطبيق المرشحات')}
           </button>
           {hasFilters && (

@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 import { Check, Globe, Loader2 } from 'lucide-react'
@@ -48,9 +49,9 @@ export function LanguagePreferenceCard({ current }: { current: Locale }) {
     >
       <header style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
         <Globe size={16} style={{ color: 'var(--brand-active)' }} aria-hidden />
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+        <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
           {ar ? 'اللغة' : 'Language'}
-        </h2>
+        </SectionTitle>
       </header>
       <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', marginBottom: 14 }}>
         {ar
@@ -86,7 +87,7 @@ export function LanguagePreferenceCard({ current }: { current: Locale }) {
               }}
             >
               <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.3 }}>
-                <span style={{ fontSize: 14, fontWeight: 500 }}>{opt.label}</span>
+                <span style={{ fontSize: 'var(--text-body)', fontWeight: 500 }}>{opt.label}</span>
                 <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }}>{opt.hint}</span>
               </span>
               {isPending && saved === opt.value

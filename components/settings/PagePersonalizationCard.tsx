@@ -48,7 +48,7 @@ function showToast(message: string, tone: 'success' | 'warn' = 'success') {
     left:         '50%',
     transform:    'translateX(-50%)',
     background:   tone === 'success' ? '#1E5B38' : '#8A5A0B',
-    color:        '#fff',
+    color:        "var(--on-accent)",
     padding:      '12px 20px',
     borderRadius: '10px',
     fontSize:     '13px',
@@ -94,7 +94,7 @@ function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: 
       >
         <div style={{
           position: 'absolute', top: 3, left: checked ? 19 : 3,
-          width: 14, height: 14, borderRadius: '50%', background: '#fff',
+          width: 14, height: 14, borderRadius: '50%', background: "var(--card)",
           transition: 'left 150ms', boxShadow: '0 1px 4px rgba(0,0,0,0.2)',
         }} />
       </div>
@@ -242,7 +242,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <Layers size={16} strokeWidth={1.75} style={{ color: 'var(--brand-active)' }} aria-hidden />
           <div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', lineHeight: 1.3 }}>
+            <div style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', lineHeight: 1.3 }}>
               {locale === 'ar' ? 'تخصيص الصفحة' : 'Page Personalization'}
             </div>
             <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
@@ -256,7 +256,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
           disabled={saving}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             border: 'none', borderRadius: 7,
             padding: '9px 16px', fontSize: 'var(--text-body)', fontWeight: 600,
             cursor: saving ? 'not-allowed' : 'pointer',
@@ -578,7 +578,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
                   <div style={{
                     position: 'absolute', top: 6, left: 6,
                     background: 'rgba(0,0,0,0.55)', borderRadius: 4,
-                    padding: '1px 6px', fontSize: 'var(--text-caption)', color: '#fff',
+                    padding: '1px 6px', fontSize: 'var(--text-caption)', color: "var(--on-accent)",
                     fontFamily: 'var(--font-mono)', fontWeight: 700,
                   }}>
                     {idx + 1}
@@ -591,7 +591,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
                       width: 22, height: 22, borderRadius: '50%',
                       background: 'rgba(0,0,0,0.6)', border: 'none',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      cursor: 'pointer', padding: 0, color: '#fff',
+                      cursor: 'pointer', padding: 0, color: "var(--on-accent)",
                     }}
                     title={locale === 'ar' ? 'إزالة الصورة' : 'Remove image'}
                   >

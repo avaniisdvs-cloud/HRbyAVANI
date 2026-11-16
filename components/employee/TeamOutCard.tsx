@@ -26,7 +26,7 @@ export function TeamOutCard({ teamOut, locale = 'en' }: { teamOut: TeamMemberOut
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
       <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>
+        <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>
           {locale === 'ar' ? 'من في إجازة هذا الأسبوع' : 'Who\'s out this week'}
         </h3>
       </div>
@@ -45,7 +45,7 @@ export function TeamOutCard({ teamOut, locale = 'en' }: { teamOut: TeamMemberOut
             <div style={{
               width: 32, height: 32, borderRadius: '50%',
               background: AVATAR_COLOR[m.typeCode ?? ''] ?? 'var(--accent)',
-              color: '#fff',
+              color: "var(--on-accent)",
               display: 'grid', placeItems: 'center',
               fontSize: 'var(--text-caption)', fontWeight: 700, flexShrink: 0,
             }}>

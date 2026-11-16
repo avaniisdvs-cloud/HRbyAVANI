@@ -62,7 +62,7 @@ export function AttendanceCalendar({ year, month, records, onDayClick }: Props) 
             key={d}
             style={{
               textAlign:  'center',
-              fontSize:   '0.7rem',
+              fontSize:   'var(--text-caption)',
               fontWeight: 600,
               padding:    '0.25rem 0',
               color:      'var(--muted-foreground)',
@@ -93,7 +93,7 @@ export function AttendanceCalendar({ year, month, records, onDayClick }: Props) 
                 cursor:       onDayClick ? 'pointer' : 'default',
                 background:   info?.bg ?? 'transparent',
                 color:        info?.fg ?? 'var(--foreground)',
-                fontSize:     '0.75rem',
+                fontSize:     'var(--text-caption)',
                 userSelect:   'none',
                 transition:   'opacity 0.1s',
               }}

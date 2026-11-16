@@ -73,7 +73,7 @@ export function ExcelUpload() {
         <div style={{ fontWeight: 500, marginBottom: '0.25rem' }}>
           {loading ? 'Processing…' : 'Drop Excel / CSV file here'}
         </div>
-        <div style={{ fontSize: '0.8rem' }}>
+        <div style={{ fontSize: 'var(--text-caption)' }}>
           Columns: Employee Number, Date (YYYY-MM-DD), Time In, Time Out, Notes
         </div>
         <input
@@ -113,7 +113,7 @@ export function ExcelUpload() {
             Upload complete — {result.processed} processed, {result.rejected} rejected
           </div>
           {result.errors.map(e => (
-            <div key={e.row} style={{ fontSize: '0.8rem' }}>
+            <div key={e.row} style={{ fontSize: 'var(--text-caption)' }}>
               Row {e.row}: {e.reason}
             </div>
           ))}

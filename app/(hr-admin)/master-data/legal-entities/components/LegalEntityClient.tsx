@@ -256,7 +256,7 @@ export function LegalEntityClient({ initialData, auditHistory }: LegalEntityClie
           <span>{actionError}</span>
           <button
             onClick={() => setActionError(null)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--status-rejected-fg)', fontSize: 16, lineHeight: 1 }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--status-rejected-fg)', fontSize: 'var(--text-lead)', lineHeight: 1 }}
           >
             ×
           </button>
@@ -338,7 +338,7 @@ export function LegalEntityClient({ initialData, auditHistory }: LegalEntityClie
                     style={{
                       textAlign: 'center',
                       padding: '48px 24px',
-                      fontSize: 14,
+                      fontSize: 'var(--text-body)',
                       color: 'var(--ink-3)',
                     }}
                   >

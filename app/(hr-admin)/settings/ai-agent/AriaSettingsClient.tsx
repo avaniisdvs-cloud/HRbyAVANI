@@ -36,7 +36,7 @@ const sectionStyle: React.CSSProperties = {
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontSize: '0.8rem',
+  fontSize: 'var(--text-caption)',
   fontWeight: 600,
   color: 'var(--ink-2)',
   marginBottom: '0.375rem',
@@ -58,7 +58,7 @@ const inputStyle: React.CSSProperties = {
 const buttonStyle: React.CSSProperties = {
   padding: '0.5rem 1.5rem',
   background: 'var(--accent)',
-  color: '#ffffff',
+  color: "var(--on-accent)",
   border: 'none',
   borderRadius: '6px',
   cursor: 'pointer',
@@ -247,7 +247,7 @@ function BrandingTab({ config }: Props) {
       {/* Accent colour */}
       <div style={sectionStyle}>
         <p style={sectionHeadStyle}>{locale === 'ar' ? 'لون التمييز' : 'Accent Colour'}</p>
-        <p style={{ fontSize: '0.8rem', color: 'var(--ink-3)',
+        <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
         marginBottom: '0.75rem',
         marginTop: 0 }}>
           {locale === 'ar' ? 'يُطبَّق على رأس بطاقة المساعد وتمييز فقاعة المحادثة. الافتراضي هو لون أفانيس الفيروزي.' : 'Applied to the assistant card header and chat bubble highlight. Defaults to AVANIIS teal.'}
@@ -346,7 +346,7 @@ function BrandingTab({ config }: Props) {
       {/* Footer label */}
       <div style={sectionStyle}>
         <p style={sectionHeadStyle}>{locale === 'ar' ? 'تسمية التذييل' : 'Footer Label'}</p>
-        <p style={{ fontSize: '0.8rem', color: 'var(--ink-3)',
+        <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
         marginBottom: '0.75rem',
         marginTop: 0 }}>
           {locale === 'ar' ? 'تظهر في أسفل لوحة محادثة آريا. اتركها فارغة لاستخدام الإعداد الافتراضي.' : 'Shown at the bottom of the ARIA chat panel. Leave blank to use the default.'}
@@ -439,7 +439,7 @@ function IdentityTab({ config }: Props) {
             <option value="strict">{locale === 'ar' ? 'صارمة' : 'Strict'}</option>
           </select>
           {agentTone && (
-            <p style={{ fontSize: '0.8rem', color: 'var(--ink-3)',
+            <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
             marginTop: '0.375rem' }}>
               {locale === 'ar' ? TONE_DESCRIPTIONS_AR[agentTone] : TONE_DESCRIPTIONS[agentTone]}
             </p>
@@ -544,7 +544,7 @@ function ModelTab({ config }: Props) {
               : 'Leave blank for the provider default (custom base URL / proxy)'
             }
           />
-          <p style={{ fontSize: '0.75rem', color: 'var(--ink-3)',
+          <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
           marginTop: '0.375rem' }}>
             {provider === 'azure_openai' ? (
               locale === 'ar'
@@ -570,7 +570,7 @@ function ModelTab({ config }: Props) {
             onChange={e => setApiKey(e.target.value)}
             placeholder={model?.apiKeyMasked ?? (provider === 'anthropic' ? 'sk-ant-••••' : 'sk-••••')}
           />
-          <p style={{ fontSize: '0.75rem', color: 'var(--ink-3)',
+          <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
           marginTop: '0.375rem' }}>
             {locale === 'ar' ? 'يتم تشفير مفاتيح API باستخدام AES-256 قبل التخزين ولا تُعاد أبداً كنص صريح.' : 'API keys are encrypted with AES-256 before storage and never returned in plaintext.'}
           </p>
@@ -707,7 +707,7 @@ function BehaviourTab({ config }: Props) {
             </label>
           ))}
           {authorityLevel === 'full_execution' && (
-            <div style={{ marginTop: '0.5rem', padding: '0.625rem 0.875rem', background: 'var(--status-pending-bg)', color: 'var(--status-pending-fg)', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 600, fontFamily: 'var(--font-sans)' }}>
+            <div style={{ marginTop: '0.5rem', padding: '0.625rem 0.875rem', background: 'var(--status-pending-bg)', color: 'var(--status-pending-fg)', borderRadius: '6px', fontSize: 'var(--text-caption)', fontWeight: 600, fontFamily: 'var(--font-sans)' }}>
               {locale === 'ar' ? 'وضع الثقة العالية. ستنفّذ آريا الإجراءات بأقل قدر من التدخل.' : 'High trust mode. ARIA will execute actions with minimal friction.'}
             </div>
           )}
@@ -735,7 +735,7 @@ function BehaviourTab({ config }: Props) {
             <label key={src.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: 'var(--ink-4)', fontFamily: 'var(--font-sans)', opacity: 0.5 }}>
               <input type="checkbox" disabled />
               {locale === 'ar' ? src.labelAr : src.label}
-              <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.4rem', background: 'var(--status-pending-bg)', color: 'var(--status-pending-fg)', borderRadius: '4px', fontWeight: 700 }}>
+              <span style={{ fontSize: 'var(--text-caption)', padding: '0.1rem 0.4rem', background: 'var(--status-pending-bg)', color: 'var(--status-pending-fg)', borderRadius: '4px', fontWeight: 700 }}>
                 {src.badge}
               </span>
             </label>
@@ -757,7 +757,7 @@ function BehaviourTab({ config }: Props) {
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: 'var(--ink-4)', fontFamily: 'var(--font-sans)', opacity: 0.5 }}>
             <input type="checkbox" disabled />
             {locale === 'ar' ? 'رؤى تنبؤية' : 'Predictive Insights'}
-            <span style={{ fontSize: '0.7rem', padding: '0.1rem 0.4rem', background: 'var(--status-pending-bg)', color: 'var(--status-pending-fg)', borderRadius: '4px', fontWeight: 700 }}>{locale === 'ar' ? 'قريباً' : 'Coming Soon'}</span>
+            <span style={{ fontSize: 'var(--text-caption)', padding: '0.1rem 0.4rem', background: 'var(--status-pending-bg)', color: 'var(--status-pending-fg)', borderRadius: '4px', fontWeight: 700 }}>{locale === 'ar' ? 'قريباً' : 'Coming Soon'}</span>
           </label>
         </div>
       </div>
@@ -855,11 +855,11 @@ function KnowledgeTab({ config }: Props) {
           <div key={ks.id as string} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.75rem', borderBottom: '1px solid var(--border)' }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontWeight: 600, color: 'var(--ink-1)', fontSize: '0.875rem' }}>{ks.sourceName as string}</div>
-              <div style={{ color: 'var(--ink-3)', fontSize: '0.75rem' }}>
+              <div style={{ color: 'var(--ink-3)', fontSize: 'var(--text-caption)' }}>
                 {formatBytes(ks.fileSizeBytes as number)} · {ks.lastIndexedAt ? new Date(ks.lastIndexedAt as string).toLocaleDateString(locale === 'ar' ? 'ar' : undefined) : (locale === 'ar' ? 'غير مفهرس' : 'Not indexed')}
               </div>
             </div>
-            <span style={{ padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 700, ...statusPillStyle(ks.vectorStatus as string) }}>
+            <span style={{ padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: 'var(--text-caption)', fontWeight: 700, ...statusPillStyle(ks.vectorStatus as string) }}>
               {locale === 'ar' ? (VECTOR_STATUS_LABELS[ks.vectorStatus as string] ?? (ks.vectorStatus as string)) : (ks.vectorStatus as string)}
             </span>
             <button onClick={() => handleDelete(ks.id as string)} style={{ color: 'var(--status-rejected-fg)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.875rem' }}>
@@ -875,7 +875,7 @@ function KnowledgeTab({ config }: Props) {
         <span style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
           {uploading ? (locale === 'ar' ? 'جارٍ الرفع…' : 'Uploading…') : (locale === 'ar' ? 'أفلت الملفات هنا أو انقر للرفع' : 'Drop files here or click to upload')}
         </span>
-        <span style={{ fontSize: '0.75rem',
+        <span style={{ fontSize: 'var(--text-caption)',
         marginTop: '0.5rem' }}>
           {locale === 'ar' ? 'PDF، DOCX، TXT · حد أقصى 25 ميجابايت · يتم تقسيم المستندات وفهرستها لترجع إليها آريا عند الإجابة عن أسئلة السياسات.' : 'PDF, DOCX, TXT · Max 25 MB · Documents are chunked and indexed for ARIA to reference when answering policy questions.'}
         </span>
@@ -944,7 +944,7 @@ function ConnectionTab({ config }: Props) {
       {/* Endpoint validation feedback for the selected provider/endpoint */}
       <div style={{
         marginBottom: '0.75rem', padding: '0.625rem 0.875rem', borderRadius: 8,
-        fontSize: '0.8rem', fontFamily: 'var(--font-sans)',
+        fontSize: 'var(--text-caption)', fontFamily: 'var(--font-sans)',
         background: endpointValidation.ok ? (endpointValidation.warn ? 'var(--status-pending-bg)' : 'var(--surface)') : 'var(--status-rejected-bg)',
         color: endpointValidation.ok ? (endpointValidation.warn ? 'var(--status-pending-fg)' : 'var(--ink-2)') : 'var(--status-rejected-fg)',
         border: '1px solid var(--border)',
@@ -997,7 +997,7 @@ function ConnectionTab({ config }: Props) {
             [locale === 'ar' ? 'تفعيل RAG' : 'RAG Enabled',      config.behaviour?.ragEnabled ? (locale === 'ar' ? 'نعم' : 'Yes') : (locale === 'ar' ? 'لا' : 'No')],
           ] as [string, unknown][]).map(([label, value]) => (
             <div key={label}>
-              <dt style={{ fontSize: '0.75rem', color: 'var(--ink-3)', fontFamily: 'var(--font-sans)' }}>{label}</dt>
+              <dt style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontFamily: 'var(--font-sans)' }}>{label}</dt>
               <dd style={{ fontSize: '0.875rem', color: 'var(--ink-1)', fontWeight: 600, fontFamily: 'var(--font-sans)', margin: 0 }}>
                 {String(value ?? '—')}
               </dd>

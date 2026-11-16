@@ -1,5 +1,6 @@
 'use client'
 
+import { DialogHeading } from '@/components/ui/typography'
 import { useEffect, useRef, useState, useTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -167,9 +168,9 @@ export function CurrencySetupDrawer({ open, onClose, onSave, editing, legalEntit
           borderBottom: '1px solid var(--border)',
         }}>
           <div>
-            <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
+            <DialogHeading style={{ margin: 0, fontSize: 'var(--text-lead)', fontWeight: 700, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
               {editing ? 'Edit Currency Setup' : 'Add Currency Setup'}
-            </h2>
+            </DialogHeading>
             <p style={{ margin: '3px 0 0', fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontFamily: 'var(--font-sans)' }}>
               {editing ? 'تعديل إعداد العملة' : 'إضافة إعداد عملة'}
             </p>
@@ -410,7 +411,7 @@ export function CurrencySetupDrawer({ open, onClose, onSave, editing, legalEntit
               const formatted = int.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (dec !== undefined ? '.' + dec : '')
               return (
                 <>
-                  <p style={{ margin: 0, fontSize: 14, fontFamily: 'var(--font-mono)', color: 'var(--ink-1)' }}>
+                  <p style={{ margin: 0, fontSize: 'var(--text-body)', fontFamily: 'var(--font-mono)', color: 'var(--ink-1)' }}>
                     {form.currencyCode} {formatted}
                   </p>
                   <p style={{ margin: '2px 0 0', fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }}>

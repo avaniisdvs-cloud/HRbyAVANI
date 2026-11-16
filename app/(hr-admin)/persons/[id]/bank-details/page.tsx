@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { and, eq } from 'drizzle-orm'
@@ -62,7 +63,7 @@ export default async function BankDetailsPage({
     <div className="page-in">
       <div className="mb-6">
         <Link href={`/persons/${person.id}`} className="text-sm text-ink-3 hover:text-accent">{locale === 'ar' ? '→ العودة إلى الملف الشخصي' : '← Back to profile'}</Link>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'التفاصيل المصرفية' : 'Bank details'}</h1>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'التفاصيل المصرفية' : 'Bank details'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {person.personNumber} · {person.fullNameEn ?? '—'}
         </p>
@@ -71,7 +72,7 @@ export default async function BankDetailsPage({
       <div className="grid gap-6 lg:grid-cols-2">
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
               {locale === 'ar' ? 'السجل النشط' : 'Active record'}
               <Badge className="ms-2 align-middle" variant={bank ? 'secondary' : 'outline'}>
                 {bank ? (bank.isWpsAccount ? 'WPS' : 'NON-WPS') : (locale === 'ar' ? 'لا يوجد' : 'none')}
@@ -111,7 +112,7 @@ export default async function BankDetailsPage({
           <BankDetailsForm personId={person.id} />
         ) : (
           <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إضافة سجل جديد' : 'Add new record'}</h3></div>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إضافة سجل جديد' : 'Add new record'}</h3></div>
             <div style={{ padding: '16px 20px' }}>
               <p className="text-sm text-ink-3">
                 {locale === 'ar'

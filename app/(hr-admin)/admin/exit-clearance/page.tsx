@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
@@ -55,9 +56,9 @@ export default async function ExitClearancePage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
         <LogOut size={22} color="var(--accent)" strokeWidth={1.5} />
         <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <PageTitle style={{ margin: 0, fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             {t(locale, 'Exit Clearance', 'إخلاء الطرف')}
-          </h1>
+          </PageTitle>
           <p style={{ margin: '2px 0 0', fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
             {t(locale, 'Manage offboarding checklists for departing employees', 'إدارة قوائم إنهاء الخدمة للموظفين المغادرين')}
           </p>
@@ -80,7 +81,7 @@ export default async function ExitClearancePage() {
           padding: '48px 24px', textAlign: 'center',
         }}>
           <LogOut size={36} color="var(--ink-4)" strokeWidth={1.5} style={{ marginBottom: 12 }} />
-          <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
             {t(locale,
               'No offboarding checklists found. They are created automatically when a contract is terminated.',
               'لا توجد قوائم إنهاء خدمة. يتم إنشاؤها تلقائياً عند إنهاء أي عقد.')}
@@ -163,7 +164,7 @@ function ClearanceGroup({
                   {(item.fullNameEn || '?').charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+                  <div style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
                     {item.fullNameEn || '—'}
                   </div>
                   <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontFamily: 'var(--font-mono)' }}>

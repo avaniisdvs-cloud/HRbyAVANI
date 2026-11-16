@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
@@ -327,7 +328,7 @@ export default async function PersonProfilePage({
                 {person.assignmentStatus.replace(/_/g, ' ')}
               </span>
             </div>
-            <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{person.fullNameEn ?? '—'}</h1>
+            <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{person.fullNameEn ?? '—'}</PageTitle>
             <p className="mt-0.5 text-sm text-ink-3" dir="rtl" lang="ar">{person.fullNameAr}</p>
             <p className="mt-1 font-mono text-xs text-ink-2">
               {person.personNumber}
@@ -416,7 +417,7 @@ export default async function PersonProfilePage({
       <div className="grid gap-6 lg:grid-cols-3">
         {/* ── Personal info ─────────────────────────────────────────── */}
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'المعلومات الشخصية' : 'Personal Information'}</h3></div>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'المعلومات الشخصية' : 'Personal Information'}</h3></div>
           <div style={{ padding: '16px 20px' }} className="space-y-3 text-sm">
             <Row label={locale === 'ar' ? 'تاريخ الميلاد' : 'Date of birth'}        value={person.dateOfBirth} />
             <Row label={locale === 'ar' ? 'الجنس' : 'Gender'}               value={person.gender} />
@@ -432,7 +433,7 @@ export default async function PersonProfilePage({
         {/* ── Identity Documents (PII) ──────────────────────────────── */}
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
               {locale === 'ar' ? 'الوثائق الرسمية' : 'Identity Documents'}
               <span className={`ms-2 inline-flex items-center rounded-full px-2 py-0.5 align-middle text-xs font-medium ${person.piiMasked ? 'bg-surface text-ink-3 ring-1 ring-border' : 'bg-accent-050 text-accent-700'}`}>
                 {person.piiMasked ? (locale === 'ar' ? 'مُخفاة' : 'masked') : (locale === 'ar' ? 'ظاهرة' : 'unmasked')}
@@ -468,7 +469,7 @@ export default async function PersonProfilePage({
         {/* ── Employment ───────────────────────────────────────────── */}
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="flex items-center gap-2">
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="flex items-center gap-2">
               <Briefcase className="h-4 w-4 text-accent" aria-hidden strokeWidth={1.75} />
               {locale === 'ar'
                 ? <span dir="rtl" lang="ar">التوظيف</span>
@@ -502,7 +503,7 @@ export default async function PersonProfilePage({
       {/* ── Contacts + Addresses ─────────────────────────────────── */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'جهات الاتصال' : 'Contacts'}</h3></div>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'جهات الاتصال' : 'Contacts'}</h3></div>
           <div style={{ padding: '16px 20px' }}>
             {contactRows.length === 0
               ? <p className="text-sm text-ink-3">{locale === 'ar' ? 'لا توجد جهات اتصال مسجلة.' : 'No contacts on file.'}</p>
@@ -519,7 +520,7 @@ export default async function PersonProfilePage({
           </div>
         </div>
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'العناوين' : 'Addresses'}</h3></div>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'العناوين' : 'Addresses'}</h3></div>
           <div style={{ padding: '16px 20px' }}>
             {addressRows.length === 0
               ? <p className="text-sm text-ink-3">{locale === 'ar' ? 'لا توجد عناوين مسجلة.' : 'No addresses on file.'}</p>
@@ -541,7 +542,7 @@ export default async function PersonProfilePage({
       {/* ── Documents ─────────────────────────────────────────────── */}
       <div className="mt-6" style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="flex items-center gap-2">
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="flex items-center gap-2">
             <FileText className="h-4 w-4 text-accent" aria-hidden strokeWidth={1.75} />
             {locale === 'ar'
               ? <span dir="rtl" lang="ar">الوثائق</span>
@@ -584,7 +585,7 @@ export default async function PersonProfilePage({
 
       {/* ── Contracts ─────────────────────────────────────────────── */}
       <div className="mt-6" style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'العقود' : 'Contracts'}</h3></div>
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'العقود' : 'Contracts'}</h3></div>
         <div style={{ padding: '16px 20px' }}>
           {contractRows.length === 0
             ? <p className="text-sm text-ink-3">{locale === 'ar' ? 'لا توجد عقود مسجلة.' : 'No contracts on file.'}</p>
@@ -622,7 +623,7 @@ export default async function PersonProfilePage({
       {/* ── Assignment + action history ───────────────────────────── */}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'سجل تعيينات العامل' : 'Worker assignment history'}</h3></div>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'سجل تعيينات العامل' : 'Worker assignment history'}</h3></div>
           <div style={{ padding: '16px 20px' }}>
             {assignmentRows.length === 0
               ? <p className="text-sm text-ink-3">{locale === 'ar' ? 'لا يوجد سجل تعيينات.' : 'No assignment history.'}</p>
@@ -661,7 +662,7 @@ export default async function PersonProfilePage({
           </div>
         </div>
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إجراءات التوظيف' : 'Employment actions'}</h3></div>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إجراءات التوظيف' : 'Employment actions'}</h3></div>
           <div style={{ padding: '16px 20px' }}>
             {actionRows.length === 0
               ? <p className="text-sm text-ink-3">{locale === 'ar' ? 'لا توجد إجراءات مسجلة.' : 'No actions recorded.'}</p>

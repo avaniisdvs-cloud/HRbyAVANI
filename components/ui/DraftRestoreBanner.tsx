@@ -37,7 +37,7 @@ export function DraftRestoreBanner({ relativeTime, onRestore, onDiscard }: Draft
             fontSize: 'var(--text-caption)',
             fontWeight: 600,
             background: 'var(--accent)',
-            color: '#fff',
+            color: "var(--on-accent)",
             border: 'none',
             borderRadius: 6,
             cursor: 'pointer',

@@ -13,6 +13,7 @@
  * Animation: modalIn 180ms ease.
  */
 
+import { DialogHeading } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import { X, ChevronDown, ChevronRight, Loader2, AlertCircle } from 'lucide-react'
 import { previewWorkflowChain, type PreviewWorkflowResult } from '@/modules/workflow/actions'
@@ -238,12 +239,12 @@ export function HierarchyPreviewModal({
             borderBottom: '1px solid var(--border)',
           }}>
             <div>
-              <h2
+              <DialogHeading
                 id="preview-modal-title"
-                style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}
+                style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}
               >
                 {locale === 'ar' ? 'معاينة سلسلة الموافقة' : 'Preview Approval Chain'}
-              </h2>
+              </DialogHeading>
               <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', marginTop: 2 }}>
                 {workflowCode} · {locale === 'ar' ? 'محاكاة للقراءة فقط' : 'read-only simulation'}
               </p>
@@ -528,7 +529,7 @@ export function HierarchyPreviewModal({
                 <>
                   {/* Chain header */}
                   <div style={{ marginBottom: 4 }}>
-                    <div style={{ fontFamily: 'var(--font-serif, Georgia, serif)', fontSize: 15, fontWeight: 600, color: 'var(--ink-1)' }}>
+                    <div style={{ fontFamily: 'var(--font-serif, Georgia, serif)', fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
                       {result.workflowName}
                     </div>
                     <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', marginTop: 2 }}>

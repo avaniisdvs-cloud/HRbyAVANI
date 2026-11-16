@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { useState, useEffect, useCallback } from 'react'
 import { Eye, EyeOff, Moon, Sun } from 'lucide-react'
 import type { CarouselImage } from '@/modules/config/actions/page-personalization'
@@ -261,7 +262,7 @@ export default function LoginClient({
         <div style={{
           position: 'absolute', bottom: 52,
           [isRtl ? 'right' : 'left']: 44,
-          color: 'white', zIndex: 10,
+          color: "var(--on-accent)", zIndex: 10,
         }}>
           <p style={{ fontSize: 38, fontFamily: 'var(--font-serif, serif)', letterSpacing: '-0.9px', margin: '4px 0 0', fontWeight: 400, lineHeight: 1.1 }}>{t.appName}</p>
         </div>
@@ -276,7 +277,7 @@ export default function LoginClient({
             <button key={i} onClick={() => { setCarouselPaused(true); setSlide(i) }} aria-current={i === activeSlide ? 'true' : undefined} aria-label={isRtl ? `شريحة ${i + 1}` : `Slide ${i + 1}`}
               style={{
                 flex: i === activeSlide ? 3 : 1, height: 3, borderRadius: 99,
-                background: 'white',
+                background: "var(--card)",
                 opacity: i === activeSlide ? 1 : 0.3,
                 border: 'none', cursor: 'pointer',
                 transition: 'flex 0.4s, opacity 0.4s', padding: 0,
@@ -285,7 +286,7 @@ export default function LoginClient({
           ))}
           <button onClick={() => setCarouselPaused(p => !p)}
             aria-label={isRtl ? (carouselPaused ? 'تشغيل عرض الصور' : 'إيقاف عرض الصور مؤقتاً') : (carouselPaused ? 'Play slideshow' : 'Pause slideshow')}
-            style={{ color: 'white', background: 'transparent', border: 'none', cursor: 'pointer', padding: '0 4px', alignSelf: 'center', fontSize: 14, lineHeight: 1 }}>
+            style={{ color: "var(--on-accent)", background: 'transparent', border: 'none', cursor: 'pointer', padding: '0 4px', alignSelf: 'center', fontSize: 'var(--text-body)', lineHeight: 1 }}>
             {carouselPaused ? '▶' : 'Ⅱ'}
           </button>
         </div>
@@ -354,13 +355,13 @@ export default function LoginClient({
 
         {/* Heading */}
         <div style={{ marginBottom: 24 }}>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily: 'var(--font-serif, serif)', fontSize: 26, fontWeight: 400,
             margin: 0, color: textPrimary, letterSpacing: '-0.3px',
           }}>
             {t.welcomeBack}
-          </h1>
-          <p style={{ marginTop: 6, fontSize: 14, color: textMuted }}>{t.signInContinue}</p>
+          </PageTitle>
+          <p style={{ marginTop: 6, fontSize: 'var(--text-body)', color: textMuted }}>{t.signInContinue}</p>
         </div>
 
         {/* Microsoft SSO button */}
@@ -395,7 +396,7 @@ export default function LoginClient({
           style={{
             width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
             gap: 10, height: 44, borderRadius: 9, border: `1.5px solid ${borderColor}`,
-            background: 'var(--card)', fontSize: 14, fontWeight: 600, color: textPrimary,
+            background: 'var(--card)', fontSize: 'var(--text-body)', fontWeight: 600, color: textPrimary,
             cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1,
           }}>
           <MicrosoftLogo />
@@ -468,8 +469,8 @@ export default function LoginClient({
             type="submit" disabled={loading}
             style={{
               width: '100%', height: 44, borderRadius: 9, border: 'none',
-              background: 'var(--accent)', color: '#fff',
-              fontSize: 14, fontWeight: 600,
+              background: 'var(--accent)', color: "var(--on-accent)",
+              fontSize: 'var(--text-body)', fontWeight: 600,
               cursor: loading ? 'not-allowed' : 'pointer',
               opacity: loading ? 0.7 : 1, marginTop: 4,
             }}>

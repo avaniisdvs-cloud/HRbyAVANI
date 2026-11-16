@@ -137,8 +137,8 @@ export const ADMIN_NAV: NavConfig = [
       },
       {
         id:      'org-chart',
-        labelEn: 'Organisation Chart',
-        labelAr: 'المخطط التنظيمي',
+        labelEn: 'Employee Organization Structure',
+        labelAr: 'الهيكل التنظيمي للموظفين',
         icon:    Network,
         route:   '/org-chart',
       },

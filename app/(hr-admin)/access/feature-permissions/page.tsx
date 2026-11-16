@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { Lock } from 'lucide-react'
 import { auth } from '@/lib/auth'
@@ -31,12 +32,12 @@ export default async function FeaturePermissionsPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-              <h1 style={{
+              <PageTitle style={{
                 fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500,
                 letterSpacing: '-0.4px', color: 'var(--ink-1)', margin: 0,
               }}>
                 Feature Permissions
-              </h1>
+              </PageTitle>
               <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-4)', fontFamily: 'var(--font-arabic)', direction: 'rtl' }}>
                 صلاحيات الميزات
               </span>
@@ -57,7 +58,7 @@ export default async function FeaturePermissionsPage() {
           padding: '64px 24px', textAlign: 'center',
           background: 'var(--card)',
         }}>
-          <p style={{ fontSize: 15, color: 'var(--ink-3)', margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
             No feature permissions found. Run migration 0012 to seed default data.
           </p>
         </div>

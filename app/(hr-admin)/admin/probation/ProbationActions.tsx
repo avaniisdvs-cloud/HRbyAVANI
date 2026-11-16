@@ -120,7 +120,7 @@ export function ProbationActions({ employee }: Props) {
             }}
             onClick={e => e.stopPropagation()}
           >
-            <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+            <h3 style={{ margin: '0 0 4px', fontSize: 'var(--text-lead)', fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
               {decision === 'CONFIRMED' ? (locale === 'ar' ? 'تثبيت فترة الاختبار' : 'Confirm Probation')
                : decision === 'EXTENDED' ? (locale === 'ar' ? 'تمديد فترة الاختبار' : 'Extend Probation')
                : (locale === 'ar' ? 'عدم تثبيت فترة الاختبار' : 'Fail Probation')}
@@ -182,7 +182,7 @@ export function ProbationActions({ employee }: Props) {
                   flex: 1, height: 38, borderRadius: 7, border: 'none',
                   background: decision === 'CONFIRMED' ? '#16a34a'
                     : decision === 'EXTENDED' ? '#d97706' : '#dc2626',
-                  color: '#fff', fontSize: 'var(--text-body)', fontWeight: 600,
+                  color: "var(--on-accent)", fontSize: 'var(--text-body)', fontWeight: 600,
                   cursor: pending ? 'not-allowed' : 'pointer',
                   opacity: pending ? 0.7 : 1,
                 }}

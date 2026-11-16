@@ -53,7 +53,7 @@ const inputBase: React.CSSProperties = {
   border: '1.5px solid var(--border)',
   borderRadius: 8,
   padding: '10px 12px',
-  fontSize: 14,
+  fontSize: 'var(--text-body)',
   fontFamily: 'var(--font-sans)',
   color: 'var(--ink-1)',
   background: 'var(--card)',
@@ -452,7 +452,7 @@ export function WorkflowDrawer({ open, onClose, onSuccess, editRow }: WorkflowDr
       <div style={sectionLabel}>{locale === 'ar' ? 'الامتثال' : 'Compliance'}</div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 14 }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 'var(--text-body)' }}>
           <input
             type="checkbox"
             checked={requiresMedicalCert}
@@ -461,7 +461,7 @@ export function WorkflowDrawer({ open, onClose, onSuccess, editRow }: WorkflowDr
           />
           <span style={{ color: 'var(--ink-1)', fontWeight: 500 }}>{locale === 'ar' ? 'يتطلب شهادة طبية' : 'Requires Medical Certificate'}</span>
         </label>
-        <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 14 }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 'var(--text-body)' }}>
           <input
             type="checkbox"
             checked={requiresManagerComment}

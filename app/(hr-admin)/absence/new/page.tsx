@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { and, asc, desc, eq } from 'drizzle-orm'
@@ -114,12 +115,12 @@ export default async function NewLeaveRequestPage({
         <div className="mt-2 flex items-center gap-3">
           <CalendarPlus className="h-6 w-6 text-accent" aria-hidden strokeWidth={1.75} />
           <div>
-            <h1 style={{
+            <PageTitle style={{
               fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 600,
               color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0,
             }}>
               {locale === 'ar' ? 'طلب إجازة جديد' : 'New Leave Request'}
-            </h1>
+            </PageTitle>
             <p className="mt-0.5 text-sm text-ink-3">
               Save creates a DRAFT · Submit routes through the LEAVE_REQUEST workflow.
             </p>

@@ -7,6 +7,7 @@
  * type badges, and optional cancel action for HR_DIRECTOR / SUPER_ADMIN.
  */
 
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState } from 'react'
 import { CalendarClock, CheckCircle2, Loader2 } from 'lucide-react'
@@ -99,7 +100,7 @@ export function PendingChangesClient({ initialData, canCancel }: Props) {
       marginBottom: 8 }}>
         <CalendarClock size={28} style={{ color: 'var(--brand-active)', flexShrink: 0 }} />
         <div>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily:  'var(--font-serif)',
             fontSize:    22,
             fontWeight:  700,
@@ -108,7 +109,7 @@ export function PendingChangesClient({ initialData, canCancel }: Props) {
             lineHeight:  1.2,
           }}>
             Pending Future Changes
-          </h1>
+          </PageTitle>
           <p style={{
             fontFamily: 'var(--font-sans)',
             fontSize:   'var(--text-body)',
@@ -386,7 +387,7 @@ function EmptyState() {
       <CheckCircle2 size={40} style={{ color: '#16A34A' }} />
       <p style={{
         fontFamily: 'var(--font-sans)',
-        fontSize:   15,
+        fontSize:   'var(--text-body)',
         fontWeight: 600,
         color:      'var(--ink-1)',
         margin:     0,

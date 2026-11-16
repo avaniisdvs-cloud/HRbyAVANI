@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -104,9 +105,9 @@ export function InsurancePolicyClient({ settings, legalEntityId, locale = 'en' }
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 720 }}>
       <div>
-        <h1 className="font-serif text-2xl text-ink-1">
+        <PageTitle className="font-serif text-2xl text-ink-1">
           {locale === 'ar' ? 'سياسة التأمين الطبي' : 'Insurance Policy Settings'}
-        </h1>
+        </PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {locale === 'ar'
             ? 'تهيئة قواعد أهلية المعالين، وتقاسم التكلفة، وفترات السماح للتسجيل، وتنبيهات التجديد.'

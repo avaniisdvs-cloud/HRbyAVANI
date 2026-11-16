@@ -142,7 +142,7 @@ export function RecordHistoryDrawer({
               <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 6 }}>
                 <Clock size={15} color="var(--accent)" />
                 <span style={{
-                  fontSize:   15,
+                  fontSize:   'var(--text-body)',
                   fontFamily: 'var(--font-sans)',
                   fontWeight: 600,
                   color:      'var(--ink-1)',
@@ -150,7 +150,7 @@ export function RecordHistoryDrawer({
                   Change History
                 </span>
               </div>
-              <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink-1)' }}>
+              <div style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--ink-1)' }}>
                 {recordNameEn}
               </div>
               {recordNameAr && (

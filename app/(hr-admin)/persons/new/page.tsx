@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { eq, and, asc } from 'drizzle-orm'
 import Link from 'next/link'
@@ -135,9 +136,9 @@ export default async function NewPersonPage({
           <span>{t(locale, 'New Employee', 'موظف جديد')}</span>
         </div>
         {/* Title */}
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 400, color: 'var(--ink-1)', margin: '0 0 6px', letterSpacing: '-0.3px' }}>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 400, color: 'var(--ink-1)', margin: '0 0 6px', letterSpacing: '-0.3px' }}>
           {t(locale, 'Add New Employee', 'إضافة موظف جديد')}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
           {t(locale, 'Complete required fields to create the employee record. All PII fields are encrypted before storage.', 'أكمل الحقول المطلوبة لإنشاء سجل الموظف. يتم تشفير جميع حقول البيانات الشخصية قبل التخزين.')}
         </p>

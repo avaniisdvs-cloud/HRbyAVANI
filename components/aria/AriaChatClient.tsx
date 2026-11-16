@@ -105,8 +105,8 @@ function micBtnStyle(s: MicBtnState): React.CSSProperties {
     borderRadius: 8, cursor: 'pointer', transition: 'all 0.2s ease',
   }
   switch (s) {
-    case 'requesting': return { ...base, background: 'var(--accent)', opacity: 0.7, border: '1px solid var(--accent)', color: 'white', cursor: 'default' }
-    case 'active':     return { ...base, background: 'var(--accent-deep, var(--accent))', border: '1px solid var(--accent-deep, var(--accent))', color: 'white' }
+    case 'requesting': return { ...base, background: 'var(--accent)', opacity: 0.7, border: '1px solid var(--accent)', color: "var(--on-accent)", cursor: 'default' }
+    case 'active':     return { ...base, background: 'var(--accent-deep, var(--accent))', border: '1px solid var(--accent-deep, var(--accent))', color: "var(--on-accent)" }
     case 'denied':     return { ...base, background: 'transparent', border: '1px solid var(--status-rejected-fg)', color: 'var(--status-rejected-fg)' }
     case 'error':      return { ...base, background: 'transparent', border: '1px solid var(--status-pending-fg)', color: 'var(--status-pending-fg)' }
     default:           return { ...base, background: 'transparent', border: '1px solid var(--border)', color: 'var(--ink-3)' }
@@ -607,7 +607,7 @@ export default function AriaChatClient({ sessionCtx, prefilledPrompt, userRole }
             <div style={{
               position: 'absolute', bottom: 'calc(100% + 8px)',
               [isRtl ? 'left' : 'right']: 0,
-              background: 'var(--ink-1)', color: 'white',
+              background: 'var(--ink-1)', color: "var(--on-accent)",
               borderRadius: 7, padding: '8px 12px',
               width: 180, fontSize: 'var(--text-caption)', lineHeight: 1.4,
               zIndex: 10, pointerEvents: 'none',

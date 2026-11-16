@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { AccommodationForm } from './AccommodationForm'
@@ -19,13 +20,13 @@ export default async function AccommodationsPage() {
       width: '100%', padding: 'calc(24px * var(--density))', boxSizing: 'border-box',
     }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
           letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0,
         }}>
           Request Accommodation
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
           UAE Labour Law (FDL 33/2021, Art. 30) — disability, parental, or nursing-break adjustments require HR Director approval after Line Manager review.
         </p>
       </div>
@@ -38,7 +39,7 @@ export default async function AccommodationsPage() {
           padding: '16px 20px', borderBottom: '1px solid var(--border)',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             New accommodation request
           </span>
           <span style={{

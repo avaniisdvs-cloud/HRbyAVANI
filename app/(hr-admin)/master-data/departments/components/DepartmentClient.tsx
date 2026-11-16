@@ -312,7 +312,7 @@ export function DepartmentClient({
                           height:       16,
                           borderRadius: '50%',
                           background:   'var(--status-warning)',
-                          color:        '#fff',
+                          color:        "var(--on-accent)",
                           fontSize:     'var(--text-caption)',
                           fontWeight:   700,
                           flexShrink:   0,

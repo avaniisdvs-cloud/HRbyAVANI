@@ -169,7 +169,7 @@ function Avatar({ name, id, size, photoUrl }: {
   return (
     <span aria-hidden style={{
       width: size, height: size, borderRadius: size >= 48 ? 16 : 9,
-      background: avatarColor(id), color: '#fff',
+      background: avatarColor(id), color: "var(--on-accent)",
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
       fontSize: size >= 48 ? 20 : 12.5, fontWeight: 700, flexShrink: 0,
       letterSpacing: '0.3px',
@@ -331,7 +331,7 @@ function KV({ k, v }: { k: string; v: React.ReactNode }) {
       <span style={{ fontSize: 'var(--text-caption)', fontWeight: 650, color: 'var(--ink-4)' }}>{k}</span>
       <span style={{
         fontSize: 'var(--text-body)', fontWeight: 550, color: 'var(--ink-1)',
-        overflow: 'hidden', textOverflow: 'ellipsis',
+        overflowWrap: 'anywhere',
       }}>
         {v ?? '—'}
       </span>
@@ -466,7 +466,7 @@ function DetailPanel({ row, locale, canViewComp }: {
                 background: 'var(--surface)', border: '1px solid var(--border)',
                 borderRadius: 999, padding: '3px 9px',
               }}>
-                {t.grade} {profile.gradeName}
+                {profile.gradeName}
               </span>
             )}
           </div>
@@ -510,6 +510,7 @@ function DetailPanel({ row, locale, canViewComp }: {
             onClick={() => setTab(tb.id)}
             style={{
               padding: '11px 12px',
+              whiteSpace: 'nowrap', flexShrink: 0,
               borderTopWidth: "0px",
               borderTopStyle: "none",
               borderTopColor: "currentColor",

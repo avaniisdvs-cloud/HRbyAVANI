@@ -184,8 +184,8 @@ function micBtnStyle(s: MicBtnState): React.CSSProperties {
     borderRadius: 8, cursor: 'pointer', transition: 'all 0.2s ease',
   }
   switch (s) {
-    case 'requesting': return { ...base, background: 'var(--accent)', opacity: 0.7, border: '1px solid var(--accent)', color: 'white', cursor: 'default' }
-    case 'active':     return { ...base, background: '#1E5B38', border: '1px solid #1E5B38', color: 'white' }
+    case 'requesting': return { ...base, background: 'var(--accent)', opacity: 0.7, border: '1px solid var(--accent)', color: "var(--on-accent)", cursor: 'default' }
+    case 'active':     return { ...base, background: '#1E5B38', border: '1px solid #1E5B38', color: "var(--on-accent)" }
     case 'denied':     return { ...base, background: 'transparent', border: '1px solid var(--status-rejected-fg, #B33A3A)', color: 'var(--status-rejected-fg, #A32D2D)' }
     case 'error':      return { ...base, background: 'transparent', border: '1px solid var(--status-pending-fg, #D98A00)', color: 'var(--status-pending-fg, #8A5A0B)' }
     default:           return { ...base, background: 'transparent', border: '1px solid var(--border)', color: 'var(--ink-3)' }
@@ -589,7 +589,7 @@ export default function AriaLoginWidget({
                   <div style={{
                     position: 'absolute', bottom: 'calc(100% + 6px)',
                     [isRtl ? 'left' : 'right']: 0,
-                    background: 'var(--ink-1)', color: 'white',
+                    background: 'var(--ink-1)', color: "var(--on-accent)",
                     borderRadius: 7, padding: '7px 10px',
                     width: 160, fontSize: 'var(--text-caption)', lineHeight: 1.4,
                     zIndex: 10, pointerEvents: 'none',

@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle2, XCircle, Clock } from 'lucide-react'
@@ -100,12 +101,12 @@ export default async function ApprovalDetailPage({
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500,
             letterSpacing: '-0.4px', color: 'var(--ink-1)', margin: 0,
           }}>
             {detail.workflowNameEn}
-          </h1>
+          </PageTitle>
           <WorkflowStatusBadge status={detail.status} lang={lang} />
         </div>
         <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontFamily: 'var(--font-mono)' }}>
@@ -159,7 +160,7 @@ export default async function ApprovalDetailPage({
             <div style={{
               background: detail.status === 'APPROVED' ? 'var(--status-approved-bg, #dcfce7)' : 'var(--status-rejected-bg)',
               border: `1px solid ${detail.status === 'APPROVED' ? 'var(--status-approved-border, #86efac)' : 'var(--status-rejected-border, #fca5a5)'}`,
-              borderRadius: 10, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, fontWeight: 600,
+              borderRadius: 10, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 10, fontSize: 'var(--text-body)', fontWeight: 600,
               color: detail.status === 'APPROVED' ? 'var(--status-approved-fg, #166534)' : 'var(--status-rejected-fg)',
             }}>
               {detail.status === 'APPROVED' ? <CheckCircle2 size={18} strokeWidth={2} /> : <XCircle size={18} strokeWidth={2} />}
@@ -174,7 +175,7 @@ export default async function ApprovalDetailPage({
           {leave && (
             <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
               <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-                <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{lang === 'ar' ? 'تفاصيل طلب الإجازة' : 'Leave Request Details'}</h3>
+                <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{lang === 'ar' ? 'تفاصيل طلب الإجازة' : 'Leave Request Details'}</h3>
                 <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', fontFamily: 'var(--font-mono)' }}>{leave.requestNumber}</span>
               </div>
               <div style={{ padding: '6px 20px 14px' }}>

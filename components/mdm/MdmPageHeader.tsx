@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import type { LucideIcon } from 'lucide-react'
 import { Plus } from 'lucide-react'
 
@@ -39,7 +40,7 @@ export function MdmPageHeader({
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-              <h1 style={{
+              <PageTitle style={{
                 fontFamily: 'var(--font-serif)',
                 fontSize: 20,
                 fontWeight: 500,
@@ -48,7 +49,7 @@ export function MdmPageHeader({
                 margin: 0,
               }}>
                 {titleEn}
-              </h1>
+              </PageTitle>
               <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', direction: 'rtl', fontFamily: 'var(--font-sans)' }}>
                 {titleAr}
               </span>
@@ -62,7 +63,7 @@ export function MdmPageHeader({
             height: 36,
             padding: '0 16px',
             background: 'var(--accent)',
-            color: '#fff',
+            color: "var(--on-accent)",
             border: 'none',
             borderRadius: 10,
             fontSize: 'var(--text-body)',
@@ -87,7 +88,7 @@ export function MdmPageHeader({
           { label: 'Inactive', value: inactiveCount, color: 'var(--ink-4)' },
         ].map(stat => (
           <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 15, fontWeight: 700, color: stat.color }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-body)', fontWeight: 700, color: stat.color }}>
               {stat.value}
             </span>
             <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>

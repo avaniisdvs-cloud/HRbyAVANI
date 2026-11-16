@@ -361,7 +361,7 @@ export function HolidayCalendarGrid({
               height: 30,
               padding: '0 12px',
               background: 'var(--accent)',
-              color: '#fff',
+              color: "var(--on-accent)",
               border: 'none',
               borderRadius: 7,
               fontSize: 'var(--text-caption)',

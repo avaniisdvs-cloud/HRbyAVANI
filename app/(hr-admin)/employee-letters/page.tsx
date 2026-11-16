@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { getAllLetterTypes } from '@/modules/employee-letters/queries'
@@ -25,9 +26,9 @@ export default async function EmployeeLettersPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <FileText size={20} style={{ color: 'var(--brand-active)' }} />
         <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <PageTitle style={{ margin: 0, fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             Employee Letters
-          </h1>
+          </PageTitle>
           <p style={{ margin: '2px 0 0', fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
             Generate, track and manage official HR letters for employees
           </p>
@@ -35,7 +36,7 @@ export default async function EmployeeLettersPage() {
       </div>
 
       {types.length === 0 ? (
-        <div style={{ color: 'var(--ink-3)', fontSize: 14, padding: '32px 0' }}>
+        <div style={{ color: 'var(--ink-3)', fontSize: 'var(--text-body)', padding: '32px 0' }}>
           No letter types configured. Ask your system administrator to set up letter templates.
         </div>
       ) : (

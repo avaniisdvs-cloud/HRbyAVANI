@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronRight, Upload } from 'lucide-react'
@@ -46,7 +47,7 @@ export default async function ImportEmployeesPage() {
             <Upload size={18} style={{ color: 'var(--brand-active)' }} />
           </div>
           <div>
-            <h1 style={{
+            <PageTitle style={{
               margin: 0,
               fontFamily: 'var(--font-serif)',
               fontSize: 22,
@@ -54,7 +55,7 @@ export default async function ImportEmployeesPage() {
               color: 'var(--ink-1)',
             }}>
               {isAr ? 'استيراد الموظفين' : 'Import Employees'}
-            </h1>
+            </PageTitle>
             <p style={{ margin: 0, fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
               {isAr ? 'إنشاء الموظفين بالجملة من ملف Excel · تُدقَّق جميع عمليات الاستيراد' : 'Bulk create employees from an Excel file · All imports are audited'}
             </p>

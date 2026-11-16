@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { and, eq, desc } from 'drizzle-orm'
@@ -74,7 +75,7 @@ export default async function AmendContractPage({
       <div className="page-in">
         <Header personId={person.id} title={title} subtitle={`${person.personNumber} · ${person.fullNameEn ?? '—'}`} locale={locale} />
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'لا يوجد عقد نشط' : 'No active contract'}</h3></div>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'لا يوجد عقد نشط' : 'No active contract'}</h3></div>
           <div style={{ padding: '16px 20px' }}>
             <p className="text-sm text-ink-3">
               {locale === 'ar'
@@ -96,7 +97,7 @@ export default async function AmendContractPage({
         <Header personId={person.id} title={title} subtitle={`${person.personNumber} · ${person.fullNameEn ?? '—'}`} locale={locale} />
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
               {locale === 'ar' ? 'العقد غير قابل للتعديل' : 'Contract not amendable'}
               <Badge className="ms-2 align-middle" variant="outline">{target.status}</Badge>
             </h3>
@@ -142,7 +143,7 @@ function Header({ personId, title, subtitle, locale }: { personId: string; title
   return (
     <div className="mb-6">
       <Link href={`/persons/${personId}`} className="text-sm text-ink-3 hover:text-accent">{locale === 'ar' ? '→ العودة إلى الملف الشخصي' : '← Back to profile'}</Link>
-      <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{title}</h1>
+      <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{title}</PageTitle>
       <p className="mt-1 text-sm text-ink-3">{subtitle}</p>
     </div>
   )

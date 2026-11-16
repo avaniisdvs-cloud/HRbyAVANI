@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import type { LucideIcon } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
@@ -65,12 +66,12 @@ export function MasterDataPage({
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-              <h1 style={{
+              <PageTitle style={{
                 fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500,
                 letterSpacing: '-0.4px', color: 'var(--ink-1)', margin: 0,
               }}>
                 {title}
-              </h1>
+              </PageTitle>
               <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-4)', fontFamily: 'var(--font-arabic)', direction: 'rtl' }}>
                 {titleAr}
               </span>
@@ -88,7 +89,7 @@ export function MasterDataPage({
             href={addHref}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: color, color: '#fff', flexShrink: 0,
+              background: color, color: "var(--on-accent)", flexShrink: 0,
               borderRadius: 7, padding: '9px 16px', fontSize: 'var(--text-body)',
               fontWeight: 600, textDecoration: 'none',
             }}
@@ -139,7 +140,7 @@ export function MasterDataPage({
               <Icon size={26} strokeWidth={1.5} style={{ color: `${color}80` }} aria-hidden />
             </div>
             <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--ink-2)', margin: '0 0 4px' }}>
+              <p style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--ink-2)', margin: '0 0 4px' }}>
                 No {title.toLowerCase()} configured yet
               </p>
               <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-4)', margin: 0 }}>

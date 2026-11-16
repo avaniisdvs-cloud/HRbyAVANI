@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import { PenLine, CheckCircle, Loader2 } from 'lucide-react'
 import { LetterTemplate } from '@/modules/employee-letters/pdf-template'
@@ -49,10 +50,10 @@ export function SigningPageClient({ token, letter }: Props) {
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
         <div style={{ textAlign: 'center', padding: '40px 24px', maxWidth: 400 }}>
           <CheckCircle size={52} style={{ color: '#16A34A', margin: '0 auto 16px' }} />
-          <h2 style={{ color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', margin: '0 0 8px' }}>
+          <SectionTitle style={{ color: 'var(--ink-1)', fontFamily: 'var(--font-serif)', margin: '0 0 8px' }}>
             Letter Signed
-          </h2>
-          <p style={{ color: 'var(--ink-3)', fontSize: 14, margin: 0 }}>
+          </SectionTitle>
+          <p style={{ color: 'var(--ink-3)', fontSize: 'var(--text-body)', margin: 0 }}>
             Thank you, {name}. Your acknowledgement has been recorded for letter {letter.letterNumber}.
           </p>
         </div>
@@ -85,7 +86,7 @@ export function SigningPageClient({ token, letter }: Props) {
           border: '1px solid var(--border)', borderRadius: 10,
           padding: '24px 28px', maxWidth: 540, marginInline: 'auto',
         }}>
-          <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 600, color: 'var(--ink-1)' }}>
+          <h3 style={{ margin: '0 0 4px', fontSize: 'var(--text-lead)', fontWeight: 600, color: 'var(--ink-1)' }}>
             Acknowledge & Sign
           </h3>
           <p style={{ margin: '0 0 16px', fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
@@ -133,7 +134,7 @@ export function SigningPageClient({ token, letter }: Props) {
               background: !name.trim() || !agreed ? 'var(--surface)' : 'var(--accent)',
               color: !name.trim() || !agreed ? 'var(--ink-4)' : '#fff',
               border: 'none', borderRadius: 6, padding: '10px',
-              fontSize: 14, fontWeight: 500, cursor: !name.trim() || !agreed ? 'not-allowed' : 'pointer',
+              fontSize: 'var(--text-body)', fontWeight: 500, cursor: !name.trim() || !agreed ? 'not-allowed' : 'pointer',
             }}
           >
             {isPending

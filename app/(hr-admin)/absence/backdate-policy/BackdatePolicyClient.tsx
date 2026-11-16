@@ -266,7 +266,7 @@ export function BackdatePolicyClient({
                   }}
                 >
                   <span style={{
-                    display: 'block', width: 16, height: 16, borderRadius: '50%', background: '#fff',
+                    display: 'block', width: 16, height: 16, borderRadius: '50%', background: "var(--card)",
                     transform: row.backdatingEnabled ? 'translateX(16px)' : 'translateX(0)',
                     transition: 'transform 0.15s',
                     boxShadow: '0 1px 3px rgba(0,0,0,0.2)',

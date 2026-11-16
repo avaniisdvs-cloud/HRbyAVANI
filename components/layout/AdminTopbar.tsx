@@ -20,7 +20,7 @@ const ROUTE_LABELS: Record<string, RouteEntry> = {
   '/dashboard': { en: 'Overview',           ar: 'نظرة عامة' },
   '/users':     { en: 'Users & Roles',      ar: 'المستخدمون والصلاحيات' },
   '/persons':   { en: 'Employees',          ar: 'الموظفون' },
-  '/org-chart': { en: 'Organisation Chart', ar: 'المخطط التنظيمي' },
+  '/org-chart': { en: 'Employee Organization Structure', ar: 'الهيكل التنظيمي للموظفين' },
   '/absence':   { en: 'Leave',              ar: 'الإجازات' },
   '/timesheet': { en: 'Timesheets',         ar: 'جداول الدوام' },
   '/reports':   { en: 'Reports',            ar: 'التقارير' },
@@ -187,7 +187,7 @@ export function AdminTopbar({ userName, role, initials, locale, personId, tenant
         </svg>
         <span style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{
-            fontSize: 14, fontWeight: 600, color: 'var(--ink-1)',
+            fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)',
             fontFamily: 'var(--font-sans)', letterSpacing: '-0.1px', lineHeight: 1.15,
           }}>
             {primaryLabel}

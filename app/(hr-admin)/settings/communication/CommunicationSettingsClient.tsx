@@ -6,6 +6,7 @@
  * delivery logs, test email, and audit notes. Uses ONLY design tokens (no raw hex)
  * so light + dark mode stay readable.
  */
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import {
   Mail, Server, ShieldCheck, Send, FileText, ListChecks, Settings2,
@@ -144,7 +145,7 @@ export default function CommunicationSettingsClient(props: Props) {
     <div className="mx-auto max-w-6xl space-y-6 py-2">
       {/* Header */}
       <header className="space-y-1">
-        <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'إعدادات الاتصالات' : 'Communication Settings'}</h1>
+        <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'إعدادات الاتصالات' : 'Communication Settings'}</PageTitle>
         <p className="text-sm text-ink-3">
           {locale === 'ar'
             ? 'تهيئة كيفية إرسال AVANIIS HR لرسائل سير العمل والموارد البشرية والرواتب والإعلانات والنظام. اختر Microsoft Graph API أو SMTP، وأدر القوالب، وراقب التسليم.'
@@ -220,7 +221,7 @@ function ProviderTab(props: Props & { pending: boolean; run: ReturnType<typeof u
   return (
     <div className="space-y-4">
       <div className={card}>
-        <h2 className="mb-1 text-base font-semibold text-ink-1">{locale === 'ar' ? 'مزوّد تسليم البريد الإلكتروني' : 'Email Delivery Provider'}</h2>
+        <SectionTitle className="mb-1 text-base font-semibold text-ink-1">{locale === 'ar' ? 'مزوّد تسليم البريد الإلكتروني' : 'Email Delivery Provider'}</SectionTitle>
         <p className="mb-5 text-sm text-ink-3">{locale === 'ar' ? 'يمكن أن يكون مزوّد واحد فقط نشطاً في كل مرة. قم بتهيئة المزوّد في علامة تبويبه، وأرسل بريد اختبار، ثم فعّله هنا.' : 'Only one provider can be active at a time. Configure a provider in its tab, run a test email, then activate it here.'}</p>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <ProviderCard
@@ -307,7 +308,7 @@ function GraphForm({ row, pending, run }: { row: ProviderView | null; pending: b
     <div className="space-y-4">
       <SecretBanner />
       <div className={card + ' space-y-5'}>
-        <h2 className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إعدادات Microsoft Graph API' : 'Microsoft Graph API Settings'}</h2>
+        <SectionTitle className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إعدادات Microsoft Graph API' : 'Microsoft Graph API Settings'}</SectionTitle>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Field label={locale === 'ar' ? 'معرّف المستأجر (Tenant ID)' : 'Tenant ID'}><input className={inputCls} value={f.graphTenantId} onChange={set('graphTenantId')} /></Field>
           <Field label={locale === 'ar' ? 'معرّف العميل (Client ID)' : 'Client ID'}><input className={inputCls} value={f.graphClientId} onChange={set('graphClientId')} /></Field>
@@ -364,7 +365,7 @@ function SmtpForm({ row, pending, run }: { row: ProviderView | null; pending: bo
     <div className="space-y-4">
       <SecretBanner />
       <div className={card + ' space-y-5'}>
-        <h2 className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إعدادات SMTP' : 'SMTP Settings'}</h2>
+        <SectionTitle className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إعدادات SMTP' : 'SMTP Settings'}</SectionTitle>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <Field label={locale === 'ar' ? 'مضيف SMTP' : 'SMTP Host'}><input className={inputCls} value={f.smtpHost} onChange={set('smtpHost')} placeholder="smtp.office365.com" /></Field>
           <Field label={locale === 'ar' ? 'منفذ SMTP' : 'SMTP Port'}><input type="number" className={inputCls} value={f.smtpPort} onChange={set('smtpPort')} /></Field>
@@ -410,7 +411,7 @@ function SendersForm({ row, pending, run }: { row: SenderView | null; pending: b
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF({ ...f, [k]: e.target.value })
   return (
     <div className={card + ' space-y-5'}>
-      <h2 className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إعدادات مرسِل البريد الافتراضية' : 'Email Sender Defaults'}</h2>
+      <SectionTitle className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إعدادات مرسِل البريد الافتراضية' : 'Email Sender Defaults'}</SectionTitle>
       <p className="text-sm text-ink-3">{locale === 'ar' ? 'هويات المرسِل لكل وحدة. اتركها فارغة للعودة إلى عنوان المرسِل الافتراضي.' : 'Per-module sender identities. Leave blank to fall back to the default from-address.'}</p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <Field label={locale === 'ar' ? 'اسم المرسِل الافتراضي' : 'Default From Name'}><input className={inputCls} value={f.defaultFromName} onChange={set('defaultFromName')} /></Field>
@@ -444,7 +445,7 @@ function TemplatesTab({ templates, seeds, pending, run }: {
 
   return (
     <div className={card}>
-      <h2 className="mb-1 text-base font-semibold text-ink-1">{locale === 'ar' ? 'قوالب البريد الإلكتروني' : 'Email Templates'}</h2>
+      <SectionTitle className="mb-1 text-base font-semibold text-ink-1">{locale === 'ar' ? 'قوالب البريد الإلكتروني' : 'Email Templates'}</SectionTitle>
       <p className="mb-4 text-sm text-ink-3">{locale === 'ar' ? '14 قالباً للمنصة. تُخزَّن التجاوزات في قاعدة البيانات؛ وتستخدم القوالب غير المُعدَّلة الإعدادات الافتراضية المدمجة ذات العلامة التجارية.' : '14 platform templates. Overrides are stored in the database; unedited templates use built-in branded defaults.'}</p>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
@@ -490,7 +491,7 @@ function TemplateEditor({ t, pending, onSave, onCancel }: {
   return (
     <div className={card + ' space-y-4'}>
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'تعديل القالب — ' : 'Edit Template — '}<span className="font-mono text-sm text-ink-3">{t.templateCode}</span></h2>
+        <SectionTitle className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'تعديل القالب — ' : 'Edit Template — '}<span className="font-mono text-sm text-ink-3">{t.templateCode}</span></SectionTitle>
         <button className={btnGhost} onClick={onCancel}>{tk(locale, 'common.back')}</button>
       </div>
       <Field label={locale === 'ar' ? 'اسم القالب' : 'Template Name'}><input className={inputCls} value={f.templateName} onChange={e => setF({ ...f, templateName: e.target.value })} /></Field>
@@ -530,7 +531,7 @@ function LogsTab({ logs, pending, run, toast }: {
   )
   return (
     <div className={card}>
-      <h2 className="mb-4 text-base font-semibold text-ink-1">{locale === 'ar' ? 'سجلات التسليم' : 'Delivery Logs'}</h2>
+      <SectionTitle className="mb-4 text-base font-semibold text-ink-1">{locale === 'ar' ? 'سجلات التسليم' : 'Delivery Logs'}</SectionTitle>
       <div className="mb-4 flex flex-wrap items-end gap-3">
         <Field label={locale === 'ar' ? 'المستلِم' : 'Recipient'}><input className={inputCls + ' w-56'} value={q.recipient} onChange={e => setQ({ ...q, recipient: e.target.value })} placeholder={locale === 'ar' ? 'بحث بالبريد الإلكتروني' : 'search email'} /></Field>
         <Field label={locale === 'ar' ? 'الحالة' : 'Status'}>
@@ -597,7 +598,7 @@ function TestEmailTab({ graph, smtp, pending, run }: {
   const [recipient, setRecipient] = useState('')
   return (
     <div className={card + ' max-w-xl space-y-5'}>
-      <h2 className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إرسال بريد اختبار' : 'Send Test Email'}</h2>
+      <SectionTitle className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'إرسال بريد اختبار' : 'Send Test Email'}</SectionTitle>
       <p className="text-sm text-ink-3">{locale === 'ar' ? 'يتحقق من بيانات الاعتماد، وصندوق بريد المرسِل، والاتصال، وإذن الإرسال. تُعرض الأخطاء دون كشف الأسرار. يؤدي الاختبار الناجح إلى وسم المزوّد كمُختبَر (مطلوب قبل التفعيل).' : 'Validates credentials, sender mailbox, connectivity and send permission. Errors are shown without exposing secrets. A successful test marks the provider as Tested (required before activation).'}</p>
       <Field label={locale === 'ar' ? 'المزوّد' : 'Provider'}>
         <select className={inputCls} value={providerType} onChange={e => setProviderType(e.target.value as ProviderType)}>
@@ -619,7 +620,7 @@ function AuditTab() {
   const locale = useLocale()
   return (
     <div className={card + ' space-y-3'}>
-      <h2 className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'الأمان والتدقيق' : 'Security & Audit'}</h2>
+      <SectionTitle className="text-base font-semibold text-ink-1">{locale === 'ar' ? 'الأمان والتدقيق' : 'Security & Audit'}</SectionTitle>
       <ul className="list-disc space-y-2 pl-5 text-sm text-ink-2">
         <li>{locale === 'ar' ? 'تُسجَّل جميع تغييرات تهيئة المزوّد والتفعيلات ومحاولات الاختبار وتعديلات القوالب وإعادات المحاولة في سجل التدقيق غير القابل للتغيير.' : 'All provider configuration changes, activations, test attempts, template edits and retries are recorded in the immutable audit log.'}</li>
         <li>{locale === 'ar' ? 'تُدقَّق قرارات اعتماد البريد عبر القناة' : 'Email approval decisions are audited with channel'} <code className="font-mono text-xs">EMAIL_GRAPH</code> {locale === 'ar' ? 'أو' : 'or'} <code className="font-mono text-xs">EMAIL_SMTP</code> {locale === 'ar' ? 'بحسب المزوّد النشط.' : 'depending on the active provider.'}</li>

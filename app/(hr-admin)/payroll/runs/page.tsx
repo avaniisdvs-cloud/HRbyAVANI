@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect }    from 'next/navigation'
 import Link            from 'next/link'
@@ -52,9 +53,9 @@ export default async function PayrollRunsPage() {
             <Link href="/payroll" className="hover:text-[var(--accent)]">{locale === 'ar' ? 'الرواتب' : 'Payroll'}</Link>
             {' / '}{locale === 'ar' ? 'الدورات' : 'Runs'}
           </nav>
-          <h1 className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
+          <PageTitle className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
             {locale === 'ar' ? 'دورات الرواتب' : 'Payroll Runs'}
-          </h1>
+          </PageTitle>
         </div>
         <Link
           href="/payroll/runs/new"

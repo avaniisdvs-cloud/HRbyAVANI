@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { and, eq, asc } from 'drizzle-orm'
@@ -85,7 +86,7 @@ export default async function DependentsPage({
     <div className="page-in">
       <div className="mb-6">
         <Link href={`/persons/${person.id}`} className="text-sm text-ink-3 hover:text-accent">{locale === 'ar' ? '← العودة إلى الملف الشخصي' : '← Back to profile'}</Link>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'المعالون' : 'Dependents'}</h1>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>{locale === 'ar' ? 'المعالون' : 'Dependents'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {person.personNumber} · {person.fullNameEn ?? '—'}
           <span className="mx-2 text-ink-3">·</span>
@@ -98,7 +99,7 @@ export default async function DependentsPage({
       <div className="space-y-6">
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
               {locale === 'ar' ? 'المعالون الحاليون' : 'Existing dependents'}
               <Badge className="ms-2 align-middle" variant="outline">{activeCount}</Badge>
             </h3>

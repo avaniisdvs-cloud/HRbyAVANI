@@ -12,6 +12,7 @@
  *  - Expiry monitoring
  *  - Bilingual labels (EN + AR)
  */
+import { SectionTitle, PageTitle } from '@/components/ui/typography'
 import { useState, useTransition, useRef, type FormEvent, type DragEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import {
@@ -351,7 +352,7 @@ function DocumentCard({
               style={{
                 display: 'flex', alignItems: 'center', gap: 4,
                 fontSize: 'var(--text-caption)', fontWeight: 600, padding: '5px 12px', borderRadius: 6,
-                background: '#DC2626', color: '#fff', border: 'none',
+                background: '#DC2626', color: "var(--on-accent)", border: 'none',
                 cursor: deletePending ? 'not-allowed' : 'pointer', opacity: deletePending ? 0.6 : 1,
               }}
             >
@@ -531,7 +532,7 @@ function DocumentSection({
         </span>
 
         {/* Label */}
-        <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? meta.labelAr : meta.labelEn}</span>
+        <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? meta.labelAr : meta.labelEn}</span>
         {locale !== 'ar' && <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', direction: 'rtl' }} dir="rtl" lang="ar">{meta.labelAr}</span>}
 
         {/* Count badge */}
@@ -570,7 +571,7 @@ function DocumentSection({
               display: 'flex', alignItems: 'center', gap: 4,
               fontSize: 'var(--text-caption)', fontWeight: 500,
               padding: '3px 10px', borderRadius: 6,
-              background: 'var(--accent)', color: '#fff',
+              background: 'var(--accent)', color: "var(--on-accent)",
               border: 'none', cursor: 'pointer',
               flexShrink: 0,
             }}
@@ -776,9 +777,9 @@ function UploadModal({
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Upload size={18} style={{ color: 'var(--brand-active)' }} />
-            <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: 'var(--ink-1)' }}>
+            <SectionTitle style={{ margin: 0, fontSize: 'var(--text-lead)', fontWeight: 700, color: 'var(--ink-1)' }}>
               {locale === 'ar' ? 'رفع وثيقة' : 'Upload Document'}
-            </h2>
+            </SectionTitle>
             {locale !== 'ar' && <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }} dir="rtl" lang="ar">رفع وثيقة</span>}
           </div>
           <button
@@ -1044,7 +1045,7 @@ function UploadModal({
               style={{
                 padding: '8px 20px', borderRadius: 7, fontSize: 'var(--text-body)', fontWeight: 600,
                 background: pending || success ? 'var(--ink-3)' : 'var(--accent)',
-                color: '#fff', border: 'none',
+                color: "var(--on-accent)", border: 'none',
                 cursor: pending || success ? 'not-allowed' : 'pointer',
                 display: 'flex', alignItems: 'center', gap: 6,
               }}
@@ -1119,7 +1120,7 @@ function EditDocumentModal({
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Pencil size={18} style={{ color: 'var(--brand-active)' }} />
-            <h2 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'تعديل المستند' : 'Edit Document'}</h2>
+            <SectionTitle style={{ margin: 0, fontSize: 'var(--text-lead)', fontWeight: 700, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'تعديل المستند' : 'Edit Document'}</SectionTitle>
             {locale !== 'ar' && <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }} dir="rtl" lang="ar">تعديل الوثيقة</span>}
           </div>
           <button type="button" onClick={onClose} aria-label={locale === 'ar' ? 'إغلاق' : 'Close'}
@@ -1231,7 +1232,7 @@ function EditDocumentModal({
               type="submit" disabled={pending}
               style={{
                 padding: '8px 20px', borderRadius: 7, fontSize: 'var(--text-body)', fontWeight: 600,
-                background: pending ? 'var(--ink-3)' : 'var(--accent)', color: '#fff', border: 'none',
+                background: pending ? 'var(--ink-3)' : 'var(--accent)', color: "var(--on-accent)", border: 'none',
                 cursor: pending ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: 6,
               }}
             >
@@ -1516,14 +1517,14 @@ export function DocumentsPageClient({
       marginBottom: 6, flexWrap: 'wrap', gap: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <FolderOpen size={22} style={{ color: 'var(--brand-active)', flexShrink: 0 }} />
-          <h1 style={{
+          <PageTitle style={{
             margin: 0, fontSize: 22, fontWeight: 700,
             color: 'var(--ink-1)', fontFamily: 'var(--font-serif)',
           }}>
             {locale === 'ar' ? 'وثائقي' : 'My Documents'}
-          </h1>
+          </PageTitle>
           {locale !== 'ar' && <span style={{
-            fontSize: 14, color: 'var(--ink-3)', fontFamily: 'var(--font-sans)',
+            fontSize: 'var(--text-body)', color: 'var(--ink-3)', fontFamily: 'var(--font-sans)',
           }} dir="rtl" lang="ar">
             وثائقي
           </span>}
@@ -1535,7 +1536,7 @@ export function DocumentsPageClient({
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '8px 18px', borderRadius: 8,
-              background: 'var(--accent)', color: '#fff',
+              background: 'var(--accent)', color: "var(--on-accent)",
               border: 'none', cursor: 'pointer',
               fontSize: 'var(--text-body)', fontWeight: 600,
               boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
@@ -1698,7 +1699,7 @@ export function DocumentsPageClient({
           padding: '16px 20px',
           marginBottom: 24,
           background: 'var(--surface)', border: '1px solid var(--border)',
-          borderRadius: 10, fontSize: 14, color: 'var(--ink-2)',
+          borderRadius: 10, fontSize: 'var(--text-body)', color: 'var(--ink-2)',
         }}>
           {locale === 'ar' ? 'لم يتم إعداد ملفك الوظيفي بالكامل بعد. يرجى التواصل مع الموارد البشرية.' : 'Your employee profile is not fully set up yet. Please contact HR.'}
         </div>
@@ -1739,7 +1740,7 @@ export function DocumentsPageClient({
             <div style={{
               padding:      '48px 32px', textAlign: 'center',
               background:   'var(--card)', border: '1px solid var(--border)',
-              borderRadius: 12, color: 'var(--ink-3)', fontSize: 14,
+              borderRadius: 12, color: 'var(--ink-3)', fontSize: 'var(--text-body)',
             }}>
               <FolderOpen size={40} style={{ display: 'block', margin: '0 auto 12px', opacity: 0.4 }} />
               {locale === 'ar' ? 'لا توجد وثائق في الملف بعد.' : 'No documents on file yet.'}
@@ -1750,7 +1751,7 @@ export function DocumentsPageClient({
                   onClick={() => openUpload()}
                   style={{
                     marginTop: 14, padding: '8px 20px', borderRadius: 8,
-                    background: 'var(--accent)', color: '#fff', border: 'none',
+                    background: 'var(--accent)', color: "var(--on-accent)", border: 'none',
                     cursor: 'pointer', fontSize: 'var(--text-body)', fontWeight: 600,
                     display: 'inline-flex', alignItems: 'center', gap: 6,
                   }}

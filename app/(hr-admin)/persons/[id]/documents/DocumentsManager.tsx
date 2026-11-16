@@ -196,7 +196,7 @@ function UploadCard({ personId }: { personId: string }) {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'رفع مستند' : 'Upload document'}
           <Badge className="ms-2 align-middle" variant="secondary">Azure Blob · UAE North</Badge>
         </h3>
@@ -383,7 +383,7 @@ function DocumentsTable({ documents }: { documents: DocumentRow[] }) {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 8 }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'المستندات' : 'Documents'}
         </h3>
         <Badge variant="outline">{documents.length}</Badge>
@@ -508,7 +508,7 @@ function LettersTable({ letters }: { letters: AdminLetterRow[] }) {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'الخطابات المُنشأة' : 'Generated Letters'}
           <Badge className="ms-2 align-middle" variant="outline">{letters.length}</Badge>
         </h3>

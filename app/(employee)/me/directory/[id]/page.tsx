@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -45,7 +46,7 @@ export default async function ColleagueCardPage({
   const Field = ({ label, value }: { label: string; value: string | null }) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <span style={{ fontSize: 'var(--text-caption)', textTransform: 'uppercase', letterSpacing: 0.5, color: 'var(--ink-3)' }}>{label}</span>
-      <span style={{ fontSize: 14, color: 'var(--ink-1)' }}>{value && value.trim() ? value : '—'}</span>
+      <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-1)' }}>{value && value.trim() ? value : '—'}</span>
     </div>
   )
 
@@ -79,10 +80,10 @@ export default async function ColleagueCardPage({
               : initials}
           </div>
           <div>
-            <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 500, color: 'var(--ink-1)', margin: 0 }}>
+            <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 500, color: 'var(--ink-1)', margin: 0 }}>
               {person.fullNameEn ?? '—'}
-            </h1>
-            <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '2px 0 0' }}>
+            </PageTitle>
+            <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '2px 0 0' }}>
               {person.positionTitleEn ?? (locale === 'ar' ? 'لا يوجد منصب معيّن' : 'No position assigned')}
             </p>
           </div>

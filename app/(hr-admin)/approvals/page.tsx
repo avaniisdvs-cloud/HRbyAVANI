@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { Inbox, AlertTriangle, Clock, ArrowRight, History } from 'lucide-react'
@@ -106,7 +107,7 @@ function TabBar({ active, pendingCount, ar }: { active: 'pending' | 'history'; p
         return (
           <Link key={t.id} href={t.href} style={{
             display: 'inline-flex', alignItems: 'center', gap: 7,
-            padding: '10px 16px', fontSize: 14, fontWeight: 600, textDecoration: 'none',
+            padding: '10px 16px', fontSize: 'var(--text-body)', fontWeight: 600, textDecoration: 'none',
             color: isActive ? 'var(--brand-active)' : 'var(--ink-3)',
             borderBottom: isActive ? '2px solid var(--accent)' : '2px solid transparent',
             marginBottom: -1,
@@ -154,13 +155,13 @@ export default async function ApprovalsPage({
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
           letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: '0 0 4px',
         }}>
           {ar ? 'الموافقات' : 'Approvals'}
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
           {ar ? 'الموافقات المعلّقة وسجل قراراتك' : 'Your pending approvals and decision history'}
         </p>
       </div>
@@ -178,7 +179,7 @@ export default async function ApprovalsPage({
               <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 500, color: 'var(--ink-1)' }}>
                 {ar ? 'لا توجد موافقات معلقة' : 'All caught up'}
               </div>
-              <div style={{ fontSize: 14, color: 'var(--ink-3)', maxWidth: 320 }}>
+              <div style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', maxWidth: 320 }}>
                 {ar ? 'لا توجد خطوات موافقة معيّنة لك حاليًا.' : 'No approval steps are currently assigned to you.'}
               </div>
             </div>
@@ -210,7 +211,7 @@ export default async function ApprovalsPage({
                           {r.slaDeadline && <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-4)', fontFamily: 'var(--font-mono)', marginTop: 3 }}>{fmtGST(r.slaDeadline)}</div>}
                         </td>
                         <td style={{ padding: '14px 20px', textAlign: 'right' }}>
-                          <Link href={`/approvals/${r.instanceId}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: r.isBreached ? 'var(--status-rejected-fg)' : 'var(--accent)', color: '#fff', borderRadius: 6, padding: '6px 14px', fontSize: 'var(--text-caption)', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
+                          <Link href={`/approvals/${r.instanceId}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: r.isBreached ? 'var(--status-rejected-fg)' : 'var(--accent)', color: "var(--on-accent)", borderRadius: 6, padding: '6px 14px', fontSize: 'var(--text-caption)', fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}>
                             Review <ArrowRight size={12} strokeWidth={2.5} aria-hidden />
                           </Link>
                         </td>
@@ -235,7 +236,7 @@ export default async function ApprovalsPage({
               <div style={{ fontFamily: 'var(--font-serif)', fontSize: 18, fontWeight: 500, color: 'var(--ink-1)' }}>
                 {ar ? 'لا يوجد سجل قرارات' : 'No decisions yet'}
               </div>
-              <div style={{ fontSize: 14, color: 'var(--ink-3)', maxWidth: 340 }}>
+              <div style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', maxWidth: 340 }}>
                 {ar ? 'ستظهر هنا الطلبات التي وافقت عليها أو رفضتها.' : 'Requests you approve, reject, or delegate will appear here.'}
               </div>
             </div>

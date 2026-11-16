@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect }  from 'next/navigation'
 import Link          from 'next/link'
@@ -96,9 +97,9 @@ export default async function PayrollReportsPage({
             <Link href="/payroll" className="hover:text-[var(--accent)]">{locale === 'ar' ? 'الرواتب' : 'Payroll'}</Link>
             {' / '}{locale === 'ar' ? 'التقارير' : 'Reports'}
           </nav>
-          <h1 className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
+          <PageTitle className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
             {locale === 'ar' ? 'تقارير الرواتب' : 'Payroll Reports'}
-          </h1>
+          </PageTitle>
         </div>
       </div>
 
@@ -164,7 +165,7 @@ export default async function PayrollReportsPage({
       {activeTab === 'distribution' && (
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
           <div className="border-b border-[var(--border)] px-4 py-3">
-            <h2 className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'توزيع صافي الراتب' : 'Net Pay Distribution'}</h2>
+            <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'توزيع صافي الراتب' : 'Net Pay Distribution'}</SectionTitle>
           </div>
           {distribution.length === 0 ? (
             <p className="px-4 py-6 text-sm text-[var(--ink-3)]">{locale === 'ar' ? 'لا توجد بيانات للدورة المحددة.' : 'No data for selected run.'}</p>
@@ -200,7 +201,7 @@ export default async function PayrollReportsPage({
       {activeTab === 'eosb' && (
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
           <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
-            <h2 className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'التزام نهاية الخدمة' : 'EOSB Liability'} ({eosbRows.length})</h2>
+            <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'التزام نهاية الخدمة' : 'EOSB Liability'} ({eosbRows.length})</SectionTitle>
             <span className="text-sm font-mono font-semibold text-[var(--accent)]">
               {locale === 'ar' ? 'الإجمالي' : 'Total'}: {fmtMoney(eosbRows.reduce((s, r) => s + r.eosbFinalAmount, 0))}
             </span>
@@ -243,9 +244,9 @@ export default async function PayrollReportsPage({
       {activeTab === 'variance' && (
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
           <div className="border-b border-[var(--border)] px-4 py-3">
-            <h2 className="text-sm font-semibold text-[var(--ink-1)]">
+            <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">
               {locale === 'ar' ? 'تنبيهات التباين' : 'Variance Alerts'} — BR-PAY-001 {locale === 'ar' ? '(تغيّر ≥20٪ شهرياً)' : '(≥20% month-on-month change)'}
-            </h2>
+            </SectionTitle>
           </div>
           {variances.length === 0 ? (
             <p className="px-4 py-6 text-sm text-[var(--ink-3)]">{locale === 'ar' ? 'لا توجد تنبيهات تباين لهذه الدورة.' : 'No variance alerts for this run.'}</p>
@@ -282,7 +283,7 @@ export default async function PayrollReportsPage({
       {activeTab === 'deductions' && (
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
           <div className="border-b border-[var(--border)] px-4 py-3">
-            <h2 className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'تفصيل الاستقطاعات' : 'Deductions Breakdown'}</h2>
+            <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'تفصيل الاستقطاعات' : 'Deductions Breakdown'}</SectionTitle>
           </div>
           {results.length === 0 ? (
             <p className="px-4 py-6 text-sm text-[var(--ink-3)]">{locale === 'ar' ? 'لا توجد نتائج رواتب لهذه الدورة.' : 'No payroll results for this run.'}</p>

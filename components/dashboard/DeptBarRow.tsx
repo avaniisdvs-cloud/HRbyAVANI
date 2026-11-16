@@ -46,7 +46,7 @@ export function DeptBarRow({ id, name, count, entity, maxCount, isLast }: Props)
         }} />
       </div>
       <div style={{
-        fontFamily: 'var(--font-serif)', fontSize: 14, fontWeight: 600,
+        fontFamily: 'var(--font-serif)', fontSize: 'var(--text-body)', fontWeight: 600,
         color: 'var(--ink-1)', minWidth: 20, textAlign: 'right', flexShrink: 0,
       }}>
         {count}

@@ -1,3 +1,4 @@
+import { SectionTitle } from '@/components/ui/typography'
 import { notFound } from 'next/navigation'
 import { getLetterByToken } from '@/modules/employee-letters/queries'
 import { db } from '@/lib/db'
@@ -21,8 +22,8 @@ export default async function SigningPage({ params }: { params: Promise<{ token:
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
         <div style={{ textAlign: 'center', padding: '40px 24px' }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>✓</div>
-          <h2 style={{ color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'تم التوقيع مسبقاً' : 'Already Signed'}</h2>
-          <p style={{ color: 'var(--ink-3)', fontSize: 14 }}>
+          <SectionTitle style={{ color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'تم التوقيع مسبقاً' : 'Already Signed'}</SectionTitle>
+          <p style={{ color: 'var(--ink-3)', fontSize: 'var(--text-body)' }}>
             {locale === 'ar'
               ? `تم توقيع هذا الخطاب بتاريخ ${signedOn} بواسطة ${letter.signedByName}.`
               : `This letter was signed on ${signedOn} by ${letter.signedByName}.`}
@@ -36,8 +37,8 @@ export default async function SigningPage({ params }: { params: Promise<{ token:
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
         <div style={{ textAlign: 'center', padding: '40px 24px' }}>
-          <h2 style={{ color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'انتهت صلاحية الرابط' : 'Link Expired'}</h2>
-          <p style={{ color: 'var(--ink-3)', fontSize: 14 }}>
+          <SectionTitle style={{ color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'انتهت صلاحية الرابط' : 'Link Expired'}</SectionTitle>
+          <p style={{ color: 'var(--ink-3)', fontSize: 'var(--text-body)' }}>
             {locale === 'ar'
               ? 'انتهت صلاحية رابط التوقيع هذا. يرجى التواصل مع الموارد البشرية لإنشاء رابط جديد.'
               : 'This signing link has expired. Please contact HR to generate a new link.'}

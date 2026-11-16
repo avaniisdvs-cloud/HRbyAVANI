@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import { CheckCircle2, AlertCircle, Loader2, ArrowLeft } from 'lucide-react'
 import { LetterTemplate } from '@/modules/employee-letters/pdf-template'
@@ -63,10 +64,10 @@ export function SigningFormClient({
           boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
         }}>
           <div style={{ fontSize: 52, marginBottom: 14 }}>✅</div>
-          <h2 style={{ margin: '0 0 8px', fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <SectionTitle style={{ margin: '0 0 8px', fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             Document Signed Successfully
-          </h2>
-          <p style={{ margin: '0 0 6px', fontSize: 14, color: 'var(--ink-2)' }}>
+          </SectionTitle>
+          <p style={{ margin: '0 0 6px', fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
             Reference: <strong style={{ fontFamily: 'var(--font-mono)' }}>{letterNumber}</strong>
           </p>
           <p style={{ margin: '0 0 28px', fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
@@ -76,7 +77,7 @@ export function SigningFormClient({
           <a href={backHref} style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '9px 22px', borderRadius: 8,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             fontSize: 'var(--text-body)', fontWeight: 600, textDecoration: 'none',
           }}>
             View in My Documents →
@@ -119,7 +120,7 @@ export function SigningFormClient({
           <ArrowLeft size={13} /> Back
         </a>
 
-        <span style={{ color: 'var(--border)', fontSize: 14 }}>|</span>
+        <span style={{ color: 'var(--border)', fontSize: 'var(--text-body)' }}>|</span>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', fontFamily: 'var(--font-sans)' }}>

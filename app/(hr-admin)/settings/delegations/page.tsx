@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth, roleHome } from '@/lib/auth'
 import {
@@ -44,9 +45,9 @@ export default async function DelegationsPage() {
   return (
     <div className="page-in">
       <div>
-        <h1 className="font-serif text-2xl text-ink-1">
+        <PageTitle className="font-serif text-2xl text-ink-1">
           {locale === 'ar' ? 'تفويض الموافقات' : 'Approval delegations'}
-        </h1>
+        </PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {locale === 'ar' ? (
             <>سلّم موافقاتك إلى زميل خلال نافذة زمنية — عادةً أثناء غيابك. للتفويض لمرة واحدة على معاملة بعينها، استخدم زر <span className="font-medium">التفويض</span> على سير العمل نفسه.</>
@@ -60,7 +61,7 @@ export default async function DelegationsPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="text-base">
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="text-base">
               {locale === 'ar' ? 'تفويض جديد' : 'New delegation'}
             </h3>
           </div>
@@ -79,7 +80,7 @@ export default async function DelegationsPage() {
 
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="text-base">
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="text-base">
               {locale === 'ar' ? 'التفويضات الحالية' : 'Existing delegations'} ({rows.length})
             </h3>
           </div>

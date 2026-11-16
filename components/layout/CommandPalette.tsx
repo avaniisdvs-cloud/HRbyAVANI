@@ -257,7 +257,7 @@ export function CommandPalette({ role = '' }: CommandPaletteProps) {
             style={{
               all:        'unset',
               flex:       1,
-              fontSize:   15,
+              fontSize:   'var(--text-body)',
               color:      'var(--ink-1)',
               fontFamily: 'inherit',
             }}

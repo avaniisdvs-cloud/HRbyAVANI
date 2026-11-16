@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { redirect }  from 'next/navigation'
 import Link          from 'next/link'
 import { auth }      from '@/lib/auth'
@@ -119,9 +120,9 @@ export default async function PayrollRunDetailPage({
             <Link href="/payroll/runs" className="hover:text-[var(--accent)]">{locale === 'ar' ? 'الدورات' : 'Runs'}</Link>
             {' / '}{run.runNumber}
           </nav>
-          <h1 className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
+          <PageTitle className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
             {run.runNumber}
-          </h1>
+          </PageTitle>
           <div className="mt-1 flex flex-wrap items-center gap-2">
             <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${statusPillClass(status)}`}>
               {PAYROLL_RUN_STATUS_LABELS[status] ?? status}
@@ -172,7 +173,7 @@ export default async function PayrollRunDetailPage({
       {empCount > 0 && (
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
           <div className="border-b border-[var(--border)] px-4 py-3">
-            <h2 className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'الملخص المالي' : 'Financial Summary'}</h2>
+            <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'الملخص المالي' : 'Financial Summary'}</SectionTitle>
           </div>
           <div className="grid grid-cols-2 divide-x divide-[var(--border)] sm:grid-cols-3 lg:grid-cols-6">
             {[
@@ -198,9 +199,9 @@ export default async function PayrollRunDetailPage({
       {/* Variance Alerts */}
       {variances.length > 0 && (
         <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950/20">
-          <h2 className="mb-2 text-sm font-semibold text-yellow-800 dark:text-yellow-300">
+          <SectionTitle className="mb-2 text-sm font-semibold text-yellow-800 dark:text-yellow-300">
             {locale === 'ar' ? 'تنبيهات التباين' : 'Variance Alerts'} ({variances.length}) — BR-PAY-001
-          </h2>
+          </SectionTitle>
           <div className="space-y-1">
             {variances.slice(0, 5).map(v => (
               <div key={v.personId} className="flex items-center justify-between text-sm">
@@ -221,9 +222,9 @@ export default async function PayrollRunDetailPage({
       {results.length > 0 && (
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
           <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
-            <h2 className="text-sm font-semibold text-[var(--ink-1)]">
+            <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">
               {locale === 'ar' ? 'نتائج رواتب الموظفين' : 'Employee Payroll Results'} ({results.length})
-            </h2>
+            </SectionTitle>
             {status === 'CONFIRMED' && (
               <Link href={`/payroll/wps?runId=${run.id}`}
                 className="text-xs text-[var(--accent)] hover:underline">

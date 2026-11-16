@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { eq, and, desc } from 'drizzle-orm'
@@ -79,7 +80,7 @@ export default async function MyLeaveSelfServicePage() {
       {/* Header */}
       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div>
-          <h1
+          <PageTitle
             style={{
               fontFamily: 'var(--font-serif)',
               fontSize: 24,
@@ -89,7 +90,7 @@ export default async function MyLeaveSelfServicePage() {
             }}
           >
             My Leave
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 0' }}>
             Leave balances and request history
           </p>
@@ -105,7 +106,7 @@ export default async function MyLeaveSelfServicePage() {
             padding: '8px 16px',
             borderRadius: 8,
             background: 'var(--accent)',
-            color: '#fff',
+            color: "var(--on-accent)",
             textDecoration: 'none',
           }}
         >

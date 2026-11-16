@@ -7,6 +7,7 @@
  *   MANAGER                    → reports 2–3, own team only
  *   FINANCE                    → reports 1, 4, 5
  */
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect }  from 'next/navigation'
 import Link          from 'next/link'
@@ -147,7 +148,7 @@ const TD: React.CSSProperties = {
   borderBottom: '1px solid var(--border)',
 }
 const EMPTY: React.CSSProperties = {
-  padding: '48px 0', textAlign: 'center', fontSize: 14, color: 'var(--ink-3)',
+  padding: '48px 0', textAlign: 'center', fontSize: 'var(--text-body)', color: 'var(--ink-3)',
 }
 
 // ── Main page ─────────────────────────────────────────────────────────────────
@@ -855,7 +856,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   const title = locale === 'ar' ? activeReport.labelAr : activeReport.labelEn
 
   return (
-    <div className="page-in" style={{ width: '100%', boxSizing: 'border-box', display: 'flex', gap: 0 }}>
+    <div className="page-in reports-layout" style={{ width: '100%', boxSizing: 'border-box', display: 'flex' }}>
 
       {/* Left nav — in-page report switcher.
           Suppressed for MANAGER: their main sidebar (manager-nav.ts) already
@@ -863,8 +864,8 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
           duplicate. Admin roles still rely on it as their 2-level secondary nav
           (the Reports workspace secondary panel is suppressed for them). */}
       {!isManager && (
-      <div style={{
-        width: 220, flexShrink: 0, marginRight: 24,
+      <div className="reports-navigation" style={{
+        flexShrink: 0,
         background: 'var(--card)', border: '1px solid var(--border)',
         borderRadius: 12, padding: '8px 0', alignSelf: 'flex-start',
         position: 'sticky', top: 24,
@@ -946,14 +947,14 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
       <div style={{ flex: 1, minWidth: 0 }}>
 
         {/* Header row */}
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 16 }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 16 }}>
           <div>
-            <h1 style={{
+            <PageTitle style={{
               fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500,
               letterSpacing: '-0.4px', color: 'var(--ink-1)', margin: 0,
             }}>
               {title}
-            </h1>
+            </PageTitle>
           </div>
           <Link
             href={exportHref}

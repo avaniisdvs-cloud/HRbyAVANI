@@ -10,6 +10,7 @@
  * The category kicker is a clickable Link back to /settings for breadcrumb navigation.
  */
 
+import { PageTitle } from '@/components/ui/typography'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SETTINGS_HUB } from '@/config/settings-hub'
@@ -93,7 +94,7 @@ export function SettingsDetailShell({ children }: { children: React.ReactNode })
           )}
         </div>
 
-        <h1 style={{
+        <PageTitle style={{
           fontFamily:    'var(--font-serif)',
           fontSize:      26,
           fontWeight:    400,
@@ -112,7 +113,7 @@ export function SettingsDetailShell({ children }: { children: React.ReactNode })
               <span dir="rtl" lang="ar" style={{ fontWeight: 400 }}>{itemNameAr}</span>
             </>
           )}
-        </h1>
+        </PageTitle>
 
         {itemHint && (
           <p style={{

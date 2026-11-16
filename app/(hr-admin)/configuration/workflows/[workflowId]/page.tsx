@@ -8,6 +8,7 @@
  * / reorder).
  */
 
+import { PageTitle } from '@/components/ui/typography'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { auth, roleHome } from '@/lib/auth'
@@ -73,14 +74,14 @@ export default async function WorkflowStepsPage({
       {/* Header */}
       <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12, marginBottom: 24 }}>
         <div>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 500, color: 'var(--ink-1)', margin: 0 }}>
+          <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 500, color: 'var(--ink-1)', margin: 0 }}>
             {wf.workflowNameEn}
             {wf.workflowNameAr && (
-              <span style={{ fontSize: 14, color: 'var(--ink-3)', marginLeft: 12, direction: 'rtl', fontFamily: 'inherit' }}>
+              <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', marginLeft: 12, direction: 'rtl', fontFamily: 'inherit' }}>
                 {wf.workflowNameAr}
               </span>
             )}
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
             {steps.length} step{steps.length !== 1 ? 's' : ''} · {wf.triggerEvent}
           </p>

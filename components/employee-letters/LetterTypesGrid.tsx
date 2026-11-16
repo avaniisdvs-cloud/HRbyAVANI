@@ -74,7 +74,7 @@ export function LetterTypesGrid({ types }: { types: LetterTypeCard[] }) {
                 <Icon size={18} style={{ color }} />
               </div>
               <div>
-                <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--ink-1)', marginBottom: 2 }}>
+                <div style={{ fontWeight: 600, fontSize: 'var(--text-body)', color: 'var(--ink-1)', marginBottom: 2 }}>
                   {t.nameEn}
                 </div>
                 <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', direction: 'rtl', textAlign: 'right' }}>

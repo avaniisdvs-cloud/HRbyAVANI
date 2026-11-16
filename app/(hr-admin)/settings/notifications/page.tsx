@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { getNotificationTemplates } from '@/modules/config'
@@ -40,7 +41,7 @@ export default async function NotificationTemplatesPage() {
   return (
     <div className="page-in">
       <div>
-        <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'قوالب الإشعارات' : 'Notification templates'}</h1>
+        <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'قوالب الإشعارات' : 'Notification templates'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           Bilingual email and push templates. Use <span className="font-mono text-ink-2">{'{{variable}}'}</span> placeholders.
         </p>
@@ -49,7 +50,7 @@ export default async function NotificationTemplatesPage() {
       {Object.entries(grouped).map(([eventType, rows]) => (
         <div key={eventType} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             <header className="flex items-center justify-between border-b border-border px-5 py-3">
-              <h2 className="font-sans text-sm font-semibold text-ink-1">{eventType}</h2>
+              <SectionTitle className="font-sans text-sm font-semibold text-ink-1">{eventType}</SectionTitle>
               <Badge variant="outline" className="text-xs">{rows.length} template{rows.length !== 1 ? 's' : ''}</Badge>
             </header>
             <div className="divide-y divide-border">

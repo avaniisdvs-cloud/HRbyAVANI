@@ -172,7 +172,7 @@ export function FormLayoutEditor({ entityType, role, initialSections }: Props) {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'الأقسام' : 'Sections'}
           <Badge className="ms-2 align-middle" variant="secondary">{entityType}</Badge>
           <Badge className="ms-2 align-middle" variant="outline">{locale === 'ar' ? 'الدور: ' : 'role: '}{role}</Badge>

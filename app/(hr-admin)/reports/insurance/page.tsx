@@ -8,6 +8,7 @@
  *   4. Contractor exceptions — employees with exception flag
  *   5. Premium cost summary — total employer + employee annual premiums
  */
+import { SectionTitle as UISectionTitle, PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect }  from 'next/navigation'
 import Link          from 'next/link'
@@ -35,9 +36,9 @@ const card: React.CSSProperties = {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-1)', margin: '0 0 14px' }}>
+    <UISectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--ink-1)', margin: '0 0 14px' }}>
       {children}
-    </h2>
+    </UISectionTitle>
   )
 }
 
@@ -215,9 +216,9 @@ export default async function InsuranceReportsPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <HeartPulse style={{ width: 22, height: 22, color: 'var(--brand-active)' }} strokeWidth={1.75} />
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <PageTitle style={{ fontSize: 22, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             {locale === 'ar' ? 'تقارير التأمين' : 'Insurance Reports'}
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', marginTop: 2 }}>{locale === 'ar' ? 'Insurance Reports' : 'تقارير التأمين الطبي'}</p>
         </div>
       </div>

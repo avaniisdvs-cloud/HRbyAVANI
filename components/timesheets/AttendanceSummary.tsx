@@ -64,10 +64,10 @@ export function AttendanceSummary({ summary }: Props) {
             padding:      '0.875rem 1rem',
           }}
         >
-          <div style={{ fontSize: '0.75rem', fontWeight: 500, opacity: 0.75 }}>{card.label}</div>
+          <div style={{ fontSize: 'var(--text-caption)', fontWeight: 500, opacity: 0.75 }}>{card.label}</div>
           <div style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.2 }}>
             {card.value}
-            <span style={{ fontSize: '0.75rem', fontWeight: 400, marginLeft: '0.25rem' }}>
+            <span style={{ fontSize: 'var(--text-caption)', fontWeight: 400, marginLeft: '0.25rem' }}>
               {card.unit}
             </span>
           </div>

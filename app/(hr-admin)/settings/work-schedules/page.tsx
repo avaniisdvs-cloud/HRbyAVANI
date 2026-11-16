@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
@@ -77,7 +78,7 @@ export default async function WorkSchedulesPage() {
   return (
     <div className="page-in">
       <div>
-        <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'جداول العمل' : 'Work schedules'}</h1>
+        <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'جداول العمل' : 'Work schedules'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           UAE standard work week: Sun–Thu, 48 h. Weekend = Fri + Sat.
           Ramadan schedule applies reduced hours (Article 65, FDL 33/2021).

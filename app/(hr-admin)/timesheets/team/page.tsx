@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { requireRole } from '@/lib/auth'
 import { getTeamAttendance } from '@/modules/timesheets/actions'
 import { AttendanceSummary } from '@/components/timesheets/AttendanceSummary'
@@ -55,7 +56,7 @@ export default async function TeamTimesheetsPage() {
   return (
     <div style={{ padding: '1.5rem 2rem', boxSizing: 'border-box' }}>
       <div style={{ marginBottom: 24 }}>
-        <h1
+        <PageTitle
           style={{
             fontFamily:    'var(--font-serif)',
             fontSize:      30,
@@ -66,8 +67,8 @@ export default async function TeamTimesheetsPage() {
           }}
         >
           Team Timesheets
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
           Review your team&apos;s attendance this month and approve manual entries.
         </p>
       </div>
@@ -116,9 +117,9 @@ export default async function TeamTimesheetsPage() {
             overflowX:    'auto',
           }}
         >
-          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
+          <SectionTitle style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
             Monthly Overview
-          </h2>
+          </SectionTitle>
 
           <table style={{ borderCollapse: 'collapse', fontSize: '0.72rem' }}>
             <thead>

@@ -152,7 +152,7 @@ export function FeaturePermissionsClient({ rows }: Props) {
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '7px 16px', fontSize: 'var(--text-body)', fontWeight: 600,
             background: saved ? '#16A34A' : 'var(--accent)',
-            color: '#fff', borderRadius: 7, border: 'none',
+            color: "var(--on-accent)", borderRadius: 7, border: 'none',
             cursor: pending ? 'default' : 'pointer',
             opacity: pending ? 0.7 : 1,
             transition: 'background 0.2s',

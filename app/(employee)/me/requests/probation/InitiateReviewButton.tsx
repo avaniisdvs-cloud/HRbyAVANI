@@ -44,7 +44,7 @@ export function InitiateReviewButton({ personId }: { personId: string }) {
           <path d="M6 10l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         <div>
-          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--brand-active)', marginBottom: 4 }}>
+          <div style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--brand-active)', marginBottom: 4 }}>
             Review request submitted
           </div>
           <div style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)', lineHeight: 1.5 }}>
@@ -69,10 +69,10 @@ export function InitiateReviewButton({ personId }: { personId: string }) {
           gap: 8,
           padding: '10px 22px',
           background: isPending ? 'var(--accent-100)' : 'var(--accent)',
-          color: '#fff',
+          color: "var(--on-accent)",
           border: 'none',
           borderRadius: 8,
-          fontSize: 14,
+          fontSize: 'var(--text-body)',
           fontWeight: 600,
           cursor: isPending ? 'not-allowed' : 'pointer',
           fontFamily: 'var(--font-sans)',

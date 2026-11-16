@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useEffect, useCallback } from 'react'
 import {
   CheckCircle, XCircle, Clock, ChevronDown, ChevronUp,
@@ -120,7 +121,7 @@ function ApprovalCard({
       <div style={{ padding: '12px 14px', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
         <div style={{
           width: 36, height: 36, borderRadius: '50%',
-          background: 'var(--accent)', color: 'white',
+          background: 'var(--accent)', color: "var(--on-accent)",
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: 'var(--text-body)', fontWeight: 700, flexShrink: 0,
         }}>
@@ -287,7 +288,7 @@ function ApprovalCard({
               disabled={isPending || !rejectReason.trim()}
               style={{
                 flex: 1, padding: '8px 10px',
-                background: 'var(--status-rejected-fg)', color: 'white',
+                background: 'var(--status-rejected-fg)', color: "var(--on-accent)",
                 border: 'none', borderRadius: 7,
                 fontSize: 'var(--text-caption)', fontWeight: 700,
                 cursor: isPending || !rejectReason.trim() ? 'not-allowed' : 'pointer',
@@ -359,12 +360,12 @@ export default function AriaApprovalsView({ onAskAria }: Props) {
         display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
       }}>
         <div>
-          <h2 style={{
+          <SectionTitle style={{
             fontFamily: 'var(--font-serif)', fontSize: 20, fontWeight: 600,
             color: 'var(--ink-1)', margin: '0 0 2px',
           }}>
             {locale === 'ar' ? 'الموافقات المعلّقة' : 'Pending Approvals'}
-          </h2>
+          </SectionTitle>
           <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', margin: 0 }}>
             {loading
               ? (locale === 'ar' ? 'جارٍ التحميل...' : 'Loading...')
@@ -445,7 +446,7 @@ export default function AriaApprovalsView({ onAskAria }: Props) {
             </div>
             <div>
               <p style={{
-                fontSize: 14, fontWeight: 600, color: 'var(--ink-2)',
+                fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-2)',
                 margin: '0 0 4px', fontFamily: 'var(--font-serif)',
               }}>
                 {locale === 'ar' ? 'كل شيء على ما يرام' : 'All caught up'}

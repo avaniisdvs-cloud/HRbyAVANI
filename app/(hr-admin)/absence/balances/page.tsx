@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { and, asc, eq, inArray } from 'drizzle-orm'
@@ -215,13 +216,13 @@ export default async function AbsenceBalancesPage({
         marginBottom: 20, gap: 12, flexWrap: 'wrap',
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
             letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0,
           }}>
             {isAr ? 'أرصدة الإجازات' : 'Absence Balances'}
-          </h1>
-          <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+          </PageTitle>
+          <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
             {isAr ? 'سنة الرصيد' : 'Balance year'} <span style={{ fontFamily: 'var(--font-mono)' }}>{year}</span> · {rows.length} {isAr ? (rows.length === 1 ? 'صف' : 'صفوف') : `row${rows.length === 1 ? '' : 's'}`}
           </p>
         </div>

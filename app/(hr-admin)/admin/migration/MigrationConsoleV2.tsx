@@ -18,6 +18,7 @@
  *   9  Post-Load Verification
  *  10  Sign Off
  */
+import { SectionTitle as UISectionTitle, PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useTransition, useEffect, useRef } from 'react'
 import { Card }   from '@/components/ui/card'
@@ -196,7 +197,7 @@ function ReadinessBadge({ status }: { status: 'READY' | 'READY WITH WARNINGS' | 
   }[status] ?? { bg: '#6B7280', label: status }
   return (
     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold tracking-wide"
-      style={{ background: cfg.bg, color: '#fff' }}>{cfg.label}</span>
+      style={{ background: cfg.bg, color: "var(--on-accent)" }}>{cfg.label}</span>
   )
 }
 
@@ -290,9 +291,9 @@ function SectionTitle({ step, meta, status }: { step: number; meta: StepMeta; st
   return (
     <div className="flex items-start justify-between gap-3">
       <div>
-        <h2 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
+        <UISectionTitle className="text-lg font-semibold" style={{ fontFamily: 'var(--font-serif)', color: 'var(--ink-1)' }}>
           Step {step} — {meta.name}
-        </h2>
+        </UISectionTitle>
         <p className="text-sm mt-0.5" style={{ color: 'var(--ink-2)' }} title={meta.tooltip}>{meta.purpose}</p>
       </div>
       <StepStatusDot status={status} />
@@ -482,7 +483,7 @@ function CertificationSummary({ execResult, scorecard }: { execResult: V2Executi
     <div className="space-y-5">
       <div className="rounded-lg p-4 text-center" style={{ background: verdictCfg.bg + '15', border: `2px solid ${verdictCfg.bg}` }}>
         <div className="flex justify-center mb-2">
-          <span className="px-4 py-1.5 rounded-full text-sm font-bold tracking-widest" style={{ background: verdictCfg.bg, color: '#fff' }}>{verdictCfg.badge}</span>
+          <span className="px-4 py-1.5 rounded-full text-sm font-bold tracking-widest" style={{ background: verdictCfg.bg, color: "var(--on-accent)" }}>{verdictCfg.badge}</span>
         </div>
         <p className="text-sm" style={{ color: 'var(--ink-1)' }}>{verdictCfg.desc}</p>
         <p className="text-xs mt-1" style={{ color: 'var(--ink-3)' }}>Verified: {scorecard.loadedAt}</p>
@@ -744,7 +745,7 @@ export function MigrationConsoleV2({ initialStatus }: { initialStatus: Migration
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl" style={{ fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'مصنع ترحيل البيانات المؤسسي' : 'Enterprise Data Migration Factory'}</h1>
+          <PageTitle className="text-2xl" style={{ fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'مصنع ترحيل البيانات المؤسسي' : 'Enterprise Data Migration Factory'}</PageTitle>
           <p className="text-sm mt-0.5" style={{ color: 'var(--ink-2)' }}>
             {locale === 'ar' ? 'SUPER_ADMIN · ترحيل موجَّه من ١١ خطوة · كل عملية كتابة تتطلب تأكيدًا صريحًا' : 'SUPER_ADMIN · 11-step guided migration · every write requires explicit confirmation'}
           </p>
@@ -778,7 +779,7 @@ export function MigrationConsoleV2({ initialStatus }: { initialStatus: Migration
           <StepGuide meta={STEP_META[0]} expanded={guideOpen === 0} onToggle={() => toggleGuide(0)} />
 
           <div className="flex items-center gap-2 flex-wrap">
-            <Badge style={{ background: !safe ? '#EF4444' : status.branch.isProductionHost ? '#B45309' : '#16A34A', color: '#fff' }}>
+            <Badge style={{ background: !safe ? '#EF4444' : status.branch.isProductionHost ? '#B45309' : '#16A34A', color: "var(--on-accent)" }}>
               {!safe ? 'BLOCKED / محظور' : 'UAT/TEST WRITES ENABLED / الكتابة مفعلة للاختبار'}
             </Badge>
             <code className="text-sm">{status.branch.hostMasked}</code>
@@ -843,7 +844,7 @@ export function MigrationConsoleV2({ initialStatus }: { initialStatus: Migration
           {migrationMode === 'full-reload' && !resetResult && (
             <div className="border rounded-lg p-4 space-y-3" style={{ borderColor: '#FCA5A5', background: '#FFF5F5' }}>
               <div className="flex items-center gap-2">
-                <Badge style={{ background: '#EF4444', color: '#fff' }}>{locale === 'ar' ? 'اختياري — مُدمِّر' : 'OPTIONAL — DESTRUCTIVE'}</Badge>
+                <Badge style={{ background: '#EF4444', color: "var(--on-accent)" }}>{locale === 'ar' ? 'اختياري — مُدمِّر' : 'OPTIONAL — DESTRUCTIVE'}</Badge>
                 <span className="text-xs" style={{ color: 'var(--ink-3)' }}>{locale === 'ar' ? 'تخطَّ هذه الخطوة إذا كانت قاعدة البيانات فارغة بالفعل.' : 'Skip if database is already empty.'}</span>
               </div>
               <p className="text-sm font-medium" style={{ color: '#7F1D1D' }}>{locale === 'ar' ? 'مسح بيانات الموظفين الحالية قبل التحميل' : 'Clear existing employee data before loading'}</p>
@@ -869,7 +870,7 @@ export function MigrationConsoleV2({ initialStatus }: { initialStatus: Migration
               </div>
               <div className="flex gap-2 flex-wrap">
                 <Button onClick={runReset} disabled={!safe || resetConfirm !== 'DELETE STAGING DATA' || pending}
-                  style={{ background: '#EF4444', color: '#fff' }}>
+                  style={{ background: '#EF4444', color: "var(--on-accent)" }}>
                   {pending ? (locale === 'ar' ? 'جارٍ المسح…' : 'Clearing…') : (locale === 'ar' ? 'مسح جميع بيانات الترحيل' : 'Clear all migration data')}
                 </Button>
               </div>
@@ -1359,7 +1360,7 @@ export function MigrationConsoleV2({ initialStatus }: { initialStatus: Migration
                   </p>
                   <Input value={execConfirm} onChange={e => setExecConfirm(e.target.value)} placeholder="EXECUTE MIGRATION" className="max-w-72" />
                   <Button onClick={runExecute} disabled={!safe || execConfirm !== 'EXECUTE MIGRATION' || pending}
-                    style={{ background: '#16A34A', color: '#fff' }}>
+                    style={{ background: '#16A34A', color: "var(--on-accent)" }}>
                     {pending ? (locale === 'ar' ? 'جارٍ تنفيذ الترحيل…' : 'Executing migration…') : (locale === 'ar' ? 'تأكيد وتنفيذ الترحيل' : 'Confirm and execute migration')}
                   </Button>
                 </div>

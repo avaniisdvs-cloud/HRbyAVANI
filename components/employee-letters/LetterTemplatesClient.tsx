@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useCallback, useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import {
@@ -224,9 +225,9 @@ export function LetterTemplatesClient({ types, initialTypeCode, initialTemplates
               {activeMeta.icon}
             </span>
             <div>
-              <h2 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+              <SectionTitle style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
                 {activeMeta.label}
-              </h2>
+              </SectionTitle>
               <p style={{ margin: 0, fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }}>
                 {activeMeta.desc || types.find(t => t.typeCode === typeCode)?.nameAr}
               </p>
@@ -239,7 +240,7 @@ export function LetterTemplatesClient({ types, initialTypeCode, initialTemplates
               style={{
                 display: 'flex', alignItems: 'center', gap: 6,
                 padding: '7px 14px', borderRadius: 7, border: 'none', cursor: 'pointer',
-                background: 'var(--accent)', color: '#fff',
+                background: 'var(--accent)', color: "var(--on-accent)",
                 fontSize: 'var(--text-caption)', fontWeight: 600,
               }}
             >
@@ -372,7 +373,7 @@ function EmptyState({ typeLabel, onCreate }: { typeLabel: string; onCreate: () =
       background: 'var(--surface)',
     }}>
       <FileText size={36} style={{ color: 'var(--ink-4)', margin: '0 auto 12px' }} />
-      <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 600, color: 'var(--ink-2)' }}>
+      <p style={{ margin: '0 0 4px', fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-2)' }}>
         No templates for {typeLabel}
       </p>
       <p style={{ margin: '0 0 18px', fontSize: 'var(--text-caption)', color: 'var(--ink-4)' }}>
@@ -384,7 +385,7 @@ function EmptyState({ typeLabel, onCreate }: { typeLabel: string; onCreate: () =
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 6,
           padding: '8px 18px', borderRadius: 7, border: 'none', cursor: 'pointer',
-          background: 'var(--accent)', color: '#fff', fontSize: 'var(--text-body)', fontWeight: 600,
+          background: 'var(--accent)', color: "var(--on-accent)", fontSize: 'var(--text-body)', fontWeight: 600,
         }}
       >
         <PlusCircle size={14} /> Create Template

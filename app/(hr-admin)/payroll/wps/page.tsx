@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { redirect }  from 'next/navigation'
 import Link          from 'next/link'
 import { auth }      from '@/lib/auth'
@@ -91,9 +92,9 @@ export default async function WpsStagingPage({
           <Link href="/payroll" className="hover:text-[var(--accent)]">{locale === 'ar' ? 'الرواتب' : 'Payroll'}</Link>
           {' / '}{locale === 'ar' ? 'تجهيز WPS' : 'WPS Staging'}
         </nav>
-        <h1 className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
+        <PageTitle className="mt-1 text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
           {locale === 'ar' ? 'تجهيز WPS' : 'WPS Staging'}
-        </h1>
+        </PageTitle>
         <p className="text-sm text-[var(--ink-3)]">
           {locale === 'ar' ? 'معاينة والتحقق من ملف SIF لنظام حماية الأجور (وزارة الموارد البشرية) — BR-WPS-001' : 'Wage Protection System (MoHRE) SIF file preview and validation — BR-WPS-001'}
         </p>
@@ -174,7 +175,7 @@ export default async function WpsStagingPage({
           {stagingRows.length > 0 && (
             <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
               <div className="border-b border-[var(--border)] px-4 py-3">
-                <h2 className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'سجلات SIF' : 'SIF Records'} ({stagingRows.length})</h2>
+                <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'سجلات SIF' : 'SIF Records'} ({stagingRows.length})</SectionTitle>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[900px] text-sm">

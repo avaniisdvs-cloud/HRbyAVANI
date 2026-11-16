@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import type { HRDirectorDashboardData } from '@/modules/reports'
 import { useLocale } from '@/components/providers/LocaleProvider'
 import KPICard from '../_components/KPICard'
@@ -48,9 +49,9 @@ export function HRDirectorDashboard({ data }: Props) {
     <div className="page-in" style={{ padding: 0 }}>
       {/* ── Header ───────────────────────────────────────────────────────────── */}
       <div style={{ marginBottom: 24 }}>
-        <h1
+        <PageTitle
           style={{
-            fontFamily: "'Fraunces', Georgia, serif",
+            fontFamily: 'var(--font-serif)',
             fontSize: 22,
             fontWeight: 700,
             color: 'var(--ink-1)',
@@ -61,7 +62,7 @@ export function HRDirectorDashboard({ data }: Props) {
           }}
         >
           {locale === 'ar' ? 'تحليلات الموارد البشرية' : 'People Analytics'}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
           {locale === 'ar' ? 'نظرة استراتيجية على القوى العاملة' : 'Strategic workforce overview'} · {today}
         </p>

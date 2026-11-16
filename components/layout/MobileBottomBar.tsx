@@ -22,7 +22,7 @@ export function MobileBottomBar({ role, locale = 'en' }: { role: string; locale?
   const groups: Array<{ items: WorkspaceItem[] }> = role === 'MANAGER' ? MANAGER_NAV : employee ? EMPLOYEE_NAV
     : getVisibleWorkspaces(role).flatMap(workspace => workspace.nav)
   const links = [...new Map(groups.flatMap(group => group.items).filter(item => !item.comingSoon).map(item => [item.route, item])).values()]
-  const linkStyle = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, minHeight: 48, color: 'var(--ink-1)', fontSize: 14, textDecoration: 'none', flex: 1 } as const
+  const linkStyle = { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, minHeight: 48, color: 'var(--ink-1)', fontSize: 'var(--text-body)', textDecoration: 'none', flex: 1 } as const
   return (
     <nav className="mobile-bottom-bar" aria-label={locale === 'ar' ? 'التنقل عبر الجوال' : 'Mobile navigation'} style={{ position: 'fixed', insetInline: 0, bottom: 0, paddingBottom: 'env(safe-area-inset-bottom)', background: 'var(--card)', borderTop: '1px solid var(--border)', zIndex: 40, display: 'flex' }}>
       <Link href={home} aria-current={pathname === home ? 'page' : undefined} style={linkStyle}><Home size={18} aria-hidden />{locale === 'ar' ? 'الرئيسية' : 'Home'}</Link>

@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import {
   Users, Calendar, Clock, FileText,
   TrendingUp, CheckSquare, BarChart2,
@@ -196,7 +197,7 @@ export default function AriaReportsView({ onAskAria, userRole, locale = 'en' }: 
 
       {/* Header */}
       <div style={{ flexShrink: 0, padding: '20px 24px 16px', borderBottom: '1px solid var(--border)' }}>
-        <h2 style={{
+        <SectionTitle style={{
           fontFamily: 'var(--font-serif)',
           fontSize: '20px',
           fontWeight: 600,
@@ -204,7 +205,7 @@ export default function AriaReportsView({ onAskAria, userRole, locale = 'en' }: 
           margin: '0 0 4px',
         }}>
           {isAr ? 'التقارير' : 'Reports'}
-        </h2>
+        </SectionTitle>
         <p style={{ fontSize: '12px', color: 'var(--ink-3)', margin: 0 }}>
           {userRole === 'MANAGER'
             ? (isAr ? 'اختر تقريرًا — ستقوم آريا بإنشائه لفريقك على الفور' : 'Select a report — ARIA will generate it for your team instantly')
@@ -292,7 +293,7 @@ export default function AriaReportsView({ onAskAria, userRole, locale = 'en' }: 
                   width: '100%',
                   padding: '9px 14px',
                   background: 'var(--accent)',
-                  color: 'white',
+                  color: "var(--on-accent)",
                   border: 'none',
                   borderRadius: 8,
                   cursor: 'pointer',

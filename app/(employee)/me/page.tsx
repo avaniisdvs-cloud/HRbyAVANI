@@ -36,7 +36,7 @@ export default async function EmployeeDashboardPage() {
   if (!personId) {
     return (
       <div style={{ padding: 32 }}>
-        <p style={{ fontSize: 14, color: 'var(--ink-2)' }}>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
           {locale === 'ar'
             ? 'لم يتم ربط حسابك بسجل شخص بعد. يرجى التواصل مع مسؤول الموارد البشرية لإتمام التسجيل.'
             : 'Your sign-in is not linked to a person record yet. Please contact HR Admin to complete onboarding.'}

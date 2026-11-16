@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState } from 'react'
 import { Search, ChevronRight } from 'lucide-react'
 import { type Locale } from '@/lib/i18n'
@@ -124,7 +125,7 @@ export default function AriaUAELawView({ onAskAria, locale = 'en' }: Props) {
 
       {/* Header */}
       <div style={{ flexShrink: 0, padding: '20px 24px 16px', borderBottom: '1px solid var(--border)' }}>
-        <h2 style={{
+        <SectionTitle style={{
           fontFamily: 'var(--font-serif)',
           fontSize: '20px',
           fontWeight: 600,
@@ -132,7 +133,7 @@ export default function AriaUAELawView({ onAskAria, locale = 'en' }: Props) {
           margin: '0 0 2px',
         }}>
           {isAr ? 'قانون العمل الإماراتي' : 'UAE Labour Law'}
-        </h2>
+        </SectionTitle>
         <p style={{ fontSize: '12px', color: 'var(--ink-3)', margin: '0 0 14px' }}>
           {isAr ? 'القانون الاتحادي رقم 33 لسنة 2021' : 'Federal Law No. 33 of 2021'}
         </p>

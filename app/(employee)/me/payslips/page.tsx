@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link          from 'next/link'
 import { auth }      from '@/lib/auth'
@@ -44,9 +45,9 @@ export default async function MyPayslipsPage({
     <div style={{ maxWidth: 760, margin: '0 auto' }} className="space-y-6">
       {/* Header */}
       <div>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 24, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'كشوف رواتبي' : 'My Payslips'}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 0' }}>
           {locale === 'ar' ? 'بيانات الراتب الشهرية وملخص استحقاق مكافأة نهاية الخدمة' : 'Monthly salary statements and EOSB accrual summary'}
         </p>

@@ -52,7 +52,7 @@ export default async function OrgChartPage() {
         height:         '100%',
         color:          'var(--ink-3)',
         fontFamily:     'var(--font-sans)',
-        fontSize:       14,
+        fontSize:       'var(--text-body)',
         flexDirection:  'column',
         gap:            8,
       }}>

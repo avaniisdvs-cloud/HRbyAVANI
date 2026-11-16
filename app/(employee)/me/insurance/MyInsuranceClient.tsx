@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState } from 'react'
 import type { MedicalInsuranceEnrolment, PersonDependent } from '@/drizzle/schema'
@@ -119,9 +120,9 @@ export function MyInsuranceClient({ person, enrolments, dependents }: Props) {
       marginBottom: 24 }}>
         <HeartPulse style={{ width: 22, height: 22, color: 'var(--brand-active)' }} strokeWidth={1.75} />
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <PageTitle style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             My Insurance
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
           marginTop: 2 }}>
             التأمين الطبي الخاص بي
@@ -145,7 +146,7 @@ export function MyInsuranceClient({ person, enrolments, dependents }: Props) {
             <div style={{ textAlign: 'right' }}>
               <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
               marginBottom: 2 }}>{locale === 'ar' ? 'تنتهي' : 'Expires'}</p>
-              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{person.insuranceExpiryDate}</p>
+              <p style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{person.insuranceExpiryDate}</p>
             </div>
           )}
         </div>
@@ -165,7 +166,7 @@ export function MyInsuranceClient({ person, enrolments, dependents }: Props) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8,
           marginBottom: 16 }}>
             <CreditCard style={{ width: 16, height: 16, color: 'var(--brand-active)' }} strokeWidth={1.75} />
-            <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'بطاقة التأمين' : 'Insurance Card'}</h2>
+            <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'بطاقة التأمين' : 'Insurance Card'}</SectionTitle>
           </div>
           <div data-responsive-grid="true" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 16 }}>
             <DetailRow label={locale === 'ar' ? 'رقم البطاقة' : 'Card Number'}      value={person.insuranceCardNumber} />
@@ -186,11 +187,11 @@ export function MyInsuranceClient({ person, enrolments, dependents }: Props) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8,
           marginBottom: 16 }}>
             <Users style={{ width: 16, height: 16, color: 'var(--brand-active)' }} strokeWidth={1.75} />
-            <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+            <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
               {locale === 'ar'
                 ? `المعالون (${person.dependentCountInsured ?? 0} مؤمَّن عليهم)`
                 : `Dependents (${person.dependentCountInsured ?? 0} insured)`}
-            </h2>
+            </SectionTitle>
           </div>
           <TableScrollRegion><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-body)' }}>
             <thead>
@@ -233,7 +234,7 @@ export function MyInsuranceClient({ person, enrolments, dependents }: Props) {
         <div style={{ ...card, marginTop: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           marginBottom: 12 }}>
-            <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'سجل التسجيل' : 'Enrolment History'}</h2>
+            <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'سجل التسجيل' : 'Enrolment History'}</SectionTitle>
             {enrolments.length > HISTORY_PAGE_SIZE && (
               <button
                 onClick={() => setShowAllHistory(v => !v)}

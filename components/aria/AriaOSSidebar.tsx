@@ -116,7 +116,7 @@ export default function AriaOSSidebar({
           fontFamily: 'var(--font-serif)',
           fontSize: 22,
           fontWeight: 700,
-          color: '#FFFFFF',
+          color: "var(--on-accent)",
           letterSpacing: '-0.5px',
           lineHeight: 1,
         }}>
@@ -207,7 +207,7 @@ export default function AriaOSSidebar({
                       padding: '2px 8px',
                       borderRadius: 999,
                       background: 'var(--accent)',
-                      color: '#FFFFFF',
+                      color: "var(--on-accent)",
                       flexShrink: 0,
                     }}>
                       ON
@@ -221,7 +221,7 @@ export default function AriaOSSidebar({
                       height: 18,
                       borderRadius: 9,
                       background: 'rgba(255,255,255,0.15)',
-                      color: '#FFFFFF',
+                      color: "var(--on-accent)",
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -247,7 +247,7 @@ export default function AriaOSSidebar({
         <div style={{
           fontSize: 'var(--text-body)',
           fontWeight: 600,
-          color: '#FFFFFF',
+          color: "var(--on-accent)",
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',

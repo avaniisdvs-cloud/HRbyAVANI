@@ -136,7 +136,7 @@ function StepCard({ step, index, total, onEdit, onDelete, onMoveUp, onMoveDown }
       {/* Step number */}
       <div style={{
         width: 32, height: 32, borderRadius: '50%',
-        background: 'var(--accent)', color: '#fff',
+        background: 'var(--accent)', color: "var(--on-accent)",
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 'var(--text-body)', fontWeight: 700, flexShrink: 0,
       }}>
@@ -146,7 +146,7 @@ function StepCard({ step, index, total, onEdit, onDelete, onMoveUp, onMoveDown }
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+          <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
             {step.stepNameEn}
           </span>
           {step.stepNameAr && (
@@ -270,7 +270,7 @@ export function StepsPageClient({ workflowId, workflowCode, initialSteps, groupO
           style={{
             display: 'flex', alignItems: 'center', gap: 6,
             padding: '8px 16px', borderRadius: 6, border: 'none',
-            background: 'var(--accent)', color: '#fff', cursor: 'pointer',
+            background: 'var(--accent)', color: "var(--on-accent)", cursor: 'pointer',
             fontSize: 'var(--text-body)', fontWeight: 500,
           }}
         >
@@ -319,7 +319,7 @@ export function StepsPageClient({ workflowId, workflowCode, initialSteps, groupO
       {toast && (
         <div style={{
           position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
-          background: '#1a1a1a', color: '#fff', padding: '10px 20px',
+          background: '#1a1a1a', color: "var(--on-accent)", padding: '10px 20px',
           borderRadius: 8, fontSize: 'var(--text-body)', zIndex: 100, pointerEvents: 'none',
         }}>
           {toast}

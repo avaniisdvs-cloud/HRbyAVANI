@@ -102,7 +102,7 @@ export function ExitClearanceItemActions({ itemId, status: initialStatus, isMand
             }}
             onClick={e => e.stopPropagation()}
           >
-            <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+            <h3 style={{ margin: '0 0 16px', fontSize: 'var(--text-lead)', fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
               {modal === 'complete' ? (locale === 'ar' ? 'تعليم كمكتمل' : 'Mark as Complete') : (locale === 'ar' ? 'التنازل عن البند' : 'Waive Item')}
             </h3>
 
@@ -161,7 +161,7 @@ export function ExitClearanceItemActions({ itemId, status: initialStatus, isMand
                 style={{
                   flex: 1, height: 38, borderRadius: 7, border: 'none',
                   background: modal === 'complete' ? '#16a34a' : '#6366f1',
-                  color: '#fff', fontSize: 'var(--text-body)', fontWeight: 600,
+                  color: "var(--on-accent)", fontSize: 'var(--text-body)', fontWeight: 600,
                   cursor: pending ? 'not-allowed' : 'pointer',
                   opacity: pending ? 0.7 : 1,
                 }}

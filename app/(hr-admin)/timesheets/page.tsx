@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { requireRole } from '@/lib/auth'
 import { getFullAttendance } from '@/modules/timesheets/actions'
 import { AttendanceSummary } from '@/components/timesheets/AttendanceSummary'
@@ -26,7 +27,7 @@ export default async function TimesheetsPage() {
   return (
     <div style={{ padding: '1.5rem 2rem', maxWidth: 1200, boxSizing: 'border-box' }}>
       <div style={{ marginBottom: 24 }}>
-        <h1
+        <PageTitle
           style={{
             fontFamily:    'var(--font-serif)',
             fontSize:      30,
@@ -37,8 +38,8 @@ export default async function TimesheetsPage() {
           }}
         >
           Attendance
-        </h1>
-        <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: '4px 0 0' }}>
+        </PageTitle>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
           Monitor and manage employee attendance. Upload bulk records or generate reports.
         </p>
       </div>
@@ -64,9 +65,9 @@ export default async function TimesheetsPage() {
             border:       '1px solid var(--border)',
           }}
         >
-          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
+          <SectionTitle style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
             Attendance Report
-          </h2>
+          </SectionTitle>
           <AttendanceReport />
         </div>
 
@@ -79,9 +80,9 @@ export default async function TimesheetsPage() {
             border:       '1px solid var(--border)',
           }}
         >
-          <h2 style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
+          <SectionTitle style={{ fontSize: '1rem', fontWeight: 600, margin: '0 0 1rem', color: 'var(--ink-1)' }}>
             Bulk Upload
-          </h2>
+          </SectionTitle>
           <ExcelUpload />
         </div>
       </div>

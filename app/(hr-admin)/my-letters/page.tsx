@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { and, desc, eq, sql } from 'drizzle-orm'
@@ -143,15 +144,15 @@ export default async function MyLettersPage() {
     <div style={{ padding: '24px 28px', maxWidth: 900 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <FileText size={18} style={{ color: 'var(--brand-active)' }} />
-        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+        <PageTitle style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
           {locale === 'ar' ? 'خطاباتي' : 'My Letters'}
-        </h1>
+        </PageTitle>
         {locale !== 'ar' && <span style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)' }} dir="rtl" lang="ar">خطاباتي</span>}
       </div>
 
       {person && selfServiceTypes.length > 0 && (
         <div style={{ marginBottom: 28, padding: '18px 20px', background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 10 }}>
-          <h2 style={{ margin: '0 0 12px', fontSize: 15, fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'طلب خطاب' : 'Request a Letter'}</h2>
+          <SectionTitle style={{ margin: '0 0 12px', fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'طلب خطاب' : 'Request a Letter'}</SectionTitle>
           <RequestLetterForm types={selfServiceTypes} personId={person.id} />
         </div>
       )}
@@ -164,10 +165,10 @@ export default async function MyLettersPage() {
         </div>
       )}
 
-      <h2 style={{ margin: '0 0 14px', fontSize: 15, fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'سجل الخطابات' : 'Letter History'}</h2>
+      <SectionTitle style={{ margin: '0 0 14px', fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'سجل الخطابات' : 'Letter History'}</SectionTitle>
 
       {letterRows.length === 0 ? (
-        <div style={{ color: 'var(--ink-3)', fontSize: 14, padding: '32px 20px', background: 'var(--surface)', border: '1px dashed var(--border)', borderRadius: 8, textAlign: 'center' }}>
+        <div style={{ color: 'var(--ink-3)', fontSize: 'var(--text-body)', padding: '32px 20px', background: 'var(--surface)', border: '1px dashed var(--border)', borderRadius: 8, textAlign: 'center' }}>
           {locale === 'ar'
             ? 'لا توجد خطابات مسجّلة بعد. استخدم قسم «طلب خطاب» أعلاه لتقديم طلبك الأول.'
             : 'No letters on record yet. Use the “Request a Letter” section above to submit your first request.'}
@@ -222,7 +223,7 @@ export default async function MyLettersPage() {
                       </td>
                       <td style={{ ...TD, textAlign: 'right' }}>
                         {l.status === 'PENDING_SIGNATURE' ? (
-                          <a href={`/me/letters/sign/${l.id}`} style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: '#fff', background: 'var(--accent)', border: '1px solid var(--accent-200)', borderRadius: 6, padding: '3px 10px', textDecoration: 'none', whiteSpace: 'nowrap' }} aria-label={`${locale === 'ar' ? 'توقيع' : 'Sign'} ${l.letterNumber}`}>
+                          <a href={`/me/letters/sign/${l.id}`} style={{ fontSize: 'var(--text-caption)', fontWeight: 500, color: "var(--on-accent)", background: 'var(--accent)', border: '1px solid var(--accent-200)', borderRadius: 6, padding: '3px 10px', textDecoration: 'none', whiteSpace: 'nowrap' }} aria-label={`${locale === 'ar' ? 'توقيع' : 'Sign'} ${l.letterNumber}`}>
                             {locale === 'ar' ? 'وقّع الآن' : 'Sign Now'}
                           </a>
                         ) : hasPdf ? (

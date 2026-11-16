@@ -53,7 +53,7 @@ export function LeaveBalanceBand({
         padding: '14px 20px', borderBottom: '1px solid var(--border)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>
+        <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', letterSpacing: -0.1 }}>
           {locale === 'ar' ? `رصيد الإجازة — ${new Date().getFullYear()}` : `Leave balance — ${new Date().getFullYear()}`}
         </h3>
         <a

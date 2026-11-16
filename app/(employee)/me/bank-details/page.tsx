@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { getBankDetails } from '@/modules/core-hr'
@@ -15,7 +16,7 @@ export default async function MyBankDetailsPage() {
   return (
     <div className="page-in" style={{ maxWidth: 560, margin: '0 auto' }}>
       <div style={{ marginBottom: 28 }}>
-        <h1
+        <PageTitle
           style={{
             fontFamily: 'var(--font-serif)',
             fontSize: 24,
@@ -25,7 +26,7 @@ export default async function MyBankDetailsPage() {
           }}
         >
           My Bank Details
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 0' }}>
           Salary is paid to the bank account below. Changes require HR approval
           if a Salary Transfer Letter was issued in the past 30 days.

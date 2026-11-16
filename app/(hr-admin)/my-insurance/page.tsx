@@ -22,7 +22,7 @@ export default async function MyInsurancePage() {
   if (!personId) {
     return (
       <div style={{ padding: 32 }}>
-        <p style={{ fontSize: 14, color: 'var(--ink-2)' }}>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
           Your sign-in is not linked to a person record yet. Please contact HR Admin.
         </p>
       </div>
@@ -33,7 +33,7 @@ export default async function MyInsurancePage() {
   if (!person) {
     return (
       <div style={{ padding: 32 }}>
-        <p style={{ fontSize: 14, color: 'var(--ink-2)' }}>
+        <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)' }}>
           Employee record not found. Please contact HR Admin.
         </p>
       </div>

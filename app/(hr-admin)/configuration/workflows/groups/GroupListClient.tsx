@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { useState, useTransition, useMemo, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
@@ -209,9 +210,9 @@ export function GroupListClient({ initialData, personOptions, locale = 'en' }: G
             <Users size={20} />
           </div>
           <div>
-            <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 500, color: 'var(--ink-1)', margin: 0 }}>
+            <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 500, color: 'var(--ink-1)', margin: 0 }}>
               {locale === 'ar' ? 'مجموعات الاعتماد' : 'Approval Groups'}
-            </h1>
+            </PageTitle>
             <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '2px 0 0' }}>
               {locale === 'ar' ? 'مجموعات معتمِدين مُسمّاة لتعيينات مراحل سير العمل.' : 'Named approver groups for workflow stage assignments.'}{' '}
               <span style={{ color: 'var(--brand-active)', fontWeight: 600 }}>{activeCount}</span> {locale === 'ar' ? 'نشطة' : 'active'}
@@ -224,7 +225,7 @@ export function GroupListClient({ initialData, personOptions, locale = 'en' }: G
           style={{
             height: 36, padding: '0 16px',
             border: 'none', borderRadius: 8,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer',
             display: 'flex', alignItems: 'center', gap: 6,
           }}
@@ -272,7 +273,7 @@ export function GroupListClient({ initialData, personOptions, locale = 'en' }: G
 
         {/* Rows */}
         {filtered.length === 0 ? (
-          <div style={{ padding: '48px 24px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 14 }}>
+          <div style={{ padding: '48px 24px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 'var(--text-body)' }}>
             {data.length === 0
               ? (locale === 'ar' ? 'لا توجد مجموعات اعتماد بعد. انقر على + مجموعة جديدة لإنشاء أول مجموعة.' : 'No approval groups yet. Click + New Group to create the first one.')
               : (locale === 'ar' ? 'لا توجد مجموعات تطابق بحثك.' : 'No groups match your search.')}
@@ -305,7 +306,7 @@ export function GroupListClient({ initialData, personOptions, locale = 'en' }: G
 
               {/* Name */}
               <div style={{ padding: '14px 8px' }}>
-                <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink-1)' }}>{row.groupNameEn}</div>
+                <div style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--ink-1)' }}>{row.groupNameEn}</div>
                 {row.groupNameAr && (
                   <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', direction: 'rtl', marginTop: 2 }}>{row.groupNameAr}</div>
                 )}
@@ -371,7 +372,7 @@ export function GroupListClient({ initialData, personOptions, locale = 'en' }: G
       {toast && (
         <div style={{
           position: 'fixed', bottom: 24, right: 24, zIndex: 100,
-          background: 'var(--ink-1)', color: '#fff',
+          background: 'var(--ink-1)', color: "var(--on-accent)",
           padding: '10px 18px', borderRadius: 8,
           fontSize: 'var(--text-body)', fontWeight: 500,
         }}>

@@ -1,13 +1,14 @@
-# Avaniis working-copy status — 2026-11-14
+# AVANIIS working-copy status — 2026-11-16
 
-This is a locally rebranded application imported from a ZIP, with no Git history.
-The current authorized task is rebranding, local setup, and functional validation.
-The user has explicitly authorized the code edits needed for that task.
-No new cloud deployment is linked or certified. Historical freeze records and
-release evidence below are inherited references, not certification of this copy.
-Use `.env.local` for private local settings; never print or commit its values.
-The preview contains exactly six synthetic employees. Preserve existing records.
-Current preview: http://localhost:3001. See `docs/AVANIIS-PREVIEW.md`.
+The application is linked to GitHub `avaniisdvs-cloud/HRbyAVANI` and the protected
+Vercel Preview project `avaniis/avaniis-hr`. Main builds Preview; production is
+reserved for a separate release. The preview has six synthetic employees.
+The owner approved the Employees-based UI standard and recommended single
+expandable sidebar on 2026-11-16, with an explicit prohibition on business-logic
+changes. Preserve server actions, calculations, permissions and workflows.
+Current UI implementation evidence: `docs/implementation-2026-11-16/`.
+Use `.env.local` for private local settings; never print or commit values.
+Historical freeze records below are references, not certification of this copy.
 
 ---
 

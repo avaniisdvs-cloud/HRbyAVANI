@@ -56,7 +56,7 @@ const inputBase: React.CSSProperties = {
   border: '1.5px solid var(--border)',
   borderRadius: 8,
   padding: '10px 12px',
-  fontSize: 14,
+  fontSize: 'var(--text-body)',
   fontFamily: 'var(--font-sans)',
   color: 'var(--ink-1)',
   background: 'var(--card)',
@@ -398,7 +398,7 @@ export function GradeDrawer({
         <div style={fieldWrap}>
           <label style={fieldLabel}>{locale === 'ar' ? 'الراتب الأوسط (درهم)' : 'Midpoint Salary (AED)'}</label>
           <div style={{ ...readonlyInput, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ color: computedMid ? 'var(--ink-1)' : 'var(--ink-4)', fontSize: 14 }}>
+            <span style={{ color: computedMid ? 'var(--ink-1)' : 'var(--ink-4)', fontSize: 'var(--text-body)' }}>
               {computedMid ? `AED ${computedMid}` : (locale === 'ar' ? 'يُحسب تلقائياً من الحد الأدنى والأقصى' : 'Auto-calculated from min & max')}
             </span>
             {computedMid && (

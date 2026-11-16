@@ -146,7 +146,7 @@ export function BulkGeneratePanel({ typeCode, employees, templateId, onComplete 
               color: language === opt.value ? 'var(--brand-active)' : 'var(--ink-2)',
               transition: 'all 120ms',
             }}>
-              <span style={{ fontSize: 15 }}>{opt.flag}</span>
+              <span style={{ fontSize: 'var(--text-body)' }}>{opt.flag}</span>
               <span>{locale === 'ar'
                 ? (opt.value === 'en' ? 'الإنجليزية' : opt.value === 'ar' ? 'العربية' : 'ثنائي اللغة')
                 : opt.label}</span>

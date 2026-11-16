@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
@@ -166,9 +167,9 @@ export function InsurancePlansClient({ plans: initial, legalEntityId, role, loca
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <div>
-          <h1 className="font-serif text-2xl text-ink-1">
+          <PageTitle className="font-serif text-2xl text-ink-1">
             {locale === 'ar' ? 'خطط التأمين الطبي' : 'Insurance Plans'}
-          </h1>
+          </PageTitle>
           <p className="mt-1 text-sm text-ink-3">
             {locale === 'ar'
               ? 'إدارة خطط التأمين الطبي لكل كيان قانوني. تتم مطابقة الموظفين بالخطط حسب الدرجة ونوع التوظيف.'
@@ -186,7 +187,7 @@ export function InsurancePlansClient({ plans: initial, legalEntityId, role, loca
         {plans.length === 0 ? (
           <div style={{ padding: '48px 24px', textAlign: 'center' }}>
             <HeartPulse size={32} style={{ color: 'var(--ink-4)', margin: '0 auto 12px' }} />
-            <p style={{ fontSize: 14, color: 'var(--ink-3)' }}>{locale === 'ar' ? 'لم يتم تكوين أي خطط تأمين بعد.' : 'No insurance plans configured yet.'}</p>
+            <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>{locale === 'ar' ? 'لم يتم تكوين أي خطط تأمين بعد.' : 'No insurance plans configured yet.'}</p>
             <Button variant="outline" onClick={openCreate} style={{ marginTop: 12 }}>
               <Plus size={13} style={{ marginInlineEnd: 6 }} /> {locale === 'ar' ? 'إنشاء أول خطة' : 'Create first plan'}
             </Button>
@@ -292,9 +293,9 @@ export function InsurancePlansClient({ plans: initial, legalEntityId, role, loca
             padding: 28, display: 'flex', flexDirection: 'column', gap: 20,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <h2 className="font-serif text-xl text-ink-1">
+              <SectionTitle className="font-serif text-xl text-ink-1">
                 {editing ? (locale === 'ar' ? 'تعديل خطة التأمين' : 'Edit Insurance Plan') : (locale === 'ar' ? 'خطة تأمين جديدة' : 'New Insurance Plan')}
-              </h2>
+              </SectionTitle>
               <Button variant="ghost" size="sm" onClick={handleClose}><X size={15} /></Button>
             </div>
 

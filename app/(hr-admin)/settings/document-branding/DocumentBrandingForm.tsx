@@ -244,7 +244,7 @@ export function DocumentBrandingForm({ entities, selectedEntityId, entityData, e
             <button onClick={handleSave} disabled={saving} style={{
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '8px 20px', borderRadius: 7, border: 'none',
-              background: 'var(--accent)', color: '#fff',
+              background: 'var(--accent)', color: "var(--on-accent)",
               fontSize: 'var(--text-body)', fontWeight: 600,
               cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.75 : 1,
             }}>

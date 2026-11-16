@@ -67,7 +67,7 @@ export function WorkflowActionForm({ stepInstanceId, isFyiOnly, canDelegate, res
       background: 'var(--card)', border: '1px solid var(--border)',
       borderRadius: 12, padding: '20px',
     }}>
-      <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+      <h3 style={{ margin: '0 0 16px', fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
         {isFyiOnly ? (locale === 'ar' ? 'إقرار' : 'Acknowledge') : (locale === 'ar' ? 'قرارك' : 'Your decision')}
       </h3>
 
@@ -151,7 +151,7 @@ export function WorkflowActionForm({ stepInstanceId, isFyiOnly, canDelegate, res
             disabled={isPending}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: 'var(--accent)', color: '#fff', border: 'none',
+              background: 'var(--accent)', color: "var(--on-accent)", border: 'none',
               borderRadius: 7, padding: '8px 18px', fontSize: 'var(--text-body)', fontWeight: 600,
               cursor: isPending ? 'not-allowed' : 'pointer', opacity: isPending ? 0.7 : 1,
             }}
@@ -166,7 +166,7 @@ export function WorkflowActionForm({ stepInstanceId, isFyiOnly, canDelegate, res
               disabled={isPending}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: 'var(--status-approved-fg, #16a34a)', color: '#fff', border: 'none',
+                background: 'var(--status-approved-fg, #16a34a)', color: "var(--on-accent)", border: 'none',
                 borderRadius: 7, padding: '8px 18px', fontSize: 'var(--text-body)', fontWeight: 600,
                 cursor: isPending ? 'not-allowed' : 'pointer', opacity: isPending ? 0.7 : 1,
               }}
@@ -180,7 +180,7 @@ export function WorkflowActionForm({ stepInstanceId, isFyiOnly, canDelegate, res
               disabled={isPending}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
-                background: 'var(--status-rejected-fg)', color: '#fff', border: 'none',
+                background: 'var(--status-rejected-fg)', color: "var(--on-accent)", border: 'none',
                 borderRadius: 7, padding: '8px 18px', fontSize: 'var(--text-body)', fontWeight: 600,
                 cursor: isPending ? 'not-allowed' : 'pointer', opacity: isPending ? 0.7 : 1,
               }}

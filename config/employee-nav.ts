@@ -45,8 +45,8 @@ export const EMPLOYEE_NAV: NavConfig = [
     items: [
       {
         id:      'org-chart',
-        labelEn: 'Organisation Chart',
-        labelAr: 'المخطط التنظيمي',
+        labelEn: 'Employee Organization Structure',
+        labelAr: 'الهيكل التنظيمي للموظفين',
         icon:    Network,
         route:   '/org-chart',
       },
@@ -152,4 +152,14 @@ export const EMPLOYEE_NAV: NavConfig = [
       },
     ],
   },
+  {
+    id: 'self-service-requests',
+    labelEn: 'My Requests', labelAr: 'طلباتي', icon: FileText,
+    color: 'var(--brand-active)', defaultOpen: true,
+    items: [
+      { id: 'accommodations', labelEn: 'Accommodation Request', labelAr: 'طلب التسهيلات', icon: FileText, route: '/me/accommodations' },
+      { id: 'my-probation', labelEn: 'My Probation', labelAr: 'فترة تجربتي', icon: FileText, route: '/me/requests/probation' },
+    ],
+  },
+
 ]

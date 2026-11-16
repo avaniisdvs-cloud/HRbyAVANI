@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect }              from 'next/navigation'
 import Link                       from 'next/link'
 import { ArrowLeft }              from 'lucide-react'
@@ -38,7 +39,7 @@ export default async function NewWorkflowTemplatePage() {
 
       {/* Page title */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily:    'var(--font-serif)',
           fontSize:      26,
           fontWeight:    500,
@@ -47,7 +48,7 @@ export default async function NewWorkflowTemplatePage() {
           letterSpacing: '-0.3px',
         }}>
           {locale === 'ar' ? 'قالب سير عمل جديد' : 'New Workflow Template'}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 0' }}>
           Define an ordered approval chain triggered by a transaction event.
           Save creates v1 of the template — future edits create new versions and leave running instances untouched.

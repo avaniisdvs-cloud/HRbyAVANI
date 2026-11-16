@@ -1,4 +1,5 @@
 'use client'
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useTransition, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
@@ -85,7 +86,7 @@ export function MigrationConsoleClient({ initialStatus }: { initialStatus: Migra
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-4" style={{ color: 'var(--ink-1)' }}>
       <div>
-        <h1 className="text-2xl" style={{ fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'نشاط ترحيل البيانات' : 'Data Migration Activity'}</h1>
+        <PageTitle className="text-2xl" style={{ fontFamily: 'var(--font-serif)' }}>{locale === 'ar' ? 'نشاط ترحيل البيانات' : 'Data Migration Activity'}</PageTitle>
         <p className="text-sm" style={{ color: 'var(--ink-2)' }}>{locale === 'ar' ? 'Super Admin · كل عملية كتابة تتطلب تأكيدًا صريحًا.' : 'Super Admin · every write requires explicit confirmation.'}</p>
       </div>
 
@@ -106,7 +107,7 @@ export function MigrationConsoleClient({ initialStatus }: { initialStatus: Migra
       {step === 0 && (
         <Card className="p-4 space-y-2">
           <div className="flex items-center gap-2">
-            <Badge style={{ background: !safe ? '#EF4444' : status.branch.isProductionHost ? '#B45309' : '#16A34A', color: '#fff' }}>
+            <Badge style={{ background: !safe ? '#EF4444' : status.branch.isProductionHost ? '#B45309' : '#16A34A', color: "var(--on-accent)" }}>
               {!safe ? 'BLOCKED / محظور' : 'UAT/TEST WRITES ENABLED / الكتابة مفعلة للاختبار'}
             </Badge>
             <span className="font-mono text-sm">{status.branch.hostMasked}</span>
@@ -131,7 +132,7 @@ export function MigrationConsoleClient({ initialStatus }: { initialStatus: Migra
       {step === 1 && (
         <Card className="p-4 space-y-3" style={{ borderColor: '#EF4444' }}>
           <div className="flex items-center gap-2">
-            <Badge style={{ background: '#EF4444', color: '#fff' }}>{locale === 'ar' ? 'مُدمِّر' : 'DESTRUCTIVE'}</Badge>
+            <Badge style={{ background: '#EF4444', color: "var(--on-accent)" }}>{locale === 'ar' ? 'مُدمِّر' : 'DESTRUCTIVE'}</Badge>
             <span className="text-sm">Clean-slate the active DEV/UAT database before loading. / إعادة تهيئة قاعدة DEV/UAT الحالية قبل التحميل.</span>
           </div>
           <ul className="text-sm list-disc ml-5" style={{ color: 'var(--ink-2)' }}>
@@ -155,7 +156,7 @@ export function MigrationConsoleClient({ initialStatus }: { initialStatus: Migra
           <p className="text-sm">{locale === 'ar' ? <>اكتب <b>DELETE STAGING DATA</b> للتأكيد:</> : <>Type <b>DELETE STAGING DATA</b> to confirm:</>}</p>
           <Input value={resetConfirm} onChange={(e) => setResetConfirm(e.target.value)} placeholder="DELETE STAGING DATA" className="max-w-72" />
           <Button onClick={runReset} disabled={!safe || resetConfirm !== 'DELETE STAGING DATA' || pending}
-            style={{ background: '#EF4444', color: '#fff' }}>
+            style={{ background: '#EF4444', color: "var(--on-accent)" }}>
             {pending ? 'Clearing…' : 'Reset Test/UAT data / إعادة تهيئة UAT'}
           </Button>
           {resetResult && (
@@ -225,9 +226,9 @@ export function MigrationConsoleClient({ initialStatus }: { initialStatus: Migra
             <>
               <div className="flex gap-2 flex-wrap text-sm">
                 <Badge>Total {preview.totalRows}</Badge>
-                <Badge style={{ background: '#16A34A', color: '#fff' }}>Valid {preview.validRows}</Badge>
+                <Badge style={{ background: '#16A34A', color: "var(--on-accent)" }}>Valid {preview.validRows}</Badge>
                 <Badge style={{ background: preview.errorRows ? '#EF4444' : 'var(--surface)', color: preview.errorRows ? '#fff' : undefined }}>Errors {preview.errorRows}</Badge>
-                <Badge style={{ background: '#F59E0B', color: '#fff' }}>Warnings {preview.warningRows}</Badge>
+                <Badge style={{ background: '#F59E0B', color: "var(--on-accent)" }}>Warnings {preview.warningRows}</Badge>
               </div>
               {preview.issues.length > 0 && (
                 <div className="max-h-72 overflow-auto border rounded text-sm">

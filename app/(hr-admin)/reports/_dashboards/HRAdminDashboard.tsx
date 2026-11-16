@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { useRouter } from 'next/navigation'
 import type { HRAdminDashboardData } from '@/modules/reports'
 import { useLocale } from '@/components/providers/LocaleProvider'
@@ -43,9 +44,9 @@ export function HRAdminDashboard({ data }: Props) {
           marginBottom: 24,
         }}
       >
-        <h1
+        <PageTitle
           style={{
-            fontFamily: "'Fraunces', Georgia, serif",
+            fontFamily: 'var(--font-serif)',
             fontSize: 22,
             fontWeight: 700,
             color: 'var(--ink-1)',
@@ -53,7 +54,7 @@ export function HRAdminDashboard({ data }: Props) {
           }}
         >
           {locale === 'ar' ? 'التقارير والتحليلات' : 'Reports & Analytics'}
-        </h1>
+        </PageTitle>
         <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>{today}</span>
       </div>
 

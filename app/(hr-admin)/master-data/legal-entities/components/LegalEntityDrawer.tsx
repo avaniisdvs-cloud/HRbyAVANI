@@ -85,7 +85,7 @@ const inputStyle: React.CSSProperties = {
   paddingRight: "12px",
   paddingBottom: "10px",
   paddingLeft: "12px",
-  fontSize: 14,
+  fontSize: 'var(--text-body)',
   fontFamily: 'var(--font-sans)',
   color: 'var(--ink-1)',
   backgroundColor: 'var(--card)',

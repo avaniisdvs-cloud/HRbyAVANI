@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import type { FinanceDashboardData } from '@/modules/reports'
 import { useLocale } from '@/components/providers/LocaleProvider'
 import KPICard from '../_components/KPICard'
@@ -53,9 +54,9 @@ export function FinanceDashboard({ data }: Props) {
         }}
       >
         <div>
-          <h1
+          <PageTitle
             style={{
-              fontFamily: "'Fraunces', Georgia, serif",
+              fontFamily: 'var(--font-serif)',
               fontSize: 22,
               fontWeight: 700,
               color: 'var(--ink-1)',
@@ -63,7 +64,7 @@ export function FinanceDashboard({ data }: Props) {
             }}
           >
             {locale === 'ar' ? 'نظرة عامة على الرواتب' : 'Payroll Overview'}
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
             {today}
           </p>
@@ -111,7 +112,7 @@ export function FinanceDashboard({ data }: Props) {
             gap: 10,
           }}
         >
-          <span style={{ fontSize: 16 }}>⏳</span>
+          <span style={{ fontSize: 'var(--text-lead)' }}>⏳</span>
           <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-1)' }}>
             {locale === 'ar' ? 'لم يتم العثور على دورات رواتب. محرك الرواتب قادم في الدورة 12.' : 'No payroll runs found. Payroll engine coming in Sprint 12.'}
           </span>
@@ -183,11 +184,11 @@ export function FinanceDashboard({ data }: Props) {
                 }}
               >
                 <span
-                  style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-1)', textTransform: 'uppercase', letterSpacing: '0.04em' }}
+                  style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--ink-1)', textTransform: 'uppercase', letterSpacing: '0.04em' }}
                 >
                   {locale === 'ar' ? 'إجمالي صافي الأجور' : 'TOTAL NET PAY'}
                 </span>
-                <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-1)' }}>
+                <span style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--ink-1)' }}>
                   {formatAED(data.costBreakdown.totalNetPay)}
                 </span>
               </div>
@@ -202,11 +203,11 @@ export function FinanceDashboard({ data }: Props) {
                 }}
               >
                 <span
-                  style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-1)', textTransform: 'uppercase', letterSpacing: '0.04em' }}
+                  style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--ink-1)', textTransform: 'uppercase', letterSpacing: '0.04em' }}
                 >
                   {locale === 'ar' ? 'إجمالي تكلفة صاحب العمل' : 'TOTAL EMPLOYER COST'}
                 </span>
-                <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--brand-active)' }}>
+                <span style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--brand-active)' }}>
                   {formatAED(data.costBreakdown.totalEmployerCost)}
                 </span>
               </div>
@@ -237,7 +238,7 @@ export function FinanceDashboard({ data }: Props) {
                   borderBottom: '1px solid var(--border)',
                 }}
               >
-                <span style={{ fontSize: 15 }}>⏳</span>
+                <span style={{ fontSize: 'var(--text-body)' }}>⏳</span>
                 <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)', flex: 1 }}>{step}</span>
                 <span
                   style={{

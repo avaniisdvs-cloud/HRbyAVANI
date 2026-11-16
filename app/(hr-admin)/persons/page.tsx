@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { eq, and, asc } from 'drizzle-orm'
@@ -119,16 +120,16 @@ export default async function PersonsListPage({
         marginBottom: 18,
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <h1 style={{
+          <PageTitle style={{
             fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 600,
             letterSpacing: 0, color: 'var(--ink-1)', margin: 0,
           }}>
             {locale === 'ar' ? 'الموظفون' : 'Employees'}
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0, fontVariantNumeric: 'tabular-nums' }}>
             {locale === 'ar'
               ? `${pageResult.total} موظف · ${entityRows.length} كيانات قانونية`
-              : `${pageResult.total} people · ${entityRows.length} legal entities`}
+              : `${pageResult.total} people · ${entityRows.length} ${entityRows.length === 1 ? 'legal entity' : 'legal entities'}`}
           </p>
         </div>
         <Link

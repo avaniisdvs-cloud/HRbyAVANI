@@ -1,3 +1,4 @@
+import { SectionTitle } from '@/components/ui/typography'
 import Link from 'next/link'
 
 interface SectionHeaderProps {
@@ -11,7 +12,7 @@ export function SectionHeader({ title, titleAr, action, badge }: SectionHeaderPr
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-wrap items-center gap-2">
-        <h2 className="text-[18px] font-semibold leading-snug text-ink-1">{title}</h2>
+        <SectionTitle className="text-[length:var(--text-section-title)] font-semibold leading-snug text-ink-1">{title}</SectionTitle>
         {titleAr && (
           <span className="text-sm text-ink-3" dir="rtl" lang="ar">{titleAr}</span>
         )}

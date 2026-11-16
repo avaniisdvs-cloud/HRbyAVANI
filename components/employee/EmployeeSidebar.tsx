@@ -18,8 +18,10 @@ const NAV_ITEMS = [
   { href: '/me/documents',    labelEn: 'My Documents',       labelAr: 'وثائقي',            Icon: FolderOpen },
   { href: '/me/letters',      labelEn: 'My Letters',         labelAr: 'خطاباتي',           Icon: FileText   },
   { href: '/me/directory',    labelEn: 'Directory',          labelAr: 'الدليل',            Icon: Users      },
+  { href: '/me/accommodations', labelEn: 'Accommodation Request', labelAr: 'طلب التسهيلات', Icon: ClipboardList },
+  { href: '/me/requests/probation', labelEn: 'My Probation', labelAr: 'فترة تجربتي', Icon: ClipboardCheck },
   { href: '/me/aria',         labelEn: 'ARIA',               labelAr: 'آريا',               Icon: Bot        },
-  { href: '/org-chart',       labelEn: 'Organisation Chart', labelAr: 'المخطط التنظيمي',  Icon: Network    },
+  { href: '/org-chart',       labelEn: 'Employee Organization Structure', labelAr: 'الهيكل التنظيمي للموظفين',  Icon: Network    },
 ]
 
 interface Props {
@@ -164,7 +166,7 @@ export function EmployeeSidebar({ userName, userRole, initials, locale = 'en', p
                     <span style={{
                       fontSize: 'var(--text-caption)', fontWeight: 700,
                       padding: '1px 6px', borderRadius: 4,
-                      background: 'var(--accent)', color: 'white',
+                      background: 'var(--accent)', color: "var(--on-accent)",
                       marginLeft: 2, lineHeight: 1.6, flexShrink: 0,
                     }}>AI</span>
                   </span>

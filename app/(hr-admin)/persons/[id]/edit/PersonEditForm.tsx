@@ -544,7 +544,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
       {/* ── Profile Photo ──────────────────────────────────────────────── */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'الصورة الشخصية' : 'Profile Photo'}</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'الصورة الشخصية' : 'Profile Photo'}</h3>
         </div>
         <div style={{ padding: '16px 20px' }}>
           <PhotoUploadWidget
@@ -560,7 +560,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
       {/* overflow:visible so NationalitySelect's position:absolute dropdown isn't clipped */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'المعلومات الشخصية' : 'Personal Information'}</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'المعلومات الشخصية' : 'Personal Information'}</h3>
         </div>
         <div style={{ padding: '16px 20px' }} className="space-y-5">
           <div className="grid gap-3 sm:grid-cols-3">
@@ -716,7 +716,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
       {/* ── PII / Identity Documents ───────────────────────────────────── */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             {locale === 'ar' ? 'الوثائق الرسمية' : 'Identity Documents'}
             <Badge className="ms-2 align-middle" variant="secondary">{locale === 'ar' ? 'PDPL · مُشفّر' : 'PDPL · encrypted'}</Badge>
             {piiLocked && <Badge className="ms-2 align-middle" variant="outline">{locale === 'ar' ? 'للقراءة فقط · مُخفاة' : 'read-only · masked'}</Badge>}
@@ -823,7 +823,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
       {/* ── Insurance ──────────────────────────────────────────────────── */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'التأمين' : 'Insurance'}</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'التأمين' : 'Insurance'}</h3>
         </div>
         <div style={{ padding: '16px 20px' }} className="space-y-5">
           <div className="grid gap-3 sm:grid-cols-3">
@@ -882,7 +882,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
       {/* ── Employment Assignment ──────────────────────────────────────── */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'تعيين العمل' : 'Employment Assignment'}</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'تعيين العمل' : 'Employment Assignment'}</h3>
         </div>
         <div style={{ padding: '16px 20px' }} className="space-y-5">
           <div className="grid gap-3 sm:grid-cols-2">
@@ -1085,7 +1085,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
       {/* ── Preferences ────────────────────────────────────────────────── */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'التفضيلات' : 'Preferences'}</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'التفضيلات' : 'Preferences'}</h3>
         </div>
         <div style={{ padding: '16px 20px' }}>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -1119,7 +1119,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
       {customFields.length > 0 && (
         <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-            <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+            <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
               {locale === 'ar' ? 'حقول مخصّصة' : 'Custom Fields'}
             </h3>
           </div>
@@ -1266,7 +1266,7 @@ const ContactsEditor = forwardRef<EditorHandle, {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'جهات الاتصال' : 'Contacts'}
           {dirty && <span style={{ marginLeft: 8, fontSize: 'var(--text-caption)', color: 'var(--brand-active)', fontWeight: 500 }}>{locale === 'ar' ? '● غير محفوظة' : '● unsaved'}</span>}
         </h3>
@@ -1517,7 +1517,7 @@ const EmergencyContactEditor = forwardRef<EditorHandle, {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'جهة اتصال الطوارئ' : 'Emergency Contact'}
           {dirty && <span style={{ marginLeft: 8, fontSize: 'var(--text-caption)', color: 'var(--brand-active)', fontWeight: 500 }}>{locale === 'ar' ? '● غير محفوظة' : '● unsaved'}</span>}
         </h3>
@@ -1595,7 +1595,7 @@ const HomeAddressEditor = forwardRef<EditorHandle, {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'عنوان البلد الأصلي' : 'Home Country Address'}
           {dirty && <span style={{ marginLeft: 8, fontSize: 'var(--text-caption)', color: 'var(--brand-active)', fontWeight: 500 }}>{locale === 'ar' ? '● غير محفوظة' : '● unsaved'}</span>}
         </h3>
@@ -1692,7 +1692,7 @@ const EducationEditor = forwardRef<EditorHandle, {
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+        <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
           {locale === 'ar' ? 'أعلى مؤهل' : 'Highest Qualification'}
           {dirty && <span style={{ marginLeft: 8, fontSize: 'var(--text-caption)', color: 'var(--brand-active)', fontWeight: 500 }}>{locale === 'ar' ? '● غير محفوظ' : '● unsaved'}</span>}
         </h3>

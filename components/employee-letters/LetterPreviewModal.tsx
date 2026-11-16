@@ -69,7 +69,7 @@ export function LetterPreviewModal({ letter, onClose }: Props) {
           padding: '14px 48px 14px 20px', borderBottom: '1px solid var(--border)', flexShrink: 0,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <span style={{ fontWeight: 600, fontSize: 14, color: 'var(--ink-1)' }}>
+            <span style={{ fontWeight: 600, fontSize: 'var(--text-body)', color: 'var(--ink-1)' }}>
               {letter.letterNumber}
             </span>
             {letter.employeeName && (
@@ -93,7 +93,7 @@ export function LetterPreviewModal({ letter, onClose }: Props) {
                 style={{
                   display: 'flex', alignItems: 'center', gap: 5,
                   padding: '6px 14px', borderRadius: 6, border: 'none', cursor: 'pointer',
-                  background: 'var(--accent)', color: '#fff',
+                  background: 'var(--accent)', color: "var(--on-accent)",
                   fontSize: 'var(--text-caption)', fontWeight: 600,
                 }}
               >

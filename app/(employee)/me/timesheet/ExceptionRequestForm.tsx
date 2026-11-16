@@ -68,7 +68,7 @@ export function ExceptionRequestForm() {
     display:       'flex',
     flexDirection: 'column',
     gap:           '0.25rem',
-    fontSize:      '0.8rem',
+    fontSize:      'var(--text-caption)',
     color:         'var(--muted-foreground)',
   }
 
@@ -111,13 +111,13 @@ export function ExceptionRequestForm() {
       </label>
 
       {error && (
-        <div style={{ padding: '0.5rem 0.75rem', borderRadius: '0.375rem', background: 'var(--status-rejected-bg)', color: 'var(--status-rejected-fg)', fontSize: '0.8rem' }}>
+        <div style={{ padding: '0.5rem 0.75rem', borderRadius: '0.375rem', background: 'var(--status-rejected-bg)', color: 'var(--status-rejected-fg)', fontSize: 'var(--text-caption)' }}>
           {error}
         </div>
       )}
 
       {success && (
-        <div style={{ padding: '0.5rem 0.75rem', borderRadius: '0.375rem', background: 'var(--status-approved-bg)', color: 'var(--status-approved-fg)', fontSize: '0.8rem' }}>
+        <div style={{ padding: '0.5rem 0.75rem', borderRadius: '0.375rem', background: 'var(--status-approved-bg)', color: 'var(--status-approved-fg)', fontSize: 'var(--text-caption)' }}>
           Exception request submitted successfully.
         </div>
       )}

@@ -151,7 +151,7 @@ export function RequestLetterForm({ types, personId }: Props) {
           disabled={isPending}
           style={{
             display: 'flex', alignItems: 'center', gap: 6,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             border: 'none', borderRadius: 6, padding: '8px 16px',
             fontSize: 'var(--text-body)', fontWeight: 500,
             cursor: isPending ? 'not-allowed' : 'pointer',

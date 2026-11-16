@@ -212,7 +212,7 @@ export function LocationClient({ initialData, auditHistory, legalEntities }: Loc
           <tbody>
             {sorted.length === 0 ? (
               <tr>
-                <td colSpan={8} style={{ padding: '48px 24px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 14 }}>
+                <td colSpan={8} style={{ padding: '48px 24px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 'var(--text-body)' }}>
                   {data.length === 0
                     ? (locale === 'ar' ? 'لا توجد مواقع بعد. أنشئ الموقع الأول.' : 'No locations yet. Create the first one.')
                     : (locale === 'ar' ? 'لا توجد مواقع تطابق عوامل التصفية الحالية.' : 'No locations match the current filters.')}
@@ -244,7 +244,7 @@ export function LocationClient({ initialData, auditHistory, legalEntities }: Loc
 
                   {/* Name EN */}
                   <td style={{ padding: '14px 8px', verticalAlign: 'middle' }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--ink-1)' }}>
+                    <div style={{ fontSize: 'var(--text-body)', fontWeight: 500, color: 'var(--ink-1)' }}>
                       {row.nameEn}
                     </div>
                     {row.nameAr && (
@@ -351,7 +351,7 @@ export function LocationClient({ initialData, auditHistory, legalEntities }: Loc
       {toastMsg && (
         <div style={{
           position: 'fixed', bottom: 24, right: 24, zIndex: 100,
-          background: 'var(--ink-1)', color: '#fff',
+          background: 'var(--ink-1)', color: "var(--on-accent)",
           padding: '10px 18px', borderRadius: 8,
           fontSize: 'var(--text-body)', fontWeight: 500,
           boxShadow: '0 8px 24px rgba(0,0,0,0.2)',

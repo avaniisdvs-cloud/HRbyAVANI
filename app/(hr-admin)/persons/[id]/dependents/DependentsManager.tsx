@@ -129,7 +129,7 @@ export function DependentsManager({ personId, atCap }: Props) {
     return (
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             {locale === 'ar' ? 'إضافة مُعال' : 'Add dependent'}
             <Badge className="ms-2 align-middle" variant="outline">{locale === 'ar' ? 'تم بلوغ الحد الأقصى' : 'cap reached'}</Badge>
           </h3>
@@ -147,7 +147,7 @@ export function DependentsManager({ personId, atCap }: Props) {
 
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إضافة مُعال' : 'Add dependent'}</h3></div>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إضافة مُعال' : 'Add dependent'}</h3></div>
       <div style={{ padding: '16px 20px' }}>
         <form onSubmit={onSubmit} className="space-y-5">
           <div className="grid gap-3 sm:grid-cols-3">

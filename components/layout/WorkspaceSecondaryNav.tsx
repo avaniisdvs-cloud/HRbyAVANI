@@ -30,7 +30,7 @@ const SUPPRESS_SECONDARY_NAV = new Set(['admin', 'ai', 'reports', 'documents', '
 
 // ── Active item helper ────────────────────────────────────────────────────────
 
-function isItemActive(pathname: string, item: WorkspaceItem): boolean {
+export function isItemActive(pathname: string, item: WorkspaceItem): boolean {
   if (item.comingSoon) return false
   const prefix = item.match ?? item.route
   if (prefix === '/dashboard') return pathname === '/dashboard'
@@ -257,7 +257,7 @@ export function WorkspaceSecondaryNav({
                         fontWeight:    700,
                         letterSpacing: '0.08em',
                         textTransform: 'uppercase',
-                        color:         'white',
+                        color:         "var(--on-accent)",
                         background:    'var(--accent)',
                         padding:       '2px 5px',
                         borderRadius:  4,

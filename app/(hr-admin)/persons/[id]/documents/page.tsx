@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { and, asc, desc, eq, isNotNull } from 'drizzle-orm'
@@ -132,12 +133,12 @@ export default async function DocumentsPage({
         <Link href={`/persons/${person.id}`} className="text-sm text-ink-3 hover:text-accent">
           ← Back to profile
         </Link>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600,
           color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0,
         }}>
           Documents
-        </h1>
+        </PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {person.personNumber} · {person.fullNameEn ?? '—'}
           <span className="mx-2 text-ink-3">·</span>

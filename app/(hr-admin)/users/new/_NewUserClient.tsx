@@ -379,7 +379,7 @@ export function NewUserClient({
               <div style={{
                 position: 'absolute', top: 2, left: showPwdFields ? 16 : 2,
                 width: 16, height: 16, borderRadius: '50%',
-                background: '#fff', transition: 'left 0.15s',
+                background: "var(--card)", transition: 'left 0.15s',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.25)',
               }} />
             </div>
@@ -457,7 +457,7 @@ export function NewUserClient({
             disabled={isPending || (mode === 'employee' && persons.length === 0)}
             style={{
               height: 36, borderRadius: 7, border: 'none',
-              background: 'var(--accent)', color: '#fff',
+              background: 'var(--accent)', color: "var(--on-accent)",
               padding: '0 22px', fontSize: 'var(--text-body)', fontWeight: 600,
               cursor: isPending ? 'wait' : 'pointer', opacity: isPending ? 0.7 : 1,
               transition: 'opacity 0.15s',

@@ -1,0 +1,23 @@
+{
+  "baselineFiles": 857,
+  "changedCount": 419,
+  "added": [
+    "components/ui/TableScrollRegion.tsx",
+    "components/forms/FormErrorSummary.tsx",
+    "components/layout/ConnectionNotice.tsx",
+    "lib/demo-accounts.ts",
+    "drizzle/seeds/seed-preview.ts",
+    "public/avaniis_img3_villa.jpg",
+    "public/avaniis_img2_pool.jpg",
+    "public/avaniis_img1_office.jpg",
+    "public/avaniis-logo.jpg",
+    "public/avaniis-logo.png"
+  ],
+  "baselinePages": 123,
+  "currentPages": 123,
+  "baselineAPIs": 28,
+  "currentAPIs": 28,
+  "absentOriginalPublicAssetCount": 11,
+  "missingApplicationSourceFiles": 0,
+  "baselineDescription": "Original user-supplied ZIP"
+}

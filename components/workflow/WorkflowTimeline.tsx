@@ -75,7 +75,7 @@ export function WorkflowTimeline({
       {show.chain && (
       <div style={card}>
         <div style={head}>
-          <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{ar ? 'سلسلة الموافقة' : 'Approval chain'}</h3>
+          <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{ar ? 'سلسلة الموافقة' : 'Approval chain'}</h3>
         </div>
         <div style={{ padding: '4px 0' }}>
           {instance.steps.map((step, i) => (

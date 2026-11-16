@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { auth, roleHome } from '@/lib/auth'
@@ -37,9 +38,9 @@ export default async function WorkflowHistoryPage({
           {locale === 'ar' ? '← العودة إلى سير العمل' : '← Back to workflow'}
         </Link>
         <div className="flex flex-wrap items-center gap-3">
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>
+          <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 600, color: 'var(--ink-1)', letterSpacing: '-0.5px', margin: 0 }}>
             {locale === 'ar' ? 'السجل' : 'History'}
-          </h1>
+          </PageTitle>
           <Badge>{detail.status}</Badge>
         </div>
         <p className="mt-1 font-mono text-xs text-ink-3">
@@ -50,7 +51,7 @@ export default async function WorkflowHistoryPage({
       {/* Workflow summary */}
       <div style={{ marginTop: 24, background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             {locale === 'ar' ? 'ملخّص سير العمل' : 'Workflow summary'}
           </h3>
         </div>
@@ -74,7 +75,7 @@ export default async function WorkflowHistoryPage({
       {/* Approval chain */}
       <div style={{ marginTop: 24, background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             {locale === 'ar' ? 'سلسلة الموافقة' : 'Approval chain'} ({detail.steps.length})
           </h3>
         </div>
@@ -120,7 +121,7 @@ export default async function WorkflowHistoryPage({
       {/* Audit timeline */}
       <div style={{ marginTop: 24, background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             {locale === 'ar' ? 'جدول القرارات' : 'Decision timeline'} ({detail.auditEvents.length})
           </h3>
         </div>

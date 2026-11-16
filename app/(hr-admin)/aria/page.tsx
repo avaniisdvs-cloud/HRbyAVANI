@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth, roleHome } from '@/lib/auth'
 import { getLocale } from '@/lib/locale-server'
@@ -154,9 +155,9 @@ export default async function AriaAdminPage() {
     return (
       <div style={bleedStyle}>
         <div style={{ flexShrink: 0, padding: '20px 24px 16px', borderBottom: '1px solid var(--border)' }}>
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             ARIA
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '2px 0 0' }}>
             HR Intelligence Assistant · Powered by Claude
           </p>

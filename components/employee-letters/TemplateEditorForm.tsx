@@ -402,7 +402,7 @@ export function TemplateEditorForm({ typeCode, typeName, template, tokens, onSav
             style={{
               display: 'flex', alignItems: 'center', gap: 5,
               padding: '7px 14px', borderRadius: 6, border: 'none', cursor: 'pointer',
-              background: 'var(--accent)', color: '#fff', fontSize: 'var(--text-caption)', fontWeight: 600,
+              background: 'var(--accent)', color: "var(--on-accent)", fontSize: 'var(--text-caption)', fontWeight: 600,
               whiteSpace: 'nowrap', flexShrink: 0,
               marginLeft: 12,
             }}
@@ -671,7 +671,7 @@ export function TemplateEditorForm({ typeCode, typeName, template, tokens, onSav
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
               padding: '7px 18px', borderRadius: 6, border: 'none', cursor: 'pointer',
-              background: 'var(--accent)', color: '#fff',
+              background: 'var(--accent)', color: "var(--on-accent)",
               fontSize: 'var(--text-body)', fontWeight: 600,
               opacity: (isPending || !nameEn.trim() || !bodyEn.trim()) ? 0.6 : 1,
             }}

@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import { auth, roleHome } from '@/lib/auth'
@@ -45,9 +46,9 @@ export default async function EditWorkflowTemplatePage({
           {locale === 'ar' ? '← العودة إلى القوالب' : '← All templates'}
         </Link>
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="font-serif text-2xl text-ink-1">
+          <PageTitle className="font-serif text-2xl text-ink-1">
             {locale === 'ar' ? 'تعديل القالب' : 'Edit workflow template'}
-          </h1>
+          </PageTitle>
           <Badge variant="outline">v{template.version}</Badge>
           {template.isActive
             ? <Badge>{locale === 'ar' ? 'نشط' : 'Active'}</Badge>
@@ -65,7 +66,7 @@ export default async function EditWorkflowTemplatePage({
 
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-          <h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="text-base">{locale === 'ar' ? 'تفاصيل القالب' : 'Template details'}</h3>
+          <h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }} className="text-base">{locale === 'ar' ? 'تفاصيل القالب' : 'Template details'}</h3>
         </div>
         <div style={{ padding: '16px 20px' }}>
           <WorkflowTemplateForm

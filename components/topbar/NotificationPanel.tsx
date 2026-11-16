@@ -481,7 +481,7 @@ export function NotificationPanel({ personId, tenantId, onClose, onCountChange }
                         display: 'inline-flex', alignItems: 'center', gap: 6,
                         marginTop: 4,
                         padding: '8px 14px', borderRadius: 7,
-                        background: '#7C3AED', color: '#fff',
+                        background: '#7C3AED', color: "var(--on-accent)",
                         fontSize: 'var(--text-caption)', fontWeight: 600,
                         textDecoration: 'none',
                         fontFamily: 'var(--font-sans)',

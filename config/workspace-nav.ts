@@ -184,7 +184,7 @@ export const WORKSPACE_NAV: WorkspaceConfig = [
         items: [
           { id: 'employees', labelEn: 'Employees',         labelAr: 'الموظفون',                icon: Users,   route: '/persons' },
           { id: 'directory', labelEn: 'Directory',         labelAr: 'الدليل',                  icon: Grid,    route: '/directory' },
-          { id: 'org-chart', labelEn: 'Org Chart',         labelAr: 'المخطط التنظيمي',         icon: Network, route: '/org-chart' },
+          { id: 'org-chart', labelEn: 'Employee Organization Structure',         labelAr: 'الهيكل التنظيمي للموظفين',         icon: Network, route: '/org-chart' },
           { id: 'my-team',   labelEn: 'My Team',           labelAr: 'فريقي',                   icon: Users,   route: '/my-team',  match: '/my-team' },
           { id: 'import',    labelEn: 'Import Employees',  labelAr: 'استيراد الموظفين',        icon: Upload,  route: '/persons/import', match: '/persons/import', isNew: true },
         ],

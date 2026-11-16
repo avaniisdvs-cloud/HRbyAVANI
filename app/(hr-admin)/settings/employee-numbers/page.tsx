@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect }            from 'next/navigation'
 import { auth }                from '@/lib/auth'
 import { listEmpNumberConfig } from './actions'
@@ -25,7 +26,7 @@ export default async function EmpNumbersPage() {
     <div>
       {/* Page header */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{
+        <PageTitle style={{
           fontFamily:    'var(--font-serif)',
           fontSize:      24,
           fontWeight:    500,
@@ -34,7 +35,7 @@ export default async function EmpNumbersPage() {
           letterSpacing: '-0.4px',
         }}>
           Employee Numbers
-        </h1>
+        </PageTitle>
         <p style={{ marginTop: 6, fontSize: 'var(--text-body)', color: 'var(--ink-3)',
         marginRight: "0",
         marginBottom: "0",

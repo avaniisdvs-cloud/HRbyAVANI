@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
@@ -39,7 +40,7 @@ export default async function PolicySettingsPage() {
   return (
     <div className="page-in">
       <div>
-        <h1 className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'إعدادات السياسة' : 'Policy settings'}</h1>
+        <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'إعدادات السياسة' : 'Policy settings'}</PageTitle>
         <p className="mt-1 text-sm text-ink-3">
           {locale === 'ar'
             ? 'يمكن تعديل الإعدادات القابلة للتجاوز مباشرة. أما إعدادات النظام فتتطلب ترحيلاً.'
@@ -50,7 +51,7 @@ export default async function PolicySettingsPage() {
       {Object.entries(grouped).map(([module, rows]) => (
         <div key={module} style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             <header className="border-b border-border px-5 py-3">
-              <h2 className="font-sans text-sm font-semibold text-ink-1">{module}</h2>
+              <SectionTitle className="font-sans text-sm font-semibold text-ink-1">{module}</SectionTitle>
             </header>
             <TableScrollRegion><table className="w-full text-sm">
               <thead className="border-b border-border bg-surface text-xs uppercase text-ink-3">

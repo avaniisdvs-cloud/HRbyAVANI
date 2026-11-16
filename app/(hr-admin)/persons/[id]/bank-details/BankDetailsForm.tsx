@@ -91,7 +91,7 @@ export function BankDetailsForm({ personId }: { personId: string }) {
 
   return (
     <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إضافة سجل جديد' : 'Add new record'}</h3></div>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}><h3 style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'إضافة سجل جديد' : 'Add new record'}</h3></div>
       <div style={{ padding: '16px 20px' }}>
         <form onSubmit={onSubmit} className="space-y-5">
           <div className="grid gap-3 sm:grid-cols-2">

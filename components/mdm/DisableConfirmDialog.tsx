@@ -76,7 +76,7 @@ export function DisableConfirmDialog({
               border: '1.5px solid var(--border)',
               borderRadius: 8,
               padding: '10px 12px',
-              fontSize: 14,
+              fontSize: 'var(--text-body)',
               fontFamily: 'var(--font-sans)',
               color: 'var(--ink-1)',
               background: 'var(--card)',

@@ -83,7 +83,7 @@ export function SidebarUserCard({
     <div style={{
       width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
       background: isDark ? 'linear-gradient(135deg, var(--accent), var(--accent-700))' : 'var(--accent)',
-      color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      color: "var(--on-accent)", display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: 'var(--text-caption)', fontWeight: 700, fontFamily: 'var(--font-sans)',
       boxShadow: isDark ? 'none' : '0 0 0 2px var(--card)',
     }}>

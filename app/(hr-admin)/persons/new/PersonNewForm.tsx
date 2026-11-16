@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import React, { useState, useTransition, useEffect, useRef, type FormEvent } from 'react'
 import { FormErrorSummary } from '@/components/forms/FormErrorSummary'
 import { useRouter } from 'next/navigation'
@@ -273,9 +274,9 @@ function SectionHeader({ icon, title, arabic, badge }: {
       borderBottom: '1px solid var(--border)',
     }}>
       {icon}
-      <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{title}</span>
+      <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{title}</span>
       {arabic && (
-        <span style={{ fontSize: 14, color: 'var(--ink-3)' }}>· {arabic}</span>
+        <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>· {arabic}</span>
       )}
       {badge}
     </div>
@@ -731,12 +732,12 @@ export function PersonNewForm({
         }}>
           <Clock size={24} strokeWidth={1.75} />
         </div>
-        <h2 style={{
+        <SectionTitle style={{
           fontFamily: 'var(--font-serif)', fontSize: 22, fontWeight: 500,
           color: 'var(--ink-1)', margin: '0 0 8px',
         }}>
           {locale === 'ar' ? 'قيد الموافقة' : 'Pending Approval'}
-        </h2>
+        </SectionTitle>
         <div style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)',
         marginBottom: 24 }}>
           <strong>{personFullName}</strong> — {personNumber}
@@ -1236,7 +1237,7 @@ export function PersonNewForm({
                   placeholder="100"
                   style={{
                     width: '100%', border: '1.5px solid var(--border)', borderRadius: 8,
-                    padding: '10px 12px', fontSize: 14, background: 'var(--card)',
+                    padding: '10px 12px', fontSize: 'var(--text-body)', background: 'var(--card)',
                     color: 'var(--ink-1)', outline: 'none', boxSizing: 'border-box' as const,
                     opacity: (!state.projectId || !projectEnabled) ? 0.5 : 1,
                   }}
@@ -1386,7 +1387,7 @@ export function PersonNewForm({
             <SectionCard>
               <div style={{ paddingBottom: 16,
               marginBottom: 20, borderBottom: '1px solid var(--border)' }}>
-                <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'حقول مخصّصة' : 'Custom Fields'}</span>
+                <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>{locale === 'ar' ? 'حقول مخصّصة' : 'Custom Fields'}</span>
               </div>
               {formConfig.sections.length > 0
                 ? formConfig.sections.map(section => {

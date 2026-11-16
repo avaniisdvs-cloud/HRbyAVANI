@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { getEmployeeDashboardData } from '@/modules/reports'
@@ -22,9 +23,9 @@ export default async function EmployeeDashboardPage() {
     <div className="page-in" style={{ maxWidth: 760, margin: '0 auto' }}>
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div style={{ marginBottom: 28 }}>
-        <h1
+        <PageTitle
           style={{
-            fontFamily: "'Fraunces', Georgia, serif",
+            fontFamily: 'var(--font-serif)',
             fontSize: 24,
             fontWeight: 700,
             color: 'var(--ink-1)',
@@ -32,7 +33,7 @@ export default async function EmployeeDashboardPage() {
           }}
         >
           Good {greeting}, {data.personName ?? 'there'} 👋
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '6px 0 0' }}>
           {new Date().toLocaleDateString('en-GB', {
             weekday: 'long',

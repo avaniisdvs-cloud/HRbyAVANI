@@ -106,7 +106,7 @@ export function LetterListTable({ letters, onPreview, onDownload, onSendEmail, o
     return (
       <div style={{ textAlign: 'center', padding: '48px 0', color: 'var(--ink-3)' }}>
         <FileText size={32} style={{ margin: '0 auto 12px', opacity: 0.4 }} />
-        <p style={{ margin: 0, fontSize: 14 }}>{locale === 'ar' ? 'لم يتم إنشاء أي خطابات بعد.' : 'No letters generated yet.'}</p>
+        <p style={{ margin: 0, fontSize: 'var(--text-body)' }}>{locale === 'ar' ? 'لم يتم إنشاء أي خطابات بعد.' : 'No letters generated yet.'}</p>
       </div>
     )
   }

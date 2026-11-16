@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useEffect } from 'react'
 import { ScrollText, Lock } from 'lucide-react'
@@ -74,7 +75,7 @@ export default function AriaAuditLogView({ sessionCtx, onAskAria }: Props) {
     return (
       <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, background: 'var(--bg)' }}>
         <Lock size={40} style={{ color: 'var(--ink-4)' }} />
-        <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--ink-2)', margin: 0 }}>{locale === 'ar' ? 'الوصول مقيَّد' : 'Access Restricted'}</p>
+        <p style={{ fontSize: 'var(--text-lead)', fontWeight: 600, color: 'var(--ink-2)', margin: 0 }}>{locale === 'ar' ? 'الوصول مقيَّد' : 'Access Restricted'}</p>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>{locale === 'ar' ? 'سجل التدقيق متاح فقط لمدير الموارد البشرية والمسؤول الأعلى' : 'Audit Log is only available to HR Director and Super Admin'}</p>
       </div>
     )
@@ -83,9 +84,9 @@ export default function AriaAuditLogView({ sessionCtx, onAskAria }: Props) {
   return (
     <div style={{ height: '100%', overflowY: 'auto', padding: 24, background: 'var(--bg)', boxSizing: 'border-box' }}>
       <div style={{ marginBottom: 16 }}>
-        <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)', display: 'flex', alignItems: 'center', gap: 10 }}>
+        <SectionTitle style={{ margin: 0, fontSize: 20, fontWeight: 700, fontFamily: 'var(--font-serif)', color: 'var(--ink-1)', display: 'flex', alignItems: 'center', gap: 10 }}>
           <ScrollText size={20} /> {locale === 'ar' ? 'سجل التدقيق' : 'Audit Log'}
-        </h2>
+        </SectionTitle>
         <p style={{ margin: '4px 0 0', fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>
           {locale === 'ar' ? `${rows.length} إدخالاً · وصول مقيَّد` : `${rows.length} entries · Restricted access`}
         </p>
@@ -115,7 +116,7 @@ export default function AriaAuditLogView({ sessionCtx, onAskAria }: Props) {
           onClick={() => loadRows(0)}
           style={{
             padding: '5px 14px', borderRadius: 7, cursor: 'pointer', fontSize: 'var(--text-caption)', fontWeight: 600,
-            background: 'var(--accent)', color: 'white', border: 'none',
+            background: 'var(--accent)', color: "var(--on-accent)", border: 'none',
           }}
         >
           {locale === 'ar' ? 'تطبيق' : 'Apply'}

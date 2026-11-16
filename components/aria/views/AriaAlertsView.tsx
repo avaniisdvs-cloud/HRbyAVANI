@@ -1,5 +1,6 @@
 'use client'
 
+import { SectionTitle } from '@/components/ui/typography'
 import { useState, useEffect, useCallback } from 'react'
 import { Bell, FileText, CreditCard, Briefcase, RefreshCw, ChevronRight } from 'lucide-react'
 import { getExpiryAlerts } from '@/modules/aria'
@@ -136,7 +137,7 @@ export default function AriaAlertsView({ onAskAria }: Props) {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         marginBottom: 14 }}>
           <div>
-            <h2 style={{
+            <SectionTitle style={{
               fontFamily: 'var(--font-serif)',
               fontSize: '20px',
               fontWeight: 600,
@@ -144,7 +145,7 @@ export default function AriaAlertsView({ onAskAria }: Props) {
               margin: '0 0 2px',
             }}>
               {locale === 'ar' ? 'التنبيهات والمواعيد' : 'Alerts & Deadlines'}
-            </h2>
+            </SectionTitle>
             <p style={{ fontSize: '12px', color: 'var(--ink-3)', margin: 0 }}>
               {loading
                 ? tk(locale, 'common.loading')
@@ -260,7 +261,7 @@ export default function AriaAlertsView({ onAskAria }: Props) {
             paddingTop: 60, gap: 12, textAlign: 'center',
           }}>
             <Bell size={36} style={{ color: 'var(--ink-4)' }} />
-            <p style={{ fontSize: 14, color: 'var(--ink-3)', margin: 0 }}>
+            <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
               {locale === 'ar'
                 ? (activeTab === 'all' ? 'لا توجد تنبيهات انتهاء خلال التسعين يوماً القادمة' : 'لا توجد تنبيهات مطابقة')
                 : (activeTab === 'all' ? 'No expiry alerts in the next 90 days' : `No ${activeTab} alerts`)

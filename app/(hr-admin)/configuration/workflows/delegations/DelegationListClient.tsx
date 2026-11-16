@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { GitBranch, MoreHorizontal, Plus, Eye, XCircle } from 'lucide-react'
@@ -107,7 +108,7 @@ export function DelegationListClient({ initialRules }: Props) {
           fontSize: 'var(--text-body)', fontWeight: 500, display: 'flex', justifyContent: 'space-between',
         }}>
           {revokeError}
-          <button onClick={() => setRevokeError(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontSize: 16, lineHeight: 1 }}>×</button>
+          <button onClick={() => setRevokeError(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontSize: 'var(--text-lead)', lineHeight: 1 }}>×</button>
         </div>
       )}
       {/* Header */}
@@ -116,9 +117,9 @@ export function DelegationListClient({ initialRules }: Props) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <GitBranch size={20} color="var(--accent)" />
           <div>
-            <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
+            <PageTitle style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', margin: 0 }}>
               {locale === 'ar' ? 'قواعد التفويض' : 'Delegation Rules'}
-            </h1>
+            </PageTitle>
             <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)',
             marginRight: 0,
             marginBottom: 0,
@@ -132,7 +133,7 @@ export function DelegationListClient({ initialRules }: Props) {
           onClick={() => setDrawerOpen(true)}
           style={{
             display: 'flex', alignItems: 'center', gap: 6,
-            background: 'var(--accent)', color: '#fff',
+            background: 'var(--accent)', color: "var(--on-accent)",
             border: 'none', borderRadius: 'var(--radius)', padding: '8px 14px',
             fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer',
           }}
@@ -167,7 +168,7 @@ export function DelegationListClient({ initialRules }: Props) {
       {/* Table */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         {filtered.length === 0 ? (
-          <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--ink-3)', fontSize: 14 }}>
+          <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--ink-3)', fontSize: 'var(--text-body)' }}>
             {locale === 'ar' ? 'لا توجد قواعد تفويض.' : 'No delegation rules found.'}
           </div>
         ) : (

@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { redirect }    from 'next/navigation'
 import Link            from 'next/link'
@@ -177,9 +178,9 @@ export default async function PayrollDashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
+          <PageTitle className="text-2xl font-semibold text-[var(--ink-1)]" style={{ fontFamily: 'var(--font-serif)' }}>
             {locale === 'ar' ? 'الرواتب' : 'Payroll'}
-          </h1>
+          </PageTitle>
           <p className="mt-0.5 text-sm text-[var(--ink-3)]">{locale === 'ar' ? 'إدارة دورات الرواتب وعناصر الراتب ونهاية الخدمة وحماية الأجور' : 'Manage payroll runs, salary elements, EOSB, and WPS'}</p>
         </div>
         <Link
@@ -285,7 +286,7 @@ export default async function PayrollDashboardPage() {
       {recentRuns.length > 0 && (
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)]">
           <div className="flex items-center justify-between border-b border-[var(--border)] px-4 py-3">
-            <h2 className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'أحدث دورات الرواتب' : 'Recent Payroll Runs'}</h2>
+            <SectionTitle className="text-sm font-semibold text-[var(--ink-1)]">{locale === 'ar' ? 'أحدث دورات الرواتب' : 'Recent Payroll Runs'}</SectionTitle>
             <Link href="/payroll/runs" className="text-xs text-[var(--accent)] hover:underline">{locale === 'ar' ? 'عرض الكل ←' : 'View all →'}</Link>
           </div>
           <TableScrollRegion><table className="w-full text-sm">

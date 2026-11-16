@@ -252,7 +252,7 @@ export function DayHoursGrid({ value, onChange, disabled = false }: DayHoursGrid
         <span style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)' }}>{locale === 'ar' ? 'الإجمالي:' : 'Total:'}</span>
         <span style={{
           fontFamily: 'var(--font-mono)',
-          fontSize: 15,
+          fontSize: 'var(--text-body)',
           fontWeight: 700,
           color: showOverLimitWarning ? '#E65100' : 'var(--ink-1)',
         }}>
@@ -279,7 +279,7 @@ export function DayHoursGrid({ value, onChange, disabled = false }: DayHoursGrid
           alignItems: 'flex-start',
           gap: 6,
         }}>
-          <span style={{ fontSize: 14, flexShrink: 0 }}>⚠️</span>
+          <span style={{ fontSize: 'var(--text-body)', flexShrink: 0 }}>⚠️</span>
           <span>{locale === 'ar' ? 'أيام عمل غير قياسية — تحقق مع الشؤون القانونية (BR-WH-003)' : 'Non-standard working days — verify with Legal (BR-WH-003)'}</span>
         </div>
       )}

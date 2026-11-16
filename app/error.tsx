@@ -41,7 +41,7 @@ export default function GlobalError({
         <AlertTriangle size={22} strokeWidth={1.75} />
       </div>
       <div style={{ textAlign: 'center', maxWidth: 480 }}>
-        <div style={{ fontSize: 16, fontWeight: 600, color: '#151A22', marginBottom: 6 }}>
+        <div style={{ fontSize: 'var(--text-lead)', fontWeight: 600, color: '#151A22', marginBottom: 6 }}>
           Something went wrong
         </div>
         <div style={{ fontSize: 'var(--text-body)', color: '#6E7885', marginBottom: 4, lineHeight: 1.6 }}>
@@ -54,7 +54,7 @@ export default function GlobalError({
         <button
           onClick={reset}
           style={{
-            background: '#2E6170', color: '#fff',
+            background: '#2E6170', color: "var(--on-accent)",
             border: 'none', borderRadius: 7, padding: '9px 20px',
             fontSize: 'var(--text-body)', fontWeight: 600, cursor: 'pointer',
           }}

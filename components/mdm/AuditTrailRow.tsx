@@ -57,7 +57,7 @@ export function AuditTrailRow({ entry, resourceLabel }: AuditTrailRowProps) {
       padding:      '10px 0',
       borderBottom: '1px solid var(--border)',
     }}>
-      <span style={{ fontSize: 14, flexShrink: 0, marginTop: 1 }}>{icon}</span>
+      <span style={{ fontSize: 'var(--text-body)', flexShrink: 0, marginTop: 1 }}>{icon}</span>
       <div style={{ minWidth: 0 }}>
         <div style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-2)', fontWeight: 500 }}>
           {label} by {entry.actorName}

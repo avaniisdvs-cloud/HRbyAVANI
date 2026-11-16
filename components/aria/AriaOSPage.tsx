@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import {
   Home, CheckSquare, Bell, Users, BarChart3,
   GitBranch, Shield, BookOpen, FileText, ScrollText, Bot,
@@ -138,9 +139,9 @@ export default function AriaOSPage({ sessionCtx, kpis, locale, userName }: Props
   return (
     <div style={{ display: 'flex', height: '100%', overflow: 'hidden', background: 'var(--bg)' }}>
       {/* Visually-hidden h1 for screen readers and Playwright heading detection (WCAG 1.3.1) */}
-      <h1 style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
+      <PageTitle style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
         ARIA OS
-      </h1>
+      </PageTitle>
 
       {/* Main content — full width, no secondary sidebar */}
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
@@ -254,7 +255,7 @@ export default function AriaOSPage({ sessionCtx, kpis, locale, userName }: Props
                     height: 16,
                     borderRadius: 8,
                     background: 'var(--accent)',
-                    color: '#FFFFFF',
+                    color: "var(--on-accent)",
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

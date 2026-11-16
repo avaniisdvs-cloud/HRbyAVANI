@@ -183,7 +183,7 @@ export default function MicPermissionGuide({
         <span style={{ fontSize: 18, flexShrink: 0, color: headerColor }}>🎤</span>
         <div>
           <p style={{
-            margin: 0, fontSize: 14, fontWeight: 600,
+            margin: 0, fontSize: 'var(--text-body)', fontWeight: 600,
             color: 'var(--ink-1)', fontFamily: 'var(--font-serif, serif)',
           }}>
             {t.titles[type]}
@@ -278,7 +278,7 @@ export default function MicPermissionGuide({
             style={{
               padding: '7px 16px', borderRadius: 8, fontSize: 'var(--text-caption)', fontWeight: 600,
               cursor: 'pointer', fontFamily: 'var(--font-sans)',
-              background: 'var(--accent)', color: 'white', border: 'none',
+              background: 'var(--accent)', color: "var(--on-accent)", border: 'none',
               transition: 'opacity 0.15s',
             }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}

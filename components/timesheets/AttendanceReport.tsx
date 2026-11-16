@@ -77,7 +77,7 @@ export function AttendanceReport() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       {/* Filter bar */}
       <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-        <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.8rem' }}>
+        <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: 'var(--text-caption)' }}>
           {locale === 'ar' ? 'تاريخ البدء' : 'Start Date'}
           <input
             type="date"
@@ -94,7 +94,7 @@ export function AttendanceReport() {
           />
         </label>
 
-        <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.8rem' }}>
+        <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: 'var(--text-caption)' }}>
           {locale === 'ar' ? 'تاريخ الانتهاء' : 'End Date'}
           <input
             type="date"
@@ -111,7 +111,7 @@ export function AttendanceReport() {
           />
         </label>
 
-        <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.8rem' }}>
+        <label style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: 'var(--text-caption)' }}>
           {locale === 'ar' ? 'الحالة' : 'Status'}
           <select
             value={filters.status}
@@ -177,7 +177,7 @@ export function AttendanceReport() {
           {rows.length === 0 ? (
             <p style={{ color: 'var(--muted-foreground)', fontSize: '0.875rem' }}>{locale === 'ar' ? 'لا توجد سجلات.' : 'No records found.'}</p>
           ) : (
-            <TableScrollRegion><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+            <TableScrollRegion><table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-caption)' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
                   {[
@@ -228,7 +228,7 @@ export function AttendanceReport() {
                             borderRadius: '0.25rem',
                             background:   colors.bg,
                             color:        colors.fg,
-                            fontSize:     '0.75rem',
+                            fontSize:     'var(--text-caption)',
                             fontWeight:   600,
                           }}
                         >
@@ -248,7 +248,7 @@ export function AttendanceReport() {
                       <td style={{ padding: '0.5rem 0.75rem' }}>
                         {r.lateMinutes > 0 ? `${r.lateMinutes}m` : '—'}
                       </td>
-                      <td style={{ padding: '0.5rem 0.75rem', color: 'var(--muted-foreground)', fontSize: '0.75rem' }}>
+                      <td style={{ padding: '0.5rem 0.75rem', color: 'var(--muted-foreground)', fontSize: 'var(--text-caption)' }}>
                         {r.source ?? '—'}
                       </td>
                     </tr>

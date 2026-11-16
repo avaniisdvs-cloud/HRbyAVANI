@@ -1,3 +1,4 @@
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { and, count, eq } from 'drizzle-orm'
@@ -57,13 +58,13 @@ export default async function SettingsHubPage() {
         marginBottom: 4 }}>
           Administration
         </div>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 400, letterSpacing: '-0.015em', color: 'var(--ink-1)',
+        <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 400, letterSpacing: '-0.015em', color: 'var(--ink-1)',
         marginTop: 0,
         marginRight: 0,
         marginLeft: 0,
         marginBottom: 6, lineHeight: 1.2 }}>
           {isSuperAdmin ? 'System & HR Configuration' : 'HR Configuration'}
-        </h1>
+        </PageTitle>
         <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-2)', margin: 0, lineHeight: 1.55 }}>
           {isSuperAdmin
             ? 'Everything HR-operational, plus platform-level controls available only to Super Admins.'
@@ -79,11 +80,11 @@ export default async function SettingsHubPage() {
             <section key={group.id}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10,
               marginBottom: 10 }}>
-                <div style={{ width: 30, height: 30, borderRadius: 8, background: group.tint, color: 'white', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                <div style={{ width: 30, height: 30, borderRadius: 8, background: group.tint, color: "var(--on-accent)", display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                   <Icon size={16} strokeWidth={1.8} aria-hidden />
                 </div>
                 <div>
-                  <h2 style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{group.titleEn}</h2>
+                  <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{group.titleEn}</SectionTitle>
                   <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', margin: '1px 0 0' }}>{group.descEn}</p>
                 </div>
               </div>

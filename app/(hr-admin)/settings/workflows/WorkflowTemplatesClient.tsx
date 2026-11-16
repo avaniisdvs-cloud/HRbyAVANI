@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useTransition } from 'react'
 import { useRouter }               from 'next/navigation'
@@ -144,9 +145,9 @@ export function WorkflowTemplatesClient({ templates: initial }: Props) {
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-              <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500, color: 'var(--ink-1)', margin: 0, letterSpacing: '-0.3px' }}>
+              <PageTitle style={{ fontFamily: 'var(--font-serif)', fontSize: 26, fontWeight: 500, color: 'var(--ink-1)', margin: 0, letterSpacing: '-0.3px' }}>
                 {locale === 'ar' ? 'قوالب سير العمل' : 'Workflow Templates'}
-              </h1>
+              </PageTitle>
               <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--text-body)', color: 'var(--ink-3)', fontWeight: 400 }}>
                 {locale === 'ar' ? 'Workflow Templates' : 'قوالب سير العمل'}
               </span>
@@ -188,7 +189,7 @@ export function WorkflowTemplatesClient({ templates: initial }: Props) {
             alignItems:   'center',
             gap:          7,
             background:   'var(--accent)',
-            color:        '#fff',
+            color:        "var(--on-accent)",
             border:       'none',
             borderRadius: 8,
             padding:      '9px 18px',

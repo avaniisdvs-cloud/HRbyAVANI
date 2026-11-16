@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
@@ -203,9 +204,9 @@ export function InsuranceTabClient({ person, enrolments, plans, policy, dependen
               ← {person.fullNameEn}
             </Link>
           </div>
-          <h1 className="font-serif text-2xl text-ink-1" style={{ marginTop: 4 }}>
+          <PageTitle className="font-serif text-2xl text-ink-1" style={{ marginTop: 4 }}>
             {locale === 'ar' ? 'التأمين الطبي' : 'Medical Insurance'}
-          </h1>
+          </PageTitle>
         </div>
         {!employeeEnrolment && (
           <Button onClick={() => setShowEnrol(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -228,7 +229,7 @@ export function InsuranceTabClient({ person, enrolments, plans, policy, dependen
             </div>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-1)' }}>
+                <span style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
                   {person.insuranceProviderName ?? (locale === 'ar' ? 'غير مُسجَّل' : 'Not enrolled')}
                 </span>
                 <span style={{
@@ -294,7 +295,7 @@ export function InsuranceTabClient({ person, enrolments, plans, policy, dependen
       {/* Enrolment history */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'سجل التسجيل' : 'Enrolment History'}</h2>
+          <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>{locale === 'ar' ? 'سجل التسجيل' : 'Enrolment History'}</SectionTitle>
         </div>
         {enrolments.length === 0 ? (
           <div style={{ padding: '32px 24px', textAlign: 'center', color: 'var(--ink-3)', fontSize: 'var(--text-body)' }}>
@@ -353,9 +354,9 @@ export function InsuranceTabClient({ person, enrolments, plans, policy, dependen
       {/* Dependents insurance section */}
       <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
         <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
+          <SectionTitle style={{ fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)', margin: 0 }}>
             {locale === 'ar' ? 'تأمين المعالين' : 'Dependent Insurance'}
-          </h2>
+          </SectionTitle>
         </div>
         {dependents.length === 0 ? (
           <div style={{ padding: '24px', textAlign: 'center', color: 'var(--ink-3)', fontSize: 'var(--text-body)' }}>
@@ -533,7 +534,7 @@ export function InsuranceTabClient({ person, enrolments, plans, policy, dependen
             {error && <p style={{ fontSize: 'var(--text-body)', color: '#EF4444' }}>{error}</p>}
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
               <Button type="button" variant="outline" onClick={() => setCancelTarget(null)}>{locale === 'ar' ? 'رجوع' : 'Back'}</Button>
-              <Button type="submit" disabled={isPending} style={{ background: '#EF4444', color: '#fff' }}>
+              <Button type="submit" disabled={isPending} style={{ background: '#EF4444', color: "var(--on-accent)" }}>
                 {isPending ? (locale === 'ar' ? 'جارٍ الإلغاء…' : 'Cancelling…') : (locale === 'ar' ? 'تأكيد الإلغاء' : 'Confirm cancellation')}
               </Button>
             </div>
@@ -625,7 +626,7 @@ function Modal({
     >
       <div style={{ background: 'var(--card)', borderRadius: 'var(--radius-lg)', padding: 28, width: 480, maxWidth: '94vw', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 60px rgba(0,0,0,0.18)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-          <h2 className="font-serif text-lg text-ink-1">{title}</h2>
+          <SectionTitle className="font-serif text-lg text-ink-1">{title}</SectionTitle>
           <Button variant="ghost" size="sm" onClick={onClose}><X size={15} /></Button>
         </div>
         {children}

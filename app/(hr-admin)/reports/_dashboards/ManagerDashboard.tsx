@@ -1,5 +1,6 @@
 'use client'
 
+import { PageTitle } from '@/components/ui/typography'
 import type { ManagerDashboardData } from '@/modules/reports'
 import { useLocale } from '@/components/providers/LocaleProvider'
 import KPICard from '../_components/KPICard'
@@ -60,9 +61,9 @@ export function ManagerDashboard({ data, managerName }: Props) {
         }}
       >
         <div>
-          <h1
+          <PageTitle
             style={{
-              fontFamily: "'Fraunces', Georgia, serif",
+              fontFamily: 'var(--font-serif)',
               fontSize: 22,
               fontWeight: 700,
               color: 'var(--ink-1)',
@@ -70,7 +71,7 @@ export function ManagerDashboard({ data, managerName }: Props) {
             }}
           >
             {locale === 'ar' ? 'فريقك' : 'Your Team'}{managerName ? ` · ${managerName}` : ''}
-          </h1>
+          </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
             {locale === 'ar' ? 'لوحة المرؤوسين المباشرين' : 'Direct reports dashboard'} · {today}
           </p>
@@ -142,7 +143,7 @@ export function ManagerDashboard({ data, managerName }: Props) {
                       marginBottom: 6,
                     }}
                   >
-                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-1)' }}>
+                    <span style={{ fontSize: 'var(--text-body)', fontWeight: 700, color: 'var(--ink-1)' }}>
                       {approval.personName ?? '—'}
                     </span>
                     <span

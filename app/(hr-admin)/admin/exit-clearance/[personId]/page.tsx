@@ -1,3 +1,4 @@
+import { PageTitle } from '@/components/ui/typography'
 import { redirect, notFound } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
@@ -109,14 +110,14 @@ export default async function ExitClearanceDetailPage({
           background: isComplete ? 'rgba(22,163,74,0.12)' : 'rgba(217,119,6,0.12)',
           color: isComplete ? '#16a34a' : '#d97706',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 16, fontWeight: 800, flexShrink: 0,
+          fontSize: 'var(--text-lead)', fontWeight: 800, flexShrink: 0,
         }}>
           {(person.fullNameEn || '?').charAt(0).toUpperCase()}
         </div>
         <div style={{ flex: 1 }}>
-          <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
+          <PageTitle style={{ margin: 0, fontSize: 20, fontWeight: 700, color: 'var(--ink-1)', fontFamily: 'var(--font-serif)' }}>
             {person.fullNameEn ?? '—'}
-          </h1>
+          </PageTitle>
           <p style={{ margin: '2px 0 0', fontSize: 'var(--text-body)', color: 'var(--ink-3)', fontFamily: 'var(--font-mono)' }}>
             {person.personNumber} · {person.legalEntityName ?? '—'}
           </p>

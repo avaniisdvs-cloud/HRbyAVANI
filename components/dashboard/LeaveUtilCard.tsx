@@ -21,7 +21,7 @@ export function LeaveUtilCard({ locale = 'en', leaveUtil, holidays }: Props) {
       borderRadius: 12, overflow: 'hidden',
     }}>
       <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ink-1)' }}>
+        <h3 style={{ margin: 0, fontSize: 'var(--text-body)', fontWeight: 600, color: 'var(--ink-1)' }}>
           {locale === 'ar' ? 'استخدام الإجازات (منذ بداية العام)' : 'Leave utilization (YTD)'}
         </h3>
       </div>

@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { TENANT_ID } from '@/lib/constants'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Compliance rules · AVANIIS HR' }
+export const metadata = { title: 'Compliance rules' }
 
 /**
  * S10-02 — Compliance rules viewer (Server Component, read-only for HR_DIRECTOR;

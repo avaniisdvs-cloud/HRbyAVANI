@@ -2,7 +2,7 @@
 
 import { SectionTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
-import Image from 'next/image'
+import { CompanyLogo } from '@/components/providers/BrandingProvider'
 import { Check, Palette, Moon, Sun, AlignJustify } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { updatePolicySetting } from '@/modules/config'
@@ -210,24 +210,20 @@ export function AppearanceSettingsClient({
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           <div className="flex-shrink-0 rounded-lg border border-border bg-surface p-4">
-            <Image
-              src="/avaniis-logo.png"
+            <CompanyLogo
+
               height={48}
               width={160}
-              alt={ar ? 'أفانيس للموارد البشرية' : 'AVANIIS HR'}
+              alt=""
               className="object-contain"
             />
           </div>
           <p className="text-xs leading-relaxed text-ink-3">
             {ar ? (
-              <span dir="rtl" lang="ar">لتحديث الشعار، استبدل الملف وأعد النشر.</span>
+              <span dir="rtl" lang="ar">يمكن للمشرف العام تحديث الشعار من الإدارة ← هوية الشركة.</span>
             ) : (
               <>
-                To update the logo, replace{' '}
-                <code className="rounded bg-surface px-1 py-0.5 font-mono text-accent">
-                  public/avaniis-logo.png
-                </code>{' '}
-                and redeploy.
+                A Super Admin can update the logo under Administration → Company Branding.
               </>
             )}
           </p>

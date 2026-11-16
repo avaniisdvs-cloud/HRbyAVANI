@@ -10,7 +10,7 @@ import { tk } from '@/lib/i18n-messages'
 import { LeaveFilterBar } from './LeaveFilterBar'
 import { LeaveTableClient } from './LeaveTableClient'
 
-export const metadata = { title: 'Leave Requests · AVANIIS People' }
+export const metadata = { title: 'Leave Requests' }
 
 type SearchParams = {
   page?: string

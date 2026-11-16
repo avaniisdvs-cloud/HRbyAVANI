@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm'
 import { SigningPageClient } from './SigningPageClient'
 import { getLocale } from '@/lib/locale-server'
 
-export const metadata = { title: 'Sign Your Letter | AVANIIS HR' }
+export const metadata = { title: 'Sign Your Letter' }
 
 export default async function SigningPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params

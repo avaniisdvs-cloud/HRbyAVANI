@@ -10,6 +10,7 @@
  * Queuing is decoupled from sending so a provider outage NEVER blocks or rolls
  * back the originating business transaction.
  */
+import { getCompanyBranding } from '@/lib/company-branding'
 import 'server-only'
 import { db } from '@/lib/db'
 import { TENANT_ID } from '@/lib/constants'
@@ -94,7 +95,7 @@ export async function queueEmail(args: QueueEmailArgs): Promise<string | null> {
       vars: args.vars,
       rawKeys: args.rawKeys ?? [],
       recipientName: args.recipientName,
-      companyName: args.companyName,
+      companyName: args.companyName ?? `${(await getCompanyBranding()).companyName} HR`,
       legalEntityName: args.legalEntityName,
       hrContact: args.hrContact,
       complianceFooter: args.complianceFooter,

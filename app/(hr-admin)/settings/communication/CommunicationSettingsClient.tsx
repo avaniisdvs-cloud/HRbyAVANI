@@ -6,6 +6,7 @@
  * delivery logs, test email, and audit notes. Uses ONLY design tokens (no raw hex)
  * so light + dark mode stay readable.
  */
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { PageTitle, SectionTitle } from '@/components/ui/typography'
 import { useState, useTransition } from 'react'
 import {
@@ -147,9 +148,9 @@ export default function CommunicationSettingsClient(props: Props) {
       <header className="space-y-1">
         <PageTitle className="font-serif text-2xl text-ink-1">{locale === 'ar' ? 'إعدادات الاتصالات' : 'Communication Settings'}</PageTitle>
         <p className="text-sm text-ink-3">
-          {locale === 'ar'
+          <BrandText>{locale === 'ar'
             ? 'تهيئة كيفية إرسال AVANIIS HR لرسائل سير العمل والموارد البشرية والرواتب والإعلانات والنظام. اختر Microsoft Graph API أو SMTP، وأدر القوالب، وراقب التسليم.'
-            : 'Configure how AVANIIS HR sends workflow, HR, payroll, announcement, and system emails. Choose Microsoft Graph API or SMTP, manage templates, and monitor delivery.'}
+            : 'Configure how AVANIIS HR sends workflow, HR, payroll, announcement, and system emails. Choose Microsoft Graph API or SMTP, manage templates, and monitor delivery.'}</BrandText>
         </p>
       </header>
 

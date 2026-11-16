@@ -10,7 +10,7 @@ import { ClipboardCheck } from 'lucide-react'
 import { getLocale, t } from '@/lib/locale-server'
 import type { Locale } from '@/lib/i18n'
 
-export const metadata = { title: 'Probation Management · AVANIIS HR' }
+export const metadata = { title: 'Probation Management' }
 
 export type ProbationEmployee = {
   id:              string

@@ -7,7 +7,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { WorkScheduleClient } from './components/WorkScheduleClient'
 
-export const metadata = { title: 'Work Schedules · AVANIIS HR' }
+export const metadata = { title: 'Work Schedules' }
 
 export default async function WorkSchedulesPage() {
   const session = await auth()

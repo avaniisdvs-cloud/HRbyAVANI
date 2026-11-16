@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth'
 import { CustomFieldCreateForm } from './CustomFieldCreateForm'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'New custom field · AVANIIS HR' }
+export const metadata = { title: 'New custom field' }
 
 export default async function NewCustomFieldPage() {
   const session = await auth()

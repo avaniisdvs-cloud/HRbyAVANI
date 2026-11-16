@@ -7,6 +7,7 @@
  *   3. No-op stub — neither configured; returns an explicit error (never silently succeeds)
  */
 import nodemailer from 'nodemailer'
+import { getCompanyBranding } from '@/lib/company-branding'
 
 // ── ACS (production) ──────────────────────────────────────────────────────────
 const ACS_CONNECTION_STRING = process.env.ACS_EMAIL_CONNECTION_STRING
@@ -113,7 +114,7 @@ export async function sendLetterEmail(args: SendLetterEmailArgs): Promise<SendRe
       })
 
       const mailOptions: nodemailer.SendMailOptions = {
-        from:    `AVANIIS HR <${SMTP_FROM}>`,
+        from: { name: `${(await getCompanyBranding()).companyName} HR`, address: SMTP_FROM },
         to:      `${recipientName} <${recipientEmail}>`,
         subject,
         html:    bodyHtml,

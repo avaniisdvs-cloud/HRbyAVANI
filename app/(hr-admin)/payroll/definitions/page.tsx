@@ -7,7 +7,7 @@ import { getPayrollDefinitions } from '@/modules/payroll/queries'
 import { resolveLocale } from '@/lib/language-preference'
 import { tk } from '@/lib/i18n-messages'
 
-export const metadata = { title: 'Payroll Definitions · AVANIIS' }
+export const metadata = { title: 'Payroll Definitions' }
 
 export default async function PayrollDefinitionsPage() {
   const session = await auth()

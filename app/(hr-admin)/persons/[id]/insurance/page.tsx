@@ -13,7 +13,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { resolveLocale } from '@/lib/language-preference'
 import { InsuranceTabClient } from './InsuranceTabClient'
 
-export const metadata = { title: 'Insurance · AVANIIS HR' }
+export const metadata = { title: 'Insurance' }
 
 export default async function PersonInsurancePage({
   params,

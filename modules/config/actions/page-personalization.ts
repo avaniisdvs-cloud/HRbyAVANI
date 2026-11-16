@@ -77,6 +77,9 @@ const DEFAULT_PERSONALIZATION = (entityId: string) => ({
   updatedBy:         null as string | null,
 })
 
+// Match the public fallback on first save/upload rather than historical DB copy.
+const NEW_PERSONALIZATION = { topBannerText: 'AI Driven HR System', tickerText: 'Company news and announcements', tickerSpeed: 30, carouselHeightPct: 70 }
+
 export async function getPagePersonalization(entityId: string) {
   try {
     const rows = await db
@@ -99,7 +102,7 @@ export async function updatePagePersonalization(
   entityId: string,
   data:      UpdatePersonalizationInput,
 ) {
-  const user   = await requireRole(['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'])
+  const user   = await requireRole(['SUPER_ADMIN'])
   const parsed = UpdateSchema.parse(data)
 
   const now = new Date()
@@ -128,7 +131,7 @@ export async function updatePagePersonalization(
     if (existing.length === 0) {
       const [row] = await tx
         .insert(pagePersonalization)
-        .values({ entityId, ...patch, createdAt: now })
+        .values({ ...NEW_PERSONALIZATION, entityId, ...patch, createdAt: now })
         .returning()
       updated = row
     } else {
@@ -152,6 +155,7 @@ export async function updatePagePersonalization(
       newValues:    parsed as Record<string, unknown>,
     }, tx)
 
+    revalidatePath('/', 'layout')
     return updated
   })
 }
@@ -167,7 +171,7 @@ export async function uploadBrandingLogo(
   entityId: string,
   formData:  FormData,
 ): Promise<{ logoUrl: string } | { error: string }> {
-  const user = await requireRole(['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'])
+  const user = await requireRole(['SUPER_ADMIN'])
 
   try {
     const file = formData.get('file') as File | null
@@ -191,7 +195,7 @@ export async function uploadBrandingLogo(
       if (existing.length === 0) {
         const [r] = await tx
           .insert(pagePersonalization)
-          .values({ entityId, logoUrl, createdAt: now, updatedAt: now, updatedBy: user.id })
+          .values({ ...NEW_PERSONALIZATION, entityId, logoUrl, createdAt: now, updatedAt: now, updatedBy: user.id })
           .returning()
         row = r
       } else {
@@ -220,6 +224,7 @@ export async function uploadBrandingLogo(
     })
 
     revalidatePath('/sign-in')
+    revalidatePath('/', 'layout')
     return { logoUrl: updated.logoUrl ?? logoUrl }
   } catch (e) {
     console.error('[uploadBrandingLogo] failed:', e)
@@ -235,7 +240,7 @@ export async function uploadCarouselImage(
   entityId: string,
   formData:  FormData,
 ): Promise<{ images: CarouselImage[] } | { error: string }> {
-  const user = await requireRole(['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'])
+  const user = await requireRole(['SUPER_ADMIN'])
 
   try {
     const file = formData.get('file') as File | null
@@ -274,7 +279,7 @@ export async function uploadCarouselImage(
       if (existing.length === 0) {
         const [r] = await tx
           .insert(pagePersonalization)
-          .values({ entityId, carouselImages: nextImages, createdAt: new Date(), updatedAt: new Date(), updatedBy: user.id })
+          .values({ ...NEW_PERSONALIZATION, entityId, carouselImages: nextImages, createdAt: new Date(), updatedAt: new Date(), updatedBy: user.id })
           .returning({ id: pagePersonalization.id })
         rowId = r.id
       } else {
@@ -316,7 +321,7 @@ export async function deleteCarouselImage(
   entityId: string,
   imageId:  string,
 ): Promise<CarouselImage[]> {
-  const user = await requireRole(['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'])
+  const user = await requireRole(['SUPER_ADMIN'])
 
   const [row] = await db
     .select()
@@ -373,7 +378,7 @@ export async function reorderCarouselImages(
   entityId:   string,
   orderedIds: string[],
 ): Promise<CarouselImage[]> {
-  const user = await requireRole(['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'])
+  const user = await requireRole(['SUPER_ADMIN'])
 
   const [row] = await db
     .select()

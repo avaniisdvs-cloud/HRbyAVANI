@@ -4,7 +4,7 @@ import { listPersonsWithoutAccounts, listEntities } from '@/modules/auth/actions
 import { ALL_ROLES } from '@/modules/auth/config'
 import { NewUserClient } from './_NewUserClient'
 
-export const metadata = { title: 'Add User · AVANIIS HR' }
+export const metadata = { title: 'Add User' }
 
 export default async function NewUserPage() {
   const session = await auth()

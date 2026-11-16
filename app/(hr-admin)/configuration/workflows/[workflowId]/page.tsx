@@ -20,7 +20,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { StepsPageClient } from './StepsPageClient'
 import type { PersonOption } from '@/components/forms/PersonSelect'
 
-export const metadata = { title: 'Workflow steps · AVANIIS HR' }
+export const metadata = { title: 'Workflow steps' }
 
 export default async function WorkflowStepsPage({
   params,

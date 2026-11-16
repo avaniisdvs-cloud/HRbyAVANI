@@ -4,7 +4,7 @@ import { getInsurancePolicySettings } from '@/modules/insurance'
 import { resolveLocale } from '@/lib/language-preference'
 import { InsurancePolicyClient } from './InsurancePolicyClient'
 
-export const metadata = { title: 'Insurance Policy Settings · AVANIIS HR' }
+export const metadata = { title: 'Insurance Policy Settings' }
 
 export default async function InsurancePolicyPage() {
   const session = await auth()

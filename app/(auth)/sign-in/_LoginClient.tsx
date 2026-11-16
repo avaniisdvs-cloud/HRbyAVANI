@@ -2,6 +2,8 @@
 
 import { PageTitle } from '@/components/ui/typography'
 import { useState, useEffect, useCallback } from 'react'
+import { useBranding, CompanyLogo } from '@/components/providers/BrandingProvider'
+import { formatBrandText } from '@/lib/branding'
 import { Eye, EyeOff, Moon, Sun } from 'lucide-react'
 import type { CarouselImage } from '@/modules/config/actions/page-personalization'
 import AriaLoginWidget from '@/components/aria/AriaLoginWidget'
@@ -22,7 +24,7 @@ const STRINGS = {
     signInContinue:   'Sign in to continue to AVANIIS HR',
     signInMs:         'Sign in with Microsoft',
     or:               'or',
-    emailPlaceholder: 'you@avaniis.example',
+    emailPlaceholder: 'you@company.com',
     passwordLabel:    'Password',
     signIn:           'Sign In',
     signingIn:        'Signing in…',
@@ -36,7 +38,7 @@ const STRINGS = {
     signInContinue:   'تسجيل الدخول للمتابعة إلى أفانيس HR',
     signInMs:         'تسجيل الدخول عبر Microsoft',
     or:               'أو',
-    emailPlaceholder: 'you@avaniis.example',
+    emailPlaceholder: 'you@company.com',
     passwordLabel:    'كلمة المرور',
     signIn:           'تسجيل الدخول',
     signingIn:        'جارٍ تسجيل الدخول…',
@@ -127,7 +129,8 @@ export default function LoginClient({
     initialError ? (ERROR_MESSAGES[initialError] ?? 'Sign-in failed. Please try again.') : '',
   )
 
-  const t     = STRINGS[lang]
+  const branding = useBranding()
+  const t = Object.fromEntries(Object.entries(STRINGS[lang]).map(([key, value]) => [key, formatBrandText(value, branding)])) as typeof STRINGS['en']
   const isRtl = lang === 'ar'
 
   // Ignore carousel entries with a missing/empty URL so we never render a
@@ -139,10 +142,6 @@ export default function LoginClient({
     .map(img => img.url)
 
   const carouselUrls = validCarouselUrls.length > 0 ? validCarouselUrls : DEFAULT_CAROUSEL
-
-  const logoSrc = personalization.logoUrl && personalization.logoUrl.trim() !== ''
-    ? personalization.logoUrl
-    : '/avaniis-logo.png'
 
   useEffect(() => {
     try {
@@ -230,10 +229,10 @@ export default function LoginClient({
           display: 'flex', alignItems: 'center', gap: 24, padding: '12px 32px',
           background: 'var(--surface)', color: 'var(--ink-1)', zIndex: 10 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoSrc} alt="AVANIIS" style={{ height: 128, width: 136, objectFit: 'contain', flexShrink: 0 }} />
+          <CompanyLogo alt={branding.companyName} style={{ height: 128, width: 136, objectFit: 'contain', flexShrink: 0 }} />
           {personalization.topBannerVisible && personalization.topBannerText && (
             <p style={{ margin: 0, fontFamily: 'var(--font-serif)', fontStyle: 'italic',
-              fontSize: 19, lineHeight: 1.4 }}>{personalization.topBannerText}</p>
+              fontSize: 19, lineHeight: 1.4 }}>{formatBrandText(personalization.topBannerText, branding)}</p>
           )}
         </div>
 
@@ -305,9 +304,9 @@ export default function LoginClient({
               animation: 'none',
               paddingLeft: '100%',
             }}>
-              {personalization.tickerText}&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;
-              {personalization.tickerText}&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;
-              {personalization.tickerText}
+              {formatBrandText(personalization.tickerText, branding)}&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;
+              {formatBrandText(personalization.tickerText, branding)}&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;
+              {formatBrandText(personalization.tickerText, branding)}
             </span>
           </div>
         )}

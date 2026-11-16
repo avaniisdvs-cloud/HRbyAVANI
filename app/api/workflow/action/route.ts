@@ -1,3 +1,4 @@
+import { getCompanyBranding } from '@/lib/company-branding'
 /**
  * GET /api/workflow/action?token=<jwt>
  *
@@ -449,7 +450,8 @@ async function loadAlreadyActionedContext(payload: TokenPayload, requestOrigin: 
   }
 }
 
-function alreadyActionedPage(ctx: AlreadyActionedContext): NextResponse {
+async function alreadyActionedPage(ctx: AlreadyActionedContext): Promise<NextResponse> {
+  const branding = await getCompanyBranding()
   const label = actionLabel(ctx.action)
   const enTime = formatDubaiDateTime(ctx.timestamp, 'en-AE')
   const arTime = formatDubaiDateTime(ctx.timestamp, 'ar-AE')
@@ -481,14 +483,14 @@ function alreadyActionedPage(ctx: AlreadyActionedContext): NextResponse {
       <div class="row"><span class="label">Action taken · الإجراء المتخذ</span><span class="value">${escapeHtml(label.en)} · ${escapeHtml(label.ar)}</span></div>
       <div class="row"><span class="label">Timestamp · الوقت</span><span class="value">${escapeHtml(enTime)}</span></div>
     </div>
-    <div class="actions"><a class="button" href="${escapeHtml(ctx.viewUrl)}">View in AVANIIS · عرض في أفانيس</a></div>
-    <div class="brand">AVANIIS HR</div>
+    <div class="actions"><a class="button" href="${escapeHtml(ctx.viewUrl)}">View in ${escapeHtml(branding.companyName)} · عرض في ${escapeHtml(branding.companyNameAr)}</a></div>
+    <div class="brand">${escapeHtml(branding.companyName)} HR</div>
   </div></body></html>`
   return new NextResponse(html, { status: 200, headers: { 'content-type': 'text/html; charset=utf-8' } })
 }
 
 function reissueEligibility(ctx: ActionLinkContext): { ok: true } | { ok: false; reason: string } {
-  if (!isReissueAction(ctx.intendedAction)) return { ok: false, reason: 'Delegation links must be handled in AVANIIS.' }
+  if (!isReissueAction(ctx.intendedAction)) return { ok: false, reason: 'Delegation links must be handled in the HR system.' }
   if (ctx.tokenUsedAt) return { ok: false, reason: 'This link was already used.' }
   if (ctx.stepStatus !== 'PENDING') return { ok: false, reason: 'This request is no longer awaiting approval.' }
   const isCurrentApprover = ctx.stepAssignedToPersonId === ctx.originalApproverPersonId
@@ -498,7 +500,8 @@ function reissueEligibility(ctx: ActionLinkContext): { ok: true } | { ok: false;
   return { ok: true }
 }
 
-function expiredTokenPage(ctx: ActionLinkContext, token: string): NextResponse {
+async function expiredTokenPage(ctx: ActionLinkContext, token: string): Promise<NextResponse> {
+  const branding = await getCompanyBranding()
   const enExpiry = formatDubaiDateTime(ctx.expiresAt, 'en-AE')
   const arExpiry = formatDubaiDateTime(ctx.expiresAt, 'ar-AE')
   const eligibility = reissueEligibility(ctx)
@@ -508,8 +511,8 @@ function expiredTokenPage(ctx: ActionLinkContext, token: string): NextResponse {
         <input type="hidden" name="token" value="${escapeHtml(token)}">
         <button class="button" type="submit">Send me a new link · أرسل رابطاً جديداً</button>
       </form>`
-    : `<p class="notice">${escapeHtml(eligibility.reason)} Please view the request in AVANIIS. يرجى عرض الطلب في أفانيس.</p>
-       <a class="button" href="${escapeHtml(ctx.viewUrl)}">View in AVANIIS · عرض في أفانيس</a>`
+    : `<p class="notice">${escapeHtml(eligibility.reason)} Please view the request in the HR system. يرجى عرض الطلب في النظام.</p>
+       <a class="button" href="${escapeHtml(ctx.viewUrl)}">View in ${escapeHtml(branding.companyName)} · عرض في ${escapeHtml(branding.companyNameAr)}</a>`
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Approval link expired</title>
 <style>
@@ -539,7 +542,7 @@ function expiredTokenPage(ctx: ActionLinkContext, token: string): NextResponse {
       <div class="row"><span class="label">Expiry · وقت الانتهاء</span><span class="value">${escapeHtml(enExpiry)}</span></div>
     </div>
     <div class="actions">${actionControl}</div>
-    <div class="brand">AVANIIS HR</div>
+    <div class="brand">${escapeHtml(branding.companyName)} HR</div>
   </div></body></html>`
   return new NextResponse(html, { status: 410, headers: { 'content-type': 'text/html; charset=utf-8' } })
 }
@@ -555,23 +558,24 @@ function delegationEligibility(ctx: ActionLinkContext): { ok: true } | { ok: fal
   return { ok: true }
 }
 
-function delegateSelectionPage(
+async function delegateSelectionPage(
   ctx: ActionLinkContext,
   token: string,
   opts: { error?: string; delegateTo?: string; reason?: string; status?: number } = {},
-): NextResponse {
+): Promise<NextResponse> {
+  const branding = await getCompanyBranding()
   const eligibility = delegationEligibility(ctx)
   const actionControl = eligibility.ok
     ? `<form method="post" action="/api/workflow/action">
         <input type="hidden" name="token" value="${escapeHtml(token)}">
         <label class="label" for="delegateTo">Delegate work email, employee number, or person ID · بريد المفوّض أو رقمه الوظيفي</label>
-        <input id="delegateTo" name="delegateTo" required value="${escapeHtml(opts.delegateTo ?? '')}" placeholder="name@avaniis.dev or K1036">
+        <input id="delegateTo" name="delegateTo" required value="${escapeHtml(opts.delegateTo ?? '')}" placeholder="name@company.com or employee number">
         <label class="label" for="delegateReason">Delegation reason · سبب التفويض</label>
         <textarea id="delegateReason" name="delegateReason" required rows="4" placeholder="Why should this request be delegated?">${escapeHtml(opts.reason ?? '')}</textarea>
         <button class="button" type="submit">Delegate request · تفويض الطلب</button>
       </form>`
-    : `<p class="notice">${escapeHtml(eligibility.reason)} Please view the request in AVANIIS. يرجى عرض الطلب في أفانيس.</p>
-       <a class="button" href="${escapeHtml(ctx.viewUrl)}">View in AVANIIS · عرض في أفانيس</a>`
+    : `<p class="notice">${escapeHtml(eligibility.reason)} Please view the request in the HR system. يرجى عرض الطلب في النظام.</p>
+       <a class="button" href="${escapeHtml(ctx.viewUrl)}">View in ${escapeHtml(branding.companyName)} · عرض في ${escapeHtml(branding.companyNameAr)}</a>`
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Delegate workflow request</title>
 <style>
@@ -605,7 +609,7 @@ function delegateSelectionPage(
     </div>
     ${opts.error ? `<div class="error">${escapeHtml(opts.error)} · يرجى التصحيح والمحاولة مرة أخرى.</div>` : ''}
     <div class="actions">${actionControl}</div>
-    <div class="brand">AVANIIS HR</div>
+    <div class="brand">${escapeHtml(branding.companyName)} HR</div>
   </div></body></html>`
   return new NextResponse(html, { status: opts.status ?? 200, headers: { 'content-type': 'text/html; charset=utf-8' } })
 }
@@ -798,7 +802,7 @@ async function queueDelegatedWorkflowEmail(ctx: ActionLinkContext, delegate: Del
       employeeName: ctx.requester,
       workflowRequestId: ctx.requestType,
       delegationNotice: `Delegated by ${ctx.originalApprover}. Reason: ${reason}`,
-      companyName: 'AVANIIS HR',
+      companyName: `${(await getCompanyBranding()).companyName} HR`,
     },
     workflowInstanceId: ctx.instanceId,
     workflowStepInstanceId: ctx.stepInstanceId,
@@ -846,7 +850,8 @@ async function auditEmailDelegation(args: {
   })
 }
 
-function reissueResultPage(kind: 'success' | 'error', title: string, messageEn: string, messageAr: string, status: number): NextResponse {
+async function reissueResultPage(kind: 'success' | 'error', title: string, messageEn: string, messageAr: string, status: number): Promise<NextResponse> {
+  const branding = await getCompanyBranding()
   const badge = kind === 'success' ? '✓' : '!'
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title>
@@ -866,7 +871,7 @@ function reissueResultPage(kind: 'success' | 'error', title: string, messageEn: 
     <h1>${escapeHtml(title)}</h1>
     <p>${escapeHtml(messageEn)}</p>
     <p class="ar" lang="ar">${escapeHtml(messageAr)}</p>
-    <div class="brand">AVANIIS HR</div>
+    <div class="brand">${escapeHtml(branding.companyName)} HR</div>
   </div></body></html>`
   return new NextResponse(html, { status, headers: { 'content-type': 'text/html; charset=utf-8' } })
 }
@@ -901,11 +906,12 @@ async function readActionPost(request: NextRequest): Promise<{
   }
 }
 
-function buildReissueEmail(ctx: ActionLinkContext, action: ReissueAction, actionUrl: string, expiresAt: Date): { subject: string; html: string } {
+async function buildReissueEmail(ctx: ActionLinkContext, action: ReissueAction, actionUrl: string, expiresAt: Date): Promise<{ subject: string; html: string }> {
+  const branding = await getCompanyBranding()
   const actionText = action === 'APPROVE' ? 'approve' : 'reject'
   const actionTextAr = action === 'APPROVE' ? 'الموافقة على' : 'رفض'
   const expiresText = formatDubaiDateTime(expiresAt, 'en-AE')
-  const subject = `AVANIIS HR — New ${actionText} link for ${ctx.requestType}`
+  const subject = `${branding.companyName} HR — New ${actionText} link for ${ctx.requestType}`
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(subject)}</title></head>
 <body>
@@ -952,7 +958,7 @@ async function handleDelegatePost(
   if (payload.exp < Math.floor(Date.now() / 1000)) {
     const expiredContext = await loadActionLinkContext(payload, request.nextUrl.origin)
     if (expiredContext) return expiredTokenPage(expiredContext, token)
-    return reissueResultPage('error', 'Link expired', 'This delegation link has expired. Please action the request in AVANIIS.', 'انتهت صلاحية رابط التفويض. يرجى تنفيذ الطلب في أفانيس.', 400)
+    return reissueResultPage('error', 'Link expired', 'This delegation link has expired. Please action the request in the HR system.', 'انتهت صلاحية رابط التفويض. يرجى تنفيذ الطلب في النظام.', 400)
   }
 
   const ctx = await loadActionLinkContext(payload, request.nextUrl.origin)
@@ -1048,7 +1054,7 @@ async function handleDelegatePost(
   })
 
   if (!emailMessageId) {
-    return reissueResultPage('error', 'Delegated, email not queued', 'The workflow was delegated, but the delegate email could not be queued. Please notify the delegate in AVANIIS.', 'تم تفويض سير العمل، لكن تعذر إنشاء بريد المفوّض. يرجى إشعار المفوّض داخل أفانيس.', 500)
+    return reissueResultPage('error', 'Delegated, email not queued', 'The workflow was delegated, but the delegate email could not be queued. Please notify the delegate in the HR system.', 'تم تفويض سير العمل، لكن تعذر إنشاء بريد المفوّض. يرجى إشعار المفوّض داخل النظام.', 500)
   }
 
   return reissueResultPage(
@@ -1093,7 +1099,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
   const eligibility = reissueEligibility(ctx)
   if (!eligibility.ok) {
-    return reissueResultPage('error', 'Link cannot be reissued', eligibility.reason, 'لا يمكن إصدار رابط جديد لهذا الطلب. يرجى فتح الطلب في أفانيس.', 409)
+    return reissueResultPage('error', 'Link cannot be reissued', eligibility.reason, 'لا يمكن إصدار رابط جديد لهذا الطلب. يرجى فتح الطلب في النظام.', 409)
   }
 
   const recipientEmail = ctx.originalApproverEmail
@@ -1112,7 +1118,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const newExpiresAt = new Date(Date.now() + tokenExpiryMinutes * 60_000)
   const action = ctx.intendedAction
   if (!isReissueAction(action)) {
-    return reissueResultPage('error', 'Unsupported action', 'Delegation links must be handled in AVANIIS.', 'يجب تنفيذ التفويض من داخل أفانيس.', 400)
+    return reissueResultPage('error', 'Unsupported action', 'Delegation links must be handled in the HR system.', 'يجب تنفيذ التفويض من داخل النظام.', 400)
   }
 
   const { jti, token: newToken } = signActionToken({
@@ -1123,7 +1129,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     expiresAt: newExpiresAt,
   })
   const actionUrl = `${request.nextUrl.origin}/api/workflow/action?token=${newToken}`
-  const message = buildReissueEmail(ctx, action, actionUrl, newExpiresAt)
+  const message = await buildReissueEmail(ctx, action, actionUrl, newExpiresAt)
 
   const outcome = await db.transaction(async (tx) => {
     const since = new Date(Date.now() - REISSUE_WINDOW_MS)
@@ -1226,14 +1232,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   })
 
   if (!outcome.ok) {
-    return reissueResultPage('error', 'Reissue limit reached', 'You can request up to 3 new links per request per day. Please open AVANIIS or contact HR.', 'يمكنك طلب ثلاثة روابط جديدة فقط لكل طلب في اليوم. يرجى فتح أفانيس أو التواصل مع الموارد البشرية.', 429)
+    return reissueResultPage('error', 'Reissue limit reached', 'You can request up to 3 new links per request per day. Please open the HR system or contact HR.', 'يمكنك طلب ثلاثة روابط جديدة فقط لكل طلب في اليوم. يرجى فتح النظام أو التواصل مع الموارد البشرية.', 429)
   }
 
   return reissueResultPage('success', 'New link sent', 'A fresh approval link has been sent to the original approver email address.', 'تم إرسال رابط موافقة جديد إلى بريد المعتمد الأصلي.', 200)
 }
 
 // ── Branded confirmation page (self-contained; no auth required) ──────────────
-function page(kind: 'success' | 'error', title: string, message: string, status: number): NextResponse {
+async function page(kind: 'success' | 'error', title: string, message: string, status: number): Promise<NextResponse> {
+  const branding = await getCompanyBranding()
   const accent = kind === 'success' ? '#2E6170' : '#9B2C2C'
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title>
@@ -1252,7 +1259,7 @@ function page(kind: 'success' | 'error', title: string, message: string, status:
   <div class="card">
     <div class="badge">${kind === 'success' ? '✓' : '!'}</div>
     <h1>${escapeHtml(title)}</h1><p>${escapeHtml(message)}</p>
-    <div class="brand">AVANIIS HR</div>
+    <div class="brand">${escapeHtml(branding.companyName)} HR</div>
   </div></body></html>`
   return new NextResponse(html, { status, headers: { 'content-type': 'text/html; charset=utf-8' } })
 }

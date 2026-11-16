@@ -6,7 +6,7 @@ import { and, eq, asc } from 'drizzle-orm'
 import { TENANT_ID } from '@/lib/constants'
 import { DocumentBrandingForm } from './DocumentBrandingForm'
 
-export const metadata = { title: 'Document Branding · AVANIIS HR' }
+export const metadata = { title: 'Document Branding' }
 
 export default async function DocumentBrandingPage({
   searchParams,

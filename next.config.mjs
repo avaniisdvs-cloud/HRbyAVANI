@@ -11,6 +11,7 @@ const nextConfig = {
 
   experimental: {
     webpackMemoryOptimizations: true,
+    serverActions: { bodySizeLimit: '4mb' }, // Supports the existing 2 MB logo upload and its base64 form value.
   },
 
   webpack: (config, { dev }) => {

@@ -8,7 +8,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { Badge } from '@/components/ui/badge'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Work schedules · AVANIIS HR' }
+export const metadata = { title: 'Work schedules' }
 
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 

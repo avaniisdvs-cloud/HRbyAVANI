@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth'
 import { getEmployeeDashboardData } from '@/modules/reports'
 import Link from 'next/link'
 
-export const metadata = { title: 'My Dashboard · AVANIIS' }
+export const metadata = { title: 'My Dashboard' }
 
 export default async function EmployeeDashboardPage() {
   const session = await auth()

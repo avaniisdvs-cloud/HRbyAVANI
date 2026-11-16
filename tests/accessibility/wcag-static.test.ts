@@ -208,6 +208,7 @@ describe('WCAG 2.4.2 — Pages have titles', () => {
     const hasMetadataTitle =
       /metadata\s*=/.test(layoutTs) ||
       /export.*metadata/.test(layoutTs) ||
+      (/export\s+async\s+function\s+generateMetadata/.test(layoutTs) && /title:\s*\{/.test(layoutTs)) ||
       /<title/.test(layoutTs)
     expect(
       hasMetadataTitle,

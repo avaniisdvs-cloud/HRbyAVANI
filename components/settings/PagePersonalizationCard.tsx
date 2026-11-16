@@ -1,6 +1,9 @@
 'use client'
 
+import { BrandText, useBranding } from '@/components/providers/BrandingProvider'
 import { useState, useRef, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
+import { companyLogoSource } from '@/lib/branding'
 import { Layers, Upload, X } from 'lucide-react'
 import {
   updatePagePersonalization,
@@ -122,6 +125,8 @@ const SPEED_OPTIONS = [
 // ── Component ──────────────────────────────────────────────────────────────
 
 export default function PagePersonalizationCard({ entityId, initial }: Props) {
+  const branding = useBranding()
+  const router = useRouter()
   const locale = useLocale()
   const [form, setForm] = useState<Personalization>({ ...initial, entityId })
   const [saving, startSave] = useTransition()
@@ -181,6 +186,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
       } else {
         patch('logoUrl', result.logoUrl) // replace preview with the persisted data URL
         showToast(locale === 'ar' ? 'تم تحديث الشعار' : 'Logo updated')
+        router.refresh()
       }
     } catch (err: unknown) {
       patch('logoUrl', previousLogo)     // revert the optimistic preview
@@ -198,6 +204,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
     try {
       await updatePagePersonalization(entityId, { logo_url: null })
       showToast(locale === 'ar' ? 'تمت إزالة الشعار' : 'Logo removed')
+      router.refresh()
     } catch {
       showToast(locale === 'ar' ? 'فشلت إزالة الشعار' : 'Failed to remove logo', 'warn')
     }
@@ -370,7 +377,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
                 value={form.tickerText}
                 maxLength={500}
                 rows={2}
-                placeholder="AVANIIS Stock Price 100$ · Founder — Visionary Leader…"
+                placeholder="Company news and announcements…"
                 onChange={e => patch('tickerText', e.target.value)}
                 style={{
                   width: '100%', boxSizing: 'border-box', resize: 'vertical',
@@ -442,9 +449,9 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
             animation:  `ticker-scroll ${form.tickerSpeed}s linear infinite`,
             paddingLeft: '100%',
           }}>
-            {form.tickerText || (locale === 'ar' ? 'ستظهر رسالة الشريط المتحرّك هنا…' : 'Your ticker message will appear here…')}
+            <BrandText>{form.tickerText || (locale === 'ar' ? 'ستظهر رسالة الشريط المتحرّك هنا…' : 'Your ticker message will appear here…')}</BrandText>
             &nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
-            {form.tickerText || (locale === 'ar' ? 'ستظهر رسالة الشريط المتحرّك هنا…' : 'Your ticker message will appear here…')}
+            <BrandText>{form.tickerText || (locale === 'ar' ? 'ستظهر رسالة الشريط المتحرّك هنا…' : 'Your ticker message will appear here…')}</BrandText>
           </span>
           {!form.tickerVisible && (
             <div style={{
@@ -475,7 +482,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={form.logoUrl ?? '/avaniis-logo.png'}
+              src={form.logoUrl ?? companyLogoSource({ ...branding, logoUrl: null })}
               alt={locale === 'ar' ? 'الشعار الحالي' : 'Current logo'}
               style={{ maxWidth: '100%', maxHeight: 56, objectFit: 'contain' }}
             />
@@ -499,8 +506,8 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
               </p>
               <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-4)', margin: '4px 0 0', lineHeight: 1.5 }}>
                 {locale === 'ar'
-                  ? 'يُفضّل PNG أو SVG · الحد الأقصى 2 ميجابايت · سيحلّ محل الشعار الحالي في صفحة تسجيل الدخول'
-                  : 'PNG or SVG recommended · Max 2 MB · Will replace existing logo on sign-in page'}
+                  ? 'يُفضّل PNG أو SVG · الحد الأقصى 2 ميجابايت · يُطبّق على صفحة تسجيل الدخول والقوائم والتطبيق'
+                  : 'PNG or SVG recommended · Max 2 MB · Applies to sign-in, navigation, and application branding'}
               </p>
             </div>
             <input
@@ -551,9 +558,9 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
           )}
         </div>
         <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)', margin: '0 0 14px', lineHeight: 1.5 }}>
-          {locale === 'ar'
-            ? 'الصور المعروضة في اللوحة اليسرى من صفحة تسجيل الدخول. إذا لم يتم رفع أي صور، تُستخدم صور عقارات أفانيس الافتراضية.'
-            : 'Images shown on the left panel of the sign-in page. If none are uploaded, the default AVANIIS property images are used.'}
+          <BrandText>{locale === 'ar'
+            ? 'الصور المعروضة في اللوحة اليسرى من صفحة تسجيل الدخول. إذا لم يتم رفع أي صور، تُستخدم صور أماكن العمل الافتراضية.'
+            : 'Images shown on the left panel of the sign-in page. If none are uploaded, the default workplace images are used.'}</BrandText>
         </p>
 
         {/* Existing images grid */}
@@ -622,7 +629,7 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
               {locale === 'ar' ? 'لم يتم رفع أي صور للعرض الدوّار بعد' : 'No carousel images uploaded yet'}
             </p>
             <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-4)', margin: '4px 0 0' }}>
-              {locale === 'ar' ? 'ستستخدم صفحة تسجيل الدخول صور عقارات أفانيس الافتراضية.' : 'The sign-in page will use the default AVANIIS property images.'}
+              <BrandText>{locale === 'ar' ? 'ستستخدم صفحة تسجيل الدخول صور أماكن العمل الافتراضية.' : 'The sign-in page will use the default workplace images.'}</BrandText>
             </p>
           </div>
         )}

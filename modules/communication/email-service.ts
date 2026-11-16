@@ -12,6 +12,7 @@
  * Server-only. Never imported by client components. Secrets never leave here.
  */
 import 'server-only'
+import { getCompanyBranding } from '@/lib/company-branding'
 import { and, eq, lte, inArray, sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { TENANT_ID } from '@/lib/constants'
@@ -317,11 +318,13 @@ export async function sendTestEmail(
   const verify = await provider.verify()
   if (!verify.ok) return { ok: false, error: verify.error }
 
+  const { companyName } = await getCompanyBranding()
+  const subject = `${companyName} HR — Test Email`
   const html = wrapBrandedEmail({
-    title: 'AVANIIS HR — Test Email',
+    title: subject, companyName: `${companyName} HR`,
     bodyHtml: `<p>This is a test email confirming your <strong>${providerRow.providerType === 'GRAPH_API' ? 'Microsoft Graph API' : 'SMTP'}</strong> configuration is working.</p><p>If you received this, outbound email is correctly configured.</p>`,
   })
-  const result = await provider.send({ to, subject: 'AVANIIS HR — Test Email', html })
+  const result = await provider.send({ to, subject, html })
   return { ok: result.success, error: result.error }
 }
 

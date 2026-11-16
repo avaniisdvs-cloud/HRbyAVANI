@@ -8,7 +8,7 @@ import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { DepartmentClient } from './components/DepartmentClient'
 import type { DepartmentRow } from './components/DepartmentDrawer'
 
-export const metadata = { title: 'Departments · AVANIIS HR' }
+export const metadata = { title: 'Departments' }
 
 export default async function DepartmentsPage() {
   const session = await auth()

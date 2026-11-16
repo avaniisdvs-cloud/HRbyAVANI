@@ -4,7 +4,7 @@ import { auth }                from '@/lib/auth'
 import { listEmpNumberConfig } from './actions'
 import { EmpNumbersClient }    from './_EmpNumbersClient'
 
-export const metadata = { title: 'Employee Numbers · AVANIIS HR' }
+export const metadata = { title: 'Employee Numbers' }
 
 /**
  * Settings → Employee Numbers (Server Component)

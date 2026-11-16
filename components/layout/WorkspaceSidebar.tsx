@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { CompanyLogo } from '@/components/providers/BrandingProvider'
 import { usePathname, useRouter } from 'next/navigation'
 import { ChevronDown, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import { getActiveWorkspaceId, getVisibleWorkspaces } from '@/config/workspace-nav'
@@ -46,8 +46,8 @@ export function WorkspaceSidebar({ role, locale, userName, initials, photoUrl, b
   }, [role, router, storageKey]) // Config is static; role selects the existing visibility rules.
 
   return <aside className={`workspace-rail unified-sidebar${compact ? ' is-compact' : ''}`} aria-label={locale === 'ar' ? 'التنقل في التطبيق' : 'Application navigation'} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
-    <Link className="unified-brand" href="/dashboard" aria-label="AVANIIS HR">
-      <Image src={brandingLogoUrl || '/avaniis-logo.png'} width={compact ? 38 : 64} height={compact ? 38 : 64} alt="AVANIIS" style={{ objectFit: 'contain', width: 'auto', maxWidth: '100%' }} />
+    <Link className="unified-brand" href="/dashboard" aria-label="HR · Home">
+      <CompanyLogo width={compact ? 38 : 64} height={compact ? 38 : 64} alt="" style={{ objectFit: 'contain', width: 'auto', maxWidth: '100%' }} />
       {!compact && <span>HR</span>}
     </Link>
     <button type="button" className="unified-collapse" onClick={toggleCompact} aria-label={compact ? (locale === 'ar' ? 'توسيع التنقل' : 'Expand navigation') : (locale === 'ar' ? 'طي التنقل' : 'Collapse navigation')} title="⌘ / Ctrl + \">

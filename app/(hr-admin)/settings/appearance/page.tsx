@@ -8,7 +8,7 @@ import { resolveLocale } from '@/lib/language-preference'
 import { LanguagePreferenceCard } from '@/components/settings/LanguagePreferenceCard'
 import { AppearanceSettingsClient } from './AppearanceSettingsClient'
 
-export const metadata = { title: 'Appearance · AVANIIS HR' }
+export const metadata = { title: 'Appearance' }
 
 /**
  * Appearance settings page (Server Component).

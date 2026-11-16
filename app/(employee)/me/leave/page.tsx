@@ -8,7 +8,7 @@ import { db } from '@/lib/db'
 import { absenceEntries, absenceTypes, absenceBalances } from '@/drizzle/schema'
 import { TENANT_ID } from '@/lib/constants'
 
-export const metadata = { title: 'My Leave · AVANIIS' }
+export const metadata = { title: 'My Leave' }
 
 const STATUS_CONFIG: Record<string, { label: string; bg: string; fg: string; icon: React.ReactNode }> = {
   APPROVED: { label: 'Approved',  bg: 'rgba(22,163,74,0.08)',  fg: '#16a34a', icon: <CheckCircle2 size={11} /> },

@@ -13,7 +13,7 @@ import { WorkflowStatusBadge } from '@/components/workflow/WorkflowStatusBadge'
 import { startTimer, SLOW_PAGE_MS } from '@/lib/telemetry'
 import { logger } from '@/lib/logger'
 
-export const metadata = { title: 'Review Approval · AVANIIS People' }
+export const metadata = { title: 'Review Approval' }
 
 const APPROVER_ROLES = ['EMPLOYEE', 'MANAGER', 'HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN']
 

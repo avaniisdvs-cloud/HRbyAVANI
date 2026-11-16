@@ -1,8 +1,9 @@
 'use client'
 
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { CompanyLogo } from '@/components/providers/BrandingProvider'
 import { usePathname } from 'next/navigation'
 import { ChevronRight, Search, X, Mic } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
@@ -472,7 +473,7 @@ export function AdminSidebar({ role, locale = 'en', userName = '', initials = ''
       {/* ── Brand logo ───────────────────────────────────────────── */}
       <Link
         href="/dashboard"
-        aria-label={locale === 'ar' ? 'أفانيس للموارد البشرية · الرئيسية' : 'AVANIIS HR · Home'}
+        aria-label={locale === 'ar' ? 'الموارد البشرية · الرئيسية' : 'HR · Home'}
         style={{
           display:        'flex',
           height:         60,
@@ -490,16 +491,16 @@ export function AdminSidebar({ role, locale = 'en', userName = '', initials = ''
           {brandingLogoUrl ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
-              src={brandingLogoUrl}
-              alt="AVANIIS HR"
+
+              alt=""
               style={{ height: 32, width: 'auto', maxWidth: 44, objectFit: 'contain' }}
             />
           ) : (
-            <Image
-              src="/avaniis-logo.png"
+            <CompanyLogo
+
               height={32}
               width={32}
-              alt="AVANIIS HR"
+              alt=""
               style={{ height: 32, width: 'auto', maxWidth: 44, objectFit: 'contain' }}
               priority
             />
@@ -510,21 +511,21 @@ export function AdminSidebar({ role, locale = 'en', userName = '', initials = ''
           {brandingLogoUrl ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
-              src={brandingLogoUrl}
-              alt="AVANIIS HR"
+
+              alt=""
               style={{ height: 40, width: 'auto', maxWidth: 184, objectFit: 'contain' }}
             />
           ) : (
-            <Image
-              src="/avaniis-logo.png"
+            <CompanyLogo
+
               height={40}
               width={40}
-              alt="AVANIIS HR"
+              alt=""
               style={{ height: 40, width: 'auto', maxWidth: 184, objectFit: 'contain' }}
               priority
             />
           )}
-          <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: 1 }}>AVANIIS</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: 1 }}><BrandText>{"AVANIIS"}</BrandText></span>
         </span>
       </Link>
 

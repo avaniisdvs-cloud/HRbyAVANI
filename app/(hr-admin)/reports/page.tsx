@@ -39,7 +39,7 @@ import { computeClosingBalance } from '@/modules/absence/services'
 import { resolveManagerPersonScope } from '@/modules/absence/report-scope'
 import { resolvePendingApprovers } from '@/modules/workflow/queries'
 
-export const metadata = { title: 'Reports · AVANIIS People' }
+export const metadata = { title: 'Reports' }
 
 // ── Types ────────────────────────────────────────────────────────────────────
 

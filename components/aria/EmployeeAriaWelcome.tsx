@@ -1,5 +1,6 @@
 'use client'
 
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { AlertTriangle } from 'lucide-react'
 import type { EmployeeAriaContext } from '@/modules/aria'
 
@@ -278,7 +279,7 @@ export default function EmployeeAriaWelcome({
           {isAr ? 'آريا' : 'ARIA'}
         </p>
         <p style={{ fontSize: '13px', color: 'var(--ink-3)', margin: 0 }}>
-          {isAr ? 'مساعدك في AVANIIS HR' : 'Your AVANIIS HR Assistant'}
+          <BrandText>{isAr ? 'مساعدك في AVANIIS HR' : 'Your AVANIIS HR Assistant'}</BrandText>
         </p>
       </div>
 

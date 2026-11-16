@@ -1,5 +1,7 @@
 'use server'
 
+import { getCompanyBranding } from '@/lib/company-branding'
+
 /**
  * S5-01 / S5-05 / S5-08 — Absence Server Actions.
  *
@@ -955,7 +957,7 @@ export async function submitLeaveRequest(
             duration: `${row.durationDays} day(s)`,
             reason: row.notes ?? '—',
             workflowRequestId: row.requestNumber,
-            companyName: 'AVANIIS HR',
+            companyName: `${(await getCompanyBranding()).companyName} HR`,
           },
           workflowInstanceId: v2InstanceId,
           workflowStepInstanceId: step.id,

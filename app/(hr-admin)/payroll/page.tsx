@@ -20,7 +20,7 @@ import type { PayrollRunStatus } from '@/modules/payroll/types'
 import { PAYROLL_RUN_STATUS_LABELS } from '@/modules/payroll/types'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Payroll Dashboard · AVANIIS' }
+export const metadata = { title: 'Payroll Dashboard' }
 
 function statusPillClass(status: PayrollRunStatus): string {
   const map: Record<string, string> = {

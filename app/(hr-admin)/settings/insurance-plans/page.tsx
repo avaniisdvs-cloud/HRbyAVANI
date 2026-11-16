@@ -4,7 +4,7 @@ import { getInsurancePlans } from '@/modules/insurance'
 import { resolveLocale } from '@/lib/language-preference'
 import { InsurancePlansClient } from './InsurancePlansClient'
 
-export const metadata = { title: 'Insurance Plans · AVANIIS HR' }
+export const metadata = { title: 'Insurance Plans' }
 
 export default async function InsurancePlansPage() {
   const session = await auth()

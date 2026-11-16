@@ -9,7 +9,7 @@ import { resolveLocale } from '@/lib/language-preference'
 import { GroupListClient } from './GroupListClient'
 import type { PersonOption } from '@/components/forms/PersonSelect'
 
-export const metadata = { title: 'Approval Groups · AVANIIS HR' }
+export const metadata = { title: 'Approval Groups' }
 
 /**
  * Approval Groups list page — /configuration/workflows/groups.

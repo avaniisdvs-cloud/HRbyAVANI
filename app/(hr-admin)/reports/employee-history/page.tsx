@@ -18,7 +18,7 @@ import {
   getEmployeeAssignmentHistory, listHistoryEmployees, type HistorySummary,
 } from '@/modules/reports/employee-history'
 
-export const metadata = { title: 'Employee History · AVANIIS People' }
+export const metadata = { title: 'Employee History' }
 
 const HR_ROLES = ['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN']
 

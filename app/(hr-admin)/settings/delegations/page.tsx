@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { DelegationCreateForm } from './DelegationCreateForm'
 import { DelegationDeactivateButton } from './DelegationDeactivateButton'
 
-export const metadata = { title: 'Approval delegations · AVANIIS HR' }
+export const metadata = { title: 'Approval delegations' }
 
 const APPROVER_ROLES = ['LINE_MANAGER', 'HOD', 'HR_DIRECTOR', 'HR_ADMIN', 'CEO', 'SUPER_ADMIN']
 

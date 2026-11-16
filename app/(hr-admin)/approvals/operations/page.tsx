@@ -7,7 +7,7 @@ import { getWorkflowOperations } from '@/modules/workflow-intelligence'
 import { getLocale } from '@/lib/locale-server'
 import { WorkflowStatusBadge } from '@/components/workflow/WorkflowStatusBadge'
 
-export const metadata = { title: 'Workflow Operations · AVANIIS People' }
+export const metadata = { title: 'Workflow Operations' }
 
 // Org-wide oversight is HR leadership only (defense-in-depth: middleware gates the
 // path, this guard re-checks, and getWorkflowOperations returns empty for others).

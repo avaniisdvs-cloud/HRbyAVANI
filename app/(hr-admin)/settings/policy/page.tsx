@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { PolicySettingEditButton } from './PolicySettingEditButton'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Policy settings · AVANIIS HR' }
+export const metadata = { title: 'Policy settings' }
 
 /**
  * S10-01 — Policy settings page (Server Component).

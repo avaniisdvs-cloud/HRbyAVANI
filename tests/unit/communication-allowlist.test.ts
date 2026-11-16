@@ -182,7 +182,7 @@ describe('communication allowlist enforcement wiring', () => {
     expect(workflowActionRoute).toContain('Requester · مقدم الطلب')
     expect(workflowActionRoute).toContain('Request type · نوع الطلب')
     expect(workflowActionRoute).toContain('Action taken · الإجراء المتخذ')
-    expect(workflowActionRoute).toContain('View in AVANIIS · عرض في أفانيس')
+    expect(workflowActionRoute).toContain('View in ${escapeHtml(branding.companyName)} · عرض في ${escapeHtml(branding.companyNameAr)}')
     expect(workflowActionRoute).toContain('isAlreadyActionedError(actionResult.error)')
     expect(workflowActionRoute).toContain('return new NextResponse(html, { status: 200')
   })

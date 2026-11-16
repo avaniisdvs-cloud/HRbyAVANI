@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { WorkflowTemplateForm } from '../WorkflowTemplateForm'
 import { PreviewChainButton } from '@/components/workflow/PreviewChainButton'
 
-export const metadata = { title: 'Edit workflow template · AVANIIS HR' }
+export const metadata = { title: 'Edit workflow template' }
 
 export default async function EditWorkflowTemplatePage({
   params,

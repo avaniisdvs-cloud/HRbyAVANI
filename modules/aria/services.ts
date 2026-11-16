@@ -12,6 +12,8 @@
  *                          a formatted natural-language response.
  *   Second Claude call wraps live data in a bilingual, policy-cited response.
  */
+import { getCompanyBranding } from '@/lib/company-branding'
+import { formatBrandText } from '@/lib/branding'
 import { getResilientLlmClient } from '@/lib/aria/llm'
 import type { LlmMessage } from '@/lib/aria/llm'
 import { loadAriaRuntimeConfig } from '@/lib/aria/config-loader'
@@ -162,7 +164,7 @@ export async function classifyIntent(
     const response = await adapter.generate({
       model:      modelId,
       maxTokens:  256,
-      system:     ARIA_INTENT_CLASSIFIER_PROMPT,
+      system:     formatBrandText(ARIA_INTENT_CLASSIFIER_PROMPT, await getCompanyBranding()),
       messages,
       jsonMode:   true,
     })
@@ -1382,7 +1384,8 @@ export async function handleIntent(
     }
   }
 
-  const { ARIA_SYSTEM_PROMPT } = await import('@/lib/aria/system-prompt')
+  const { ARIA_SYSTEM_PROMPT: defaultPrompt } = await import('@/lib/aria/system-prompt')
+  const ARIA_SYSTEM_PROMPT = formatBrandText(defaultPrompt, await getCompanyBranding())
   const { adapter, modelId } = await getAriaLlm()
   const langLabel = lang === 'ar' ? 'Arabic (Gulf dialect)' : 'English'
 

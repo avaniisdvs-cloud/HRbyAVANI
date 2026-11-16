@@ -11,7 +11,7 @@ import {
 } from '@/drizzle/schema'
 import { visibleAdminGroups } from '@/config/admin-landing'
 
-export const metadata = { title: 'Administration · AVANIIS HR' }
+export const metadata = { title: 'Administration' }
 
 /**
  * Administration landing (Option C1) — simplified, grouped, role-aware.

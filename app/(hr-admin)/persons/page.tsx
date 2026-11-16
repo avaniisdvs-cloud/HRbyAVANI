@@ -11,7 +11,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { getLocale } from '@/lib/locale-server'
 import { EmployeesMasterDetail } from './EmployeesMasterDetail'
 
-export const metadata = { title: 'Employees · AVANIIS People' }
+export const metadata = { title: 'Employees' }
 
 /**
  * Employees — Option D "Modern" master–detail page (design handoff 2026-06).

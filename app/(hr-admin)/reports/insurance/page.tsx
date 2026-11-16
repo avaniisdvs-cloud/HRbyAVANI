@@ -25,7 +25,7 @@ import { TENANT_ID }  from '@/lib/constants'
 import { getLocale }  from '@/lib/locale-server'
 import { isoDateAddDays, todayUae } from '@/lib/date-utils'
 
-export const metadata = { title: 'Insurance Reports · AVANIIS HR' }
+export const metadata = { title: 'Insurance Reports' }
 
 const card: React.CSSProperties = {
   background: 'var(--card)',

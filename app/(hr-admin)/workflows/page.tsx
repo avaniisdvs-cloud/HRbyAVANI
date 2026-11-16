@@ -6,7 +6,7 @@ import { getPendingApprovalsV2 } from '@/modules/workflow'
 import { getLocale } from '@/lib/locale-server'
 import { WorkflowsTableClient } from './WorkflowsTableClient'
 
-export const metadata = { title: 'Approvals · AVANIIS People' }
+export const metadata = { title: 'Approvals' }
 
 const APPROVER_ROLES = ['EMPLOYEE', 'MANAGER', 'HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN']
 

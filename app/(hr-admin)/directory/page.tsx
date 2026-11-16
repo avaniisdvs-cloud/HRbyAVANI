@@ -5,7 +5,7 @@ import { getLocale } from '@/lib/locale-server'
 import { searchDirectory } from '@/modules/directory/actions'
 import { DirectoryPageClient } from '@/components/directory/DirectoryPageClient'
 
-export const metadata = { title: 'Directory · AVANIIS People' }
+export const metadata = { title: 'Directory' }
 
 const ALLOWED = ['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN', 'PAYROLL_ADMIN', 'FINANCE', 'MANAGER']
 

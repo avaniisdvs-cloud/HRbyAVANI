@@ -12,7 +12,7 @@ import {
 } from '@/drizzle/schema'
 import { TENANT_ID } from '@/lib/constants'
 
-export const metadata = { title: 'My Team · AVANIIS HR' }
+export const metadata = { title: 'My Team' }
 
 const STATUS_PILL: Record<string, string> = {
   ACTIVE:       'bg-accent-050 text-accent-700',

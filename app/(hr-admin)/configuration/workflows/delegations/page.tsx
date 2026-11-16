@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { listDelegationRules } from '@/modules/workflow/actions'
 import { DelegationListClient } from './DelegationListClient'
 
-export const metadata = { title: 'Delegation Rules · AVANIIS HR' }
+export const metadata = { title: 'Delegation Rules' }
 
 const ALLOWED_ROLES = ['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN']
 

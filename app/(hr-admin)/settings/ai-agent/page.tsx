@@ -6,7 +6,7 @@ import { getAriaConfig } from '@/modules/aria'
 import { Bot, ExternalLink, Mic, MessageSquare, Shield, ChevronLeft, Settings2 } from 'lucide-react'
 import AriaSettingsClient from './AriaSettingsClient'
 
-export const metadata = { title: 'AI Agent (ARIA) · AVANIIS HR' }
+export const metadata = { title: 'AI Agent (ARIA)' }
 
 // ── Status badge helper ────────────────────────────────────────────────────
 

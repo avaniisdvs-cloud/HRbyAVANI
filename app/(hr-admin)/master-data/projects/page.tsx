@@ -8,7 +8,7 @@ import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { ProjectClient } from './components/ProjectClient'
 import type { ProjectRow } from './components/ProjectDrawer'
 
-export const metadata = { title: 'Projects · AVANIIS HR' }
+export const metadata = { title: 'Projects' }
 
 export default async function ProjectsPage() {
   const session = await auth()

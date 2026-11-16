@@ -9,7 +9,7 @@ import { auth }                    from '@/lib/auth'
 import { getPendingFutureChanges } from './actions'
 import { PendingChangesClient }    from './PendingChangesClient'
 
-export const metadata = { title: 'Pending Future Changes · AVANIIS People' }
+export const metadata = { title: 'Pending Future Changes' }
 
 export default async function PendingChangesPage() {
   const session = await auth()

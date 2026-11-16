@@ -6,7 +6,7 @@ import { auth, roleHome }                   from '@/lib/auth'
 import { resolveLocale }          from '@/lib/language-preference'
 import { WorkflowTemplateForm }   from '../WorkflowTemplateForm'
 
-export const metadata = { title: 'New Workflow Template · AVANIIS HR' }
+export const metadata = { title: 'New Workflow Template' }
 
 export default async function NewWorkflowTemplatePage() {
   const session = await auth()

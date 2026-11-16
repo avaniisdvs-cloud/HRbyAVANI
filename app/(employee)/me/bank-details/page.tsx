@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth'
 import { getBankDetails } from '@/modules/core-hr'
 import { BankDetailsForm } from './BankDetailsForm'
 
-export const metadata = { title: 'My Bank Details · AVANIIS' }
+export const metadata = { title: 'My Bank Details' }
 
 export default async function MyBankDetailsPage() {
   const session = await auth()

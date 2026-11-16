@@ -1,3 +1,4 @@
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { PageTitle } from '@/components/ui/typography'
 import Link from 'next/link'
 import { Download, Plus, Users, Calendar, Check, Clock } from 'lucide-react'
@@ -81,12 +82,12 @@ export function AdminDashboard({
             fontFamily: 'var(--font-serif)', fontSize: 30, fontWeight: 500,
             letterSpacing: '-0.5px', color: 'var(--ink-1)', margin: 0,
           }}>
-            {locale === 'ar' ? 'موظفو Avaniis — نظرة عامة' : 'Avaniis People — Overview'}
+            <BrandText>{locale === 'ar' ? 'موظفو Avaniis — نظرة عامة' : 'Avaniis People — Overview'}</BrandText>
           </PageTitle>
           <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0 }}>
-            {locale === 'ar'
+            <BrandText>{locale === 'ar'
               ? 'مؤشرات الموارد البشرية لجميع كيانات مجموعة Avaniis'
-              : 'Org-wide HR metrics across all Avaniis entities'}
+              : 'Org-wide HR metrics across all Avaniis entities'}</BrandText>
           </p>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>

@@ -7,7 +7,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { HolidayClient } from './components/HolidayClient'
 
-export const metadata = { title: 'Holiday Calendars · AVANIIS HR' }
+export const metadata = { title: 'Holiday Calendars' }
 
 export default async function HolidayCalendarsPage() {
   const session = await auth()

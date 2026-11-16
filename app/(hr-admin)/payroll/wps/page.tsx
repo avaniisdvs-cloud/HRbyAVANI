@@ -11,7 +11,7 @@ import { validateWpsRecords } from '@/modules/payroll/calculation-engine'
 import { formatCompanyMoney, DEFAULT_CURRENCY_CONFIG } from '@/lib/utils/currency-format'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'WPS Staging · AVANIIS' }
+export const metadata = { title: 'WPS Staging' }
 
 function fmtMoney(n: number) {
   return formatCompanyMoney(n, DEFAULT_CURRENCY_CONFIG)

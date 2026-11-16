@@ -130,7 +130,7 @@ export async function saveEmpNumberConfig(
     return { success: false, error: 'Prefix code is required.' }
   }
   if (!/^[A-Z0-9]{1,10}$/.test(prefix)) {
-    return { success: false, error: 'Prefix must be letters and digits only (e.g. AVN, Avaniis). Max 10 chars.' }
+    return { success: false, error: 'Prefix must be letters and digits only (e.g. EMP, STAFF). Max 10 chars.' }
   }
 
   const digits = Math.max(3, Math.min(8, Math.floor(config.empNumberDigits)))

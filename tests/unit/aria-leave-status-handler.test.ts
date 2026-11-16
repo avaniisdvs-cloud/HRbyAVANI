@@ -16,6 +16,8 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+vi.mock('@/lib/company-branding', () => ({ getCompanyBranding: async () => ({ companyName: 'AVANIIS', companyNameAr: 'أفانيس', logoUrl: null }) }))
+
 import type { AriaIntentResult, AriaSessionContext } from '@/modules/aria/types'
 
 // ── Mock factories (must be at top level — vitest hoists vi.mock calls) ───────

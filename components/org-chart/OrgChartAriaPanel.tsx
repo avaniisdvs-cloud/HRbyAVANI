@@ -10,6 +10,7 @@
  * z-index 40 (below OrgChartShell topbar at z=50 and above canvas at z=0)
  */
 
+import { useBranding } from '@/components/providers/BrandingProvider'
 import { useState, useRef, useEffect }    from 'react'
 import { X, Send, Bot }                   from 'lucide-react'
 import { useLocale }                      from '@/components/providers/LocaleProvider'
@@ -80,6 +81,7 @@ export function OrgChartAriaPanel({
   nodes,
   departments,
 }: OrgChartAriaPanelProps) {
+  const branding = useBranding()
   const locale   = useLocale()
   const isAr     = locale === 'ar'
   const SUGGESTED = isAr ? SUGGESTED_AR : SUGGESTED_EN
@@ -122,7 +124,7 @@ export function OrgChartAriaPanel({
       }
 
       const systemPrompt = [
-        'You are ARIA, the AVANIIS HR Organisation Chart assistant.',
+        `You are ARIA, the ${branding.companyName} HR Organisation Chart assistant.`,
         'You help users navigate and understand the organisation structure.',
         `Current chart context:`,
         `  Total positions: ${orgContext.totalPositions}`,

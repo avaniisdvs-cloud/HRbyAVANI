@@ -10,7 +10,7 @@ import { PayrollRunActions } from './_components/PayrollRunActions'
 import { resolveLocale } from '@/lib/language-preference'
 
 export async function generateMetadata({ params }: { params: Promise<{ runId: string }> }) {
-  return { title: `Payroll Run · AVANIIS` }
+  return { title: `Payroll Run` }
 }
 
 function fmtDate(d: string | null | undefined): string {

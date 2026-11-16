@@ -11,9 +11,10 @@
  * Phase 1 — shell scaffold (README §rollout step 1)
  */
 
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { CompanyLogo } from '@/components/providers/BrandingProvider'
 import { usePathname, useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Locale } from '@/lib/i18n'
@@ -291,7 +292,7 @@ export function WorkspaceRail({
       {/* ── Logo ─────────────────────────────────────────── */}
       <Link
         href="/dashboard"
-        aria-label={locale === 'ar' ? 'أفانيس للموارد البشرية · الرئيسية' : 'AVANIIS HR · Home'}
+        aria-label={locale === 'ar' ? 'الموارد البشرية · الرئيسية' : 'HR · Home'}
         style={{
           display:        'flex',
           alignItems:     'center',
@@ -307,8 +308,8 @@ export function WorkspaceRail({
         {brandingLogoUrl ? (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
-            src={brandingLogoUrl}
-            alt="AVANIIS HR"
+
+            alt=""
             style={{
               height:         isCompact ? 32 : 40,
               width:          isCompact ? 'auto' : '100%',
@@ -318,11 +319,11 @@ export function WorkspaceRail({
             }}
           />
         ) : (
-          <Image
-            src="/avaniis-logo.png"
+          <CompanyLogo
+
             height={isCompact ? 32 : 40}
             width={isCompact ? 32 : 40}
-            alt="AVANIIS HR"
+            alt=""
             style={{
               height:         isCompact ? 32 : 40,
               width:          'auto',
@@ -333,7 +334,7 @@ export function WorkspaceRail({
             priority
           />
         )}
-        {!isCompact && <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: 1 }}>AVANIIS</span>}
+        {!isCompact && <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-1)', letterSpacing: 1 }}><BrandText>{"AVANIIS"}</BrandText></span>}
       </Link>
 
       {/* ── Workspace list ───────────────────────────────── */}

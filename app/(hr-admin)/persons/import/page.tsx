@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth'
 import { getLocale } from '@/lib/locale-server'
 import { ImportWizard } from './_components/ImportWizard'
 
-export const metadata = { title: 'Import Employees · AVANIIS People' }
+export const metadata = { title: 'Import Employees' }
 
 const ALLOWED_ROLES = new Set(['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'])
 

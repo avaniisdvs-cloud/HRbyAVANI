@@ -8,7 +8,7 @@ import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { PositionClient } from './components/PositionClient'
 import type { PositionRow } from './components/PositionDrawer'
 
-export const metadata = { title: 'Positions · AVANIIS HR' }
+export const metadata = { title: 'Positions' }
 
 export default async function PositionsPage() {
   const session = await auth()

@@ -240,6 +240,7 @@ export async function updatePolicySetting(
   try {
   // 1. auth — HR_ADMIN, HR_DIRECTOR, and SUPER_ADMIN may all update policy settings
   const user     = await requireRole(['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'])
+  if (settingKey.startsWith('COMPANY_BRANDING_')) throw new Error('FORBIDDEN: use the Super Admin company branding action')
   const actorName = user.name ?? user.email ?? 'system'
 
   // 2. fetch — scope to caller's entity

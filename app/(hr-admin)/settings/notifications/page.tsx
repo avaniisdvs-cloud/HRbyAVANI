@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { NotificationEditForm } from './NotificationEditForm'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Notification templates · AVANIIS HR' }
+export const metadata = { title: 'Notification templates' }
 
 /**
  * S10-04 — Notification template editor (Server Component).

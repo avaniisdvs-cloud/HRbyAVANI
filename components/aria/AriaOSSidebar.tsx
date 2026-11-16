@@ -8,6 +8,7 @@
  * which is safe as it's a high-contrast colour on dark backgrounds.
  */
 
+import { BrandText } from '@/components/providers/BrandingProvider'
 import {
   Home, CheckSquare, Bell, Users, BarChart3,
   GitBranch, Shield, BookOpen, FileText, ScrollText,
@@ -130,8 +131,7 @@ export default function AriaOSSidebar({
           color: 'var(--brand-active)',
           marginTop: 2,
         }}>
-          OS · AVANIIS HR
-        </div>
+          <BrandText>{"OS · AVANIIS HR\n        "}</BrandText></div>
       </div>
 
       {/* Nav sections */}

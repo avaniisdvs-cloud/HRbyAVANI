@@ -7,7 +7,7 @@ import { payrollDefinitions, legalEntities } from '@/drizzle/schema'
 import { TENANT_ID }    from '@/lib/constants'
 import { NewPayrollRunForm } from './_NewPayrollRunForm'
 
-export const metadata = { title: 'New Payroll Run · AVANIIS' }
+export const metadata = { title: 'New Payroll Run' }
 
 export default async function NewPayrollRunPage() {
   const session = await auth()

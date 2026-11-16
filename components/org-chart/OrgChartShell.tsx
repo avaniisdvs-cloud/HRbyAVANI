@@ -1,5 +1,6 @@
 'use client'
 
+import { useBranding } from '@/components/providers/BrandingProvider'
 import {
   useState,
   useCallback,
@@ -118,6 +119,7 @@ export function OrgChartShell({
   tenantId: _tenantId,
   systemUsers = [],
 }: OrgChartShellProps) {
+  const branding = useBranding()
   const router    = useRouter()
   const { toast } = useToast()
   const locale    = useLocale()
@@ -221,7 +223,7 @@ export function OrgChartShell({
     setExportOpen(false)
     setExporting(true)
     try {
-      await exportOrgChartPng('#org-chart-canvas .react-flow__viewport')
+      await exportOrgChartPng('#org-chart-canvas .react-flow__viewport', branding.companyName)
     } catch {
       toast({ title: locale === 'ar' ? 'فشل التصدير' : 'Export failed', variant: 'destructive' })
     } finally {
@@ -233,7 +235,7 @@ export function OrgChartShell({
     setExportOpen(false)
     setExporting(true)
     try {
-      await exportOrgChartPdf('#org-chart-canvas .react-flow__viewport')
+      await exportOrgChartPdf('#org-chart-canvas .react-flow__viewport', branding.companyName)
     } catch {
       toast({ title: locale === 'ar' ? 'فشل التصدير' : 'Export failed', variant: 'destructive' })
     } finally {

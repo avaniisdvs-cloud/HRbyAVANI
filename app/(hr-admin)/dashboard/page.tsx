@@ -21,7 +21,7 @@ import { AdminDashboard }   from '@/components/dashboard/AdminDashboard'
 import type { DeptRow, LeaveUtilRow, UpcomingHoliday } from '@/components/dashboard/AdminDashboard'
 import type { TeamMember, PendingWorkflowItem } from '@/components/dashboard/ManagerDashboard'
 
-export const metadata = { title: 'Dashboard · AVANIIS People' }
+export const metadata = { title: 'Dashboard' }
 
 // Format a date column value (string | Date | null) to "DD Mon YYYY" for display
 function fmtDate(d: string | Date | null): string {

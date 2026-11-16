@@ -9,7 +9,7 @@ import { listBackdatePolicies } from '@/modules/absence'
 import { resolveLocale } from '@/lib/language-preference'
 import { BackdatePolicyClient } from './BackdatePolicyClient'
 
-export const metadata = { title: 'Leave Backdate Policy · AVANIIS' }
+export const metadata = { title: 'Leave Backdate Policy' }
 
 /**
  * BR-LV-BDP-001 — only HR_ADMIN, HR_DIRECTOR, SUPER_ADMIN may access this page.

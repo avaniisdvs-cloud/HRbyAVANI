@@ -10,6 +10,9 @@ import { LocaleProvider } from '@/components/providers/LocaleProvider'
 import { db } from '@/lib/db'
 import { policySettings } from '@/drizzle/schema'
 import { TENANT_ID } from '@/lib/constants'
+import { companyLogoSource } from '@/lib/branding'
+import { getCompanyBranding } from '@/lib/company-branding'
+import { BrandingProvider } from '@/components/providers/BrandingProvider'
 import './globals.css'
 
 const fontSans = Inter({
@@ -38,12 +41,13 @@ const fontArabic = Noto_Sans_Arabic({
   weight: ['400', '500', '600', '700'],
 })
 
-export const metadata: Metadata = {
-  title: {
-    template: '%s — AVANIIS HR',
-    default: 'AVANIIS HR',
-  },
-  description: 'Avaniis — Human Capital Management Platform',
+export async function generateMetadata(): Promise<Metadata> {
+  const branding = await getCompanyBranding()
+  return {
+    title: { template: `%s — ${branding.companyName} HR`, default: `${branding.companyName} HR` },
+    description: `${branding.companyName} — Human Capital Management Platform`,
+    icons: { icon: companyLogoSource(branding) },
+  }
 }
 
 // Inline script runs synchronously before first paint — no flash of unstyled content.
@@ -64,6 +68,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // TD-04 — locale resolution applied to <html lang/dir> for RTL.
   // Single source of truth (cookie hint → persisted preference → 'en') so a
   // fresh login on a new device honors the saved language for <html dir> too.
+  const branding = await getCompanyBranding()
   const session = await auth()
   const locale = await resolveLocale(session?.user?.personId)
 
@@ -107,11 +112,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         data-density={density}
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} ${fontArabic.variable} font-sans antialiased`}
       >
+        <BrandingProvider branding={branding}>
         <LocaleProvider locale={locale}>
           <ConnectionNotice />
           {children}
         </LocaleProvider>
         <Toaster />
+        </BrandingProvider>
       </body>
     </html>
   )

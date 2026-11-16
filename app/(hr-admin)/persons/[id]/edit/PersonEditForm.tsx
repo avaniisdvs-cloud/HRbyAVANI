@@ -1019,7 +1019,7 @@ export function PersonEditForm({ person, contacts, addresses, emergencyContact, 
                 value={state.employeeCode}
                 onChange={e => patch('employeeCode', e.target.value)}
                 disabled={pending}
-                placeholder="e.g. Avaniis-EMP-4421" />
+                placeholder="e.g. COMPANY-EMP-4421" />
             </Field>
             <Field id="noticePeriodDays" label={locale === 'ar' ? 'فترة الإشعار (أيام)' : 'Notice period (days)'}>
               <Input id="noticePeriodDays" type="number" min={0} max={180}

@@ -9,7 +9,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { Badge } from '@/components/ui/badge'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Absence types · AVANIIS HR' }
+export const metadata = { title: 'Absence types' }
 
 /**
  * S10-07 — Absence type definitions viewer (Server Component).

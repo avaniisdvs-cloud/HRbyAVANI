@@ -7,7 +7,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { LeaveTypeClient } from './components/LeaveTypeClient'
 
-export const metadata = { title: 'Leave Types · AVANIIS HR' }
+export const metadata = { title: 'Leave Types' }
 
 export default async function LeaveTypesPage() {
   const session = await auth()

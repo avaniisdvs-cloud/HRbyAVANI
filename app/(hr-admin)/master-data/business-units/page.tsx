@@ -8,7 +8,7 @@ import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { BusinessUnitClient } from './components/BusinessUnitClient'
 import type { BusinessUnitRow } from './components/BusinessUnitDrawer'
 
-export const metadata = { title: 'Business Units · AVANIIS HR' }
+export const metadata = { title: 'Business Units' }
 
 export default async function BusinessUnitsPage() {
   const session = await auth()

@@ -1,4 +1,6 @@
 'use client'
+import { useBranding } from '@/components/providers/BrandingProvider'
+import { formatBrandText } from '@/lib/branding'
 import { useState, useRef, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { Loader2, Mic, MicOff, Send, X } from 'lucide-react'
@@ -78,6 +80,7 @@ function micBtnStyle(s: MicBtnState): React.CSSProperties {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AriaAuthWidget({ sessionCtx, locale = 'en', agentName = 'ARIA' }: Props) {
+  const branding = useBranding()
   // Arabic display name: use the configured name unless it is the default 'ARIA'.
   const agentNameAr = agentName === 'ARIA' ? 'آريا' : agentName
   const pathname = usePathname()
@@ -194,7 +197,7 @@ export default function AriaAuthWidget({ sessionCtx, locale = 'en', agentName = 
     : 'idle'
 
   useEffect(() => {
-    if (open && msgs.length === 0) setMsgs([{ from: 'aria', text: greet }])
+    if (open && msgs.length === 0) setMsgs([{ from: 'aria', text: formatBrandText(greet, branding) }])
   }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

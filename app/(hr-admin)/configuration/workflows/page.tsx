@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { listWorkflowDefinitions } from '@/modules/workflow/actions'
 import { WorkflowListClient } from './WorkflowListClient'
 
-export const metadata = { title: 'Workflow Definitions · AVANIIS HR' }
+export const metadata = { title: 'Workflow Definitions' }
 
 export default async function WorkflowDefinitionsPage() {
   const session = await auth()

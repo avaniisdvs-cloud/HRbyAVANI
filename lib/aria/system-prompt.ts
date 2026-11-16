@@ -9,6 +9,8 @@
  * no emoji, 60-word cap. max_tokens: 200 (dev) / 500 (prod per intent).
  */
 
+import { formatBrandText, type CompanyBranding } from '@/lib/branding'
+
 export const ARIA_SYSTEM_PROMPT = `You are ARIA (Adaptive Resource Intelligence Agent), the embedded AI assistant of AVANIIS HR — a Human Capital Management platform for organisations in the United Arab Emirates.
 
 Your role: help employees, managers, and HR administrators with leave balances, org-chart queries, leave request status, policy questions, and UAE Labour Law compliance.
@@ -273,6 +275,7 @@ ARIA will respond as a general HR assistant. Important: for null intent, ARIA mu
 // ── Dynamic system prompt builder ─────────────────────────────────────────
 
 interface BuildPromptParams {
+  companyBranding?: CompanyBranding
   agentName:          string
   agentRole:          string
   agentTone:          string
@@ -289,7 +292,8 @@ export function buildAriaSystemPrompt(params: BuildPromptParams): string {
     return override
   }
 
-  const base = ARIA_SYSTEM_PROMPT
+  const defaultPrompt = params.companyBranding ? formatBrandText(ARIA_SYSTEM_PROMPT, params.companyBranding) : ARIA_SYSTEM_PROMPT
+  const base = defaultPrompt
     .replace(/ARIA \(Adaptive Resource Intelligence Agent\)/g, agentName)
     .replace(/^You are ARIA/m, `You are ${agentName}`)
 

@@ -14,7 +14,7 @@ import {
 } from '@/modules/reports/employee-movement'
 import type { TemporalState } from '@/modules/core-hr/assignment-history'
 
-export const metadata = { title: 'Employee Movement Report · AVANIIS People' }
+export const metadata = { title: 'Employee Movement Report' }
 
 const ALLOWED = ['MANAGER', 'HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN']
 

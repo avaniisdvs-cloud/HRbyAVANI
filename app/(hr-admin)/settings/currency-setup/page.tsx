@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm'
 import { TENANT_ID } from '@/lib/constants'
 import { CurrencySetupClient } from './CurrencySetupClient'
 
-export const metadata = { title: 'Company Currency Setup · AVANIIS HR' }
+export const metadata = { title: 'Company Currency Setup' }
 
 export default async function CurrencySetupPage() {
   const session = await auth()

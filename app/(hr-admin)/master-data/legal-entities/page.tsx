@@ -7,7 +7,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { LegalEntityClient } from './components/LegalEntityClient'
 
-export const metadata = { title: 'Legal Entities · AVANIIS HR' }
+export const metadata = { title: 'Legal Entities' }
 
 export default async function LegalEntitiesPage() {
   const session = await auth()

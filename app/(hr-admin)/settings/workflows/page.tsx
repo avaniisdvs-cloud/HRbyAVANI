@@ -3,7 +3,7 @@ import { auth, roleHome }                        from '@/lib/auth'
 import { getWorkflowTemplates }        from '@/modules/config'
 import { WorkflowTemplatesClient }     from './WorkflowTemplatesClient'
 
-export const metadata = { title: 'Workflow Templates · AVANIIS HR' }
+export const metadata = { title: 'Workflow Templates' }
 
 /**
  * S9-01 — Workflow templates list (HR_DIRECTOR / SUPER_ADMIN only).

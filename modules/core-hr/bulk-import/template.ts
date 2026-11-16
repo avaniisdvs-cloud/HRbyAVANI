@@ -108,11 +108,11 @@ const INSTRUCTIONS: [string, string][] = [
 
 // ── Build workbook ─────────────────────────────────────────────────────────
 
-export function buildImportTemplate(refs: TemplateRefData): Buffer {
+export function buildImportTemplate(refs: TemplateRefData, companyName = 'AVANIIS'): Buffer {
   const wb = XLSX.utils.book_new()
 
   // ── Sheet 1: Instructions ───────────────────────────────────────────────
-  const instrWs = XLSX.utils.aoa_to_sheet(INSTRUCTIONS)
+  const instrWs = XLSX.utils.aoa_to_sheet([[`${companyName} HR — Bulk Employee Import Template`, ''], ...INSTRUCTIONS.slice(1)])
   instrWs['!cols'] = [{ wch: 35 }, { wch: 90 }]
   XLSX.utils.book_append_sheet(wb, instrWs, 'Instructions')
 

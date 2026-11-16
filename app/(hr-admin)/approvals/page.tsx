@@ -6,7 +6,7 @@ import { auth, roleHome } from '@/lib/auth'
 import { getPendingApprovalsV2, getApprovalHistoryForUser } from '@/modules/workflow'
 import { getLocale } from '@/lib/locale-server'
 
-export const metadata = { title: 'Approvals · AVANIIS People' }
+export const metadata = { title: 'Approvals' }
 
 const APPROVER_ROLES = ['EMPLOYEE', 'MANAGER', 'HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN']
 

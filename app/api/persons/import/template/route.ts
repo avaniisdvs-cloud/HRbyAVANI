@@ -3,6 +3,7 @@
  * Streams an Excel workbook with the employee import template.
  * Access: HR_ADMIN, HR_DIRECTOR, SUPER_ADMIN.
  */
+import { getCompanyBranding } from '@/lib/company-branding'
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { buildImportTemplate } from '@/modules/core-hr/bulk-import/template'
@@ -27,15 +28,16 @@ export async function GET() {
       refs = undefined
     }
 
+    const { companyName } = await getCompanyBranding()
     const buf = buildImportTemplate(refs ?? {
       legalEntities: [], departments: [], positions: [], grades: [], locations: [],
-    })
-
+    }, companyName)
+    const brandSlug = companyName.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-|-$/g, '') || 'company'
     return new NextResponse(new Uint8Array(buf), {
       status: 200,
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'Content-Disposition': 'attachment; filename="avaniis-employee-import-template.xlsx"',
+        'Content-Disposition': `attachment; filename="${brandSlug}-employee-import-template.xlsx"`,
         'Cache-Control': 'no-store',
       },
     })

@@ -9,7 +9,7 @@ import { getLocale } from '@/lib/locale-server'
 import { LeaveFilterBar } from '../LeaveFilterBar'
 import { LeaveTableClient } from '../LeaveTableClient'
 
-export const metadata = { title: 'My Leave · AVANIIS People' }
+export const metadata = { title: 'My Leave' }
 
 type SearchParams = {
   page?: string

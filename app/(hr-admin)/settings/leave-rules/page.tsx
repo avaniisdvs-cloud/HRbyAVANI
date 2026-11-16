@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Leave rules · AVANIIS HR' }
+export const metadata = { title: 'Leave rules' }
 
 /**
  * S10-06 — Leave rule sets viewer (Server Component).

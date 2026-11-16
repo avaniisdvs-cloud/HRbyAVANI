@@ -1,5 +1,8 @@
 'use client'
 
+import { useBranding } from '@/components/providers/BrandingProvider'
+import { formatBrandText } from '@/lib/branding'
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { useState, useRef, useTransition, useCallback } from 'react'
 import { Save, Loader2, Wand2, Eye, EyeOff, AlertCircle, CheckCircle2, Languages } from 'lucide-react'
 import { useLocale } from '@/components/providers/LocaleProvider'
@@ -37,9 +40,9 @@ const DUMMY: Record<string, string> = {
   letter_date:          new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }),
 }
 
-function resolvePreview(body: string): string {
+function resolvePreview(body: string, companyName: string): string {
   return body.replace(/\{\{(\w+)\}\}/g, (_, key) => {
-    const val = DUMMY[key]
+    const val = key === 'company_name' ? companyName.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : DUMMY[key]
     return val ? `<span style="background:#FEF3C7;color:#92400E;padding:0 2px;border-radius:2px;font-weight:600">${val}</span>` : `<span style="background:#FEE2E2;color:#991B1B;padding:0 2px;border-radius:2px">{{${key}}}</span>`
   })
 }
@@ -243,6 +246,7 @@ interface Props {
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export function TemplateEditorForm({ typeCode, typeName, template, tokens, onSaved, onCancel }: Props) {
+  const branding = useBranding()
   const locale = useLocale()
   const [nameEn,    setNameEn]    = useState(template?.nameEn ?? '')
   const [nameAr,    setNameAr]    = useState(template?.nameAr ?? '' as string)
@@ -610,10 +614,10 @@ export function TemplateEditorForm({ typeCode, typeName, template, tokens, onSav
                   <LetterTemplate
                     letterNumber="PCL-2026-0001"
                     letterDate={new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
-                    resolvedBodyEn={resolvePreview(bodyEn)}
-                    resolvedBodyAr={bodyAr ? resolvePreview(bodyAr) : undefined}
+                    resolvedBodyEn={resolvePreview(bodyEn, branding.companyName)}
+                    resolvedBodyAr={bodyAr ? resolvePreview(bodyAr, branding.companyNameAr) : undefined}
                     language={previewLang === 'ar' && bodyAr ? 'ar' : 'en'}
-                    companyNameEn="Avaniis"
+                    companyNameEn={branding.companyName}
                   />
                 ) : (
                   <div style={{ padding: 24, textAlign: 'center', color: 'var(--ink-4)', fontSize: 'var(--text-caption)' }}>

@@ -7,7 +7,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { JobClient } from './components/JobClient'
 
-export const metadata = { title: 'Jobs · AVANIIS HR' }
+export const metadata = { title: 'Jobs' }
 
 export default async function JobsPage() {
   const session = await auth()

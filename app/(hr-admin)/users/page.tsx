@@ -6,7 +6,7 @@ import { auth, roleHome } from '@/lib/auth'
 import { listUsers, listDepartmentsForUsers } from '@/modules/auth/actions'
 import { UsersClient } from './_UsersClient'
 
-export const metadata = { title: 'Users & Roles · AVANIIS HR' }
+export const metadata = { title: 'Users & Roles' }
 
 type SearchParams = {
   search?:    string

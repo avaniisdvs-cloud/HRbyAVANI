@@ -18,7 +18,7 @@ import {
 import { formatCompanyMoney, DEFAULT_CURRENCY_CONFIG } from '@/lib/utils/currency-format'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Payroll Reports · AVANIIS' }
+export const metadata = { title: 'Payroll Reports' }
 
 function fmtMoney(n: number | null | undefined) {
   return formatCompanyMoney(Number(n ?? 0), DEFAULT_CURRENCY_CONFIG)

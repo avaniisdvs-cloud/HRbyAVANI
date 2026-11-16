@@ -1,5 +1,6 @@
 'use client'
 
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { useState, useEffect, useCallback } from 'react'
 import { MdmDrawer } from '@/components/mdm/MdmDrawer'
 import { useLocale } from '@/components/providers/LocaleProvider'
@@ -396,7 +397,7 @@ export function LegalEntityDrawer({ open, onClose, entity, onSaved }: LegalEntit
             value={form.entityCode}
             onChange={e => set('entityCode', e.target.value.toUpperCase())}
             disabled={isEdit}
-            placeholder="e.g. Avaniis-PROP"
+            placeholder="e.g. COMPANY-PROP"
             maxLength={20}
             style={isEdit ? disabledInputStyle : inputStyle}
           />,
@@ -426,8 +427,8 @@ export function LegalEntityDrawer({ open, onClose, entity, onSaved }: LegalEntit
               }
             }}
             requiredEn
-            placeholderEn="e.g. Avaniis Properties LLC"
-            placeholderAr="مثال: أفانيس العقارية ذ.م.م"
+            placeholderEn="e.g. Company Properties LLC"
+            placeholderAr="مثال: الشركة العقارية ذ.م.م"
             translatingAr={arTranslating}
             disabledAr={arTranslating}
             errorEn={errors.nameEn}

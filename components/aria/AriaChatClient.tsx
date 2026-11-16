@@ -8,6 +8,9 @@
  * Hard Rule 5: all design tokens via var(--accent) — no raw hex.
  * Hard Rule 4: all user-facing strings have EN + AR variants.
  */
+import { useBranding } from '@/components/providers/BrandingProvider'
+import { formatBrandText } from '@/lib/branding'
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { useState, useRef, useEffect } from 'react'
 import { sendAriaMessage } from '@/modules/aria'
 import type { AriaChatMessage, AriaResponse, AriaSessionContext, AriaLeaveDraft, AriaTransferDraft } from '@/modules/aria'
@@ -135,6 +138,7 @@ function micBtnTitle(s: MicBtnState, isRtl: boolean): string {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function AriaChatClient({ sessionCtx, prefilledPrompt, userRole }: AriaChatClientProps) {
+  const branding = useBranding()
   // Session-scoped storage key — different users on the same device don't share history
   const storageKey = `aria-chat-${sessionCtx.personId}`
 
@@ -153,7 +157,7 @@ export default function AriaChatClient({ sessionCtx, prefilledPrompt, userRole }
       : (firstName
           ? `Hi, ${firstName}! I'm ARIA, your AVANIIS HR assistant. Ask me about leave balances, org chart, leave requests, and more.`
           : "Hi! I'm ARIA, your AVANIIS HR assistant. Ask me about leave balances, org chart, leave requests, and more.")
-    return [{ role: 'aria', content: greet }]
+    return [{ role: 'aria', content: formatBrandText(greet, branding) }]
   })
   const [history, setHistory] = useState<AriaChatMessage[]>(() => {
     try {
@@ -368,9 +372,9 @@ export default function AriaChatClient({ sessionCtx, prefilledPrompt, userRole }
                 <AriaLogo size={72} />
               </div>
               <p className="text-sm">
-                {isManager
+                <BrandText>{isManager
                   ? (isRtl ? 'مساعد الموارد البشرية · مدير الفريق' : 'Your Team HR Assistant · Line Manager')
-                  : (isRtl ? 'مساعدك في AVANIIS HR' : 'Your AVANIIS HR Assistant')}
+                  : (isRtl ? 'مساعدك في AVANIIS HR' : 'Your AVANIIS HR Assistant')}</BrandText>
               </p>
               {isManager ? (
                 <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>

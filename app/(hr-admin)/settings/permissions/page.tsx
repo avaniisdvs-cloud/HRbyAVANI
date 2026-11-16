@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { listFeaturePermissions } from '@/modules/access/actions'
 import { FeaturePermissionsClient } from '../../access/feature-permissions/_FeaturePermissionsClient'
 
-export const metadata = { title: 'Feature Permissions · AVANIIS HR' }
+export const metadata = { title: 'Feature Permissions' }
 
 export default async function PermissionsSettingsPage() {
   const session = await auth()

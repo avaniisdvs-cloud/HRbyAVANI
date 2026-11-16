@@ -6,7 +6,7 @@ import { getLocale }  from '@/lib/locale-server'
 import { getPayslipsForEmployee, getEosbEstimateForPerson, getPayslipForEmployee } from '@/modules/payroll/queries'
 import { formatCompanyMoney, DEFAULT_CURRENCY_CONFIG } from '@/lib/utils/currency-format'
 
-export const metadata = { title: 'My Payslips · AVANIIS' }
+export const metadata = { title: 'My Payslips' }
 
 function fmtMoney(n: number) {
   return formatCompanyMoney(n, DEFAULT_CURRENCY_CONFIG)

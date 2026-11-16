@@ -33,7 +33,7 @@ export class SmtpEmailProvider implements EmailProvider {
   }
 
   private fromHeader(email: OutboundEmail): string {
-    const name = email.fromName || this.cfg.smtpSenderName || 'AVANIIS HR'
+    const name = email.fromName || this.cfg.smtpSenderName || 'HR'
     const addr = email.fromEmail || this.cfg.smtpSenderEmail || this.cfg.smtpUsername || ''
     return addr ? `${name} <${addr}>` : name
   }

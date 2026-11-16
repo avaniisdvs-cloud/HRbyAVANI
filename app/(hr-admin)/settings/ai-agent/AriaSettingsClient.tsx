@@ -1,5 +1,6 @@
 'use client'
 
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLocale } from '@/components/providers/LocaleProvider'
@@ -250,7 +251,7 @@ function BrandingTab({ config }: Props) {
         <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-3)',
         marginBottom: '0.75rem',
         marginTop: 0 }}>
-          {locale === 'ar' ? 'يُطبَّق على رأس بطاقة المساعد وتمييز فقاعة المحادثة. الافتراضي هو لون أفانيس الفيروزي.' : 'Applied to the assistant card header and chat bubble highlight. Defaults to AVANIIS teal.'}
+          <BrandText>{locale === 'ar' ? 'يُطبَّق على رأس بطاقة المساعد وتمييز فقاعة المحادثة. الافتراضي هو لون أفانيس الفيروزي.' : 'Applied to the assistant card header and chat bubble highlight. Defaults to AVANIIS teal.'}</BrandText>
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap',
         marginBottom: '0.75rem' }}>
@@ -360,7 +361,7 @@ function BrandingTab({ config }: Props) {
               maxLength={200}
               value={footerLabel}
               onChange={e => setFooterLabel(e.target.value)}
-              placeholder="Powered by ARIA · AVANIIS HR"
+              placeholder="Powered by ARIA · Company HR"
             />
           </div>
           <div style={fieldGroupStyle}>
@@ -375,7 +376,7 @@ function BrandingTab({ config }: Props) {
               maxLength={200}
               value={footerLabelAr}
               onChange={e => setFooterLabelAr(e.target.value)}
-              placeholder="مدعوم بآريا · أفانيس للموارد البشرية"
+              placeholder="مدعوم بآريا · نظام الموارد البشرية"
             />
           </div>
         </div>

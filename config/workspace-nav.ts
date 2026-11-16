@@ -396,6 +396,7 @@ export const WORKSPACE_NAV: WorkspaceConfig = [
         items: [
           { id: 'settings',             labelEn: 'Settings',             labelAr: 'الإعدادات',          icon: Settings2,  route: '/settings',                  match: '/settings' },
           { id: 'communication',        labelEn: 'Communication Settings', labelAr: 'إعدادات الاتصالات', icon: Mail,      route: '/settings/communication',    match: '/settings/communication', isNew: true },
+          { id: 'company-branding', labelEn: 'Company Branding', labelAr: 'هوية الشركة', icon: Settings2, route: '/settings/branding', superAdminOnly: true },
           { id: 'feature-permissions',  labelEn: 'Feature Permissions',  labelAr: 'صلاحيات الميزات',   icon: Lock,       route: '/access/feature-permissions', isNew: true, superAdminOnly: true },
         ],
       },

@@ -11,6 +11,8 @@
  * policy_settings (AUTH.* keys) via the parent Server Component so this
  * widget never hardcodes operational strings.
  */
+import { useBranding } from '@/components/providers/BrandingProvider'
+import { formatBrandText } from '@/lib/branding'
 import { TableScrollRegion } from '@/components/ui/TableScrollRegion'
 import { useState, useRef, useEffect } from 'react'
 import { Mic, MicOff, Send, X, ArrowRight } from 'lucide-react'
@@ -201,6 +203,7 @@ export default function AriaLoginWidget({
   lang?: 'en' | 'ar'
   ariaConfig: AriaLoginConfig
 }) {
+  const branding = useBranding()
   const [open, setOpen]         = useState(false)
   const [msgs, setMsgs]         = useState<Message[]>([])
   const [input, setInput]       = useState('')
@@ -255,7 +258,8 @@ export default function AriaLoginWidget({
     setInput('')
     setThinking(true)
     setTimeout(() => {
-      setMsgs(m => [...m, { from: 'aria', ...respond(text, lang, ariaConfig) }])
+      const response = respond(text, lang, ariaConfig)
+      setMsgs(m => [...m, { from: 'aria', ...response, text: formatBrandText(response.text, branding) }])
       setThinking(false)
     }, 750)
   }

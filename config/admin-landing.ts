@@ -140,7 +140,7 @@ export const ADMIN_LANDING: AdminGroup[] = [
       { id: 'feature-permissions', titleEn: 'Feature Permissions', titleAr: 'صلاحيات الميزات', descEn: 'Module-level RBAC toggles',     route: '/access/feature-permissions', roles: [S] },
       { id: 'permissions',         titleEn: 'Permissions (RBAC)',  titleAr: 'الصلاحيات',        descEn: 'Role-based access control',     route: '/settings/permissions',       roles: [S] },
       { id: 'ai-agent',            titleEn: 'AI Agent (ARIA)',     titleAr: 'وكيل الذكاء (آريا)', descEn: 'Model, behaviour, branding, API', route: '/settings/ai-agent',       roles: [S] },
-      { id: 'branding',            titleEn: 'Global Branding',     titleAr: 'الهوية البصرية',   descEn: 'Org-wide visual identity',     route: '/settings/branding',          roles: [S] },
+      { id: 'branding',            titleEn: 'Company Branding',     titleAr: 'الهوية البصرية',   descEn: 'Company name and logo',     route: '/settings/branding',          roles: [S] },
       { id: 'integrations',        titleEn: 'Integrations',        titleAr: 'التكاملات',        descEn: 'Connected systems',            route: '/settings/integrations',      roles: [S], badge: 'SOON' },
       { id: 'api-webhooks',        titleEn: 'API & Webhooks',      titleAr: 'واجهة برمجية',     descEn: 'Tokens & rate limits',         route: '/settings/api-webhooks',      roles: [S], badge: 'SOON' },
     ],

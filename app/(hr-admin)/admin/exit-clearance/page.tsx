@@ -10,7 +10,7 @@ import type { Locale } from '@/lib/i18n'
 import Link from 'next/link'
 import { LogOut, CheckCircle2, Clock, AlertTriangle } from 'lucide-react'
 
-export const metadata = { title: 'Exit Clearance · AVANIIS HR' }
+export const metadata = { title: 'Exit Clearance' }
 
 const ALLOWED_ROLES = ['HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN'] as const
 

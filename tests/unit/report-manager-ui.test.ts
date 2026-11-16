@@ -26,7 +26,7 @@ const src  = fs.readFileSync(path.join(ROOT, 'app/(hr-admin)/reports/page.tsx'),
 describe('Manager Reports — /reports page UI contract', () => {
   it('RMU-001: the in-page Reports left-nav is suppressed for MANAGER', () => {
     // The left-nav block is gated on !isManager.
-    expect(src).toMatch(/\{!isManager && \(\s*<div style=\{\{\s*\n?\s*width: 220/)
+    expect(src).toMatch(/\{!isManager && \(\s*<div className="reports-navigation"/)
   })
 
   it('RMU-002: admins still render the in-page left nav as their secondary nav', () => {

@@ -474,6 +474,12 @@ export const ADMIN_NAV: NavConfig = [
   },
 
   {
+    id: 'company-branding', labelEn: 'Company Branding', labelAr: 'هوية الشركة',
+    icon: Settings2, color: 'var(--accent)', defaultOpen: false, superAdminOnly: true,
+    items: [{ id: 'company-branding', labelEn: 'Company Branding', labelAr: 'هوية الشركة', icon: Settings2, route: '/settings/branding' }],
+  },
+
+  {
     id:             'system',
     labelEn:        'DATABASE',
     labelAr:        'قاعدة البيانات',

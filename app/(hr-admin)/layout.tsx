@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { MobileBrandHeader } from '@/components/providers/BrandingProvider'
 import { redirect } from 'next/navigation'
 import { eq, and } from 'drizzle-orm'
 import { auth, roleHome } from '@/lib/auth'
@@ -14,13 +14,12 @@ import AriaAuthWidget           from '@/components/aria/AriaAuthWidget'
 import { PreferencesApplier }   from '@/components/topbar/PreferencesApplier'
 import { CommandPalette }       from '@/components/layout/CommandPalette'
 import { getPreferences }       from '@/modules/notification'
-import { getPagePersonalization } from '@/modules/config/actions/page-personalization'
+import { getCompanyBranding } from '@/lib/company-branding'
 import { db }                   from '@/lib/db'
 import { persons }              from '@/drizzle/schema'
 import { ariaAgentConfig }      from '@/drizzle/schema/configuration'
 import { TENANT_ID }            from '@/lib/constants'
 
-const BRANDING_ENTITY_ID = '11111111-1111-1111-1111-111111111111'
 
 /**
  * (hr-admin) route group — gated to HR_ADMIN, HR_DIRECTOR, SUPER_ADMIN,
@@ -76,7 +75,7 @@ export default async function HrAdminLayout({
   }
 
   // Global branding logo (resilient — returns defaults if DB unreachable).
-  const branding = await getPagePersonalization(BRANDING_ENTITY_ID)
+  const branding = await getCompanyBranding()
   const brandingLogoUrl = branding.logoUrl && branding.logoUrl.trim() !== '' ? branding.logoUrl : null
 
   // ARIA configured identity — drives the floating widget name (Settings → AI Agent → Identity).
@@ -112,7 +111,7 @@ export default async function HrAdminLayout({
 
 
         <div className="flex min-w-0 flex-1 flex-col" style={{ overflow: 'hidden' }}>
-          <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+          <MobileBrandHeader />
           <AdminTopbar
             userName={name}
             role={role}
@@ -178,7 +177,7 @@ export default async function HrAdminLayout({
         />
 
         <div className="flex min-w-0 flex-1 flex-col" style={{ overflow: 'hidden' }}>
-          <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+          <MobileBrandHeader />
           <AdminTopbar
             userName={name}
             role={role}
@@ -241,7 +240,7 @@ export default async function HrAdminLayout({
       />
 
       <div className="flex min-w-0 flex-1 flex-col" style={{ overflow: 'hidden' }}>
-        <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+        <MobileBrandHeader />
           <EmployeeTopbar
           userName={name}
           userRole={role}

@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { MobileBrandHeader } from '@/components/providers/BrandingProvider'
 import { redirect } from 'next/navigation'
 import { eq, and } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
@@ -10,12 +10,11 @@ import AriaAuthWidget from '@/components/aria/AriaAuthWidget'
 import { MobileBottomBar } from '@/components/layout/MobileBottomBar'
 import { PreferencesApplier } from '@/components/topbar/PreferencesApplier'
 import { getPreferences } from '@/modules/notification'
-import { getPagePersonalization } from '@/modules/config/actions/page-personalization'
+import { getCompanyBranding } from '@/lib/company-branding'
 import { db }      from '@/lib/db'
 import { persons } from '@/drizzle/schema'
 import { TENANT_ID } from '@/lib/constants'
 
-const BRANDING_ENTITY_ID = '11111111-1111-1111-1111-111111111111'
 
 export default async function EmployeeLayout({
   children,
@@ -54,7 +53,7 @@ export default async function EmployeeLayout({
   }
 
   // Global branding logo (resilient — returns defaults if DB unreachable).
-  const branding = await getPagePersonalization(BRANDING_ENTITY_ID)
+  const branding = await getCompanyBranding()
   const brandingLogoUrl = branding.logoUrl && branding.logoUrl.trim() !== '' ? branding.logoUrl : null
 
   return (
@@ -71,7 +70,7 @@ export default async function EmployeeLayout({
         brandingLogoUrl={brandingLogoUrl}
       />
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <div className="mobile-brand-header"><Image src="/avaniis-logo.png" width={40} height={40} alt="AVANIIS" />AVANIIS HR</div>
+        <MobileBrandHeader />
           <EmployeeTopbar
           userName={name}
           userRole={session.user.role}

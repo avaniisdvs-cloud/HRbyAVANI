@@ -7,7 +7,7 @@ import { auth } from '@/lib/auth'
 import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { LocationClient } from './components/LocationClient'
 
-export const metadata = { title: 'Locations · AVANIIS HR' }
+export const metadata = { title: 'Locations' }
 
 export default async function LocationsPage() {
   const session = await auth()

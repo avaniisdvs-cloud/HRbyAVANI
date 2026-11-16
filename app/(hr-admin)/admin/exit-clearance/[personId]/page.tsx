@@ -12,7 +12,7 @@ import { ExitClearanceItemActions } from './ExitClearanceItemActions'
 import { ArrowLeft, LogOut, CheckCircle2, Clock, XCircle, AlertTriangle } from 'lucide-react'
 import Link from 'next/link'
 
-export const metadata = { title: 'Exit Clearance · AVANIIS HR' }
+export const metadata = { title: 'Exit Clearance' }
 
 const ALLOWED_ROLES = ['HR_ADMIN', 'HR_DIRECTOR', 'MANAGER', 'PAYROLL_ADMIN', 'SUPER_ADMIN'] as const
 

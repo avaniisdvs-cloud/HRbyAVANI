@@ -7,7 +7,7 @@ import { auth } from '@/lib/auth'
 import { getMdmChangeHistory } from '@/lib/mdm-audit'
 import { GradeClient } from './components/GradeClient'
 
-export const metadata = { title: 'Grades · AVANIIS HR' }
+export const metadata = { title: 'Grades' }
 
 export default async function GradesPage() {
   const session = await auth()

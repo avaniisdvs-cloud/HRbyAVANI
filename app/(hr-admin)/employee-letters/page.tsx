@@ -5,7 +5,7 @@ import { getAllLetterTypes } from '@/modules/employee-letters/queries'
 import { LetterTypesGrid } from '@/components/employee-letters/LetterTypesGrid'
 import { FileText } from 'lucide-react'
 
-export const metadata = { title: 'Employee Letters | AVANIIS HR' }
+export const metadata = { title: 'Employee Letters' }
 
 // RBAC-BL-04: HR-owned official letter generation (salary certs, NOC, etc.) —
 // not employee self-service (employees use /me/letters). Restricted to HR roles.

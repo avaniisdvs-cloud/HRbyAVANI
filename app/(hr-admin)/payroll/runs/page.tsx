@@ -9,7 +9,7 @@ import { formatCompanyMoney, DEFAULT_CURRENCY_CONFIG } from '@/lib/utils/currenc
 import { resolveLocale } from '@/lib/language-preference'
 import type { PayrollRunStatus } from '@/modules/payroll/types'
 
-export const metadata = { title: 'Payroll Runs · AVANIIS' }
+export const metadata = { title: 'Payroll Runs' }
 
 function statusPillClass(status: PayrollRunStatus): string {
   const map: Record<string, string> = {

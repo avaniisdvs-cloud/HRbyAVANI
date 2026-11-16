@@ -8,7 +8,7 @@ import { getPersonEnrolments } from '@/modules/insurance'
 import { TENANT_ID } from '@/lib/constants'
 import { MyInsuranceClient } from './MyInsuranceClient'
 
-export const metadata = { title: 'My Insurance · AVANIIS' }
+export const metadata = { title: 'My Insurance' }
 
 export default async function MyInsurancePage() {
   const session = await auth()

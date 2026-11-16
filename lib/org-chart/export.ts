@@ -24,7 +24,7 @@ function exportFilter(domNode: HTMLElement): boolean {
  * Downloads the org chart canvas as a PNG file.
  * @param canvasSelector — CSS selector for the target element (e.g. '#org-chart-canvas .react-flow__viewport')
  */
-export async function exportOrgChartPng(canvasSelector: string): Promise<void> {
+export async function exportOrgChartPng(canvasSelector: string, companyName = 'AVANIIS'): Promise<void> {
   const { toPng } = await import('html-to-image')
 
   const node = document.querySelector(canvasSelector) as HTMLElement | null
@@ -39,7 +39,7 @@ export async function exportOrgChartPng(canvasSelector: string): Promise<void> {
 
   const today = new Date().toISOString().split('T')[0]
   const link  = document.createElement('a')
-  link.download = `avaniis-org-chart-${today}.png`
+  link.download = `${companyName.replace(/[^a-z0-9_-]/gi, '-').toLowerCase()}-org-chart-${today}.png`
   link.href     = dataUrl
   link.click()
 }
@@ -48,7 +48,7 @@ export async function exportOrgChartPng(canvasSelector: string): Promise<void> {
  * Downloads the org chart canvas as an A3 landscape PDF.
  * @param canvasSelector — CSS selector for the target element
  */
-export async function exportOrgChartPdf(canvasSelector: string): Promise<void> {
+export async function exportOrgChartPdf(canvasSelector: string, companyName = 'AVANIIS'): Promise<void> {
   const { toPng }  = await import('html-to-image')
   const { default: jsPDF } = await import('jspdf')
 
@@ -76,7 +76,7 @@ export async function exportOrgChartPdf(canvasSelector: string): Promise<void> {
   pdf.rect(0, 0, W, 14, 'F')
   pdf.setFontSize(10)
   pdf.setTextColor(60, 60, 60)
-  pdf.text('AVANIIS HR — Organisation Chart', 12, 9)
+  pdf.text(`${companyName} HR — Organisation Chart`, 12, 9)
   pdf.text(`Generated: ${today}`, W - 12, 9, { align: 'right' })
 
   // 4 — Org chart image below header
@@ -84,6 +84,6 @@ export async function exportOrgChartPdf(canvasSelector: string): Promise<void> {
   pdf.addImage(dataUrl, 'PNG', 0, 14, W, imgH, '', 'FAST')
 
   // 5 — Download
-  const filename = `avaniis-org-chart-${new Date().toISOString().split('T')[0]}.pdf`
+  const filename = `${companyName.replace(/[^a-z0-9_-]/gi, '-').toLowerCase()}-org-chart-${new Date().toISOString().split('T')[0]}.pdf`
   pdf.save(filename)
 }

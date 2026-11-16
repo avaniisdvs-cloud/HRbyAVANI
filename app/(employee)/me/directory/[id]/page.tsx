@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth'
 import { getLocale } from '@/lib/locale-server'
 import { getColleagueProfile } from '@/modules/directory/actions'
 
-export const metadata = { title: 'Colleague · AVANIIS People' }
+export const metadata = { title: 'Colleague' }
 
 /**
  * Read-only colleague card for employees opening a co-worker from the org chart.

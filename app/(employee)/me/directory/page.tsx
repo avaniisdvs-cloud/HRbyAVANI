@@ -5,7 +5,7 @@ import { getLocale } from '@/lib/locale-server'
 import { searchDirectory } from '@/modules/directory/actions'
 import { DirectoryPageClient } from '@/components/directory/DirectoryPageClient'
 
-export const metadata = { title: 'Directory · AVANIIS People' }
+export const metadata = { title: 'Directory' }
 
 export default async function EmployeeDirectoryPage() {
   const session = await auth()

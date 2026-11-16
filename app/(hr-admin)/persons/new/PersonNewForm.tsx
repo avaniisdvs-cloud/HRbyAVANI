@@ -1,5 +1,6 @@
 'use client'
 
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { SectionTitle } from '@/components/ui/typography'
 import React, { useState, useTransition, useEffect, useRef, type FormEvent } from 'react'
 import { FormErrorSummary } from '@/components/forms/FormErrorSummary'
@@ -1287,7 +1288,7 @@ export function PersonNewForm({
                 value={state.employeeCode}
                 onChange={e => patch('employeeCode', e.target.value)}
                 disabled={pending}
-                placeholder="e.g. Avaniis-EMP-4421"
+                placeholder="e.g. COMPANY-EMP-4421"
                 style={inputStyle()}
               />
             </div>

@@ -1,3 +1,4 @@
+import { getCompanyBranding } from '@/lib/company-branding'
 import { db } from '@/lib/db'
 import { decryptNullable } from '@/lib/encryption'
 import {
@@ -90,6 +91,7 @@ export async function loadAriaRuntimeConfig(): Promise<AriaRuntimeConfig> {
   const slaMonitoring        = behaviour?.slaMonitoring      ?? true
 
   const systemPrompt = buildAriaSystemPrompt({
+    companyBranding: await getCompanyBranding(),
     agentName,
     agentRole,
     agentTone,

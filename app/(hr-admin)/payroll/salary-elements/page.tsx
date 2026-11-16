@@ -9,7 +9,7 @@ import { TENANT_ID } from '@/lib/constants'
 import { formatCompanyMoney, DEFAULT_CURRENCY_CONFIG } from '@/lib/utils/currency-format'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Salary Elements · AVANIIS' }
+export const metadata = { title: 'Salary Elements' }
 
 function fmtMoney(n: unknown) {
   return formatCompanyMoney(Number(n ?? 0), DEFAULT_CURRENCY_CONFIG)

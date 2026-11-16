@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Custom fields · AVANIIS HR' }
+export const metadata = { title: 'Custom fields' }
 
 const OBJECT_TYPES = ['persons', 'worker_assignments', 'positions', 'departments'] as const
 

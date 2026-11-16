@@ -26,6 +26,8 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+vi.mock('@/lib/company-branding', () => ({ getCompanyBranding: async () => ({ companyName: 'AVANIIS', companyNameAr: 'أفانيس', logoUrl: null }) }))
+
 
 // ── Mock Azure Communication email SDK (optional dep) ────────────────────────
 vi.mock('@azure/communication-email', () => ({

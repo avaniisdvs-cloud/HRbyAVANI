@@ -6,7 +6,7 @@ import { getWorkflowInstanceDetailV2 } from '@/modules/workflow'
 import { Badge } from '@/components/ui/badge'
 import { resolveLocale } from '@/lib/language-preference'
 
-export const metadata = { title: 'Workflow history · AVANIIS HR' }
+export const metadata = { title: 'Workflow history' }
 
 const APPROVER_ROLES = ['EMPLOYEE', 'MANAGER', 'HR_ADMIN', 'HR_DIRECTOR', 'SUPER_ADMIN']
 

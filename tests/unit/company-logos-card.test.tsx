@@ -12,6 +12,7 @@ beforeEach(() => { vi.clearAllMocks(); mocks.select.mockResolvedValue({ success:
 describe('two retained logos and explicit upload', () => {
   it('enables Upload after browsing and retains primary while uploading a customer logo', async () => {
     render(<CompanyLogosCard initial={initial} />)
+    expect(screen.getByLabelText('Choose customer logo file').getAttribute('accept')).toBe('image/*')
     const upload = screen.getByRole('button', { name: 'Upload secondary logo' }) as HTMLButtonElement
     expect(upload.disabled).toBe(true)
     fireEvent.change(screen.getByLabelText('Choose customer logo file'), { target: { files: [new File(['test'], 'customer.png', { type: 'image/png' })] } })

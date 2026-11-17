@@ -6,6 +6,8 @@ Sign in as Super Admin and open **Administration → Company Branding**. The pri
 
 The Upload button is intentionally disabled until a file is selected. After browsing, the page displays **File selected. Ready to upload.** and enables the button. Server errors remain visible and the selected file remains available for retry.
 
+The native picker uses the broadly compatible `image/*` filter. This avoids a macOS picker issue where a valid `public.png` file could be visibly selected while the picker-level Upload button stayed disabled. The server still enforces PNG, SVG, JPEG or WebP and the 2 MB limit.
+
 The setting is organization-wide for this application instance. Other users see it on their next navigation or refresh. No rebuild, deployment, GitHub change or database migration is required when changing the name or logo.
 
 ## Scope

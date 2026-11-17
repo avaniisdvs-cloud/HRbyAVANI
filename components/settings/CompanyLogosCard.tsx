@@ -73,7 +73,7 @@ export function CompanyLogosCard({ initial }: { initial: Options }) {
     </div>
     <div className="company-logo-upload">
       <label htmlFor="secondary-company-logo">{ar ? 'اختر ملف شعار العميل' : 'Choose customer logo file'}</label>
-      <input id="secondary-company-logo" type="file" accept=".png,.svg,.jpg,.jpeg,.webp" disabled={busy} aria-describedby="company-logo-upload-help" onChange={event => { setFile(event.target.files?.[0] ?? null); setMessage('') }} />
+      <input id="secondary-company-logo" type="file" accept="image/*" disabled={busy} aria-describedby="company-logo-upload-help" onChange={event => { setFile(event.target.files?.[0] ?? null); setMessage('') }} />
       <p id="company-logo-upload-help">{ar ? 'اختر الملف، ثم اضغط رفع الشعار الثانوي. PNG أو SVG أو JPG أو WebP، بحد أقصى 2 ميجابايت. يُفضّل ملف شفاف.' : 'Choose a file, then click Upload secondary logo. PNG, SVG, JPG or WebP, maximum 2 MB. A transparent logo is recommended.'}</p>
       <button type="button" disabled={busy || !file} onClick={upload}>{busy ? (ar ? 'جارٍ الحفظ…' : 'Saving…') : (ar ? 'رفع الشعار الثانوي' : 'Upload secondary logo')}</button>
     </div>

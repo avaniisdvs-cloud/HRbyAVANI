@@ -590,7 +590,7 @@ function CarouselImageUploader({
       <input
         ref={inputRef}
         type="file"
-        accept=".png,.jpg,.jpeg,.webp,.svg"
+        accept="image/*"
         onChange={handleSelect}
         style={{ display: 'none' }}
         disabled={uploading}

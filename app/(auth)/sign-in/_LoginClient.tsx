@@ -301,7 +301,7 @@ export default function LoginClient({
               display: 'inline-block', whiteSpace: 'nowrap',
               color: 'rgba(255,255,255,0.92)', fontSize: 19,
               fontFamily: 'var(--font-sans)',
-              animation: 'none',
+              animation: `ticker-ltr ${personalization.tickerSpeed}s linear infinite`,
               paddingLeft: '100%',
             }}>
               {formatBrandText(personalization.tickerText, branding)}&nbsp;&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;&nbsp;

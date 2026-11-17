@@ -47,4 +47,41 @@ describe('sign-in slideshow', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Slide 2' }))
     expect(active()).toBe('Slide 2')
   })
+
+  it('renders and animates the scrolling ticker at the configured speed', () => {
+    render(
+      <LoginClient
+        personalization={{
+          ...personalization,
+          tickerText: 'Company news and announcements',
+          tickerVisible: true,
+          tickerSpeed: 15,
+        }}
+        ariaConfig={{} as AriaLoginConfig}
+      />,
+    )
+
+    const tickerText = screen.getByText((content) => content.includes('Company news and announcements'))
+    expect(tickerText).toHaveStyle({ animation: 'ticker-ltr 15s linear infinite' })
+  })
+
+  it('renders uploaded carousel images instead of the defaults and rotates them', () => {
+    render(
+      <LoginClient
+        personalization={{
+          ...personalization,
+          carouselImages: [
+            { id: 'two', url: 'data:image/png;base64,dHdv', alt: 'Second', order: 1, uploadedAt: '2026-11-17' },
+            { id: 'one', url: 'data:image/png;base64,b25l', alt: 'First', order: 0, uploadedAt: '2026-11-17' },
+          ],
+        }}
+        ariaConfig={{} as AriaLoginConfig}
+      />,
+    )
+
+    expect(screen.getAllByRole('button', { name: /Slide/ })).toHaveLength(2)
+    expect(active()).toBe('Slide 1')
+    act(() => vi.advanceTimersByTime(6500))
+    expect(active()).toBe('Slide 2')
+  })
 })

@@ -1,13 +1,10 @@
 'use client'
 
-import { BrandText, useBranding } from '@/components/providers/BrandingProvider'
+import { BrandText } from '@/components/providers/BrandingProvider'
 import { useState, useRef, useTransition } from 'react'
-import { useRouter } from 'next/navigation'
-import { companyLogoSource } from '@/lib/branding'
 import { Layers, Upload, X } from 'lucide-react'
 import {
   updatePagePersonalization,
-  uploadBrandingLogo,
   uploadCarouselImage,
   deleteCarouselImage,
   reorderCarouselImages,
@@ -31,7 +28,6 @@ type Personalization = {
   tickerVisible:     boolean
   tickerSpeed:       number
   carouselImages:    CarouselImage[]
-  logoUrl:           string | null
   carouselHeightPct: number
 }
 
@@ -125,14 +121,9 @@ const SPEED_OPTIONS = [
 // ── Component ──────────────────────────────────────────────────────────────
 
 export default function PagePersonalizationCard({ entityId, initial }: Props) {
-  const branding = useBranding()
-  const router = useRouter()
   const locale = useLocale()
   const [form, setForm] = useState<Personalization>({ ...initial, entityId })
   const [saving, startSave] = useTransition()
-  const [uploading, setUploading] = useState(false)
-  const [logoError, setLogoError] = useState('')
-  const logoInputRef = useRef<HTMLInputElement>(null)
 
   function patch<K extends keyof Personalization>(key: K, value: Personalization[K]) {
     setForm(f => ({ ...f, [key]: value }))
@@ -148,66 +139,12 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
           ticker_visible:      form.tickerVisible,
           ticker_speed:        form.tickerSpeed,
           carousel_height_pct: form.carouselHeightPct,
-          logo_url:            form.logoUrl,
         })
         showToast(locale === 'ar' ? 'تم حفظ تخصيص الصفحة' : 'Page personalization saved')
       } catch {
         showToast(locale === 'ar' ? 'فشل الحفظ — يرجى المحاولة مرة أخرى' : 'Failed to save — please try again', 'warn')
       }
     })
-  }
-
-  async function handleLogoSelect(e: React.ChangeEvent<HTMLInputElement>) {
-    setLogoError('')
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (file.size > 2 * 1024 * 1024) { setLogoError(locale === 'ar' ? 'الملف كبير جداً (الحد الأقصى 2 ميجابايت)' : 'File too large (max 2 MB)'); return }
-    const allowed = ['image/png', 'image/svg+xml', 'image/jpeg', 'image/webp']
-    if (!allowed.includes(file.type)) { setLogoError(locale === 'ar' ? 'نوع ملف غير صالح (استخدم PNG أو SVG أو JPG أو WebP)' : 'Invalid file type (use PNG, SVG, JPG, or WebP)'); return }
-
-    // Snapshot the previously-saved logo so we can revert if the upload fails.
-    const previousLogo = form.logoUrl
-
-    // Instant optimistic preview (data: URL) — replaced by the persistent URL on success.
-    const reader = new FileReader()
-    reader.onload = ev => patch('logoUrl', ev.target?.result as string)
-    reader.readAsDataURL(file)
-
-    // Upload + persist to page_personalization.logo_url (no separate Save needed).
-    setUploading(true)
-    try {
-      const fd = new FormData()
-      fd.append('file', file)
-      const result = await uploadBrandingLogo(entityId, fd)
-      if ('error' in result) {
-        patch('logoUrl', previousLogo)   // revert the optimistic preview
-        setLogoError(result.error)
-        showToast(result.error, 'warn')
-      } else {
-        patch('logoUrl', result.logoUrl) // replace preview with the persisted data URL
-        showToast(locale === 'ar' ? 'تم تحديث الشعار' : 'Logo updated')
-        router.refresh()
-      }
-    } catch (err: unknown) {
-      patch('logoUrl', previousLogo)     // revert the optimistic preview
-      const msg = err instanceof Error ? err.message : (locale === 'ar' ? 'فشل رفع الشعار' : 'Logo upload failed')
-      setLogoError(msg)
-      showToast(msg, 'warn')
-    } finally {
-      setUploading(false)
-      if (logoInputRef.current) logoInputRef.current.value = ''
-    }
-  }
-
-  async function handleRemoveLogo() {
-    patch('logoUrl', null)
-    try {
-      await updatePagePersonalization(entityId, { logo_url: null })
-      showToast(locale === 'ar' ? 'تمت إزالة الشعار' : 'Logo removed')
-      router.refresh()
-    } catch {
-      showToast(locale === 'ar' ? 'فشلت إزالة الشعار' : 'Failed to remove logo', 'warn')
-    }
   }
 
   async function handleDeleteCarouselImage(imgId: string) {
@@ -464,79 +401,6 @@ export default function PagePersonalizationCard({ entityId, initial }: Props) {
               </span>
             </div>
           )}
-        </div>
-      </div>
-
-      <Divider />
-
-      {/* ── Sub-section 3: Logo ── */}
-      <div style={{ padding: '16px 20px' }}>
-        <SectionLabel>{locale === 'ar' ? 'شعار العلامة التجارية' : 'Brand Logo'}</SectionLabel>
-        <div style={{ marginTop: 12, display: 'flex', gap: 20, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-          {/* Current logo preview */}
-          <div style={{
-            width: 120, flexShrink: 0,
-            background: 'var(--surface)', border: '1px solid var(--border)',
-            borderRadius: 8, padding: 12, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            minHeight: 80,
-          }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={form.logoUrl ?? companyLogoSource({ ...branding, logoUrl: null })}
-              alt={locale === 'ar' ? 'الشعار الحالي' : 'Current logo'}
-              style={{ maxWidth: '100%', maxHeight: 56, objectFit: 'contain' }}
-            />
-          </div>
-
-          {/* Upload area */}
-          <div style={{ flex: 1, minWidth: 200 }}>
-            <div
-              onClick={() => logoInputRef.current?.click()}
-              style={{
-                border: '2px dashed var(--border)', borderRadius: 8, padding: '20px',
-                textAlign: 'center', cursor: 'pointer',
-                transition: 'border-color 150ms, background 150ms',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.background = 'var(--accent-050)' }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = '' }}
-            >
-              <Upload size={24} strokeWidth={1.5} style={{ color: 'var(--ink-4)', margin: '0 auto 8px' }} aria-hidden />
-              <p style={{ fontSize: 'var(--text-body)', color: 'var(--ink-3)', margin: 0, fontWeight: 500 }}>
-                {uploading ? (locale === 'ar' ? 'جارٍ الرفع…' : 'Uploading…') : (locale === 'ar' ? 'انقر لرفع الشعار' : 'Click to upload logo')}
-              </p>
-              <p style={{ fontSize: 'var(--text-caption)', color: 'var(--ink-4)', margin: '4px 0 0', lineHeight: 1.5 }}>
-                {locale === 'ar'
-                  ? 'يُفضّل PNG أو SVG · الحد الأقصى 2 ميجابايت · يُطبّق على صفحة تسجيل الدخول والقوائم والتطبيق'
-                  : 'PNG or SVG recommended · Max 2 MB · Applies to sign-in, navigation, and application branding'}
-              </p>
-            </div>
-            <input
-              ref={logoInputRef}
-              type="file"
-              accept=".png,.svg,.jpg,.jpeg,.webp"
-              onChange={handleLogoSelect}
-              style={{ display: 'none' }}
-            />
-            {logoError && (
-              <p style={{ fontSize: 'var(--text-caption)', color: 'var(--status-rejected-fg, #7A2E2E)', margin: '6px 0 0' }}>
-                {logoError}
-              </p>
-            )}
-            {form.logoUrl && (
-              <button
-                onClick={handleRemoveLogo}
-                style={{
-                  marginTop: 8, background: 'none', border: 'none',
-                  fontSize: 'var(--text-caption)', color: 'var(--brand-active)', cursor: 'pointer', padding: 0,
-                  fontWeight: 600,
-                }}
-                onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
-                onMouseLeave={e => e.currentTarget.style.textDecoration = ''}
-              >
-                {locale === 'ar' ? 'إزالة الشعار' : 'Remove logo'}
-              </button>
-            )}
-          </div>
         </div>
       </div>
 

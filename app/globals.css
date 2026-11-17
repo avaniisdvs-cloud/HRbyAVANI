@@ -563,3 +563,19 @@ input::placeholder, textarea::placeholder { color: var(--ink-3); opacity: 1; }
   font-family: var(--font-arabic), sans-serif;
 }
 .branding-name-input { display: block; width: 100%; margin-top: 6px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--card); color: var(--ink-1); font-size: var(--text-body); }
+
+/* Super Admin demo logo selection: preserve the primary mark and customer artwork. */
+.company-logos-card { margin-bottom: 24px; padding: 24px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+.company-logos-card p { color: var(--ink-3); margin: 10px 0 16px; }
+.company-logo-options { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,260px),1fr)); gap: 16px; }
+.company-logo-option { padding: 16px; border: 1px solid var(--border); border-radius: 10px; }
+.company-logo-option[data-selected="true"] { border-color: var(--accent); background: var(--surface); }
+.company-logo-option h3 { font-size: var(--text-body); font-weight: 600; margin: 0; }
+.company-logo-preview { height: 100px; display: flex; align-items: center; justify-content: center; margin: 12px 0; }
+.company-logo-preview img { max-height: 100%; max-width: 100%; object-fit: contain; }
+.company-logos-card button { border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; color: var(--on-accent); background: var(--accent); cursor: pointer; }
+.company-logos-card button:disabled { opacity: .55; cursor: not-allowed; }
+.company-logos-card button:focus-visible, .company-logo-upload input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.company-logo-upload { margin-top: 20px; }
+.company-logo-upload label { display: block; font-weight: 600; margin-bottom: 8px; }
+.company-logo-upload input { display: block; max-width: 100%; font: inherit; color: var(--ink-1); }

@@ -2,12 +2,15 @@
 
 ## Use
 
-Sign in as Super Admin, open **Administration → Company Branding**, enter the company display name, optionally enter its Arabic name, and select **Save company name**. A blank Arabic name uses the company name in both languages. Upload a logo in the Brand Logo section; upload saves immediately. Transparent PNG or SVG is recommended; PNG, SVG, JPEG and WebP up to 2 MB are accepted.
+Sign in as Super Admin and open **Administration → Company Branding**. The primary AVANIIS logo is retained permanently. Browse for a customer logo in the secondary-logo section, then select **Upload secondary logo**. After upload, choose **Use primary logo** or **Use secondary logo** to control which logo appears. Uploading a file does not switch the displayed logo automatically. Transparent PNG or SVG is recommended; PNG, SVG, JPEG and WebP up to 2 MB are accepted.
+
+The Upload button is intentionally disabled until a file is selected. After browsing, the page displays **File selected. Ready to upload.** and enables the button. Server errors remain visible and the selected file remains available for retry.
 
 The setting is organization-wide for this application instance. Other users see it on their next navigation or refresh. No rebuild, deployment, GitHub change or database migration is required when changing the name or logo.
 
 ## Scope
 
+- Two retained logo slots: primary AVANIIS and secondary customer artwork, with an audited active-logo selector.
 - Configured product copy on sign-in, dashboard, help, navigation, mobile headers and settings; inherited browser titles and favicon.
 - Shared logos in desktop, employee and mobile layouts; neutral HR mark if a newly named company has not uploaded its logo.
 - Organization-chart exports, import-workbook title and download filename, default assistant identity, and outgoing email product-name defaults/confirmation pages.
@@ -23,10 +26,11 @@ A public read-only artwork endpoint serves only the configured global image, nee
 
 ## Verification
 
-- 191 test files pass: 3,334 passed, 36 skipped, 7 TODO.
+- 192 test files pass: 3,339 passed, 36 skipped, 7 TODO.
 - TypeScript and optimized application build pass (existing lint warnings remain).
 - Browser: Super Admin changed AVANIIS to NESNAR; saved state persisted on reload. Dashboard heading/title, sign-in product copy, ticker/footer and uploaded test SVG changed to NESNAR. Public logo loaded successfully.
 - Supplied transparent AVANIIS PNG (852 KB) uploaded and loaded successfully.
+- Two-logo browser verification: the Upload button was disabled before file selection, enabled immediately after browsing, uploaded the secondary SVG, switched the application to it, then switched back to AVANIIS while retaining both logos.
 - HR Admin saw no Company Branding link; direct /settings/branding redirected to /settings. Unit tests deny unauthenticated callers and all six other roles before any branding database write.
 - Restored AVANIIS, Arabic name and original default logo after testing. Six synthetic employees remained visible; no employee/legal-entity records were edited.
 - Final screenshot review caught an intrinsic image-size regression in the shared logo. Explicit inline layout dimensions now constrain artwork; a regression test verifies the size bound.

@@ -5,6 +5,7 @@ export interface CompanyBranding {
   logoUrl: string | null
 }
 export const BRANDING_ENTITY_ID = '11111111-1111-1111-1111-111111111111'
+export const COMPANY_LOGO_SELECTION_KEY = 'COMPANY_BRANDING_LOGO_SELECTION'
 export const COMPANY_BRANDING_KEY = 'COMPANY_BRANDING_IDENTITY'
 export const DEFAULT_COMPANY_BRANDING: CompanyBranding = {
   companyName: 'AVANIIS', companyNameAr: 'أفانيس', logoUrl: null,

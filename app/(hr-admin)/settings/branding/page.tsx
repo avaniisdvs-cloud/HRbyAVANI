@@ -1,3 +1,5 @@
+import { CompanyLogosCard } from '@/components/settings/CompanyLogosCard'
+import { getCompanyLogoOptions } from '@/lib/company-logo-selection'
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 import { getCompanyBranding } from '@/lib/company-branding'
@@ -17,11 +19,12 @@ export default async function BrandingPage() {
   // SUPER_ADMIN only — global/org-wide visual identity.
   if (session.user.role !== 'SUPER_ADMIN') redirect('/settings')
 
-  const [personalization, branding] = await Promise.all([getPagePersonalization(DEFAULT_ENTITY_ID), getCompanyBranding()])
+  const [personalization, branding, logos] = await Promise.all([getPagePersonalization(DEFAULT_ENTITY_ID), getCompanyBranding(), getCompanyLogoOptions()])
 
   return (
     <div className="page-in">
       <CompanyIdentityCard initial={branding} />
+      <CompanyLogosCard initial={logos} />
       <PagePersonalizationCard
         entityId={DEFAULT_ENTITY_ID}
         initial={{
@@ -32,7 +35,6 @@ export default async function BrandingPage() {
           tickerVisible:     personalization.tickerVisible,
           tickerSpeed:       personalization.tickerSpeed,
           carouselImages:    (personalization.carouselImages ?? []) as CarouselImage[],
-          logoUrl:           personalization.logoUrl ?? null,
           carouselHeightPct: personalization.carouselHeightPct,
         }}
       />
